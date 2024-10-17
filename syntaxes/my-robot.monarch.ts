@@ -1,12 +1,12 @@
 // Monarch syntax highlighting for the my-robot language.
 export default {
     keywords: [
-        'Add','AddSubExpression','Backward','BooleanExpression','CallEntity','CallFunction','CallFunctionExpr','Clock','ClockLeft','Divise','EqualTo','Fonction','Forward','GetSensor','If','Left','Loop','LowerThan','MultiDivExpression','Multiply','Parameter','Program','ReturnType','Right','SetSpeed','Sub','UpperThan','Value','VariableAssignation','VariableStatement','angle','arguments','arithmeticexpression','body','boolean','cm','condition','distance','else','entity','expression','function','leftCondition','leftOperand','m','mm','name','number','operator','parameter','returntype','rightCondition','rightOperand','then','type','unit','value','variable'
+        'Add','AddSubExpression','Backward','BooleanExpression','CallEntity','CallFunction','CallFunctionExpr','Clock','ClockLeft','Divise','EqualTo','Forward','GetSensor','Left','LowerThan','MultiDivExpression','Multiply','Right','SetSpeed','Sub','UpperThan','Value','angle','arguments','arithmeticexpression','boolean','cm','distance','else','entity','function','if','leftCondition','leftOperand','let','loop','m','mm','number','operator','rightCondition','rightOperand','then','unit','var','void'
     ],
     operators: [
-        ','
+        ',','='
     ],
-    symbols: /,|\{|\}/,
+    symbols: /\(|\)|,|=|\{|\}/,
 
     tokenizer: {
         initial: [

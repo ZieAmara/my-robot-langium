@@ -107,6 +107,7 @@ export function isProgram(item: unknown): item is Program {
 export interface ReturnType extends AstNode {
     readonly $container: Fonction;
     readonly $type: 'ReturnType';
+    type: 'void' | Type
 }
 
 export const ReturnType = 'ReturnType';

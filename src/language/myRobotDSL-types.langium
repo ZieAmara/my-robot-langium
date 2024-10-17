@@ -47,8 +47,8 @@ interface UnaryExpression extends Expression {
 }
 
 interface ArithmeticExpression extends Expression {
-	leftOperand: UnaryExpression
-	rightOperand: UnaryExpression[]
+	leftOperand: MultiDivExpression
+	rightOperand: MultiDivExpression[]
 	arithmeticexpression: ArithmeticExpression[]
 }
 
@@ -137,6 +137,21 @@ interface EqualTo extends BooleanOperator {
 interface UpperThan extends BooleanOperator {
 }
 
+interface Not extends BooleanOperator {
+}
+
+interface Or extends BooleanOperator {
+}
+
+interface LowerOrEqualTo extends BooleanOperator {
+}
+
+interface UpperOrEqualTo extends BooleanOperator {
+}
+
+interface And extends BooleanOperator {
+}
+
 interface CallFunctionExpr extends UnaryExpression {
 	function: @Fonction
 	arguments: Expression[]
@@ -153,8 +168,10 @@ interface AddSubExpression extends ArithmeticExpression {
 	operator: AddSubOperator[]
 }
 
-interface MultiDivExpression extends ArithmeticExpression {
+interface MultiDivExpression {
+	leftOperand: UnaryExpression
 	operator: MultiDivOperator[]
+	rightOperand: UnaryExpression[]
 }
 
 interface Value extends UnaryExpression {

@@ -18,7 +18,7 @@ Expression returns Expression:
 ;
 
 BooleanOperator returns BooleanOperator:
-    LowerThan | EqualTo | UpperThan 
+    LowerThan | EqualTo | UpperThan | Not | Or | LowerOrEqualTo | UpperOrEqualTo | And
 ;
 
 Entity returns Entity:
@@ -74,19 +74,19 @@ Loop returns Loop:
 ;
 
 Backward returns Backward:
-    'Backward' distance=Expression unit=Unit 
+    'Backward' distance=Expression 'in' unit=Unit 
 ;
 
 Forward returns Forward:
-    'Forward' distance=Expression unit=Unit 
+    'Forward' distance=Expression 'in' unit=Unit 
 ;
 
 Left returns Left:
-    'Left' distance=Expression unit=Unit 
+    'Left' distance=Expression 'in' unit=Unit 
 ;
 
 Right returns Right:
-    'Right' distance=Expression unit=Unit
+    'Right' distance=Expression 'in' unit=Unit
 ;
 
 VariableStatement returns VariableStatement:
@@ -94,79 +94,100 @@ VariableStatement returns VariableStatement:
 ;
 
 VariableAssignation returns VariableAssignation:
-    'VariableAssignation' '{' 'variable' variable=[VariableStatement:EString ] ('value' value=Expression  )? '}'  
+    variable=[VariableStatement:EString ] '=' (value=Expression)
 ;
 
 SetSpeed returns SetSpeed:
-    'SetSpeed' '{' 'unit' unit=Unit  'distance' distance=Expression  '}'  
+    'setSpeed' '(' distance=Expression ('in')? unit=Unit ')'  
 ;
 
 ClockLeft returns ClockLeft:
-    {ClockLeft} 'ClockLeft' '{' ('angle' angle=Expression  )? '}'  
+    'ClockLeft' angle=Expression
 ;
 
 Clock returns Clock:
-    {Clock} 'Clock' '{' ('angle' angle=Expression  )? '}'  
+    'Clock' angle=Expression   
 ;
 
 CallFunction returns CallFunction:
-    'CallFunction' '{' 'function' function=[Fonction:EString ] ('arguments' '{' arguments+=Expression  ("," arguments+=Expression  )* '}' )? '}'  
+    function=[Fonction:EString ] '(' ( arguments+=Expression  ("," arguments+=Expression  )* )? ')' 
 ;
 
 BooleanExpression returns BooleanExpression:
-    'BooleanExpression' '{' 'operator' operator=BooleanOperator  'leftCondition' leftCondition=Expression  'rightCondition' rightCondition=Expression  '}'  
+    (leftCondition=Expression operator=BooleanOperator rightCondition=Expression) | 
+    (operator= Not rightCondition=Expression) 
 ;
 
 LowerThan returns LowerThan:
-    {LowerThan} 'LowerThan'  
+    {LowerThan} '<'
 ;
 
 EqualTo returns EqualTo:
-    {EqualTo} 'EqualTo'  
+    {EqualTo} '=='
 ;
 
 UpperThan returns UpperThan:
-    {UpperThan} 'UpperThan'  
+    {UpperThan} '>'  
+;
+
+Not returns Not:
+    {Not} 'NOT'  
+;
+
+Or returns Or:
+    {Or} 'OR'  
+;
+
+And returns And:
+    {And} 'AND'
+;
+
+LowerOrEqualTo returns LowerOrEqualTo:
+    {LowerOrEqualTo} '<='  
+;
+
+UpperOrEqualTo returns UpperOrEqualTo:
+    {UpperOrEqualTo} '>='  
 ;
 
 CallFunctionExpr returns CallFunctionExpr:
-    'CallFunctionExpr' '{' 'function' function=[Fonction:EString ] ('arguments' '{' arguments+=Expression  ("," arguments+=Expression  )* '}' )? '}'  
+    function=[Fonction:EString ] '(' ( arguments+=Expression  ("," arguments+=Expression  )* )? ')'  
 ;
 
 CallEntity returns CallEntity:
-    'CallEntity' '{' 'entity' entity=[Entity:EString ] '}'  
+    entity=[Entity:EString ]  
 ;
 
 GetSensor returns GetSensor:
-    {GetSensor} 'GetSensor'  
+    {GetSensor} 'getSensor' 
 ;
 
 AddSubExpression returns AddSubExpression:
-    'AddSubExpression' '{' 'leftOperand' leftOperand=UnaryExpression  ('rightOperand' '{' rightOperand+=UnaryExpression  ("," rightOperand+=UnaryExpression  )* '}' )? ('arithmeticexpression' '{' arithmeticexpression+=ArithmeticExpression  ("," arithmeticexpression+=ArithmeticExpression  )* '}' )? ('operator' '{' operator+=AddSubOperator  ("," operator+=AddSubOperator  )* '}' )? '}'  
+    leftOperand=MultiDivExpression ( operator+=AddSubOperator rightOperand+=MultiDivExpression )* 
 ;
 
 MultiDivExpression returns MultiDivExpression:
-    'MultiDivExpression' '{' 'leftOperand' leftOperand=UnaryExpression  ('rightOperand' '{' rightOperand+=UnaryExpression  ("," rightOperand+=UnaryExpression  )* '}' )? ('arithmeticexpression' '{' arithmeticexpression+=ArithmeticExpression  ("," arithmeticexpression+=ArithmeticExpression  )* '}' )? ('operator' '{' operator+=MultiDivOperator  ("," operator+=MultiDivOperator  )* '}' )? '}'  
+    leftOperand=UnaryExpression ( operator+=MultiDivOperator rightOperand+=UnaryExpression )*
 ;
 
 Value returns Value:
-    {Value} 'Value'  
+    {Value} INT  
 ;
 
 Add returns Add:
-    {Add} 'Add'  
+    {Add} '+'  
 ;
 
 Sub returns Sub:
-    {Sub} 'Sub'  
+    {Sub} '-'  
 ;
 
 Multiply returns Multiply:
-    {Multiply} 'Multiply'  
+    {Multiply} '*'
 ;
 
 Divise returns Divise:
-    {Divise} 'Divise' 
+    {Divise} '/' 
 ;
 
 Unit returns Unit:
