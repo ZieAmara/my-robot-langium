@@ -1,0 +1,61 @@
+{
+  "name": "my-robot",
+  "scopeName": "source.my-robot",
+  "fileTypes": [
+    ".rob"
+  ],
+  "patterns": [
+    {
+      "include": "#comments"
+    },
+    {
+      "name": "keyword.control.my-robot",
+      "match": "\\b(Add|AddSubExpression|Backward|BooleanExpression|CallEntity|CallFunction|CallFunctionExpr|Clock|ClockLeft|Divise|EqualTo|Fonction|Forward|GetSensor|If|Left|Loop|LowerThan|MultiDivExpression|Multiply|Parameter|Program|ReturnType|Right|SetSpeed|Sub|UpperThan|Value|VariableAssignation|VariableStatement|angle|arguments|arithmeticexpression|body|boolean|cm|condition|distance|else|entity|expression|function|leftCondition|leftOperand|m|mm|name|number|operator|parameter|returntype|rightCondition|rightOperand|then|type|unit|value|variable)\\b"
+    },
+    {
+      "name": "string.quoted.double.my-robot",
+      "begin": "\"",
+      "end": "'",
+      "patterns": [
+        {
+          "include": "#string-character-escape"
+        }
+      ]
+    }
+  ],
+  "repository": {
+    "comments": {
+      "patterns": [
+        {
+          "name": "comment.block.my-robot",
+          "begin": "/\\*",
+          "beginCaptures": {
+            "0": {
+              "name": "punctuation.definition.comment.my-robot"
+            }
+          },
+          "end": "\\*/",
+          "endCaptures": {
+            "0": {
+              "name": "punctuation.definition.comment.my-robot"
+            }
+          }
+        },
+        {
+          "begin": "//\n\r",
+          "beginCaptures": {
+            "1": {
+              "name": "punctuation.whitespace.comment.leading.my-robot"
+            }
+          },
+          "end": "(?=$)",
+          "name": "comment.line.my-robot"
+        }
+      ]
+    },
+    "string-character-escape": {
+      "name": "constant.character.escape.my-robot",
+      "match": "\\\\(x[0-9A-Fa-f]{2}|u[0-9A-Fa-f]{4}|u\\{[0-9A-Fa-f]+\\}|[0-2][0-7]{0,2}|3[0-6][0-7]?|37[0-7]?|[4-7][0-7]?|.|$)"
+    }
+  }
+}
