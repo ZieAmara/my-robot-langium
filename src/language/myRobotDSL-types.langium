@@ -22,6 +22,7 @@ interface Fonction {
 }
 
 interface ReturnType {
+	type: Type | 'void'
 }
 
 interface Statement {

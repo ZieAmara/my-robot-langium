@@ -1,28 +1,12 @@
 grammar MyRobot
 
-//entry Model:
-//    (persons+=Person | greetings+=Greeting)*;
-//
-//Person:
-//    'person' name=ID;
-//
-//Greeting:
-//    'Hello' person=[Person:ID] '!';
-//
-//hidden terminal WS: /\s+/;
-//terminal ID: /[_a-zA-Z][\w_]*/;
-//terminal INT returns number: /[0-9]+/;
-//terminal STRING: /"(\\.|[^"\\])*"|'(\\.|[^'\\])*'/;
-//
-//hidden terminal ML_COMMENT: /\/\*[\s\S]*?\*\//;
-//hidden terminal SL_COMMENT: /\/\/[^\n\r]*/;
-
 import 'Terminals'
 import 'myRobotDSL-types'
 import 'XMLType-types'
 
-entry Program returns Program:
-    {Program} 'Program' name=EString  '{' ('function' '{' function+=Fonction  ("," function+=Fonction  )* '}' )? '}'  
+
+entry Program returns Program: 
+    ( function+=Fonction )*
 ;
 
 Statement returns Statement:
@@ -61,45 +45,52 @@ EString returns string:
     STRING | ID 
 ;
 
-Fonction returns Fonction:
-    'Fonction' '{' 'name' name=ID  ('returntype' returntype=ReturnType  )? ('body' '{' body+=Statement  ("," body+=Statement  )* '}' )? ('parameter' '{' parameter+=Parameter  ("," parameter+=Parameter  )* '}' )? '}'  
+Fonction returns Fonction:  
+    'let' returntype=ReturnType name=ID '('(parameter+=Parameter ("," parameter+=Parameter  )*)?')' 
+        Block
 ;
 
+fragment Block: '{'( body+=Statement )*'}';
 
 ReturnType returns ReturnType:
-    {ReturnType} 'ReturnType'  
+    type = Type | 'void' 
 ;
 
 Parameter returns Parameter:
-    'Parameter' '{' 'name' name=ID  'type' type=Type ('value' value=Expression  )? '}'  
+    type=Type name=ID
 ;
 
 If returns If:
-    'If' '{' 'condition' '{' condition+=BooleanExpression  ("," condition+=BooleanExpression  )* '}' ('expression' '{' expression+=Expression  ("," expression+=Expression  )* '}' )? 'then' '{' then+=Statement  ("," then+=Statement  )* '}' ('else' '{' else+=Statement  ("," else+=Statement  )* '}' )? '}'  
+    'if' condition+=BooleanExpression
+        'then' BlockIf ('else' BlockElse )?
 ;
 
+fragment BlockIf: '{'( then+=Statement )*'}';
+fragment BlockElse: '{'( else+=Statement )*'}';
+
 Loop returns Loop:
-    'Loop' '{' 'condition' '{' condition+=BooleanExpression  ("," condition+=BooleanExpression  )* '}' ('expression' '{' expression+=Expression  ("," expression+=Expression  )* '}' )? ('body' '{' body+=Statement  ("," body+=Statement  )* '}' )? '}'  
+    'loop' condition+=BooleanExpression
+        Block
 ;
 
 Backward returns Backward:
-    'Backward' '{' 'unit' unit=Unit  ('distance' distance=Expression  )? '}'  
+    'Backward' distance=Expression unit=Unit 
 ;
 
 Forward returns Forward:
-    'Forward' '{' 'unit' unit=Unit  ('distance' distance=Expression  )? '}'  
+    'Forward' distance=Expression unit=Unit 
 ;
 
 Left returns Left:
-    'Left' '{' 'unit' unit=Unit  ('distance' distance=Expression  )? '}'  
+    'Left' distance=Expression unit=Unit 
 ;
 
 Right returns Right:
-    'Right' '{' 'unit' unit=Unit  ('distance' distance=Expression  )? '}'  
+    'Right' distance=Expression unit=Unit
 ;
 
 VariableStatement returns VariableStatement:
-    'VariableStatement' '{' 'name' name=ID  'type' type=Type  ('value' value=Expression  )? '}'  
+    'var' type=Type name=ID '=' value=Expression
 ;
 
 VariableAssignation returns VariableAssignation:
