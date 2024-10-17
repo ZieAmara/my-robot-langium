@@ -10,7 +10,7 @@
     },
     {
       "name": "keyword.control.my-robot",
-      "match": "\\b(Add|AddSubExpression|Backward|BooleanExpression|CallEntity|CallFunction|CallFunctionExpr|Clock|ClockLeft|Divise|EqualTo|Forward|GetSensor|Left|LowerThan|MultiDivExpression|Multiply|Right|SetSpeed|Sub|UpperThan|Value|angle|arguments|arithmeticexpression|boolean|cm|distance|else|entity|function|if|leftCondition|leftOperand|let|loop|m|mm|number|operator|rightCondition|rightOperand|then|unit|var|void)\\b"
+      "match": "\\b(AND|Backward|Clock|ClockLeft|Forward|Left|NOT|OR|Right|boolean|cm|else|if|in|let|loop|m|mm|number|setSpeed|then|var|void)\\b|\\b(getDistance\\(\\)|getSpeed\\(\\)|getTimestamp\\(\\))\\B"
     },
     {
       "name": "string.quoted.double.my-robot",
@@ -42,7 +42,7 @@
           }
         },
         {
-          "begin": "//\n\r",
+          "begin": "//",
           "beginCaptures": {
             "1": {
               "name": "punctuation.whitespace.comment.leading.my-robot"

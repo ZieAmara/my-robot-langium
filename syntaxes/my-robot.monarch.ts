@@ -1,12 +1,12 @@
 // Monarch syntax highlighting for the my-robot language.
 export default {
     keywords: [
-        'Add','AddSubExpression','Backward','BooleanExpression','CallEntity','CallFunction','CallFunctionExpr','Clock','ClockLeft','Divise','EqualTo','Forward','GetSensor','Left','LowerThan','MultiDivExpression','Multiply','Right','SetSpeed','Sub','UpperThan','Value','angle','arguments','arithmeticexpression','boolean','cm','distance','else','entity','function','if','leftCondition','leftOperand','let','loop','m','mm','number','operator','rightCondition','rightOperand','then','unit','var','void'
+        'AND','Backward','Clock','ClockLeft','Forward','Left','NOT','OR','Right','boolean','cm','else','getDistance()','getSpeed()','getTimestamp()','if','in','let','loop','m','mm','number','setSpeed','then','var','void'
     ],
     operators: [
-        ',','='
+        '*','+',',','-','/','<','<=','=','==','>','>='
     ],
-    symbols: /\(|\)|,|=|\{|\}/,
+    symbols: /\(|\)|\*|\+|,|-|\/|<|<=|=|==|>|>=|\{|\}/,
 
     tokenizer: {
         initial: [
@@ -17,9 +17,9 @@ export default {
             { regex: /@symbols/, action: { cases: { '@operators': {"token":"operator"}, '@default': {"token":""} }} },
         ],
         whitespace: [
+            { regex: /\s+/, action: {"token":"white"} },
             { regex: /\/\*/, action: {"token":"comment","next":"@comment"} },
-            { regex: /(\/\/((?!(\n|\r))[\s\S]*?)(\r?\n)?)/, action: {"token":"comment"} },
-            { regex: /((( |	)|\r)|\n)+/, action: {"token":"white"} },
+            { regex: /\/\/[^\n\r]*/, action: {"token":"comment"} },
             { regex: /([\s\S])/, action: {"token":"white"} },
         ],
         comment: [

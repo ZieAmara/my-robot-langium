@@ -9,10 +9,11 @@ import { AbstractAstReflection } from 'langium';
 
 export const MyRobotTerminals = {
     ID: /(\^?(([a-z]|[A-Z])|_)((([a-z]|[A-Z])|_)|[0-9])*)/,
+    INT: /[0-9]+/,
     STRING: /(("((\\([\s\S]))|((?!(\\|"))[\s\S]*?))*")|('((\\([\s\S]))|((?!(\\|'))[\s\S]*?))*'))/,
-    ML_COMMENT: /(\/\*([\s\S]*?\*\/))/,
-    SL_COMMENT: /(\/\/((?!(\n|\r))[\s\S]*?)(\r?\n)?)/,
-    WS: /((( |	)|\r)|\n)+/,
+    WS: /\s+/,
+    ML_COMMENT: /\/\*[\s\S]*?\*\//,
+    SL_COMMENT: /\/\/[^\n\r]*/,
 };
 
 export type EString = string;
@@ -47,8 +48,22 @@ export function isAddSubOperator(item: unknown): item is AddSubOperator {
     return reflection.isInstance(item, AddSubOperator);
 }
 
+export interface BooleanExpression extends AstNode {
+    readonly $container: ControlStructure;
+    readonly $type: 'BooleanExpression';
+    leftCondition: Expression
+    operator: BooleanOperator
+    rightCondition: Expression
+}
+
+export const BooleanExpression = 'BooleanExpression';
+
+export function isBooleanExpression(item: unknown): item is BooleanExpression {
+    return reflection.isInstance(item, BooleanExpression);
+}
+
 export interface BooleanOperator extends AstNode {
-    readonly $type: 'BooleanOperator' | 'EqualTo' | 'LowerThan' | 'UpperThan';
+    readonly $type: 'And' | 'BooleanOperator' | 'EqualTo' | 'LowerOrEqualTo' | 'LowerThan' | 'Not' | 'Or' | 'UpperOrEqualTo' | 'UpperThan';
 }
 
 export const BooleanOperator = 'BooleanOperator';
@@ -58,7 +73,7 @@ export function isBooleanOperator(item: unknown): item is BooleanOperator {
 }
 
 export interface Expression extends AstNode {
-    readonly $type: 'AddSubExpression' | 'ArithmeticExpression' | 'BooleanExpression' | 'CallEntity' | 'CallFunctionExpr' | 'Expression' | 'GetSensor' | 'MultiDivExpression' | 'UnaryExpression' | 'Value';
+    readonly $type: 'AddSubExpression' | 'ArithmeticExpression' | 'CallEntity' | 'CallFunctionExpr' | 'Expression' | 'GetSensor' | 'UnaryExpression' | 'Value';
 }
 
 export const Expression = 'Expression';
@@ -80,6 +95,20 @@ export const Fonction = 'Fonction';
 
 export function isFonction(item: unknown): item is Fonction {
     return reflection.isInstance(item, Fonction);
+}
+
+export interface MultiDivExpression extends AstNode {
+    readonly $container: ArithmeticExpression;
+    readonly $type: 'MultiDivExpression';
+    leftOperand: UnaryExpression
+    operator: Array<MultiDivOperator>
+    rightOperand: Array<UnaryExpression>
+}
+
+export const MultiDivExpression = 'MultiDivExpression';
+
+export function isMultiDivExpression(item: unknown): item is MultiDivExpression {
+    return reflection.isInstance(item, MultiDivExpression);
 }
 
 export interface MultiDivOperator extends AstNode {
@@ -146,6 +175,16 @@ export function isSub(item: unknown): item is Sub {
     return reflection.isInstance(item, Sub);
 }
 
+export interface And extends BooleanOperator {
+    readonly $type: 'And';
+}
+
+export const And = 'And';
+
+export function isAnd(item: unknown): item is And {
+    return reflection.isInstance(item, And);
+}
+
 export interface EqualTo extends BooleanOperator {
     readonly $type: 'EqualTo';
 }
@@ -156,6 +195,16 @@ export function isEqualTo(item: unknown): item is EqualTo {
     return reflection.isInstance(item, EqualTo);
 }
 
+export interface LowerOrEqualTo extends BooleanOperator {
+    readonly $type: 'LowerOrEqualTo';
+}
+
+export const LowerOrEqualTo = 'LowerOrEqualTo';
+
+export function isLowerOrEqualTo(item: unknown): item is LowerOrEqualTo {
+    return reflection.isInstance(item, LowerOrEqualTo);
+}
+
 export interface LowerThan extends BooleanOperator {
     readonly $type: 'LowerThan';
 }
@@ -164,6 +213,36 @@ export const LowerThan = 'LowerThan';
 
 export function isLowerThan(item: unknown): item is LowerThan {
     return reflection.isInstance(item, LowerThan);
+}
+
+export interface Not extends BooleanOperator {
+    readonly $type: 'Not';
+}
+
+export const Not = 'Not';
+
+export function isNot(item: unknown): item is Not {
+    return reflection.isInstance(item, Not);
+}
+
+export interface Or extends BooleanOperator {
+    readonly $type: 'Or';
+}
+
+export const Or = 'Or';
+
+export function isOr(item: unknown): item is Or {
+    return reflection.isInstance(item, Or);
+}
+
+export interface UpperOrEqualTo extends BooleanOperator {
+    readonly $type: 'UpperOrEqualTo';
+}
+
+export const UpperOrEqualTo = 'UpperOrEqualTo';
+
+export function isUpperOrEqualTo(item: unknown): item is UpperOrEqualTo {
+    return reflection.isInstance(item, UpperOrEqualTo);
 }
 
 export interface UpperThan extends BooleanOperator {
@@ -177,30 +256,16 @@ export function isUpperThan(item: unknown): item is UpperThan {
 }
 
 export interface ArithmeticExpression extends Expression {
-    readonly $type: 'AddSubExpression' | 'ArithmeticExpression' | 'MultiDivExpression';
+    readonly $type: 'AddSubExpression' | 'ArithmeticExpression';
     arithmeticexpression: Array<ArithmeticExpression>
-    leftOperand: UnaryExpression
-    rightOperand: Array<UnaryExpression>
+    leftOperand: MultiDivExpression
+    rightOperand: Array<MultiDivExpression>
 }
 
 export const ArithmeticExpression = 'ArithmeticExpression';
 
 export function isArithmeticExpression(item: unknown): item is ArithmeticExpression {
     return reflection.isInstance(item, ArithmeticExpression);
-}
-
-export interface BooleanExpression extends Expression {
-    readonly $container: ControlStructure;
-    readonly $type: 'BooleanExpression';
-    leftCondition: Expression
-    operator: BooleanOperator
-    rightCondition: Expression
-}
-
-export const BooleanExpression = 'BooleanExpression';
-
-export function isBooleanExpression(item: unknown): item is BooleanExpression {
-    return reflection.isInstance(item, BooleanExpression);
 }
 
 export interface UnaryExpression extends Expression {
@@ -313,17 +378,6 @@ export function isAddSubExpression(item: unknown): item is AddSubExpression {
     return reflection.isInstance(item, AddSubExpression);
 }
 
-export interface MultiDivExpression extends ArithmeticExpression {
-    readonly $type: 'MultiDivExpression';
-    operator: Array<MultiDivOperator>
-}
-
-export const MultiDivExpression = 'MultiDivExpression';
-
-export function isMultiDivExpression(item: unknown): item is MultiDivExpression {
-    return reflection.isInstance(item, MultiDivExpression);
-}
-
 export interface CallEntity extends UnaryExpression {
     readonly $type: 'CallEntity';
     entity: Reference<Entity>
@@ -429,7 +483,7 @@ export function isParameter(item: unknown): item is Parameter {
 export interface VariableStatement extends Entity {
     readonly $type: 'VariableStatement';
     name: ID
-    type: Type
+    type: Type | Unit
 }
 
 export const VariableStatement = 'VariableStatement';
@@ -502,6 +556,7 @@ export type MyRobotAstType = {
     Add: Add
     AddSubExpression: AddSubExpression
     AddSubOperator: AddSubOperator
+    And: And
     ArithmeticExpression: ArithmeticExpression
     Backward: Backward
     BooleanExpression: BooleanExpression
@@ -523,11 +578,14 @@ export type MyRobotAstType = {
     If: If
     Left: Left
     Loop: Loop
+    LowerOrEqualTo: LowerOrEqualTo
     LowerThan: LowerThan
     Movement: Movement
     MultiDivExpression: MultiDivExpression
     MultiDivOperator: MultiDivOperator
     Multiply: Multiply
+    Not: Not
+    Or: Or
     Parameter: Parameter
     Program: Program
     ReturnType: ReturnType
@@ -537,6 +595,7 @@ export type MyRobotAstType = {
     Statement: Statement
     Sub: Sub
     UnaryExpression: UnaryExpression
+    UpperOrEqualTo: UpperOrEqualTo
     UpperThan: UpperThan
     Value: Value
     VariableAssignation: VariableAssignation
@@ -546,7 +605,7 @@ export type MyRobotAstType = {
 export class MyRobotAstReflection extends AbstractAstReflection {
 
     getAllTypes(): string[] {
-        return ['Add', 'AddSubExpression', 'AddSubOperator', 'ArithmeticExpression', 'Backward', 'BooleanExpression', 'BooleanOperator', 'CallEntity', 'CallFunction', 'CallFunctionExpr', 'Clock', 'ClockLeft', 'ControlRobot', 'ControlStructure', 'Divise', 'Entity', 'EqualTo', 'Expression', 'Fonction', 'Forward', 'GetSensor', 'If', 'Left', 'Loop', 'LowerThan', 'Movement', 'MultiDivExpression', 'MultiDivOperator', 'Multiply', 'Parameter', 'Program', 'ReturnType', 'Right', 'Rotate', 'SetSpeed', 'Statement', 'Sub', 'UnaryExpression', 'UpperThan', 'Value', 'VariableAssignation', 'VariableStatement'];
+        return ['Add', 'AddSubExpression', 'AddSubOperator', 'And', 'ArithmeticExpression', 'Backward', 'BooleanExpression', 'BooleanOperator', 'CallEntity', 'CallFunction', 'CallFunctionExpr', 'Clock', 'ClockLeft', 'ControlRobot', 'ControlStructure', 'Divise', 'Entity', 'EqualTo', 'Expression', 'Fonction', 'Forward', 'GetSensor', 'If', 'Left', 'Loop', 'LowerOrEqualTo', 'LowerThan', 'Movement', 'MultiDivExpression', 'MultiDivOperator', 'Multiply', 'Not', 'Or', 'Parameter', 'Program', 'ReturnType', 'Right', 'Rotate', 'SetSpeed', 'Statement', 'Sub', 'UnaryExpression', 'UpperOrEqualTo', 'UpperThan', 'Value', 'VariableAssignation', 'VariableStatement'];
     }
 
     protected override computeIsSubtype(subtype: string, supertype: string): boolean {
@@ -555,12 +614,20 @@ export class MyRobotAstReflection extends AbstractAstReflection {
             case Sub: {
                 return this.isSubtype(AddSubOperator, supertype);
             }
-            case AddSubExpression:
-            case MultiDivExpression: {
+            case AddSubExpression: {
                 return this.isSubtype(ArithmeticExpression, supertype);
             }
+            case And:
+            case EqualTo:
+            case LowerOrEqualTo:
+            case LowerThan:
+            case Not:
+            case Or:
+            case UpperOrEqualTo:
+            case UpperThan: {
+                return this.isSubtype(BooleanOperator, supertype);
+            }
             case ArithmeticExpression:
-            case BooleanExpression:
             case UnaryExpression: {
                 return this.isSubtype(Expression, supertype);
             }
@@ -591,11 +658,6 @@ export class MyRobotAstReflection extends AbstractAstReflection {
             case Divise:
             case Multiply: {
                 return this.isSubtype(MultiDivOperator, supertype);
-            }
-            case EqualTo:
-            case LowerThan:
-            case UpperThan: {
-                return this.isSubtype(BooleanOperator, supertype);
             }
             case If:
             case Loop: {
@@ -645,6 +707,15 @@ export class MyRobotAstReflection extends AbstractAstReflection {
                     ]
                 };
             }
+            case 'MultiDivExpression': {
+                return {
+                    name: 'MultiDivExpression',
+                    mandatory: [
+                        { name: 'operator', type: 'array' },
+                        { name: 'rightOperand', type: 'array' }
+                    ]
+                };
+            }
             case 'Program': {
                 return {
                     name: 'Program',
@@ -682,14 +753,6 @@ export class MyRobotAstReflection extends AbstractAstReflection {
             case 'AddSubExpression': {
                 return {
                     name: 'AddSubExpression',
-                    mandatory: [
-                        { name: 'operator', type: 'array' }
-                    ]
-                };
-            }
-            case 'MultiDivExpression': {
-                return {
-                    name: 'MultiDivExpression',
                     mandatory: [
                         { name: 'operator', type: 'array' }
                     ]

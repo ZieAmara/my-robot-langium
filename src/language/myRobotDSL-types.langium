@@ -68,7 +68,7 @@ interface ControlStructure extends Statement {
 	expression: Expression[]
 }
 
-interface BooleanExpression extends Expression {
+interface BooleanExpression {
 	operator: BooleanOperator
 	leftCondition: Expression
 	rightCondition: Expression
@@ -100,7 +100,7 @@ interface Right extends Movement {
 
 interface VariableStatement extends Entity {
 	name: ID
-	type: Type
+	type: Type | Unit
 }
 
 interface VariableAssignation extends Statement {

@@ -10,11 +10,11 @@ entry Program returns Program:
 ;
 
 Statement returns Statement:
-    If | Loop | Backward | Forward | Left | Right | VariableStatement | VariableAssignation | Parameter | SetSpeed | ClockLeft | Clock | CallFunction 
+    If | Loop | Backward | Forward | Left | Right | Entity | VariableAssignation | SetSpeed | ClockLeft | Clock | CallFunction 
 ;
 
 Expression returns Expression:
-    BooleanExpression | CallFunctionExpr | CallEntity | GetSensor | AddSubExpression | MultiDivExpression | Value 
+    UnaryExpression | ArithmeticExpression | AddSubExpression | MultiDivExpression
 ;
 
 BooleanOperator returns BooleanOperator:
@@ -90,7 +90,7 @@ Right returns Right:
 ;
 
 VariableStatement returns VariableStatement:
-    'var' type=Type name=ID '=' value=Expression
+    'var' type = (Type | Unit) name=ID '=' value=Expression
 ;
 
 VariableAssignation returns VariableAssignation:
@@ -115,7 +115,7 @@ CallFunction returns CallFunction:
 
 BooleanExpression returns BooleanExpression:
     (leftCondition=Expression operator=BooleanOperator rightCondition=Expression) | 
-    (operator= Not rightCondition=Expression) 
+    (operator= Not rightCondition=Expression)
 ;
 
 LowerThan returns LowerThan:
@@ -159,7 +159,7 @@ CallEntity returns CallEntity:
 ;
 
 GetSensor returns GetSensor:
-    {GetSensor} 'getSensor' 
+    {GetSensor} 'getTimestamp()' | 'getDistance()' | 'getSpeed()'
 ;
 
 AddSubExpression returns AddSubExpression:

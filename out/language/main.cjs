@@ -32094,11 +32094,15 @@ var MultiDivOperator = "MultiDivOperator";
 var Statement = "Statement";
 var Add = "Add";
 var Sub = "Sub";
+var And = "And";
 var EqualTo = "EqualTo";
+var LowerOrEqualTo = "LowerOrEqualTo";
 var LowerThan = "LowerThan";
+var Not = "Not";
+var Or = "Or";
+var UpperOrEqualTo = "UpperOrEqualTo";
 var UpperThan = "UpperThan";
 var ArithmeticExpression = "ArithmeticExpression";
-var BooleanExpression = "BooleanExpression";
 var UnaryExpression = "UnaryExpression";
 var Divise = "Divise";
 var Multiply = "Multiply";
@@ -32109,7 +32113,6 @@ var Entity = "Entity";
 var SetSpeed = "SetSpeed";
 var VariableAssignation = "VariableAssignation";
 var AddSubExpression = "AddSubExpression";
-var MultiDivExpression = "MultiDivExpression";
 var CallEntity = "CallEntity";
 var CallFunctionExpr = "CallFunctionExpr";
 var GetSensor = "GetSensor";
@@ -32128,7 +32131,7 @@ var Clock = "Clock";
 var ClockLeft = "ClockLeft";
 var MyRobotAstReflection = class extends AbstractAstReflection {
   getAllTypes() {
-    return ["Add", "AddSubExpression", "AddSubOperator", "ArithmeticExpression", "Backward", "BooleanExpression", "BooleanOperator", "CallEntity", "CallFunction", "CallFunctionExpr", "Clock", "ClockLeft", "ControlRobot", "ControlStructure", "Divise", "Entity", "EqualTo", "Expression", "Fonction", "Forward", "GetSensor", "If", "Left", "Loop", "LowerThan", "Movement", "MultiDivExpression", "MultiDivOperator", "Multiply", "Parameter", "Program", "ReturnType", "Right", "Rotate", "SetSpeed", "Statement", "Sub", "UnaryExpression", "UpperThan", "Value", "VariableAssignation", "VariableStatement"];
+    return ["Add", "AddSubExpression", "AddSubOperator", "And", "ArithmeticExpression", "Backward", "BooleanExpression", "BooleanOperator", "CallEntity", "CallFunction", "CallFunctionExpr", "Clock", "ClockLeft", "ControlRobot", "ControlStructure", "Divise", "Entity", "EqualTo", "Expression", "Fonction", "Forward", "GetSensor", "If", "Left", "Loop", "LowerOrEqualTo", "LowerThan", "Movement", "MultiDivExpression", "MultiDivOperator", "Multiply", "Not", "Or", "Parameter", "Program", "ReturnType", "Right", "Rotate", "SetSpeed", "Statement", "Sub", "UnaryExpression", "UpperOrEqualTo", "UpperThan", "Value", "VariableAssignation", "VariableStatement"];
   }
   computeIsSubtype(subtype, supertype) {
     switch (subtype) {
@@ -32136,12 +32139,20 @@ var MyRobotAstReflection = class extends AbstractAstReflection {
       case Sub: {
         return this.isSubtype(AddSubOperator, supertype);
       }
-      case AddSubExpression:
-      case MultiDivExpression: {
+      case AddSubExpression: {
         return this.isSubtype(ArithmeticExpression, supertype);
       }
+      case And:
+      case EqualTo:
+      case LowerOrEqualTo:
+      case LowerThan:
+      case Not:
+      case Or:
+      case UpperOrEqualTo:
+      case UpperThan: {
+        return this.isSubtype(BooleanOperator, supertype);
+      }
       case ArithmeticExpression:
-      case BooleanExpression:
       case UnaryExpression: {
         return this.isSubtype(Expression, supertype);
       }
@@ -32172,11 +32183,6 @@ var MyRobotAstReflection = class extends AbstractAstReflection {
       case Divise:
       case Multiply: {
         return this.isSubtype(MultiDivOperator, supertype);
-      }
-      case EqualTo:
-      case LowerThan:
-      case UpperThan: {
-        return this.isSubtype(BooleanOperator, supertype);
       }
       case If:
       case Loop: {
@@ -32224,6 +32230,15 @@ var MyRobotAstReflection = class extends AbstractAstReflection {
           ]
         };
       }
+      case "MultiDivExpression": {
+        return {
+          name: "MultiDivExpression",
+          mandatory: [
+            { name: "operator", type: "array" },
+            { name: "rightOperand", type: "array" }
+          ]
+        };
+      }
       case "Program": {
         return {
           name: "Program",
@@ -32261,14 +32276,6 @@ var MyRobotAstReflection = class extends AbstractAstReflection {
       case "AddSubExpression": {
         return {
           name: "AddSubExpression",
-          mandatory: [
-            { name: "operator", type: "array" }
-          ]
-        };
-      }
-      case "MultiDivExpression": {
-        return {
-          name: "MultiDivExpression",
           mandatory: [
             { name: "operator", type: "array" }
           ]
@@ -32398,7 +32405,7 @@ var MyRobotGrammar = () => loadedMyRobotGrammar != null ? loadedMyRobotGrammar :
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@22"
+              "$ref": "#/rules@4"
             },
             "arguments": []
           },
@@ -32406,13 +32413,6 @@ var MyRobotGrammar = () => loadedMyRobotGrammar != null ? loadedMyRobotGrammar :
             "$type": "RuleCall",
             "rule": {
               "$ref": "#/rules@23"
-            },
-            "arguments": []
-          },
-          {
-            "$type": "RuleCall",
-            "rule": {
-              "$ref": "#/rules@13"
             },
             "arguments": []
           },
@@ -32465,49 +32465,28 @@ var MyRobotGrammar = () => loadedMyRobotGrammar != null ? loadedMyRobotGrammar :
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@28"
+              "$ref": "#/rules@5"
             },
             "arguments": []
           },
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@32"
+              "$ref": "#/rules@6"
             },
             "arguments": []
           },
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@33"
+              "$ref": "#/rules@40"
             },
             "arguments": []
           },
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@34"
-            },
-            "arguments": []
-          },
-          {
-            "$type": "RuleCall",
-            "rule": {
-              "$ref": "#/rules@35"
-            },
-            "arguments": []
-          },
-          {
-            "$type": "RuleCall",
-            "rule": {
-              "$ref": "#/rules@36"
-            },
-            "arguments": []
-          },
-          {
-            "$type": "RuleCall",
-            "rule": {
-              "$ref": "#/rules@37"
+              "$ref": "#/rules@41"
             },
             "arguments": []
           }
@@ -32547,6 +32526,41 @@ var MyRobotGrammar = () => loadedMyRobotGrammar != null ? loadedMyRobotGrammar :
             "$type": "RuleCall",
             "rule": {
               "$ref": "#/rules@31"
+            },
+            "arguments": []
+          },
+          {
+            "$type": "RuleCall",
+            "rule": {
+              "$ref": "#/rules@32"
+            },
+            "arguments": []
+          },
+          {
+            "$type": "RuleCall",
+            "rule": {
+              "$ref": "#/rules@33"
+            },
+            "arguments": []
+          },
+          {
+            "$type": "RuleCall",
+            "rule": {
+              "$ref": "#/rules@35"
+            },
+            "arguments": []
+          },
+          {
+            "$type": "RuleCall",
+            "rule": {
+              "$ref": "#/rules@36"
+            },
+            "arguments": []
+          },
+          {
+            "$type": "RuleCall",
+            "rule": {
+              "$ref": "#/rules@34"
             },
             "arguments": []
           }
@@ -32603,28 +32617,28 @@ var MyRobotGrammar = () => loadedMyRobotGrammar != null ? loadedMyRobotGrammar :
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@32"
-            },
-            "arguments": []
-          },
-          {
-            "$type": "RuleCall",
-            "rule": {
-              "$ref": "#/rules@33"
-            },
-            "arguments": []
-          },
-          {
-            "$type": "RuleCall",
-            "rule": {
-              "$ref": "#/rules@34"
-            },
-            "arguments": []
-          },
-          {
-            "$type": "RuleCall",
-            "rule": {
               "$ref": "#/rules@37"
+            },
+            "arguments": []
+          },
+          {
+            "$type": "RuleCall",
+            "rule": {
+              "$ref": "#/rules@38"
+            },
+            "arguments": []
+          },
+          {
+            "$type": "RuleCall",
+            "rule": {
+              "$ref": "#/rules@39"
+            },
+            "arguments": []
+          },
+          {
+            "$type": "RuleCall",
+            "rule": {
+              "$ref": "#/rules@42"
             },
             "arguments": []
           }
@@ -32642,70 +32656,6 @@ var MyRobotGrammar = () => loadedMyRobotGrammar != null ? loadedMyRobotGrammar :
       "name": "ArithmeticExpression",
       "returnType": {
         "$ref": "#/interfaces@9"
-      },
-      "definition": {
-        "$type": "Alternatives",
-        "elements": [
-          {
-            "$type": "RuleCall",
-            "rule": {
-              "$ref": "#/rules@35"
-            },
-            "arguments": []
-          },
-          {
-            "$type": "RuleCall",
-            "rule": {
-              "$ref": "#/rules@36"
-            },
-            "arguments": []
-          }
-        ]
-      },
-      "definesHiddenTokens": false,
-      "entry": false,
-      "fragment": false,
-      "hiddenTokens": [],
-      "parameters": [],
-      "wildcard": false
-    },
-    {
-      "$type": "ParserRule",
-      "name": "AddSubOperator",
-      "returnType": {
-        "$ref": "#/interfaces@10"
-      },
-      "definition": {
-        "$type": "Alternatives",
-        "elements": [
-          {
-            "$type": "RuleCall",
-            "rule": {
-              "$ref": "#/rules@38"
-            },
-            "arguments": []
-          },
-          {
-            "$type": "RuleCall",
-            "rule": {
-              "$ref": "#/rules@39"
-            },
-            "arguments": []
-          }
-        ]
-      },
-      "definesHiddenTokens": false,
-      "entry": false,
-      "fragment": false,
-      "hiddenTokens": [],
-      "parameters": [],
-      "wildcard": false
-    },
-    {
-      "$type": "ParserRule",
-      "name": "MultiDivOperator",
-      "returnType": {
-        "$ref": "#/interfaces@11"
       },
       "definition": {
         "$type": "Alternatives",
@@ -32735,6 +32685,70 @@ var MyRobotGrammar = () => loadedMyRobotGrammar != null ? loadedMyRobotGrammar :
     },
     {
       "$type": "ParserRule",
+      "name": "AddSubOperator",
+      "returnType": {
+        "$ref": "#/interfaces@10"
+      },
+      "definition": {
+        "$type": "Alternatives",
+        "elements": [
+          {
+            "$type": "RuleCall",
+            "rule": {
+              "$ref": "#/rules@43"
+            },
+            "arguments": []
+          },
+          {
+            "$type": "RuleCall",
+            "rule": {
+              "$ref": "#/rules@44"
+            },
+            "arguments": []
+          }
+        ]
+      },
+      "definesHiddenTokens": false,
+      "entry": false,
+      "fragment": false,
+      "hiddenTokens": [],
+      "parameters": [],
+      "wildcard": false
+    },
+    {
+      "$type": "ParserRule",
+      "name": "MultiDivOperator",
+      "returnType": {
+        "$ref": "#/interfaces@11"
+      },
+      "definition": {
+        "$type": "Alternatives",
+        "elements": [
+          {
+            "$type": "RuleCall",
+            "rule": {
+              "$ref": "#/rules@45"
+            },
+            "arguments": []
+          },
+          {
+            "$type": "RuleCall",
+            "rule": {
+              "$ref": "#/rules@46"
+            },
+            "arguments": []
+          }
+        ]
+      },
+      "definesHiddenTokens": false,
+      "entry": false,
+      "fragment": false,
+      "hiddenTokens": [],
+      "parameters": [],
+      "wildcard": false
+    },
+    {
+      "$type": "ParserRule",
       "name": "EString",
       "dataType": "string",
       "definition": {
@@ -32743,14 +32757,14 @@ var MyRobotGrammar = () => loadedMyRobotGrammar != null ? loadedMyRobotGrammar :
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@51"
+              "$ref": "#/rules@56"
             },
             "arguments": []
           },
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@49"
+              "$ref": "#/rules@54"
             },
             "arguments": []
           }
@@ -32795,7 +32809,7 @@ var MyRobotGrammar = () => loadedMyRobotGrammar != null ? loadedMyRobotGrammar :
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@49"
+                "$ref": "#/rules@54"
               },
               "arguments": []
             }
@@ -32916,7 +32930,7 @@ var MyRobotGrammar = () => loadedMyRobotGrammar != null ? loadedMyRobotGrammar :
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@46"
+                "$ref": "#/rules@51"
               },
               "arguments": []
             }
@@ -32950,7 +32964,7 @@ var MyRobotGrammar = () => loadedMyRobotGrammar != null ? loadedMyRobotGrammar :
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@46"
+                "$ref": "#/rules@51"
               },
               "arguments": []
             }
@@ -32962,7 +32976,7 @@ var MyRobotGrammar = () => loadedMyRobotGrammar != null ? loadedMyRobotGrammar :
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@49"
+                "$ref": "#/rules@54"
               },
               "arguments": []
             }
@@ -33177,13 +33191,17 @@ var MyRobotGrammar = () => loadedMyRobotGrammar != null ? loadedMyRobotGrammar :
             }
           },
           {
+            "$type": "Keyword",
+            "value": "in"
+          },
+          {
             "$type": "Assignment",
             "feature": "unit",
             "operator": "=",
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@42"
+                "$ref": "#/rules@47"
               },
               "arguments": []
             }
@@ -33223,13 +33241,17 @@ var MyRobotGrammar = () => loadedMyRobotGrammar != null ? loadedMyRobotGrammar :
             }
           },
           {
+            "$type": "Keyword",
+            "value": "in"
+          },
+          {
             "$type": "Assignment",
             "feature": "unit",
             "operator": "=",
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@42"
+                "$ref": "#/rules@47"
               },
               "arguments": []
             }
@@ -33269,13 +33291,17 @@ var MyRobotGrammar = () => loadedMyRobotGrammar != null ? loadedMyRobotGrammar :
             }
           },
           {
+            "$type": "Keyword",
+            "value": "in"
+          },
+          {
             "$type": "Assignment",
             "feature": "unit",
             "operator": "=",
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@42"
+                "$ref": "#/rules@47"
               },
               "arguments": []
             }
@@ -33315,13 +33341,17 @@ var MyRobotGrammar = () => loadedMyRobotGrammar != null ? loadedMyRobotGrammar :
             }
           },
           {
+            "$type": "Keyword",
+            "value": "in"
+          },
+          {
             "$type": "Assignment",
             "feature": "unit",
             "operator": "=",
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@42"
+                "$ref": "#/rules@47"
               },
               "arguments": []
             }
@@ -33353,11 +33383,23 @@ var MyRobotGrammar = () => loadedMyRobotGrammar != null ? loadedMyRobotGrammar :
             "feature": "type",
             "operator": "=",
             "terminal": {
-              "$type": "RuleCall",
-              "rule": {
-                "$ref": "#/rules@46"
-              },
-              "arguments": []
+              "$type": "Alternatives",
+              "elements": [
+                {
+                  "$type": "RuleCall",
+                  "rule": {
+                    "$ref": "#/rules@51"
+                  },
+                  "arguments": []
+                },
+                {
+                  "$type": "RuleCall",
+                  "rule": {
+                    "$ref": "#/rules@47"
+                  },
+                  "arguments": []
+                }
+              ]
             }
           },
           {
@@ -33367,7 +33409,7 @@ var MyRobotGrammar = () => loadedMyRobotGrammar != null ? loadedMyRobotGrammar :
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@49"
+                "$ref": "#/rules@54"
               },
               "arguments": []
             }
@@ -33461,31 +33503,11 @@ var MyRobotGrammar = () => loadedMyRobotGrammar != null ? loadedMyRobotGrammar :
         "elements": [
           {
             "$type": "Keyword",
-            "value": "SetSpeed"
+            "value": "setSpeed"
           },
           {
             "$type": "Keyword",
-            "value": "{"
-          },
-          {
-            "$type": "Keyword",
-            "value": "unit"
-          },
-          {
-            "$type": "Assignment",
-            "feature": "unit",
-            "operator": "=",
-            "terminal": {
-              "$type": "RuleCall",
-              "rule": {
-                "$ref": "#/rules@42"
-              },
-              "arguments": []
-            }
-          },
-          {
-            "$type": "Keyword",
-            "value": "distance"
+            "value": "("
           },
           {
             "$type": "Assignment",
@@ -33501,7 +33523,24 @@ var MyRobotGrammar = () => loadedMyRobotGrammar != null ? loadedMyRobotGrammar :
           },
           {
             "$type": "Keyword",
-            "value": "}"
+            "value": "in",
+            "cardinality": "?"
+          },
+          {
+            "$type": "Assignment",
+            "feature": "unit",
+            "operator": "=",
+            "terminal": {
+              "$type": "RuleCall",
+              "rule": {
+                "$ref": "#/rules@47"
+              },
+              "arguments": []
+            }
+          },
+          {
+            "$type": "Keyword",
+            "value": ")"
           }
         ]
       },
@@ -33522,44 +33561,20 @@ var MyRobotGrammar = () => loadedMyRobotGrammar != null ? loadedMyRobotGrammar :
         "$type": "Group",
         "elements": [
           {
-            "$type": "Action",
-            "type": {
-              "$ref": "#/interfaces@25"
-            }
-          },
-          {
             "$type": "Keyword",
             "value": "ClockLeft"
           },
           {
-            "$type": "Keyword",
-            "value": "{"
-          },
-          {
-            "$type": "Group",
-            "elements": [
-              {
-                "$type": "Keyword",
-                "value": "angle"
+            "$type": "Assignment",
+            "feature": "angle",
+            "operator": "=",
+            "terminal": {
+              "$type": "RuleCall",
+              "rule": {
+                "$ref": "#/rules@2"
               },
-              {
-                "$type": "Assignment",
-                "feature": "angle",
-                "operator": "=",
-                "terminal": {
-                  "$type": "RuleCall",
-                  "rule": {
-                    "$ref": "#/rules@2"
-                  },
-                  "arguments": []
-                }
-              }
-            ],
-            "cardinality": "?"
-          },
-          {
-            "$type": "Keyword",
-            "value": "}"
+              "arguments": []
+            }
           }
         ]
       },
@@ -33580,44 +33595,20 @@ var MyRobotGrammar = () => loadedMyRobotGrammar != null ? loadedMyRobotGrammar :
         "$type": "Group",
         "elements": [
           {
-            "$type": "Action",
-            "type": {
-              "$ref": "#/interfaces@27"
-            }
-          },
-          {
             "$type": "Keyword",
             "value": "Clock"
           },
           {
-            "$type": "Keyword",
-            "value": "{"
-          },
-          {
-            "$type": "Group",
-            "elements": [
-              {
-                "$type": "Keyword",
-                "value": "angle"
+            "$type": "Assignment",
+            "feature": "angle",
+            "operator": "=",
+            "terminal": {
+              "$type": "RuleCall",
+              "rule": {
+                "$ref": "#/rules@2"
               },
-              {
-                "$type": "Assignment",
-                "feature": "angle",
-                "operator": "=",
-                "terminal": {
-                  "$type": "RuleCall",
-                  "rule": {
-                    "$ref": "#/rules@2"
-                  },
-                  "arguments": []
-                }
-              }
-            ],
-            "cardinality": "?"
-          },
-          {
-            "$type": "Keyword",
-            "value": "}"
+              "arguments": []
+            }
           }
         ]
       },
@@ -33638,18 +33629,6 @@ var MyRobotGrammar = () => loadedMyRobotGrammar != null ? loadedMyRobotGrammar :
         "$type": "Group",
         "elements": [
           {
-            "$type": "Keyword",
-            "value": "CallFunction"
-          },
-          {
-            "$type": "Keyword",
-            "value": "{"
-          },
-          {
-            "$type": "Keyword",
-            "value": "function"
-          },
-          {
             "$type": "Assignment",
             "feature": "function",
             "operator": "=",
@@ -33669,16 +33648,12 @@ var MyRobotGrammar = () => loadedMyRobotGrammar != null ? loadedMyRobotGrammar :
             }
           },
           {
+            "$type": "Keyword",
+            "value": "("
+          },
+          {
             "$type": "Group",
             "elements": [
-              {
-                "$type": "Keyword",
-                "value": "arguments"
-              },
-              {
-                "$type": "Keyword",
-                "value": "{"
-              },
               {
                 "$type": "Assignment",
                 "feature": "arguments",
@@ -33712,17 +33687,13 @@ var MyRobotGrammar = () => loadedMyRobotGrammar != null ? loadedMyRobotGrammar :
                   }
                 ],
                 "cardinality": "*"
-              },
-              {
-                "$type": "Keyword",
-                "value": "}"
               }
             ],
             "cardinality": "?"
           },
           {
             "$type": "Keyword",
-            "value": "}"
+            "value": ")"
           }
         ]
       },
@@ -33740,67 +33711,77 @@ var MyRobotGrammar = () => loadedMyRobotGrammar != null ? loadedMyRobotGrammar :
         "$ref": "#/interfaces@14"
       },
       "definition": {
-        "$type": "Group",
+        "$type": "Alternatives",
         "elements": [
           {
-            "$type": "Keyword",
-            "value": "BooleanExpression"
-          },
-          {
-            "$type": "Keyword",
-            "value": "{"
-          },
-          {
-            "$type": "Keyword",
-            "value": "operator"
-          },
-          {
-            "$type": "Assignment",
-            "feature": "operator",
-            "operator": "=",
-            "terminal": {
-              "$type": "RuleCall",
-              "rule": {
-                "$ref": "#/rules@3"
+            "$type": "Group",
+            "elements": [
+              {
+                "$type": "Assignment",
+                "feature": "leftCondition",
+                "operator": "=",
+                "terminal": {
+                  "$type": "RuleCall",
+                  "rule": {
+                    "$ref": "#/rules@2"
+                  },
+                  "arguments": []
+                }
               },
-              "arguments": []
-            }
-          },
-          {
-            "$type": "Keyword",
-            "value": "leftCondition"
-          },
-          {
-            "$type": "Assignment",
-            "feature": "leftCondition",
-            "operator": "=",
-            "terminal": {
-              "$type": "RuleCall",
-              "rule": {
-                "$ref": "#/rules@2"
+              {
+                "$type": "Assignment",
+                "feature": "operator",
+                "operator": "=",
+                "terminal": {
+                  "$type": "RuleCall",
+                  "rule": {
+                    "$ref": "#/rules@3"
+                  },
+                  "arguments": []
+                }
               },
-              "arguments": []
-            }
+              {
+                "$type": "Assignment",
+                "feature": "rightCondition",
+                "operator": "=",
+                "terminal": {
+                  "$type": "RuleCall",
+                  "rule": {
+                    "$ref": "#/rules@2"
+                  },
+                  "arguments": []
+                }
+              }
+            ]
           },
           {
-            "$type": "Keyword",
-            "value": "rightCondition"
-          },
-          {
-            "$type": "Assignment",
-            "feature": "rightCondition",
-            "operator": "=",
-            "terminal": {
-              "$type": "RuleCall",
-              "rule": {
-                "$ref": "#/rules@2"
+            "$type": "Group",
+            "elements": [
+              {
+                "$type": "Assignment",
+                "feature": "operator",
+                "operator": "=",
+                "terminal": {
+                  "$type": "RuleCall",
+                  "rule": {
+                    "$ref": "#/rules@32"
+                  },
+                  "arguments": []
+                }
               },
-              "arguments": []
-            }
-          },
-          {
-            "$type": "Keyword",
-            "value": "}"
+              {
+                "$type": "Assignment",
+                "feature": "rightCondition",
+                "operator": "=",
+                "terminal": {
+                  "$type": "RuleCall",
+                  "rule": {
+                    "$ref": "#/rules@2"
+                  },
+                  "arguments": []
+                }
+              }
+            ]
           }
         ]
       },
@@ -33828,7 +33809,7 @@ var MyRobotGrammar = () => loadedMyRobotGrammar != null ? loadedMyRobotGrammar :
           },
           {
             "$type": "Keyword",
-            "value": "LowerThan"
+            "value": "<"
           }
         ]
       },
@@ -33856,7 +33837,7 @@ var MyRobotGrammar = () => loadedMyRobotGrammar != null ? loadedMyRobotGrammar :
           },
           {
             "$type": "Keyword",
-            "value": "EqualTo"
+            "value": "=="
           }
         ]
       },
@@ -33884,7 +33865,147 @@ var MyRobotGrammar = () => loadedMyRobotGrammar != null ? loadedMyRobotGrammar :
           },
           {
             "$type": "Keyword",
-            "value": "UpperThan"
+            "value": ">"
+          }
+        ]
+      },
+      "definesHiddenTokens": false,
+      "entry": false,
+      "fragment": false,
+      "hiddenTokens": [],
+      "parameters": [],
+      "wildcard": false
+    },
+    {
+      "$type": "ParserRule",
+      "name": "Not",
+      "returnType": {
+        "$ref": "#/interfaces@32"
+      },
+      "definition": {
+        "$type": "Group",
+        "elements": [
+          {
+            "$type": "Action",
+            "type": {
+              "$ref": "#/interfaces@32"
+            }
+          },
+          {
+            "$type": "Keyword",
+            "value": "NOT"
+          }
+        ]
+      },
+      "definesHiddenTokens": false,
+      "entry": false,
+      "fragment": false,
+      "hiddenTokens": [],
+      "parameters": [],
+      "wildcard": false
+    },
+    {
+      "$type": "ParserRule",
+      "name": "Or",
+      "returnType": {
+        "$ref": "#/interfaces@33"
+      },
+      "definition": {
+        "$type": "Group",
+        "elements": [
+          {
+            "$type": "Action",
+            "type": {
+              "$ref": "#/interfaces@33"
+            }
+          },
+          {
+            "$type": "Keyword",
+            "value": "OR"
+          }
+        ]
+      },
+      "definesHiddenTokens": false,
+      "entry": false,
+      "fragment": false,
+      "hiddenTokens": [],
+      "parameters": [],
+      "wildcard": false
+    },
+    {
+      "$type": "ParserRule",
+      "name": "And",
+      "returnType": {
+        "$ref": "#/interfaces@36"
+      },
+      "definition": {
+        "$type": "Group",
+        "elements": [
+          {
+            "$type": "Action",
+            "type": {
+              "$ref": "#/interfaces@36"
+            }
+          },
+          {
+            "$type": "Keyword",
+            "value": "AND"
+          }
+        ]
+      },
+      "definesHiddenTokens": false,
+      "entry": false,
+      "fragment": false,
+      "hiddenTokens": [],
+      "parameters": [],
+      "wildcard": false
+    },
+    {
+      "$type": "ParserRule",
+      "name": "LowerOrEqualTo",
+      "returnType": {
+        "$ref": "#/interfaces@34"
+      },
+      "definition": {
+        "$type": "Group",
+        "elements": [
+          {
+            "$type": "Action",
+            "type": {
+              "$ref": "#/interfaces@34"
+            }
+          },
+          {
+            "$type": "Keyword",
+            "value": "<="
+          }
+        ]
+      },
+      "definesHiddenTokens": false,
+      "entry": false,
+      "fragment": false,
+      "hiddenTokens": [],
+      "parameters": [],
+      "wildcard": false
+    },
+    {
+      "$type": "ParserRule",
+      "name": "UpperOrEqualTo",
+      "returnType": {
+        "$ref": "#/interfaces@35"
+      },
+      "definition": {
+        "$type": "Group",
+        "elements": [
+          {
+            "$type": "Action",
+            "type": {
+              "$ref": "#/interfaces@35"
+            }
+          },
+          {
+            "$type": "Keyword",
+            "value": ">="
           }
         ]
       },
@@ -33899,23 +34020,11 @@ var MyRobotGrammar = () => loadedMyRobotGrammar != null ? loadedMyRobotGrammar :
       "$type": "ParserRule",
       "name": "CallFunctionExpr",
       "returnType": {
-        "$ref": "#/interfaces@32"
+        "$ref": "#/interfaces@37"
       },
       "definition": {
         "$type": "Group",
         "elements": [
-          {
-            "$type": "Keyword",
-            "value": "CallFunctionExpr"
-          },
-          {
-            "$type": "Keyword",
-            "value": "{"
-          },
-          {
-            "$type": "Keyword",
-            "value": "function"
-          },
           {
             "$type": "Assignment",
             "feature": "function",
@@ -33936,16 +34045,12 @@ var MyRobotGrammar = () => loadedMyRobotGrammar != null ? loadedMyRobotGrammar :
             }
           },
           {
+            "$type": "Keyword",
+            "value": "("
+          },
+          {
             "$type": "Group",
             "elements": [
-              {
-                "$type": "Keyword",
-                "value": "arguments"
-              },
-              {
-                "$type": "Keyword",
-                "value": "{"
-              },
               {
                 "$type": "Assignment",
                 "feature": "arguments",
@@ -33979,17 +34084,13 @@ var MyRobotGrammar = () => loadedMyRobotGrammar != null ? loadedMyRobotGrammar :
                   }
                 ],
                 "cardinality": "*"
-              },
-              {
-                "$type": "Keyword",
-                "value": "}"
               }
             ],
             "cardinality": "?"
           },
           {
             "$type": "Keyword",
-            "value": "}"
+            "value": ")"
           }
         ]
       },
@@ -34004,47 +34105,26 @@ var MyRobotGrammar = () => loadedMyRobotGrammar != null ? loadedMyRobotGrammar :
       "$type": "ParserRule",
       "name": "CallEntity",
       "returnType": {
-        "$ref": "#/interfaces@33"
+        "$ref": "#/interfaces@38"
       },
       "definition": {
-        "$type": "Group",
-        "elements": [
-          {
-            "$type": "Keyword",
-            "value": "CallEntity"
+        "$type": "Assignment",
+        "feature": "entity",
+        "operator": "=",
+        "terminal": {
+          "$type": "CrossReference",
+          "type": {
+            "$ref": "#/interfaces@5"
           },
-          {
-            "$type": "Keyword",
-            "value": "{"
+          "terminal": {
+            "$type": "RuleCall",
+            "rule": {
+              "$ref": "#/rules@9"
+            },
+            "arguments": []
           },
-          {
-            "$type": "Keyword",
-            "value": "entity"
-          },
-          {
-            "$type": "Assignment",
-            "feature": "entity",
-            "operator": "=",
-            "terminal": {
-              "$type": "CrossReference",
-              "type": {
-                "$ref": "#/interfaces@5"
-              },
-              "terminal": {
-                "$type": "RuleCall",
-                "rule": {
-                  "$ref": "#/rules@9"
-                },
-                "arguments": []
-              },
-              "deprecatedSyntax": false
-            }
-          },
-          {
-            "$type": "Keyword",
-            "value": "}"
-          }
-        ]
+          "deprecatedSyntax": false
+        }
       },
       "definesHiddenTokens": false,
       "entry": false,
@@ -34057,20 +34137,33 @@ var MyRobotGrammar = () => loadedMyRobotGrammar != null ? loadedMyRobotGrammar :
       "$type": "ParserRule",
       "name": "GetSensor",
       "returnType": {
-        "$ref": "#/interfaces@34"
+        "$ref": "#/interfaces@39"
       },
       "definition": {
-        "$type": "Group",
+        "$type": "Alternatives",
         "elements": [
           {
-            "$type": "Action",
-            "type": {
-              "$ref": "#/interfaces@34"
-            }
+            "$type": "Group",
+            "elements": [
+              {
+                "$type": "Action",
+                "type": {
+                  "$ref": "#/interfaces@39"
+                }
+              },
+              {
+                "$type": "Keyword",
+                "value": "getTimestamp()"
+              }
+            ]
           },
           {
             "$type": "Keyword",
-            "value": "GetSensor"
+            "value": "getDistance()"
+          },
+          {
+            "$type": "Keyword",
+            "value": "getSpeed()"
           }
         ]
       },
@@ -34085,23 +34178,11 @@ var MyRobotGrammar = () => loadedMyRobotGrammar != null ? loadedMyRobotGrammar :
       "$type": "ParserRule",
       "name": "AddSubExpression",
       "returnType": {
-        "$ref": "#/interfaces@35"
+        "$ref": "#/interfaces@40"
       },
       "definition": {
         "$type": "Group",
         "elements": [
-          {
-            "$type": "Keyword",
-            "value": "AddSubExpression"
-          },
-          {
-            "$type": "Keyword",
-            "value": "{"
-          },
-          {
-            "$type": "Keyword",
-            "value": "leftOperand"
-          },
           {
             "$type": "Assignment",
             "feature": "leftOperand",
@@ -34109,7 +34190,7 @@ var MyRobotGrammar = () => loadedMyRobotGrammar != null ? loadedMyRobotGrammar :
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@5"
+                "$ref": "#/rules@41"
               },
               "arguments": []
             }
@@ -34117,118 +34198,6 @@ var MyRobotGrammar = () => loadedMyRobotGrammar != null ? loadedMyRobotGrammar :
           {
             "$type": "Group",
             "elements": [
-              {
-                "$type": "Keyword",
-                "value": "rightOperand"
-              },
-              {
-                "$type": "Keyword",
-                "value": "{"
-              },
-              {
-                "$type": "Assignment",
-                "feature": "rightOperand",
-                "operator": "+=",
-                "terminal": {
-                  "$type": "RuleCall",
-                  "rule": {
-                    "$ref": "#/rules@5"
-                  },
-                  "arguments": []
-                }
-              },
-              {
-                "$type": "Group",
-                "elements": [
-                  {
-                    "$type": "Keyword",
-                    "value": ","
-                  },
-                  {
-                    "$type": "Assignment",
-                    "feature": "rightOperand",
-                    "operator": "+=",
-                    "terminal": {
-                      "$type": "RuleCall",
-                      "rule": {
-                        "$ref": "#/rules@5"
-                      },
-                      "arguments": []
-                    }
-                  }
-                ],
-                "cardinality": "*"
-              },
-              {
-                "$type": "Keyword",
-                "value": "}"
-              }
-            ],
-            "cardinality": "?"
-          },
-          {
-            "$type": "Group",
-            "elements": [
-              {
-                "$type": "Keyword",
-                "value": "arithmeticexpression"
-              },
-              {
-                "$type": "Keyword",
-                "value": "{"
-              },
-              {
-                "$type": "Assignment",
-                "feature": "arithmeticexpression",
-                "operator": "+=",
-                "terminal": {
-                  "$type": "RuleCall",
-                  "rule": {
-                    "$ref": "#/rules@6"
-                  },
-                  "arguments": []
-                }
-              },
-              {
-                "$type": "Group",
-                "elements": [
-                  {
-                    "$type": "Keyword",
-                    "value": ","
-                  },
-                  {
-                    "$type": "Assignment",
-                    "feature": "arithmeticexpression",
-                    "operator": "+=",
-                    "terminal": {
-                      "$type": "RuleCall",
-                      "rule": {
-                        "$ref": "#/rules@6"
-                      },
-                      "arguments": []
-                    }
-                  }
-                ],
-                "cardinality": "*"
-              },
-              {
-                "$type": "Keyword",
-                "value": "}"
-              }
-            ],
-            "cardinality": "?"
-          },
-          {
-            "$type": "Group",
-            "elements": [
-              {
-                "$type": "Keyword",
-                "value": "operator"
-              },
-              {
-                "$type": "Keyword",
-                "value": "{"
-              },
               {
                 "$type": "Assignment",
                 "feature": "operator",
@@ -34242,37 +34211,19 @@ var MyRobotGrammar = () => loadedMyRobotGrammar != null ? loadedMyRobotGrammar :
                 }
               },
               {
-                "$type": "Group",
-                "elements": [
-                  {
-                    "$type": "Keyword",
-                    "value": ","
+                "$type": "Assignment",
+                "feature": "rightOperand",
+                "operator": "+=",
+                "terminal": {
+                  "$type": "RuleCall",
+                  "rule": {
+                    "$ref": "#/rules@41"
                   },
-                  {
-                    "$type": "Assignment",
-                    "feature": "operator",
-                    "operator": "+=",
-                    "terminal": {
-                      "$type": "RuleCall",
-                      "rule": {
-                        "$ref": "#/rules@7"
-                      },
-                      "arguments": []
-                    }
-                  }
-                ],
-                "cardinality": "*"
-              },
-              {
-                "$type": "Keyword",
-                "value": "}"
+                  "arguments": []
+                }
               }
             ],
-            "cardinality": "?"
-          },
-          {
-            "$type": "Keyword",
-            "value": "}"
+            "cardinality": "*"
           }
         ]
       },
@@ -34287,23 +34238,11 @@ var MyRobotGrammar = () => loadedMyRobotGrammar != null ? loadedMyRobotGrammar :
       "$type": "ParserRule",
       "name": "MultiDivExpression",
       "returnType": {
-        "$ref": "#/interfaces@36"
+        "$ref": "#/interfaces@41"
       },
       "definition": {
         "$type": "Group",
         "elements": [
-          {
-            "$type": "Keyword",
-            "value": "MultiDivExpression"
-          },
-          {
-            "$type": "Keyword",
-            "value": "{"
-          },
-          {
-            "$type": "Keyword",
-            "value": "leftOperand"
-          },
           {
             "$type": "Assignment",
             "feature": "leftOperand",
@@ -34320,118 +34259,6 @@ var MyRobotGrammar = () => loadedMyRobotGrammar != null ? loadedMyRobotGrammar :
             "$type": "Group",
             "elements": [
               {
-                "$type": "Keyword",
-                "value": "rightOperand"
-              },
-              {
-                "$type": "Keyword",
-                "value": "{"
-              },
-              {
-                "$type": "Assignment",
-                "feature": "rightOperand",
-                "operator": "+=",
-                "terminal": {
-                  "$type": "RuleCall",
-                  "rule": {
-                    "$ref": "#/rules@5"
-                  },
-                  "arguments": []
-                }
-              },
-              {
-                "$type": "Group",
-                "elements": [
-                  {
-                    "$type": "Keyword",
-                    "value": ","
-                  },
-                  {
-                    "$type": "Assignment",
-                    "feature": "rightOperand",
-                    "operator": "+=",
-                    "terminal": {
-                      "$type": "RuleCall",
-                      "rule": {
-                        "$ref": "#/rules@5"
-                      },
-                      "arguments": []
-                    }
-                  }
-                ],
-                "cardinality": "*"
-              },
-              {
-                "$type": "Keyword",
-                "value": "}"
-              }
-            ],
-            "cardinality": "?"
-          },
-          {
-            "$type": "Group",
-            "elements": [
-              {
-                "$type": "Keyword",
-                "value": "arithmeticexpression"
-              },
-              {
-                "$type": "Keyword",
-                "value": "{"
-              },
-              {
-                "$type": "Assignment",
-                "feature": "arithmeticexpression",
-                "operator": "+=",
-                "terminal": {
-                  "$type": "RuleCall",
-                  "rule": {
-                    "$ref": "#/rules@6"
-                  },
-                  "arguments": []
-                }
-              },
-              {
-                "$type": "Group",
-                "elements": [
-                  {
-                    "$type": "Keyword",
-                    "value": ","
-                  },
-                  {
-                    "$type": "Assignment",
-                    "feature": "arithmeticexpression",
-                    "operator": "+=",
-                    "terminal": {
-                      "$type": "RuleCall",
-                      "rule": {
-                        "$ref": "#/rules@6"
-                      },
-                      "arguments": []
-                    }
-                  }
-                ],
-                "cardinality": "*"
-              },
-              {
-                "$type": "Keyword",
-                "value": "}"
-              }
-            ],
-            "cardinality": "?"
-          },
-          {
-            "$type": "Group",
-            "elements": [
-              {
-                "$type": "Keyword",
-                "value": "operator"
-              },
-              {
-                "$type": "Keyword",
-                "value": "{"
-              },
-              {
                 "$type": "Assignment",
                 "feature": "operator",
                 "operator": "+=",
@@ -34444,37 +34271,19 @@ var MyRobotGrammar = () => loadedMyRobotGrammar != null ? loadedMyRobotGrammar :
                 }
               },
               {
-                "$type": "Group",
-                "elements": [
-                  {
-                    "$type": "Keyword",
-                    "value": ","
+                "$type": "Assignment",
+                "feature": "rightOperand",
+                "operator": "+=",
+                "terminal": {
+                  "$type": "RuleCall",
+                  "rule": {
+                    "$ref": "#/rules@5"
                   },
-                  {
-                    "$type": "Assignment",
-                    "feature": "operator",
-                    "operator": "+=",
-                    "terminal": {
-                      "$type": "RuleCall",
-                      "rule": {
-                        "$ref": "#/rules@8"
-                      },
-                      "arguments": []
-                    }
-                  }
-                ],
-                "cardinality": "*"
-              },
-              {
-                "$type": "Keyword",
-                "value": "}"
+                  "arguments": []
+                }
               }
             ],
-            "cardinality": "?"
-          },
-          {
-            "$type": "Keyword",
-            "value": "}"
+            "cardinality": "*"
           }
         ]
       },
@@ -34489,7 +34298,7 @@ var MyRobotGrammar = () => loadedMyRobotGrammar != null ? loadedMyRobotGrammar :
       "$type": "ParserRule",
       "name": "Value",
       "returnType": {
-        "$ref": "#/interfaces@37"
+        "$ref": "#/interfaces@42"
       },
       "definition": {
         "$type": "Group",
@@ -34497,12 +34306,15 @@ var MyRobotGrammar = () => loadedMyRobotGrammar != null ? loadedMyRobotGrammar :
           {
             "$type": "Action",
             "type": {
-              "$ref": "#/interfaces@37"
+              "$ref": "#/interfaces@42"
             }
           },
           {
-            "$type": "Keyword",
-            "value": "Value"
+            "$type": "RuleCall",
+            "rule": {
+              "$ref": "#/rules@55"
+            },
+            "arguments": []
           }
         ]
       },
@@ -34517,7 +34329,7 @@ var MyRobotGrammar = () => loadedMyRobotGrammar != null ? loadedMyRobotGrammar :
       "$type": "ParserRule",
       "name": "Add",
       "returnType": {
-        "$ref": "#/interfaces@38"
+        "$ref": "#/interfaces@43"
       },
       "definition": {
         "$type": "Group",
@@ -34525,12 +34337,12 @@ var MyRobotGrammar = () => loadedMyRobotGrammar != null ? loadedMyRobotGrammar :
           {
             "$type": "Action",
             "type": {
-              "$ref": "#/interfaces@38"
+              "$ref": "#/interfaces@43"
             }
           },
           {
             "$type": "Keyword",
-            "value": "Add"
+            "value": "+"
           }
         ]
       },
@@ -34545,7 +34357,7 @@ var MyRobotGrammar = () => loadedMyRobotGrammar != null ? loadedMyRobotGrammar :
       "$type": "ParserRule",
       "name": "Sub",
       "returnType": {
-        "$ref": "#/interfaces@39"
+        "$ref": "#/interfaces@44"
       },
       "definition": {
         "$type": "Group",
@@ -34553,12 +34365,12 @@ var MyRobotGrammar = () => loadedMyRobotGrammar != null ? loadedMyRobotGrammar :
           {
             "$type": "Action",
             "type": {
-              "$ref": "#/interfaces@39"
+              "$ref": "#/interfaces@44"
             }
           },
           {
             "$type": "Keyword",
-            "value": "Sub"
+            "value": "-"
           }
         ]
       },
@@ -34573,7 +34385,7 @@ var MyRobotGrammar = () => loadedMyRobotGrammar != null ? loadedMyRobotGrammar :
       "$type": "ParserRule",
       "name": "Multiply",
       "returnType": {
-        "$ref": "#/interfaces@40"
+        "$ref": "#/interfaces@45"
       },
       "definition": {
         "$type": "Group",
@@ -34581,12 +34393,12 @@ var MyRobotGrammar = () => loadedMyRobotGrammar != null ? loadedMyRobotGrammar :
           {
             "$type": "Action",
             "type": {
-              "$ref": "#/interfaces@40"
+              "$ref": "#/interfaces@45"
             }
           },
           {
             "$type": "Keyword",
-            "value": "Multiply"
+            "value": "*"
           }
         ]
       },
@@ -34601,7 +34413,7 @@ var MyRobotGrammar = () => loadedMyRobotGrammar != null ? loadedMyRobotGrammar :
       "$type": "ParserRule",
       "name": "Divise",
       "returnType": {
-        "$ref": "#/interfaces@41"
+        "$ref": "#/interfaces@46"
       },
       "definition": {
         "$type": "Group",
@@ -34609,12 +34421,12 @@ var MyRobotGrammar = () => loadedMyRobotGrammar != null ? loadedMyRobotGrammar :
           {
             "$type": "Action",
             "type": {
-              "$ref": "#/interfaces@41"
+              "$ref": "#/interfaces@46"
             }
           },
           {
             "$type": "Keyword",
-            "value": "Divise"
+            "value": "/"
           }
         ]
       },
@@ -34637,21 +34449,21 @@ var MyRobotGrammar = () => loadedMyRobotGrammar != null ? loadedMyRobotGrammar :
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@43"
+              "$ref": "#/rules@48"
             },
             "arguments": []
           },
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@44"
+              "$ref": "#/rules@49"
             },
             "arguments": []
           },
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@45"
+              "$ref": "#/rules@50"
             },
             "arguments": []
           }
@@ -34727,14 +34539,14 @@ var MyRobotGrammar = () => loadedMyRobotGrammar != null ? loadedMyRobotGrammar :
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@47"
+              "$ref": "#/rules@52"
             },
             "arguments": []
           },
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@48"
+              "$ref": "#/rules@53"
             },
             "arguments": []
           }
@@ -35063,32 +34875,20 @@ var MyRobotGrammar = () => loadedMyRobotGrammar != null ? loadedMyRobotGrammar :
     {
       "$type": "TerminalRule",
       "hidden": true,
-      "name": "ML_COMMENT",
-      "type": {
-        "$type": "ReturnType",
-        "name": "string"
-      },
+      "name": "WS",
       "definition": {
-        "$type": "TerminalGroup",
-        "elements": [
-          {
-            "$type": "CharacterRange",
-            "left": {
-              "$type": "Keyword",
-              "value": "/*"
-            }
-          },
-          {
-            "$type": "UntilToken",
-            "terminal": {
-              "$type": "CharacterRange",
-              "left": {
-                "$type": "Keyword",
-                "value": "*/"
-              }
-            }
-          }
-        ]
+        "$type": "RegexToken",
+        "regex": "/\\\\s+/"
+      },
+      "fragment": false
+    },
+    {
+      "$type": "TerminalRule",
+      "hidden": true,
+      "name": "ML_COMMENT",
+      "definition": {
+        "$type": "RegexToken",
+        "regex": "/\\\\/\\\\*[\\\\s\\\\S]*?\\\\*\\\\//"
       },
       "fragment": false
     },
@@ -35096,118 +34896,9 @@ var MyRobotGrammar = () => loadedMyRobotGrammar != null ? loadedMyRobotGrammar :
       "$type": "TerminalRule",
       "hidden": true,
       "name": "SL_COMMENT",
-      "type": {
-        "$type": "ReturnType",
-        "name": "string"
-      },
       "definition": {
-        "$type": "TerminalGroup",
-        "elements": [
-          {
-            "$type": "CharacterRange",
-            "left": {
-              "$type": "Keyword",
-              "value": "//"
-            }
-          },
-          {
-            "$type": "NegatedToken",
-            "terminal": {
-              "$type": "TerminalAlternatives",
-              "elements": [
-                {
-                  "$type": "CharacterRange",
-                  "left": {
-                    "$type": "Keyword",
-                    "value": "\\n"
-                  }
-                },
-                {
-                  "$type": "CharacterRange",
-                  "left": {
-                    "$type": "Keyword",
-                    "value": "\\r"
-                  }
-                }
-              ]
-            }
-          },
-          {
-            "$type": "TerminalGroup",
-            "elements": [
-              {
-                "$type": "CharacterRange",
-                "left": {
-                  "$type": "Keyword",
-                  "value": "\\r"
-                },
-                "cardinality": "?"
-              },
-              {
-                "$type": "CharacterRange",
-                "left": {
-                  "$type": "Keyword",
-                  "value": "\\n"
-                }
-              }
-            ],
-            "cardinality": "?"
-          }
-        ]
-      },
-      "fragment": false
-    },
-    {
-      "$type": "TerminalRule",
-      "hidden": true,
-      "name": "WS",
-      "type": {
-        "$type": "ReturnType",
-        "name": "string"
-      },
-      "definition": {
-        "$type": "TerminalAlternatives",
-        "elements": [
-          {
-            "$type": "TerminalAlternatives",
-            "elements": [
-              {
-                "$type": "TerminalAlternatives",
-                "elements": [
-                  {
-                    "$type": "CharacterRange",
-                    "left": {
-                      "$type": "Keyword",
-                      "value": " "
-                    }
-                  },
-                  {
-                    "$type": "CharacterRange",
-                    "left": {
-                      "$type": "Keyword",
-                      "value": "\\t"
-                    }
-                  }
-                ]
-              },
-              {
-                "$type": "CharacterRange",
-                "left": {
-                  "$type": "Keyword",
-                  "value": "\\r"
-                }
-              }
-            ]
-          },
-          {
-            "$type": "CharacterRange",
-            "left": {
-              "$type": "Keyword",
-              "value": "\\n"
-            }
-          }
-        ],
-        "cardinality": "+"
+        "$type": "RegexToken",
+        "regex": "/\\\\/\\\\/[^\\\\n\\\\r]*/"
       },
       "fragment": false
     },
@@ -35434,7 +35125,7 @@ var MyRobotGrammar = () => loadedMyRobotGrammar != null ? loadedMyRobotGrammar :
           "type": {
             "$type": "SimpleType",
             "typeRef": {
-              "$ref": "#/interfaces@8"
+              "$ref": "#/interfaces@41"
             }
           },
           "isOptional": false
@@ -35447,7 +35138,7 @@ var MyRobotGrammar = () => loadedMyRobotGrammar != null ? loadedMyRobotGrammar :
             "elementType": {
               "$type": "SimpleType",
               "typeRef": {
-                "$ref": "#/interfaces@8"
+                "$ref": "#/interfaces@41"
               }
             }
           },
@@ -35603,11 +35294,7 @@ var MyRobotGrammar = () => loadedMyRobotGrammar != null ? loadedMyRobotGrammar :
         }
       ],
       "name": "BooleanExpression",
-      "superTypes": [
-        {
-          "$ref": "#/interfaces@6"
-        }
-      ]
+      "superTypes": []
     },
     {
       "$type": "Interface",
@@ -35735,10 +35422,21 @@ var MyRobotGrammar = () => loadedMyRobotGrammar != null ? loadedMyRobotGrammar :
           "$type": "TypeAttribute",
           "name": "type",
           "type": {
-            "$type": "SimpleType",
-            "typeRef": {
-              "$ref": "#/types@0"
-            }
+            "$type": "UnionType",
+            "types": [
+              {
+                "$type": "SimpleType",
+                "typeRef": {
+                  "$ref": "#/types@0"
+                }
+              },
+              {
+                "$type": "SimpleType",
+                "typeRef": {
+                  "$ref": "#/types@3"
+                }
+              }
+            ]
           },
           "isOptional": false
         }
@@ -35932,6 +35630,56 @@ var MyRobotGrammar = () => loadedMyRobotGrammar != null ? loadedMyRobotGrammar :
     },
     {
       "$type": "Interface",
+      "name": "Not",
+      "superTypes": [
+        {
+          "$ref": "#/interfaces@7"
+        }
+      ],
+      "attributes": []
+    },
+    {
+      "$type": "Interface",
+      "name": "Or",
+      "superTypes": [
+        {
+          "$ref": "#/interfaces@7"
+        }
+      ],
+      "attributes": []
+    },
+    {
+      "$type": "Interface",
+      "name": "LowerOrEqualTo",
+      "superTypes": [
+        {
+          "$ref": "#/interfaces@7"
+        }
+      ],
+      "attributes": []
+    },
+    {
+      "$type": "Interface",
+      "name": "UpperOrEqualTo",
+      "superTypes": [
+        {
+          "$ref": "#/interfaces@7"
+        }
+      ],
+      "attributes": []
+    },
+    {
+      "$type": "Interface",
+      "name": "And",
+      "superTypes": [
+        {
+          "$ref": "#/interfaces@7"
+        }
+      ],
+      "attributes": []
+    },
+    {
+      "$type": "Interface",
       "attributes": [
         {
           "$type": "TypeAttribute",
@@ -36034,6 +35782,17 @@ var MyRobotGrammar = () => loadedMyRobotGrammar != null ? loadedMyRobotGrammar :
       "attributes": [
         {
           "$type": "TypeAttribute",
+          "name": "leftOperand",
+          "type": {
+            "$type": "SimpleType",
+            "typeRef": {
+              "$ref": "#/interfaces@8"
+            }
+          },
+          "isOptional": false
+        },
+        {
+          "$type": "TypeAttribute",
           "name": "operator",
           "type": {
             "$type": "ArrayType",
@@ -36045,14 +35804,24 @@ var MyRobotGrammar = () => loadedMyRobotGrammar != null ? loadedMyRobotGrammar :
             }
           },
           "isOptional": false
+        },
+        {
+          "$type": "TypeAttribute",
+          "name": "rightOperand",
+          "type": {
+            "$type": "ArrayType",
+            "elementType": {
+              "$type": "SimpleType",
+              "typeRef": {
+                "$ref": "#/interfaces@8"
+              }
+            }
+          },
+          "isOptional": false
         }
       ],
       "name": "MultiDivExpression",
-      "superTypes": [
-        {
-          "$ref": "#/interfaces@9"
-        }
-      ]
+      "superTypes": []
     },
     {
       "$type": "Interface",
