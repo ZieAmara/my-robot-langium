@@ -20,7 +20,7 @@ let void square(){
 }
 
 let void entry () {
-    setSpeed(200 mm)
+    setSpeed(200 mm) // distance per second (here 200mm/s)
     var number time = getTimestamp()
     loop time < 60000
     {
