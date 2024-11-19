@@ -1,5 +1,5 @@
 import type { ValidationAcceptor, ValidationChecks } from 'langium';
-import type { MyRobotAstType, Program } from './generated/ast.js';
+import type { MyRobotAstType, Program, VariableStatement } from './generated/ast.js';
 import type { MyRobotServices } from './my-robot-module.js';
 
 /**
@@ -9,7 +9,10 @@ export function registerValidationChecks(services: MyRobotServices) {
     const registry = services.validation.ValidationRegistry;
     const validator = services.validation.MyRobotValidator;
     const checks: ValidationChecks<MyRobotAstType> = {
-        Program: validator.checkProgramStartsWithCapital
+        Program: [
+            validator.checkUniqueFunctionDefs, 
+            validator.checkUniqueVariableDeclarations
+        ]
     };
     registry.register(checks, validator);
 }
@@ -19,13 +22,33 @@ export function registerValidationChecks(services: MyRobotServices) {
  */
 export class MyRobotValidator {
 
-    checkProgramStartsWithCapital(Program: Program, accept: ValidationAcceptor): void {
-        if (Program.name) {
-            const firstChar = Program.name.substring(0, 1);
-            if (firstChar.toUpperCase() !== firstChar) {
-                accept('warning', 'Program name should start with a capital.', { node: Program, property: 'name' });
+    checkUniqueFunctionDefs(program: Program, accept: ValidationAcceptor): void {
+        // create a set of visited functions
+        // and report an error when we see one we've already seen
+        const reported = new Set();
+        program.function.forEach(f => {
+            if (reported.has(f.name)) {
+                accept('error',  `Function has non-unique name '${f.name}'.`,  {node: f, property: 'name'});
             }
-        }
+            reported.add(f.name);
+        });
+    }
+
+    checkUniqueVariableDeclarations(program: Program, accept: ValidationAcceptor): void {
+        // create a set of visited functions
+        // and report an error when we see one we've already seen
+        program.function.forEach(f => {
+            const reported = new Set();
+            f.body.forEach(body => {
+                if (body.$type === 'VariableStatement') {
+                    var variable = body as VariableStatement;
+                    if (reported.has(variable.name)) {
+                        accept('error',  `Variable has non-unique name '${variable.name}'.`,  {node: variable, property: 'name'});
+                    }
+                    reported.add(variable.name);
+                }
+            });
+        });
     }
 
 }
