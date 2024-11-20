@@ -1,7 +1,7 @@
 // Monarch syntax highlighting for the my-robot language.
 export default {
     keywords: [
-        'AND','Backward','Clock','ClockLeft','Forward','Left','NOT','OR','Right','boolean','cm','else','getDistance()','getSpeed()','getTimestamp()','if','in','let','loop','m','mm','number','setSpeed','then','var','void'
+        'AND','Backward','Clock','ClockLeft','False','Forward','Left','NOT','OR','Right','True','boolean','cm','else','getDistance()','getSpeed()','getTimestamp()','if','in','let','loop','m','mm','number','setSpeed','then','var','void'
     ],
     operators: [
         '*','+',',','-','/','<','<=','=','==','>','>='

@@ -10,7 +10,7 @@
     },
     {
       "name": "keyword.control.my-robot",
-      "match": "\\b(AND|Backward|Clock|ClockLeft|Forward|Left|NOT|OR|Right|boolean|cm|else|if|in|let|loop|m|mm|number|setSpeed|then|var|void)\\b|\\b(getDistance\\(\\)|getSpeed\\(\\)|getTimestamp\\(\\))\\B"
+      "match": "\\b(AND|Backward|Clock|ClockLeft|False|Forward|Left|NOT|OR|Right|True|boolean|cm|else|if|in|let|loop|m|mm|number|setSpeed|then|var|void)\\b|\\b(getDistance\\(\\)|getSpeed\\(\\)|getTimestamp\\(\\))\\B"
     },
     {
       "name": "string.quoted.double.my-robot",

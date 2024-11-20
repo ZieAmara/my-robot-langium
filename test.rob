@@ -8,10 +8,6 @@ let void aret () {
     }
 }
 
-let void aret () {
-    
-}
-
 let void square(){
     Forward 30 in cm
     Clock 90
@@ -21,8 +17,7 @@ let void square(){
     Clock 90
     Forward 300 in mm
     Clock 90
-    var number a = getDistance()
-    var number a = getDistance()
+    var number a = True
 }
 
 let void entry () {
@@ -34,5 +29,6 @@ let void entry () {
         Forward dist - 25 in cm
         Clock 90
         time = getTimestamp()
+        var number a = 5 + dist * time / 3 
     }
 }

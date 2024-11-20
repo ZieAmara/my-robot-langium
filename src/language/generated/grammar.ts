@@ -15,559 +15,6 @@ export const MyRobotGrammar = (): Grammar => loadedMyRobotGrammar ?? (loadedMyRo
   "rules": [
     {
       "$type": "ParserRule",
-      "name": "Program",
-      "entry": true,
-      "returnType": {
-        "$ref": "#/interfaces@0"
-      },
-      "definition": {
-        "$type": "Assignment",
-        "feature": "function",
-        "operator": "+=",
-        "terminal": {
-          "$type": "RuleCall",
-          "rule": {
-            "$ref": "#/rules@10"
-          },
-          "arguments": []
-        },
-        "cardinality": "*"
-      },
-      "definesHiddenTokens": false,
-      "fragment": false,
-      "hiddenTokens": [],
-      "parameters": [],
-      "wildcard": false
-    },
-    {
-      "$type": "ParserRule",
-      "name": "Statement",
-      "returnType": {
-        "$ref": "#/interfaces@3"
-      },
-      "definition": {
-        "$type": "Alternatives",
-        "elements": [
-          {
-            "$type": "RuleCall",
-            "rule": {
-              "$ref": "#/rules@14"
-            },
-            "arguments": []
-          },
-          {
-            "$type": "RuleCall",
-            "rule": {
-              "$ref": "#/rules@17"
-            },
-            "arguments": []
-          },
-          {
-            "$type": "RuleCall",
-            "rule": {
-              "$ref": "#/rules@18"
-            },
-            "arguments": []
-          },
-          {
-            "$type": "RuleCall",
-            "rule": {
-              "$ref": "#/rules@19"
-            },
-            "arguments": []
-          },
-          {
-            "$type": "RuleCall",
-            "rule": {
-              "$ref": "#/rules@20"
-            },
-            "arguments": []
-          },
-          {
-            "$type": "RuleCall",
-            "rule": {
-              "$ref": "#/rules@21"
-            },
-            "arguments": []
-          },
-          {
-            "$type": "RuleCall",
-            "rule": {
-              "$ref": "#/rules@4"
-            },
-            "arguments": []
-          },
-          {
-            "$type": "RuleCall",
-            "rule": {
-              "$ref": "#/rules@23"
-            },
-            "arguments": []
-          },
-          {
-            "$type": "RuleCall",
-            "rule": {
-              "$ref": "#/rules@24"
-            },
-            "arguments": []
-          },
-          {
-            "$type": "RuleCall",
-            "rule": {
-              "$ref": "#/rules@25"
-            },
-            "arguments": []
-          },
-          {
-            "$type": "RuleCall",
-            "rule": {
-              "$ref": "#/rules@26"
-            },
-            "arguments": []
-          },
-          {
-            "$type": "RuleCall",
-            "rule": {
-              "$ref": "#/rules@27"
-            },
-            "arguments": []
-          }
-        ]
-      },
-      "definesHiddenTokens": false,
-      "entry": false,
-      "fragment": false,
-      "hiddenTokens": [],
-      "parameters": [],
-      "wildcard": false
-    },
-    {
-      "$type": "ParserRule",
-      "name": "Expression",
-      "returnType": {
-        "$ref": "#/interfaces@6"
-      },
-      "definition": {
-        "$type": "Alternatives",
-        "elements": [
-          {
-            "$type": "RuleCall",
-            "rule": {
-              "$ref": "#/rules@5"
-            },
-            "arguments": []
-          },
-          {
-            "$type": "RuleCall",
-            "rule": {
-              "$ref": "#/rules@6"
-            },
-            "arguments": []
-          },
-          {
-            "$type": "RuleCall",
-            "rule": {
-              "$ref": "#/rules@40"
-            },
-            "arguments": []
-          },
-          {
-            "$type": "RuleCall",
-            "rule": {
-              "$ref": "#/rules@41"
-            },
-            "arguments": []
-          }
-        ]
-      },
-      "definesHiddenTokens": false,
-      "entry": false,
-      "fragment": false,
-      "hiddenTokens": [],
-      "parameters": [],
-      "wildcard": false
-    },
-    {
-      "$type": "ParserRule",
-      "name": "BooleanOperator",
-      "returnType": {
-        "$ref": "#/interfaces@7"
-      },
-      "definition": {
-        "$type": "Alternatives",
-        "elements": [
-          {
-            "$type": "RuleCall",
-            "rule": {
-              "$ref": "#/rules@29"
-            },
-            "arguments": []
-          },
-          {
-            "$type": "RuleCall",
-            "rule": {
-              "$ref": "#/rules@30"
-            },
-            "arguments": []
-          },
-          {
-            "$type": "RuleCall",
-            "rule": {
-              "$ref": "#/rules@31"
-            },
-            "arguments": []
-          },
-          {
-            "$type": "RuleCall",
-            "rule": {
-              "$ref": "#/rules@32"
-            },
-            "arguments": []
-          },
-          {
-            "$type": "RuleCall",
-            "rule": {
-              "$ref": "#/rules@33"
-            },
-            "arguments": []
-          },
-          {
-            "$type": "RuleCall",
-            "rule": {
-              "$ref": "#/rules@35"
-            },
-            "arguments": []
-          },
-          {
-            "$type": "RuleCall",
-            "rule": {
-              "$ref": "#/rules@36"
-            },
-            "arguments": []
-          },
-          {
-            "$type": "RuleCall",
-            "rule": {
-              "$ref": "#/rules@34"
-            },
-            "arguments": []
-          }
-        ]
-      },
-      "definesHiddenTokens": false,
-      "entry": false,
-      "fragment": false,
-      "hiddenTokens": [],
-      "parameters": [],
-      "wildcard": false
-    },
-    {
-      "$type": "ParserRule",
-      "name": "Entity",
-      "returnType": {
-        "$ref": "#/interfaces@5"
-      },
-      "definition": {
-        "$type": "Alternatives",
-        "elements": [
-          {
-            "$type": "RuleCall",
-            "rule": {
-              "$ref": "#/rules@22"
-            },
-            "arguments": []
-          },
-          {
-            "$type": "RuleCall",
-            "rule": {
-              "$ref": "#/rules@13"
-            },
-            "arguments": []
-          }
-        ]
-      },
-      "definesHiddenTokens": false,
-      "entry": false,
-      "fragment": false,
-      "hiddenTokens": [],
-      "parameters": [],
-      "wildcard": false
-    },
-    {
-      "$type": "ParserRule",
-      "name": "UnaryExpression",
-      "returnType": {
-        "$ref": "#/interfaces@8"
-      },
-      "definition": {
-        "$type": "Alternatives",
-        "elements": [
-          {
-            "$type": "RuleCall",
-            "rule": {
-              "$ref": "#/rules@37"
-            },
-            "arguments": []
-          },
-          {
-            "$type": "RuleCall",
-            "rule": {
-              "$ref": "#/rules@38"
-            },
-            "arguments": []
-          },
-          {
-            "$type": "RuleCall",
-            "rule": {
-              "$ref": "#/rules@39"
-            },
-            "arguments": []
-          },
-          {
-            "$type": "RuleCall",
-            "rule": {
-              "$ref": "#/rules@42"
-            },
-            "arguments": []
-          }
-        ]
-      },
-      "definesHiddenTokens": false,
-      "entry": false,
-      "fragment": false,
-      "hiddenTokens": [],
-      "parameters": [],
-      "wildcard": false
-    },
-    {
-      "$type": "ParserRule",
-      "name": "ArithmeticExpression",
-      "returnType": {
-        "$ref": "#/interfaces@9"
-      },
-      "definition": {
-        "$type": "Alternatives",
-        "elements": [
-          {
-            "$type": "RuleCall",
-            "rule": {
-              "$ref": "#/rules@40"
-            },
-            "arguments": []
-          },
-          {
-            "$type": "RuleCall",
-            "rule": {
-              "$ref": "#/rules@41"
-            },
-            "arguments": []
-          }
-        ]
-      },
-      "definesHiddenTokens": false,
-      "entry": false,
-      "fragment": false,
-      "hiddenTokens": [],
-      "parameters": [],
-      "wildcard": false
-    },
-    {
-      "$type": "ParserRule",
-      "name": "AddSubOperator",
-      "returnType": {
-        "$ref": "#/interfaces@10"
-      },
-      "definition": {
-        "$type": "Alternatives",
-        "elements": [
-          {
-            "$type": "RuleCall",
-            "rule": {
-              "$ref": "#/rules@43"
-            },
-            "arguments": []
-          },
-          {
-            "$type": "RuleCall",
-            "rule": {
-              "$ref": "#/rules@44"
-            },
-            "arguments": []
-          }
-        ]
-      },
-      "definesHiddenTokens": false,
-      "entry": false,
-      "fragment": false,
-      "hiddenTokens": [],
-      "parameters": [],
-      "wildcard": false
-    },
-    {
-      "$type": "ParserRule",
-      "name": "MultiDivOperator",
-      "returnType": {
-        "$ref": "#/interfaces@11"
-      },
-      "definition": {
-        "$type": "Alternatives",
-        "elements": [
-          {
-            "$type": "RuleCall",
-            "rule": {
-              "$ref": "#/rules@45"
-            },
-            "arguments": []
-          },
-          {
-            "$type": "RuleCall",
-            "rule": {
-              "$ref": "#/rules@46"
-            },
-            "arguments": []
-          }
-        ]
-      },
-      "definesHiddenTokens": false,
-      "entry": false,
-      "fragment": false,
-      "hiddenTokens": [],
-      "parameters": [],
-      "wildcard": false
-    },
-    {
-      "$type": "ParserRule",
-      "name": "EString",
-      "dataType": "string",
-      "definition": {
-        "$type": "Alternatives",
-        "elements": [
-          {
-            "$type": "RuleCall",
-            "rule": {
-              "$ref": "#/rules@56"
-            },
-            "arguments": []
-          },
-          {
-            "$type": "RuleCall",
-            "rule": {
-              "$ref": "#/rules@54"
-            },
-            "arguments": []
-          }
-        ]
-      },
-      "definesHiddenTokens": false,
-      "entry": false,
-      "fragment": false,
-      "hiddenTokens": [],
-      "parameters": [],
-      "wildcard": false
-    },
-    {
-      "$type": "ParserRule",
-      "name": "Fonction",
-      "returnType": {
-        "$ref": "#/interfaces@1"
-      },
-      "definition": {
-        "$type": "Group",
-        "elements": [
-          {
-            "$type": "Keyword",
-            "value": "let"
-          },
-          {
-            "$type": "Assignment",
-            "feature": "returntype",
-            "operator": "=",
-            "terminal": {
-              "$type": "RuleCall",
-              "rule": {
-                "$ref": "#/rules@12"
-              },
-              "arguments": []
-            }
-          },
-          {
-            "$type": "Assignment",
-            "feature": "name",
-            "operator": "=",
-            "terminal": {
-              "$type": "RuleCall",
-              "rule": {
-                "$ref": "#/rules@54"
-              },
-              "arguments": []
-            }
-          },
-          {
-            "$type": "Keyword",
-            "value": "("
-          },
-          {
-            "$type": "Group",
-            "elements": [
-              {
-                "$type": "Assignment",
-                "feature": "parameter",
-                "operator": "+=",
-                "terminal": {
-                  "$type": "RuleCall",
-                  "rule": {
-                    "$ref": "#/rules@13"
-                  },
-                  "arguments": []
-                }
-              },
-              {
-                "$type": "Group",
-                "elements": [
-                  {
-                    "$type": "Keyword",
-                    "value": ","
-                  },
-                  {
-                    "$type": "Assignment",
-                    "feature": "parameter",
-                    "operator": "+=",
-                    "terminal": {
-                      "$type": "RuleCall",
-                      "rule": {
-                        "$ref": "#/rules@13"
-                      },
-                      "arguments": []
-                    }
-                  }
-                ],
-                "cardinality": "*"
-              }
-            ],
-            "cardinality": "?"
-          },
-          {
-            "$type": "Keyword",
-            "value": ")"
-          },
-          {
-            "$type": "RuleCall",
-            "rule": {
-              "$ref": "#/rules@11"
-            },
-            "arguments": []
-          }
-        ]
-      },
-      "definesHiddenTokens": false,
-      "entry": false,
-      "fragment": false,
-      "hiddenTokens": [],
-      "parameters": [],
-      "wildcard": false
-    },
-    {
-      "$type": "ParserRule",
       "name": "Block",
       "fragment": true,
       "definition": {
@@ -584,7 +31,7 @@ export const MyRobotGrammar = (): Grammar => loadedMyRobotGrammar ?? (loadedMyRo
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@1"
+                "$ref": "#/rules@6"
               },
               "arguments": []
             },
@@ -598,144 +45,6 @@ export const MyRobotGrammar = (): Grammar => loadedMyRobotGrammar ?? (loadedMyRo
       },
       "definesHiddenTokens": false,
       "entry": false,
-      "hiddenTokens": [],
-      "parameters": [],
-      "wildcard": false
-    },
-    {
-      "$type": "ParserRule",
-      "name": "ReturnType",
-      "returnType": {
-        "$ref": "#/interfaces@2"
-      },
-      "definition": {
-        "$type": "Alternatives",
-        "elements": [
-          {
-            "$type": "Assignment",
-            "feature": "type",
-            "operator": "=",
-            "terminal": {
-              "$type": "RuleCall",
-              "rule": {
-                "$ref": "#/rules@51"
-              },
-              "arguments": []
-            }
-          },
-          {
-            "$type": "Keyword",
-            "value": "void"
-          }
-        ]
-      },
-      "definesHiddenTokens": false,
-      "entry": false,
-      "fragment": false,
-      "hiddenTokens": [],
-      "parameters": [],
-      "wildcard": false
-    },
-    {
-      "$type": "ParserRule",
-      "name": "Parameter",
-      "returnType": {
-        "$ref": "#/interfaces@4"
-      },
-      "definition": {
-        "$type": "Group",
-        "elements": [
-          {
-            "$type": "Assignment",
-            "feature": "type",
-            "operator": "=",
-            "terminal": {
-              "$type": "RuleCall",
-              "rule": {
-                "$ref": "#/rules@51"
-              },
-              "arguments": []
-            }
-          },
-          {
-            "$type": "Assignment",
-            "feature": "name",
-            "operator": "=",
-            "terminal": {
-              "$type": "RuleCall",
-              "rule": {
-                "$ref": "#/rules@54"
-              },
-              "arguments": []
-            }
-          }
-        ]
-      },
-      "definesHiddenTokens": false,
-      "entry": false,
-      "fragment": false,
-      "hiddenTokens": [],
-      "parameters": [],
-      "wildcard": false
-    },
-    {
-      "$type": "ParserRule",
-      "name": "If",
-      "returnType": {
-        "$ref": "#/interfaces@12"
-      },
-      "definition": {
-        "$type": "Group",
-        "elements": [
-          {
-            "$type": "Keyword",
-            "value": "if"
-          },
-          {
-            "$type": "Assignment",
-            "feature": "condition",
-            "operator": "+=",
-            "terminal": {
-              "$type": "RuleCall",
-              "rule": {
-                "$ref": "#/rules@28"
-              },
-              "arguments": []
-            }
-          },
-          {
-            "$type": "Keyword",
-            "value": "then"
-          },
-          {
-            "$type": "RuleCall",
-            "rule": {
-              "$ref": "#/rules@15"
-            },
-            "arguments": []
-          },
-          {
-            "$type": "Group",
-            "elements": [
-              {
-                "$type": "Keyword",
-                "value": "else"
-              },
-              {
-                "$type": "RuleCall",
-                "rule": {
-                  "$ref": "#/rules@16"
-                },
-                "arguments": []
-              }
-            ],
-            "cardinality": "?"
-          }
-        ]
-      },
-      "definesHiddenTokens": false,
-      "entry": false,
-      "fragment": false,
       "hiddenTokens": [],
       "parameters": [],
       "wildcard": false
@@ -758,7 +67,7 @@ export const MyRobotGrammar = (): Grammar => loadedMyRobotGrammar ?? (loadedMyRo
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@1"
+                "$ref": "#/rules@6"
               },
               "arguments": []
             },
@@ -794,7 +103,7 @@ export const MyRobotGrammar = (): Grammar => loadedMyRobotGrammar ?? (loadedMyRo
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@1"
+                "$ref": "#/rules@6"
               },
               "arguments": []
             },
@@ -814,9 +123,324 @@ export const MyRobotGrammar = (): Grammar => loadedMyRobotGrammar ?? (loadedMyRo
     },
     {
       "$type": "ParserRule",
+      "name": "Program",
+      "entry": true,
+      "returnType": {
+        "$ref": "#/interfaces@0"
+      },
+      "definition": {
+        "$type": "Assignment",
+        "feature": "function",
+        "operator": "+=",
+        "terminal": {
+          "$type": "RuleCall",
+          "rule": {
+            "$ref": "#/rules@4"
+          },
+          "arguments": []
+        },
+        "cardinality": "*"
+      },
+      "definesHiddenTokens": false,
+      "fragment": false,
+      "hiddenTokens": [],
+      "parameters": [],
+      "wildcard": false
+    },
+    {
+      "$type": "ParserRule",
+      "name": "Fonction",
+      "returnType": {
+        "$ref": "#/interfaces@1"
+      },
+      "definition": {
+        "$type": "Group",
+        "elements": [
+          {
+            "$type": "Keyword",
+            "value": "let"
+          },
+          {
+            "$type": "Assignment",
+            "feature": "returntype",
+            "operator": "=",
+            "terminal": {
+              "$type": "RuleCall",
+              "rule": {
+                "$ref": "#/rules@5"
+              },
+              "arguments": []
+            }
+          },
+          {
+            "$type": "Assignment",
+            "feature": "name",
+            "operator": "=",
+            "terminal": {
+              "$type": "RuleCall",
+              "rule": {
+                "$ref": "#/rules@56"
+              },
+              "arguments": []
+            }
+          },
+          {
+            "$type": "Keyword",
+            "value": "("
+          },
+          {
+            "$type": "Group",
+            "elements": [
+              {
+                "$type": "Assignment",
+                "feature": "parameter",
+                "operator": "+=",
+                "terminal": {
+                  "$type": "RuleCall",
+                  "rule": {
+                    "$ref": "#/rules@20"
+                  },
+                  "arguments": []
+                }
+              },
+              {
+                "$type": "Group",
+                "elements": [
+                  {
+                    "$type": "Keyword",
+                    "value": ","
+                  },
+                  {
+                    "$type": "Assignment",
+                    "feature": "parameter",
+                    "operator": "+=",
+                    "terminal": {
+                      "$type": "RuleCall",
+                      "rule": {
+                        "$ref": "#/rules@20"
+                      },
+                      "arguments": []
+                    }
+                  }
+                ],
+                "cardinality": "*"
+              }
+            ],
+            "cardinality": "?"
+          },
+          {
+            "$type": "Keyword",
+            "value": ")"
+          },
+          {
+            "$type": "RuleCall",
+            "rule": {
+              "$ref": "#/rules@0"
+            },
+            "arguments": []
+          }
+        ]
+      },
+      "definesHiddenTokens": false,
+      "entry": false,
+      "fragment": false,
+      "hiddenTokens": [],
+      "parameters": [],
+      "wildcard": false
+    },
+    {
+      "$type": "ParserRule",
+      "name": "ReturnType",
+      "returnType": {
+        "$ref": "#/interfaces@2"
+      },
+      "definition": {
+        "$type": "Alternatives",
+        "elements": [
+          {
+            "$type": "Assignment",
+            "feature": "type",
+            "operator": "=",
+            "terminal": {
+              "$type": "RuleCall",
+              "rule": {
+                "$ref": "#/rules@53"
+              },
+              "arguments": []
+            }
+          },
+          {
+            "$type": "Keyword",
+            "value": "void"
+          }
+        ]
+      },
+      "definesHiddenTokens": false,
+      "entry": false,
+      "fragment": false,
+      "hiddenTokens": [],
+      "parameters": [],
+      "wildcard": false
+    },
+    {
+      "$type": "ParserRule",
+      "name": "Statement",
+      "returnType": {
+        "$ref": "#/interfaces@3"
+      },
+      "definition": {
+        "$type": "Alternatives",
+        "elements": [
+          {
+            "$type": "RuleCall",
+            "rule": {
+              "$ref": "#/rules@7"
+            },
+            "arguments": []
+          },
+          {
+            "$type": "RuleCall",
+            "rule": {
+              "$ref": "#/rules@10"
+            },
+            "arguments": []
+          },
+          {
+            "$type": "RuleCall",
+            "rule": {
+              "$ref": "#/rules@19"
+            },
+            "arguments": []
+          },
+          {
+            "$type": "RuleCall",
+            "rule": {
+              "$ref": "#/rules@22"
+            },
+            "arguments": []
+          },
+          {
+            "$type": "RuleCall",
+            "rule": {
+              "$ref": "#/rules@23"
+            },
+            "arguments": []
+          },
+          {
+            "$type": "RuleCall",
+            "rule": {
+              "$ref": "#/rules@24"
+            },
+            "arguments": []
+          }
+        ]
+      },
+      "definesHiddenTokens": false,
+      "entry": false,
+      "fragment": false,
+      "hiddenTokens": [],
+      "parameters": [],
+      "wildcard": false
+    },
+    {
+      "$type": "ParserRule",
+      "name": "ControlStructure",
+      "returnType": {
+        "$ref": "#/interfaces@4"
+      },
+      "definition": {
+        "$type": "Alternatives",
+        "elements": [
+          {
+            "$type": "RuleCall",
+            "rule": {
+              "$ref": "#/rules@8"
+            },
+            "arguments": []
+          },
+          {
+            "$type": "RuleCall",
+            "rule": {
+              "$ref": "#/rules@9"
+            },
+            "arguments": []
+          }
+        ]
+      },
+      "definesHiddenTokens": false,
+      "entry": false,
+      "fragment": false,
+      "hiddenTokens": [],
+      "parameters": [],
+      "wildcard": false
+    },
+    {
+      "$type": "ParserRule",
+      "name": "If",
+      "returnType": {
+        "$ref": "#/interfaces@5"
+      },
+      "definition": {
+        "$type": "Group",
+        "elements": [
+          {
+            "$type": "Keyword",
+            "value": "if"
+          },
+          {
+            "$type": "Assignment",
+            "feature": "condition",
+            "operator": "+=",
+            "terminal": {
+              "$type": "RuleCall",
+              "rule": {
+                "$ref": "#/rules@38"
+              },
+              "arguments": []
+            }
+          },
+          {
+            "$type": "Keyword",
+            "value": "then"
+          },
+          {
+            "$type": "RuleCall",
+            "rule": {
+              "$ref": "#/rules@1"
+            },
+            "arguments": []
+          },
+          {
+            "$type": "Group",
+            "elements": [
+              {
+                "$type": "Keyword",
+                "value": "else"
+              },
+              {
+                "$type": "RuleCall",
+                "rule": {
+                  "$ref": "#/rules@2"
+                },
+                "arguments": []
+              }
+            ],
+            "cardinality": "?"
+          }
+        ]
+      },
+      "definesHiddenTokens": false,
+      "entry": false,
+      "fragment": false,
+      "hiddenTokens": [],
+      "parameters": [],
+      "wildcard": false
+    },
+    {
+      "$type": "ParserRule",
       "name": "Loop",
       "returnType": {
-        "$ref": "#/interfaces@15"
+        "$ref": "#/interfaces@6"
       },
       "definition": {
         "$type": "Group",
@@ -832,7 +456,7 @@ export const MyRobotGrammar = (): Grammar => loadedMyRobotGrammar ?? (loadedMyRo
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@28"
+                "$ref": "#/rules@38"
               },
               "arguments": []
             }
@@ -840,7 +464,85 @@ export const MyRobotGrammar = (): Grammar => loadedMyRobotGrammar ?? (loadedMyRo
           {
             "$type": "RuleCall",
             "rule": {
+              "$ref": "#/rules@0"
+            },
+            "arguments": []
+          }
+        ]
+      },
+      "definesHiddenTokens": false,
+      "entry": false,
+      "fragment": false,
+      "hiddenTokens": [],
+      "parameters": [],
+      "wildcard": false
+    },
+    {
+      "$type": "ParserRule",
+      "name": "ControlRobot",
+      "returnType": {
+        "$ref": "#/interfaces@7"
+      },
+      "definition": {
+        "$type": "Alternatives",
+        "elements": [
+          {
+            "$type": "RuleCall",
+            "rule": {
               "$ref": "#/rules@11"
+            },
+            "arguments": []
+          },
+          {
+            "$type": "RuleCall",
+            "rule": {
+              "$ref": "#/rules@16"
+            },
+            "arguments": []
+          }
+        ]
+      },
+      "definesHiddenTokens": false,
+      "entry": false,
+      "fragment": false,
+      "hiddenTokens": [],
+      "parameters": [],
+      "wildcard": false
+    },
+    {
+      "$type": "ParserRule",
+      "name": "Movement",
+      "returnType": {
+        "$ref": "#/interfaces@8"
+      },
+      "definition": {
+        "$type": "Alternatives",
+        "elements": [
+          {
+            "$type": "RuleCall",
+            "rule": {
+              "$ref": "#/rules@12"
+            },
+            "arguments": []
+          },
+          {
+            "$type": "RuleCall",
+            "rule": {
+              "$ref": "#/rules@13"
+            },
+            "arguments": []
+          },
+          {
+            "$type": "RuleCall",
+            "rule": {
+              "$ref": "#/rules@14"
+            },
+            "arguments": []
+          },
+          {
+            "$type": "RuleCall",
+            "rule": {
+              "$ref": "#/rules@15"
             },
             "arguments": []
           }
@@ -857,7 +559,7 @@ export const MyRobotGrammar = (): Grammar => loadedMyRobotGrammar ?? (loadedMyRo
       "$type": "ParserRule",
       "name": "Backward",
       "returnType": {
-        "$ref": "#/interfaces@16"
+        "$ref": "#/interfaces@9"
       },
       "definition": {
         "$type": "Group",
@@ -873,7 +575,7 @@ export const MyRobotGrammar = (): Grammar => loadedMyRobotGrammar ?? (loadedMyRo
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@2"
+                "$ref": "#/rules@27"
               },
               "arguments": []
             }
@@ -889,7 +591,7 @@ export const MyRobotGrammar = (): Grammar => loadedMyRobotGrammar ?? (loadedMyRo
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@47"
+                "$ref": "#/rules@49"
               },
               "arguments": []
             }
@@ -907,7 +609,7 @@ export const MyRobotGrammar = (): Grammar => loadedMyRobotGrammar ?? (loadedMyRo
       "$type": "ParserRule",
       "name": "Forward",
       "returnType": {
-        "$ref": "#/interfaces@19"
+        "$ref": "#/interfaces@10"
       },
       "definition": {
         "$type": "Group",
@@ -923,7 +625,7 @@ export const MyRobotGrammar = (): Grammar => loadedMyRobotGrammar ?? (loadedMyRo
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@2"
+                "$ref": "#/rules@27"
               },
               "arguments": []
             }
@@ -939,7 +641,7 @@ export const MyRobotGrammar = (): Grammar => loadedMyRobotGrammar ?? (loadedMyRo
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@47"
+                "$ref": "#/rules@49"
               },
               "arguments": []
             }
@@ -957,7 +659,7 @@ export const MyRobotGrammar = (): Grammar => loadedMyRobotGrammar ?? (loadedMyRo
       "$type": "ParserRule",
       "name": "Left",
       "returnType": {
-        "$ref": "#/interfaces@20"
+        "$ref": "#/interfaces@11"
       },
       "definition": {
         "$type": "Group",
@@ -973,7 +675,7 @@ export const MyRobotGrammar = (): Grammar => loadedMyRobotGrammar ?? (loadedMyRo
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@2"
+                "$ref": "#/rules@27"
               },
               "arguments": []
             }
@@ -989,7 +691,7 @@ export const MyRobotGrammar = (): Grammar => loadedMyRobotGrammar ?? (loadedMyRo
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@47"
+                "$ref": "#/rules@49"
               },
               "arguments": []
             }
@@ -1007,7 +709,7 @@ export const MyRobotGrammar = (): Grammar => loadedMyRobotGrammar ?? (loadedMyRo
       "$type": "ParserRule",
       "name": "Right",
       "returnType": {
-        "$ref": "#/interfaces@21"
+        "$ref": "#/interfaces@12"
       },
       "definition": {
         "$type": "Group",
@@ -1023,7 +725,7 @@ export const MyRobotGrammar = (): Grammar => loadedMyRobotGrammar ?? (loadedMyRo
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@2"
+                "$ref": "#/rules@27"
               },
               "arguments": []
             }
@@ -1039,7 +741,181 @@ export const MyRobotGrammar = (): Grammar => loadedMyRobotGrammar ?? (loadedMyRo
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@47"
+                "$ref": "#/rules@49"
+              },
+              "arguments": []
+            }
+          }
+        ]
+      },
+      "definesHiddenTokens": false,
+      "entry": false,
+      "fragment": false,
+      "hiddenTokens": [],
+      "parameters": [],
+      "wildcard": false
+    },
+    {
+      "$type": "ParserRule",
+      "name": "Rotate",
+      "returnType": {
+        "$ref": "#/interfaces@13"
+      },
+      "definition": {
+        "$type": "Alternatives",
+        "elements": [
+          {
+            "$type": "RuleCall",
+            "rule": {
+              "$ref": "#/rules@18"
+            },
+            "arguments": []
+          },
+          {
+            "$type": "RuleCall",
+            "rule": {
+              "$ref": "#/rules@17"
+            },
+            "arguments": []
+          }
+        ]
+      },
+      "definesHiddenTokens": false,
+      "entry": false,
+      "fragment": false,
+      "hiddenTokens": [],
+      "parameters": [],
+      "wildcard": false
+    },
+    {
+      "$type": "ParserRule",
+      "name": "Clock",
+      "returnType": {
+        "$ref": "#/interfaces@14"
+      },
+      "definition": {
+        "$type": "Group",
+        "elements": [
+          {
+            "$type": "Keyword",
+            "value": "Clock"
+          },
+          {
+            "$type": "Assignment",
+            "feature": "angle",
+            "operator": "=",
+            "terminal": {
+              "$type": "RuleCall",
+              "rule": {
+                "$ref": "#/rules@27"
+              },
+              "arguments": []
+            }
+          }
+        ]
+      },
+      "definesHiddenTokens": false,
+      "entry": false,
+      "fragment": false,
+      "hiddenTokens": [],
+      "parameters": [],
+      "wildcard": false
+    },
+    {
+      "$type": "ParserRule",
+      "name": "ClockLeft",
+      "returnType": {
+        "$ref": "#/interfaces@15"
+      },
+      "definition": {
+        "$type": "Group",
+        "elements": [
+          {
+            "$type": "Keyword",
+            "value": "ClockLeft"
+          },
+          {
+            "$type": "Assignment",
+            "feature": "angle",
+            "operator": "=",
+            "terminal": {
+              "$type": "RuleCall",
+              "rule": {
+                "$ref": "#/rules@27"
+              },
+              "arguments": []
+            }
+          }
+        ]
+      },
+      "definesHiddenTokens": false,
+      "entry": false,
+      "fragment": false,
+      "hiddenTokens": [],
+      "parameters": [],
+      "wildcard": false
+    },
+    {
+      "$type": "ParserRule",
+      "name": "Entity",
+      "returnType": {
+        "$ref": "#/interfaces@16"
+      },
+      "definition": {
+        "$type": "Alternatives",
+        "elements": [
+          {
+            "$type": "RuleCall",
+            "rule": {
+              "$ref": "#/rules@21"
+            },
+            "arguments": []
+          },
+          {
+            "$type": "RuleCall",
+            "rule": {
+              "$ref": "#/rules@20"
+            },
+            "arguments": []
+          }
+        ]
+      },
+      "definesHiddenTokens": false,
+      "entry": false,
+      "fragment": false,
+      "hiddenTokens": [],
+      "parameters": [],
+      "wildcard": false
+    },
+    {
+      "$type": "ParserRule",
+      "name": "Parameter",
+      "returnType": {
+        "$ref": "#/interfaces@17"
+      },
+      "definition": {
+        "$type": "Group",
+        "elements": [
+          {
+            "$type": "Assignment",
+            "feature": "type",
+            "operator": "=",
+            "terminal": {
+              "$type": "RuleCall",
+              "rule": {
+                "$ref": "#/rules@53"
+              },
+              "arguments": []
+            }
+          },
+          {
+            "$type": "Assignment",
+            "feature": "name",
+            "operator": "=",
+            "terminal": {
+              "$type": "RuleCall",
+              "rule": {
+                "$ref": "#/rules@56"
               },
               "arguments": []
             }
@@ -1057,7 +933,7 @@ export const MyRobotGrammar = (): Grammar => loadedMyRobotGrammar ?? (loadedMyRo
       "$type": "ParserRule",
       "name": "VariableStatement",
       "returnType": {
-        "$ref": "#/interfaces@22"
+        "$ref": "#/interfaces@18"
       },
       "definition": {
         "$type": "Group",
@@ -1076,14 +952,14 @@ export const MyRobotGrammar = (): Grammar => loadedMyRobotGrammar ?? (loadedMyRo
                 {
                   "$type": "RuleCall",
                   "rule": {
-                    "$ref": "#/rules@51"
+                    "$ref": "#/rules@53"
                   },
                   "arguments": []
                 },
                 {
                   "$type": "RuleCall",
                   "rule": {
-                    "$ref": "#/rules@47"
+                    "$ref": "#/rules@49"
                   },
                   "arguments": []
                 }
@@ -1097,7 +973,7 @@ export const MyRobotGrammar = (): Grammar => loadedMyRobotGrammar ?? (loadedMyRo
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@54"
+                "$ref": "#/rules@56"
               },
               "arguments": []
             }
@@ -1111,11 +987,23 @@ export const MyRobotGrammar = (): Grammar => loadedMyRobotGrammar ?? (loadedMyRo
             "feature": "value",
             "operator": "=",
             "terminal": {
-              "$type": "RuleCall",
-              "rule": {
-                "$ref": "#/rules@2"
-              },
-              "arguments": []
+              "$type": "Alternatives",
+              "elements": [
+                {
+                  "$type": "RuleCall",
+                  "rule": {
+                    "$ref": "#/rules@27"
+                  },
+                  "arguments": []
+                },
+                {
+                  "$type": "RuleCall",
+                  "rule": {
+                    "$ref": "#/rules@26"
+                  },
+                  "arguments": []
+                }
+              ]
             }
           }
         ]
@@ -1131,7 +1019,7 @@ export const MyRobotGrammar = (): Grammar => loadedMyRobotGrammar ?? (loadedMyRo
       "$type": "ParserRule",
       "name": "VariableAssignation",
       "returnType": {
-        "$ref": "#/interfaces@23"
+        "$ref": "#/interfaces@19"
       },
       "definition": {
         "$type": "Group",
@@ -1143,12 +1031,12 @@ export const MyRobotGrammar = (): Grammar => loadedMyRobotGrammar ?? (loadedMyRo
             "terminal": {
               "$type": "CrossReference",
               "type": {
-                "$ref": "#/interfaces@22"
+                "$ref": "#/interfaces@18"
               },
               "terminal": {
                 "$type": "RuleCall",
                 "rule": {
-                  "$ref": "#/rules@9"
+                  "$ref": "#/rules@48"
                 },
                 "arguments": []
               },
@@ -1164,11 +1052,23 @@ export const MyRobotGrammar = (): Grammar => loadedMyRobotGrammar ?? (loadedMyRo
             "feature": "value",
             "operator": "=",
             "terminal": {
-              "$type": "RuleCall",
-              "rule": {
-                "$ref": "#/rules@2"
-              },
-              "arguments": []
+              "$type": "Alternatives",
+              "elements": [
+                {
+                  "$type": "RuleCall",
+                  "rule": {
+                    "$ref": "#/rules@27"
+                  },
+                  "arguments": []
+                },
+                {
+                  "$type": "RuleCall",
+                  "rule": {
+                    "$ref": "#/rules@26"
+                  },
+                  "arguments": []
+                }
+              ]
             }
           }
         ]
@@ -1184,7 +1084,7 @@ export const MyRobotGrammar = (): Grammar => loadedMyRobotGrammar ?? (loadedMyRo
       "$type": "ParserRule",
       "name": "SetSpeed",
       "returnType": {
-        "$ref": "#/interfaces@24"
+        "$ref": "#/interfaces@20"
       },
       "definition": {
         "$type": "Group",
@@ -1204,7 +1104,7 @@ export const MyRobotGrammar = (): Grammar => loadedMyRobotGrammar ?? (loadedMyRo
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@2"
+                "$ref": "#/rules@27"
               },
               "arguments": []
             }
@@ -1221,7 +1121,7 @@ export const MyRobotGrammar = (): Grammar => loadedMyRobotGrammar ?? (loadedMyRo
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@47"
+                "$ref": "#/rules@49"
               },
               "arguments": []
             }
@@ -1241,77 +1141,9 @@ export const MyRobotGrammar = (): Grammar => loadedMyRobotGrammar ?? (loadedMyRo
     },
     {
       "$type": "ParserRule",
-      "name": "ClockLeft",
-      "returnType": {
-        "$ref": "#/interfaces@25"
-      },
-      "definition": {
-        "$type": "Group",
-        "elements": [
-          {
-            "$type": "Keyword",
-            "value": "ClockLeft"
-          },
-          {
-            "$type": "Assignment",
-            "feature": "angle",
-            "operator": "=",
-            "terminal": {
-              "$type": "RuleCall",
-              "rule": {
-                "$ref": "#/rules@2"
-              },
-              "arguments": []
-            }
-          }
-        ]
-      },
-      "definesHiddenTokens": false,
-      "entry": false,
-      "fragment": false,
-      "hiddenTokens": [],
-      "parameters": [],
-      "wildcard": false
-    },
-    {
-      "$type": "ParserRule",
-      "name": "Clock",
-      "returnType": {
-        "$ref": "#/interfaces@27"
-      },
-      "definition": {
-        "$type": "Group",
-        "elements": [
-          {
-            "$type": "Keyword",
-            "value": "Clock"
-          },
-          {
-            "$type": "Assignment",
-            "feature": "angle",
-            "operator": "=",
-            "terminal": {
-              "$type": "RuleCall",
-              "rule": {
-                "$ref": "#/rules@2"
-              },
-              "arguments": []
-            }
-          }
-        ]
-      },
-      "definesHiddenTokens": false,
-      "entry": false,
-      "fragment": false,
-      "hiddenTokens": [],
-      "parameters": [],
-      "wildcard": false
-    },
-    {
-      "$type": "ParserRule",
       "name": "CallFunction",
       "returnType": {
-        "$ref": "#/interfaces@28"
+        "$ref": "#/interfaces@21"
       },
       "definition": {
         "$type": "Group",
@@ -1328,7 +1160,7 @@ export const MyRobotGrammar = (): Grammar => loadedMyRobotGrammar ?? (loadedMyRo
               "terminal": {
                 "$type": "RuleCall",
                 "rule": {
-                  "$ref": "#/rules@9"
+                  "$ref": "#/rules@48"
                 },
                 "arguments": []
               },
@@ -1349,7 +1181,7 @@ export const MyRobotGrammar = (): Grammar => loadedMyRobotGrammar ?? (loadedMyRo
                 "terminal": {
                   "$type": "RuleCall",
                   "rule": {
-                    "$ref": "#/rules@2"
+                    "$ref": "#/rules@25"
                   },
                   "arguments": []
                 }
@@ -1368,7 +1200,7 @@ export const MyRobotGrammar = (): Grammar => loadedMyRobotGrammar ?? (loadedMyRo
                     "terminal": {
                       "$type": "RuleCall",
                       "rule": {
-                        "$ref": "#/rules@2"
+                        "$ref": "#/rules@25"
                       },
                       "arguments": []
                     }
@@ -1394,9 +1226,55 @@ export const MyRobotGrammar = (): Grammar => loadedMyRobotGrammar ?? (loadedMyRo
     },
     {
       "$type": "ParserRule",
-      "name": "BooleanExpression",
+      "name": "Expression",
       "returnType": {
-        "$ref": "#/interfaces@14"
+        "$ref": "#/interfaces@22"
+      },
+      "definition": {
+        "$type": "Alternatives",
+        "elements": [
+          {
+            "$type": "RuleCall",
+            "rule": {
+              "$ref": "#/rules@26"
+            },
+            "arguments": []
+          },
+          {
+            "$type": "RuleCall",
+            "rule": {
+              "$ref": "#/rules@27"
+            },
+            "arguments": []
+          },
+          {
+            "$type": "RuleCall",
+            "rule": {
+              "$ref": "#/rules@32"
+            },
+            "arguments": []
+          },
+          {
+            "$type": "RuleCall",
+            "rule": {
+              "$ref": "#/rules@38"
+            },
+            "arguments": []
+          }
+        ]
+      },
+      "definesHiddenTokens": false,
+      "entry": false,
+      "fragment": false,
+      "hiddenTokens": [],
+      "parameters": [],
+      "wildcard": false
+    },
+    {
+      "$type": "ParserRule",
+      "name": "UnaryBooleanExpression",
+      "returnType": {
+        "$ref": "#/interfaces@23"
       },
       "definition": {
         "$type": "Alternatives",
@@ -1405,71 +1283,20 @@ export const MyRobotGrammar = (): Grammar => loadedMyRobotGrammar ?? (loadedMyRo
             "$type": "Group",
             "elements": [
               {
-                "$type": "Assignment",
-                "feature": "leftCondition",
-                "operator": "=",
-                "terminal": {
-                  "$type": "RuleCall",
-                  "rule": {
-                    "$ref": "#/rules@2"
-                  },
-                  "arguments": []
+                "$type": "Action",
+                "type": {
+                  "$ref": "#/interfaces@23"
                 }
               },
               {
-                "$type": "Assignment",
-                "feature": "operator",
-                "operator": "=",
-                "terminal": {
-                  "$type": "RuleCall",
-                  "rule": {
-                    "$ref": "#/rules@3"
-                  },
-                  "arguments": []
-                }
-              },
-              {
-                "$type": "Assignment",
-                "feature": "rightCondition",
-                "operator": "=",
-                "terminal": {
-                  "$type": "RuleCall",
-                  "rule": {
-                    "$ref": "#/rules@2"
-                  },
-                  "arguments": []
-                }
+                "$type": "Keyword",
+                "value": "True"
               }
             ]
           },
           {
-            "$type": "Group",
-            "elements": [
-              {
-                "$type": "Assignment",
-                "feature": "operator",
-                "operator": "=",
-                "terminal": {
-                  "$type": "RuleCall",
-                  "rule": {
-                    "$ref": "#/rules@32"
-                  },
-                  "arguments": []
-                }
-              },
-              {
-                "$type": "Assignment",
-                "feature": "rightCondition",
-                "operator": "=",
-                "terminal": {
-                  "$type": "RuleCall",
-                  "rule": {
-                    "$ref": "#/rules@2"
-                  },
-                  "arguments": []
-                }
-              }
-            ]
+            "$type": "Keyword",
+            "value": "False"
           }
         ]
       },
@@ -1482,218 +1309,40 @@ export const MyRobotGrammar = (): Grammar => loadedMyRobotGrammar ?? (loadedMyRo
     },
     {
       "$type": "ParserRule",
-      "name": "LowerThan",
+      "name": "UnaryArithmeticExpression",
       "returnType": {
-        "$ref": "#/interfaces@29"
+        "$ref": "#/interfaces@24"
       },
       "definition": {
-        "$type": "Group",
+        "$type": "Alternatives",
         "elements": [
           {
-            "$type": "Action",
-            "type": {
-              "$ref": "#/interfaces@29"
-            }
+            "$type": "RuleCall",
+            "rule": {
+              "$ref": "#/rules@28"
+            },
+            "arguments": []
           },
           {
-            "$type": "Keyword",
-            "value": "<"
-          }
-        ]
-      },
-      "definesHiddenTokens": false,
-      "entry": false,
-      "fragment": false,
-      "hiddenTokens": [],
-      "parameters": [],
-      "wildcard": false
-    },
-    {
-      "$type": "ParserRule",
-      "name": "EqualTo",
-      "returnType": {
-        "$ref": "#/interfaces@30"
-      },
-      "definition": {
-        "$type": "Group",
-        "elements": [
-          {
-            "$type": "Action",
-            "type": {
-              "$ref": "#/interfaces@30"
-            }
+            "$type": "RuleCall",
+            "rule": {
+              "$ref": "#/rules@29"
+            },
+            "arguments": []
           },
           {
-            "$type": "Keyword",
-            "value": "=="
-          }
-        ]
-      },
-      "definesHiddenTokens": false,
-      "entry": false,
-      "fragment": false,
-      "hiddenTokens": [],
-      "parameters": [],
-      "wildcard": false
-    },
-    {
-      "$type": "ParserRule",
-      "name": "UpperThan",
-      "returnType": {
-        "$ref": "#/interfaces@31"
-      },
-      "definition": {
-        "$type": "Group",
-        "elements": [
-          {
-            "$type": "Action",
-            "type": {
-              "$ref": "#/interfaces@31"
-            }
+            "$type": "RuleCall",
+            "rule": {
+              "$ref": "#/rules@30"
+            },
+            "arguments": []
           },
           {
-            "$type": "Keyword",
-            "value": ">"
-          }
-        ]
-      },
-      "definesHiddenTokens": false,
-      "entry": false,
-      "fragment": false,
-      "hiddenTokens": [],
-      "parameters": [],
-      "wildcard": false
-    },
-    {
-      "$type": "ParserRule",
-      "name": "Not",
-      "returnType": {
-        "$ref": "#/interfaces@32"
-      },
-      "definition": {
-        "$type": "Group",
-        "elements": [
-          {
-            "$type": "Action",
-            "type": {
-              "$ref": "#/interfaces@32"
-            }
-          },
-          {
-            "$type": "Keyword",
-            "value": "NOT"
-          }
-        ]
-      },
-      "definesHiddenTokens": false,
-      "entry": false,
-      "fragment": false,
-      "hiddenTokens": [],
-      "parameters": [],
-      "wildcard": false
-    },
-    {
-      "$type": "ParserRule",
-      "name": "Or",
-      "returnType": {
-        "$ref": "#/interfaces@33"
-      },
-      "definition": {
-        "$type": "Group",
-        "elements": [
-          {
-            "$type": "Action",
-            "type": {
-              "$ref": "#/interfaces@33"
-            }
-          },
-          {
-            "$type": "Keyword",
-            "value": "OR"
-          }
-        ]
-      },
-      "definesHiddenTokens": false,
-      "entry": false,
-      "fragment": false,
-      "hiddenTokens": [],
-      "parameters": [],
-      "wildcard": false
-    },
-    {
-      "$type": "ParserRule",
-      "name": "And",
-      "returnType": {
-        "$ref": "#/interfaces@36"
-      },
-      "definition": {
-        "$type": "Group",
-        "elements": [
-          {
-            "$type": "Action",
-            "type": {
-              "$ref": "#/interfaces@36"
-            }
-          },
-          {
-            "$type": "Keyword",
-            "value": "AND"
-          }
-        ]
-      },
-      "definesHiddenTokens": false,
-      "entry": false,
-      "fragment": false,
-      "hiddenTokens": [],
-      "parameters": [],
-      "wildcard": false
-    },
-    {
-      "$type": "ParserRule",
-      "name": "LowerOrEqualTo",
-      "returnType": {
-        "$ref": "#/interfaces@34"
-      },
-      "definition": {
-        "$type": "Group",
-        "elements": [
-          {
-            "$type": "Action",
-            "type": {
-              "$ref": "#/interfaces@34"
-            }
-          },
-          {
-            "$type": "Keyword",
-            "value": "<="
-          }
-        ]
-      },
-      "definesHiddenTokens": false,
-      "entry": false,
-      "fragment": false,
-      "hiddenTokens": [],
-      "parameters": [],
-      "wildcard": false
-    },
-    {
-      "$type": "ParserRule",
-      "name": "UpperOrEqualTo",
-      "returnType": {
-        "$ref": "#/interfaces@35"
-      },
-      "definition": {
-        "$type": "Group",
-        "elements": [
-          {
-            "$type": "Action",
-            "type": {
-              "$ref": "#/interfaces@35"
-            }
-          },
-          {
-            "$type": "Keyword",
-            "value": ">="
+            "$type": "RuleCall",
+            "rule": {
+              "$ref": "#/rules@31"
+            },
+            "arguments": []
           }
         ]
       },
@@ -1708,7 +1357,7 @@ export const MyRobotGrammar = (): Grammar => loadedMyRobotGrammar ?? (loadedMyRo
       "$type": "ParserRule",
       "name": "CallFunctionExpr",
       "returnType": {
-        "$ref": "#/interfaces@37"
+        "$ref": "#/interfaces@25"
       },
       "definition": {
         "$type": "Group",
@@ -1725,7 +1374,7 @@ export const MyRobotGrammar = (): Grammar => loadedMyRobotGrammar ?? (loadedMyRo
               "terminal": {
                 "$type": "RuleCall",
                 "rule": {
-                  "$ref": "#/rules@9"
+                  "$ref": "#/rules@48"
                 },
                 "arguments": []
               },
@@ -1746,7 +1395,7 @@ export const MyRobotGrammar = (): Grammar => loadedMyRobotGrammar ?? (loadedMyRo
                 "terminal": {
                   "$type": "RuleCall",
                   "rule": {
-                    "$ref": "#/rules@2"
+                    "$ref": "#/rules@25"
                   },
                   "arguments": []
                 }
@@ -1765,7 +1414,7 @@ export const MyRobotGrammar = (): Grammar => loadedMyRobotGrammar ?? (loadedMyRo
                     "terminal": {
                       "$type": "RuleCall",
                       "rule": {
-                        "$ref": "#/rules@2"
+                        "$ref": "#/rules@25"
                       },
                       "arguments": []
                     }
@@ -1793,7 +1442,7 @@ export const MyRobotGrammar = (): Grammar => loadedMyRobotGrammar ?? (loadedMyRo
       "$type": "ParserRule",
       "name": "CallEntity",
       "returnType": {
-        "$ref": "#/interfaces@38"
+        "$ref": "#/interfaces@26"
       },
       "definition": {
         "$type": "Assignment",
@@ -1802,12 +1451,12 @@ export const MyRobotGrammar = (): Grammar => loadedMyRobotGrammar ?? (loadedMyRo
         "terminal": {
           "$type": "CrossReference",
           "type": {
-            "$ref": "#/interfaces@5"
+            "$ref": "#/interfaces@16"
           },
           "terminal": {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@9"
+              "$ref": "#/rules@48"
             },
             "arguments": []
           },
@@ -1825,7 +1474,7 @@ export const MyRobotGrammar = (): Grammar => loadedMyRobotGrammar ?? (loadedMyRo
       "$type": "ParserRule",
       "name": "GetSensor",
       "returnType": {
-        "$ref": "#/interfaces@39"
+        "$ref": "#/interfaces@27"
       },
       "definition": {
         "$type": "Alternatives",
@@ -1836,7 +1485,7 @@ export const MyRobotGrammar = (): Grammar => loadedMyRobotGrammar ?? (loadedMyRo
               {
                 "$type": "Action",
                 "type": {
-                  "$ref": "#/interfaces@39"
+                  "$ref": "#/interfaces@27"
                 }
               },
               {
@@ -1864,129 +1513,9 @@ export const MyRobotGrammar = (): Grammar => loadedMyRobotGrammar ?? (loadedMyRo
     },
     {
       "$type": "ParserRule",
-      "name": "AddSubExpression",
-      "returnType": {
-        "$ref": "#/interfaces@40"
-      },
-      "definition": {
-        "$type": "Group",
-        "elements": [
-          {
-            "$type": "Assignment",
-            "feature": "leftOperand",
-            "operator": "=",
-            "terminal": {
-              "$type": "RuleCall",
-              "rule": {
-                "$ref": "#/rules@41"
-              },
-              "arguments": []
-            }
-          },
-          {
-            "$type": "Group",
-            "elements": [
-              {
-                "$type": "Assignment",
-                "feature": "operator",
-                "operator": "+=",
-                "terminal": {
-                  "$type": "RuleCall",
-                  "rule": {
-                    "$ref": "#/rules@7"
-                  },
-                  "arguments": []
-                }
-              },
-              {
-                "$type": "Assignment",
-                "feature": "rightOperand",
-                "operator": "+=",
-                "terminal": {
-                  "$type": "RuleCall",
-                  "rule": {
-                    "$ref": "#/rules@41"
-                  },
-                  "arguments": []
-                }
-              }
-            ],
-            "cardinality": "*"
-          }
-        ]
-      },
-      "definesHiddenTokens": false,
-      "entry": false,
-      "fragment": false,
-      "hiddenTokens": [],
-      "parameters": [],
-      "wildcard": false
-    },
-    {
-      "$type": "ParserRule",
-      "name": "MultiDivExpression",
-      "returnType": {
-        "$ref": "#/interfaces@41"
-      },
-      "definition": {
-        "$type": "Group",
-        "elements": [
-          {
-            "$type": "Assignment",
-            "feature": "leftOperand",
-            "operator": "=",
-            "terminal": {
-              "$type": "RuleCall",
-              "rule": {
-                "$ref": "#/rules@5"
-              },
-              "arguments": []
-            }
-          },
-          {
-            "$type": "Group",
-            "elements": [
-              {
-                "$type": "Assignment",
-                "feature": "operator",
-                "operator": "+=",
-                "terminal": {
-                  "$type": "RuleCall",
-                  "rule": {
-                    "$ref": "#/rules@8"
-                  },
-                  "arguments": []
-                }
-              },
-              {
-                "$type": "Assignment",
-                "feature": "rightOperand",
-                "operator": "+=",
-                "terminal": {
-                  "$type": "RuleCall",
-                  "rule": {
-                    "$ref": "#/rules@5"
-                  },
-                  "arguments": []
-                }
-              }
-            ],
-            "cardinality": "*"
-          }
-        ]
-      },
-      "definesHiddenTokens": false,
-      "entry": false,
-      "fragment": false,
-      "hiddenTokens": [],
-      "parameters": [],
-      "wildcard": false
-    },
-    {
-      "$type": "ParserRule",
       "name": "Value",
       "returnType": {
-        "$ref": "#/interfaces@42"
+        "$ref": "#/interfaces@28"
       },
       "definition": {
         "$type": "Group",
@@ -1994,13 +1523,131 @@ export const MyRobotGrammar = (): Grammar => loadedMyRobotGrammar ?? (loadedMyRo
           {
             "$type": "Action",
             "type": {
-              "$ref": "#/interfaces@42"
+              "$ref": "#/interfaces@28"
             }
           },
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@55"
+              "$ref": "#/rules@57"
+            },
+            "arguments": []
+          }
+        ]
+      },
+      "definesHiddenTokens": false,
+      "entry": false,
+      "fragment": false,
+      "hiddenTokens": [],
+      "parameters": [],
+      "wildcard": false
+    },
+    {
+      "$type": "ParserRule",
+      "name": "ArithmeticExpression",
+      "returnType": {
+        "$ref": "#/interfaces@29"
+      },
+      "definition": {
+        "$type": "Group",
+        "elements": [
+          {
+            "$type": "Assignment",
+            "feature": "leftOperand",
+            "operator": "=",
+            "terminal": {
+              "$type": "RuleCall",
+              "rule": {
+                "$ref": "#/rules@27"
+              },
+              "arguments": []
+            }
+          },
+          {
+            "$type": "Group",
+            "elements": [
+              {
+                "$type": "Assignment",
+                "feature": "operator",
+                "operator": "=",
+                "terminal": {
+                  "$type": "RuleCall",
+                  "rule": {
+                    "$ref": "#/rules@33"
+                  },
+                  "arguments": []
+                }
+              },
+              {
+                "$type": "Assignment",
+                "feature": "rightOperand",
+                "operator": "=",
+                "terminal": {
+                  "$type": "Alternatives",
+                  "elements": [
+                    {
+                      "$type": "RuleCall",
+                      "rule": {
+                        "$ref": "#/rules@27"
+                      },
+                      "arguments": []
+                    },
+                    {
+                      "$type": "RuleCall",
+                      "rule": {
+                        "$ref": "#/rules@32"
+                      },
+                      "arguments": []
+                    }
+                  ]
+                }
+              }
+            ],
+            "cardinality": "*"
+          }
+        ]
+      },
+      "definesHiddenTokens": false,
+      "entry": false,
+      "fragment": false,
+      "hiddenTokens": [],
+      "parameters": [],
+      "wildcard": false
+    },
+    {
+      "$type": "ParserRule",
+      "name": "ArithmeticOperator",
+      "returnType": {
+        "$ref": "#/interfaces@30"
+      },
+      "definition": {
+        "$type": "Alternatives",
+        "elements": [
+          {
+            "$type": "RuleCall",
+            "rule": {
+              "$ref": "#/rules@34"
+            },
+            "arguments": []
+          },
+          {
+            "$type": "RuleCall",
+            "rule": {
+              "$ref": "#/rules@35"
+            },
+            "arguments": []
+          },
+          {
+            "$type": "RuleCall",
+            "rule": {
+              "$ref": "#/rules@36"
+            },
+            "arguments": []
+          },
+          {
+            "$type": "RuleCall",
+            "rule": {
+              "$ref": "#/rules@37"
             },
             "arguments": []
           }
@@ -2017,7 +1664,7 @@ export const MyRobotGrammar = (): Grammar => loadedMyRobotGrammar ?? (loadedMyRo
       "$type": "ParserRule",
       "name": "Add",
       "returnType": {
-        "$ref": "#/interfaces@43"
+        "$ref": "#/interfaces@31"
       },
       "definition": {
         "$type": "Group",
@@ -2025,7 +1672,7 @@ export const MyRobotGrammar = (): Grammar => loadedMyRobotGrammar ?? (loadedMyRo
           {
             "$type": "Action",
             "type": {
-              "$ref": "#/interfaces@43"
+              "$ref": "#/interfaces@31"
             }
           },
           {
@@ -2045,7 +1692,7 @@ export const MyRobotGrammar = (): Grammar => loadedMyRobotGrammar ?? (loadedMyRo
       "$type": "ParserRule",
       "name": "Sub",
       "returnType": {
-        "$ref": "#/interfaces@44"
+        "$ref": "#/interfaces@32"
       },
       "definition": {
         "$type": "Group",
@@ -2053,7 +1700,7 @@ export const MyRobotGrammar = (): Grammar => loadedMyRobotGrammar ?? (loadedMyRo
           {
             "$type": "Action",
             "type": {
-              "$ref": "#/interfaces@44"
+              "$ref": "#/interfaces@32"
             }
           },
           {
@@ -2073,7 +1720,7 @@ export const MyRobotGrammar = (): Grammar => loadedMyRobotGrammar ?? (loadedMyRo
       "$type": "ParserRule",
       "name": "Multiply",
       "returnType": {
-        "$ref": "#/interfaces@45"
+        "$ref": "#/interfaces@33"
       },
       "definition": {
         "$type": "Group",
@@ -2081,7 +1728,7 @@ export const MyRobotGrammar = (): Grammar => loadedMyRobotGrammar ?? (loadedMyRo
           {
             "$type": "Action",
             "type": {
-              "$ref": "#/interfaces@45"
+              "$ref": "#/interfaces@33"
             }
           },
           {
@@ -2101,7 +1748,7 @@ export const MyRobotGrammar = (): Grammar => loadedMyRobotGrammar ?? (loadedMyRo
       "$type": "ParserRule",
       "name": "Divise",
       "returnType": {
-        "$ref": "#/interfaces@46"
+        "$ref": "#/interfaces@34"
       },
       "definition": {
         "$type": "Group",
@@ -2109,12 +1756,428 @@ export const MyRobotGrammar = (): Grammar => loadedMyRobotGrammar ?? (loadedMyRo
           {
             "$type": "Action",
             "type": {
-              "$ref": "#/interfaces@46"
+              "$ref": "#/interfaces@34"
             }
           },
           {
             "$type": "Keyword",
             "value": "/"
+          }
+        ]
+      },
+      "definesHiddenTokens": false,
+      "entry": false,
+      "fragment": false,
+      "hiddenTokens": [],
+      "parameters": [],
+      "wildcard": false
+    },
+    {
+      "$type": "ParserRule",
+      "name": "BooleanExpression",
+      "returnType": {
+        "$ref": "#/interfaces@35"
+      },
+      "definition": {
+        "$type": "Alternatives",
+        "elements": [
+          {
+            "$type": "Group",
+            "elements": [
+              {
+                "$type": "Assignment",
+                "feature": "leftCondition",
+                "operator": "=",
+                "terminal": {
+                  "$type": "RuleCall",
+                  "rule": {
+                    "$ref": "#/rules@27"
+                  },
+                  "arguments": []
+                }
+              },
+              {
+                "$type": "Assignment",
+                "feature": "operator",
+                "operator": "=",
+                "terminal": {
+                  "$type": "RuleCall",
+                  "rule": {
+                    "$ref": "#/rules@39"
+                  },
+                  "arguments": []
+                }
+              },
+              {
+                "$type": "Assignment",
+                "feature": "rightCondition",
+                "operator": "=",
+                "terminal": {
+                  "$type": "RuleCall",
+                  "rule": {
+                    "$ref": "#/rules@27"
+                  },
+                  "arguments": []
+                }
+              }
+            ]
+          },
+          {
+            "$type": "Group",
+            "elements": [
+              {
+                "$type": "Assignment",
+                "feature": "operator",
+                "operator": "=",
+                "terminal": {
+                  "$type": "RuleCall",
+                  "rule": {
+                    "$ref": "#/rules@43"
+                  },
+                  "arguments": []
+                }
+              },
+              {
+                "$type": "Assignment",
+                "feature": "rightCondition",
+                "operator": "=",
+                "terminal": {
+                  "$type": "RuleCall",
+                  "rule": {
+                    "$ref": "#/rules@27"
+                  },
+                  "arguments": []
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "definesHiddenTokens": false,
+      "entry": false,
+      "fragment": false,
+      "hiddenTokens": [],
+      "parameters": [],
+      "wildcard": false
+    },
+    {
+      "$type": "ParserRule",
+      "name": "BooleanOperator",
+      "returnType": {
+        "$ref": "#/interfaces@36"
+      },
+      "definition": {
+        "$type": "Alternatives",
+        "elements": [
+          {
+            "$type": "RuleCall",
+            "rule": {
+              "$ref": "#/rules@40"
+            },
+            "arguments": []
+          },
+          {
+            "$type": "RuleCall",
+            "rule": {
+              "$ref": "#/rules@41"
+            },
+            "arguments": []
+          },
+          {
+            "$type": "RuleCall",
+            "rule": {
+              "$ref": "#/rules@42"
+            },
+            "arguments": []
+          },
+          {
+            "$type": "RuleCall",
+            "rule": {
+              "$ref": "#/rules@43"
+            },
+            "arguments": []
+          },
+          {
+            "$type": "RuleCall",
+            "rule": {
+              "$ref": "#/rules@44"
+            },
+            "arguments": []
+          },
+          {
+            "$type": "RuleCall",
+            "rule": {
+              "$ref": "#/rules@46"
+            },
+            "arguments": []
+          },
+          {
+            "$type": "RuleCall",
+            "rule": {
+              "$ref": "#/rules@47"
+            },
+            "arguments": []
+          },
+          {
+            "$type": "RuleCall",
+            "rule": {
+              "$ref": "#/rules@45"
+            },
+            "arguments": []
+          }
+        ]
+      },
+      "definesHiddenTokens": false,
+      "entry": false,
+      "fragment": false,
+      "hiddenTokens": [],
+      "parameters": [],
+      "wildcard": false
+    },
+    {
+      "$type": "ParserRule",
+      "name": "LowerThan",
+      "returnType": {
+        "$ref": "#/interfaces@37"
+      },
+      "definition": {
+        "$type": "Group",
+        "elements": [
+          {
+            "$type": "Action",
+            "type": {
+              "$ref": "#/interfaces@37"
+            }
+          },
+          {
+            "$type": "Keyword",
+            "value": "<"
+          }
+        ]
+      },
+      "definesHiddenTokens": false,
+      "entry": false,
+      "fragment": false,
+      "hiddenTokens": [],
+      "parameters": [],
+      "wildcard": false
+    },
+    {
+      "$type": "ParserRule",
+      "name": "EqualTo",
+      "returnType": {
+        "$ref": "#/interfaces@38"
+      },
+      "definition": {
+        "$type": "Group",
+        "elements": [
+          {
+            "$type": "Action",
+            "type": {
+              "$ref": "#/interfaces@38"
+            }
+          },
+          {
+            "$type": "Keyword",
+            "value": "=="
+          }
+        ]
+      },
+      "definesHiddenTokens": false,
+      "entry": false,
+      "fragment": false,
+      "hiddenTokens": [],
+      "parameters": [],
+      "wildcard": false
+    },
+    {
+      "$type": "ParserRule",
+      "name": "UpperThan",
+      "returnType": {
+        "$ref": "#/interfaces@39"
+      },
+      "definition": {
+        "$type": "Group",
+        "elements": [
+          {
+            "$type": "Action",
+            "type": {
+              "$ref": "#/interfaces@39"
+            }
+          },
+          {
+            "$type": "Keyword",
+            "value": ">"
+          }
+        ]
+      },
+      "definesHiddenTokens": false,
+      "entry": false,
+      "fragment": false,
+      "hiddenTokens": [],
+      "parameters": [],
+      "wildcard": false
+    },
+    {
+      "$type": "ParserRule",
+      "name": "Not",
+      "returnType": {
+        "$ref": "#/interfaces@40"
+      },
+      "definition": {
+        "$type": "Group",
+        "elements": [
+          {
+            "$type": "Action",
+            "type": {
+              "$ref": "#/interfaces@40"
+            }
+          },
+          {
+            "$type": "Keyword",
+            "value": "NOT"
+          }
+        ]
+      },
+      "definesHiddenTokens": false,
+      "entry": false,
+      "fragment": false,
+      "hiddenTokens": [],
+      "parameters": [],
+      "wildcard": false
+    },
+    {
+      "$type": "ParserRule",
+      "name": "Or",
+      "returnType": {
+        "$ref": "#/interfaces@41"
+      },
+      "definition": {
+        "$type": "Group",
+        "elements": [
+          {
+            "$type": "Action",
+            "type": {
+              "$ref": "#/interfaces@41"
+            }
+          },
+          {
+            "$type": "Keyword",
+            "value": "OR"
+          }
+        ]
+      },
+      "definesHiddenTokens": false,
+      "entry": false,
+      "fragment": false,
+      "hiddenTokens": [],
+      "parameters": [],
+      "wildcard": false
+    },
+    {
+      "$type": "ParserRule",
+      "name": "And",
+      "returnType": {
+        "$ref": "#/interfaces@42"
+      },
+      "definition": {
+        "$type": "Group",
+        "elements": [
+          {
+            "$type": "Action",
+            "type": {
+              "$ref": "#/interfaces@42"
+            }
+          },
+          {
+            "$type": "Keyword",
+            "value": "AND"
+          }
+        ]
+      },
+      "definesHiddenTokens": false,
+      "entry": false,
+      "fragment": false,
+      "hiddenTokens": [],
+      "parameters": [],
+      "wildcard": false
+    },
+    {
+      "$type": "ParserRule",
+      "name": "LowerOrEqualTo",
+      "returnType": {
+        "$ref": "#/interfaces@43"
+      },
+      "definition": {
+        "$type": "Group",
+        "elements": [
+          {
+            "$type": "Action",
+            "type": {
+              "$ref": "#/interfaces@43"
+            }
+          },
+          {
+            "$type": "Keyword",
+            "value": "<="
+          }
+        ]
+      },
+      "definesHiddenTokens": false,
+      "entry": false,
+      "fragment": false,
+      "hiddenTokens": [],
+      "parameters": [],
+      "wildcard": false
+    },
+    {
+      "$type": "ParserRule",
+      "name": "UpperOrEqualTo",
+      "returnType": {
+        "$ref": "#/interfaces@44"
+      },
+      "definition": {
+        "$type": "Group",
+        "elements": [
+          {
+            "$type": "Action",
+            "type": {
+              "$ref": "#/interfaces@44"
+            }
+          },
+          {
+            "$type": "Keyword",
+            "value": ">="
+          }
+        ]
+      },
+      "definesHiddenTokens": false,
+      "entry": false,
+      "fragment": false,
+      "hiddenTokens": [],
+      "parameters": [],
+      "wildcard": false
+    },
+    {
+      "$type": "ParserRule",
+      "name": "EString",
+      "dataType": "string",
+      "definition": {
+        "$type": "Alternatives",
+        "elements": [
+          {
+            "$type": "RuleCall",
+            "rule": {
+              "$ref": "#/rules@58"
+            },
+            "arguments": []
+          },
+          {
+            "$type": "RuleCall",
+            "rule": {
+              "$ref": "#/rules@56"
+            },
+            "arguments": []
           }
         ]
       },
@@ -2137,21 +2200,21 @@ export const MyRobotGrammar = (): Grammar => loadedMyRobotGrammar ?? (loadedMyRo
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@48"
-            },
-            "arguments": []
-          },
-          {
-            "$type": "RuleCall",
-            "rule": {
-              "$ref": "#/rules@49"
-            },
-            "arguments": []
-          },
-          {
-            "$type": "RuleCall",
-            "rule": {
               "$ref": "#/rules@50"
+            },
+            "arguments": []
+          },
+          {
+            "$type": "RuleCall",
+            "rule": {
+              "$ref": "#/rules@51"
+            },
+            "arguments": []
+          },
+          {
+            "$type": "RuleCall",
+            "rule": {
+              "$ref": "#/rules@52"
             },
             "arguments": []
           }
@@ -2227,14 +2290,14 @@ export const MyRobotGrammar = (): Grammar => loadedMyRobotGrammar ?? (loadedMyRo
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@52"
+              "$ref": "#/rules@54"
             },
             "arguments": []
           },
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@53"
+              "$ref": "#/rules@55"
             },
             "arguments": []
           }
@@ -2612,15 +2675,6 @@ export const MyRobotGrammar = (): Grammar => loadedMyRobotGrammar ?? (loadedMyRo
       "attributes": [
         {
           "$type": "TypeAttribute",
-          "name": "name",
-          "isOptional": true,
-          "type": {
-            "$type": "SimpleType",
-            "primitiveType": "string"
-          }
-        },
-        {
-          "$type": "TypeAttribute",
           "name": "function",
           "type": {
             "$type": "ArrayType",
@@ -2664,13 +2718,13 @@ export const MyRobotGrammar = (): Grammar => loadedMyRobotGrammar ?? (loadedMyRo
         },
         {
           "$type": "TypeAttribute",
-          "name": "body",
+          "name": "parameter",
           "type": {
             "$type": "ArrayType",
             "elementType": {
               "$type": "SimpleType",
               "typeRef": {
-                "$ref": "#/interfaces@3"
+                "$ref": "#/interfaces@17"
               }
             }
           },
@@ -2678,13 +2732,13 @@ export const MyRobotGrammar = (): Grammar => loadedMyRobotGrammar ?? (loadedMyRo
         },
         {
           "$type": "TypeAttribute",
-          "name": "parameter",
+          "name": "body",
           "type": {
             "$type": "ArrayType",
             "elementType": {
               "$type": "SimpleType",
               "typeRef": {
-                "$ref": "#/interfaces@4"
+                "$ref": "#/interfaces@3"
               }
             }
           },
@@ -2732,139 +2786,39 @@ export const MyRobotGrammar = (): Grammar => loadedMyRobotGrammar ?? (loadedMyRo
       "attributes": [
         {
           "$type": "TypeAttribute",
-          "name": "name",
+          "name": "condition",
           "type": {
-            "$type": "SimpleType",
-            "typeRef": {
-              "$ref": "#/types@7"
+            "$type": "ArrayType",
+            "elementType": {
+              "$type": "SimpleType",
+              "typeRef": {
+                "$ref": "#/interfaces@35"
+              }
             }
           },
           "isOptional": false
         },
         {
           "$type": "TypeAttribute",
-          "name": "type",
+          "name": "body",
           "type": {
-            "$type": "SimpleType",
-            "typeRef": {
-              "$ref": "#/types@0"
+            "$type": "ArrayType",
+            "elementType": {
+              "$type": "SimpleType",
+              "typeRef": {
+                "$ref": "#/interfaces@3"
+              }
             }
           },
           "isOptional": false
         }
       ],
-      "name": "Parameter",
-      "superTypes": [
-        {
-          "$ref": "#/interfaces@5"
-        }
-      ]
-    },
-    {
-      "$type": "Interface",
-      "attributes": [
-        {
-          "$type": "TypeAttribute",
-          "name": "value",
-          "isOptional": true,
-          "type": {
-            "$type": "SimpleType",
-            "typeRef": {
-              "$ref": "#/interfaces@6"
-            }
-          }
-        }
-      ],
-      "name": "Entity",
+      "name": "ControlStructure",
       "superTypes": [
         {
           "$ref": "#/interfaces@3"
         }
       ]
-    },
-    {
-      "$type": "Interface",
-      "name": "Expression",
-      "attributes": [],
-      "superTypes": []
-    },
-    {
-      "$type": "Interface",
-      "name": "BooleanOperator",
-      "attributes": [],
-      "superTypes": []
-    },
-    {
-      "$type": "Interface",
-      "name": "UnaryExpression",
-      "superTypes": [
-        {
-          "$ref": "#/interfaces@6"
-        }
-      ],
-      "attributes": []
-    },
-    {
-      "$type": "Interface",
-      "attributes": [
-        {
-          "$type": "TypeAttribute",
-          "name": "leftOperand",
-          "type": {
-            "$type": "SimpleType",
-            "typeRef": {
-              "$ref": "#/interfaces@41"
-            }
-          },
-          "isOptional": false
-        },
-        {
-          "$type": "TypeAttribute",
-          "name": "rightOperand",
-          "type": {
-            "$type": "ArrayType",
-            "elementType": {
-              "$type": "SimpleType",
-              "typeRef": {
-                "$ref": "#/interfaces@41"
-              }
-            }
-          },
-          "isOptional": false
-        },
-        {
-          "$type": "TypeAttribute",
-          "name": "arithmeticexpression",
-          "type": {
-            "$type": "ArrayType",
-            "elementType": {
-              "$type": "SimpleType",
-              "typeRef": {
-                "$ref": "#/interfaces@9"
-              }
-            }
-          },
-          "isOptional": false
-        }
-      ],
-      "name": "ArithmeticExpression",
-      "superTypes": [
-        {
-          "$ref": "#/interfaces@6"
-        }
-      ]
-    },
-    {
-      "$type": "Interface",
-      "name": "AddSubOperator",
-      "attributes": [],
-      "superTypes": []
-    },
-    {
-      "$type": "Interface",
-      "name": "MultiDivOperator",
-      "attributes": [],
-      "superTypes": []
     },
     {
       "$type": "Interface",
@@ -2886,6 +2840,7 @@ export const MyRobotGrammar = (): Grammar => loadedMyRobotGrammar ?? (loadedMyRo
         {
           "$type": "TypeAttribute",
           "name": "else",
+          "isOptional": true,
           "type": {
             "$type": "ArrayType",
             "elementType": {
@@ -2894,127 +2849,32 @@ export const MyRobotGrammar = (): Grammar => loadedMyRobotGrammar ?? (loadedMyRo
                 "$ref": "#/interfaces@3"
               }
             }
-          },
-          "isOptional": false
+          }
         }
       ],
       "name": "If",
       "superTypes": [
         {
-          "$ref": "#/interfaces@13"
+          "$ref": "#/interfaces@4"
         }
       ]
     },
     {
       "$type": "Interface",
-      "attributes": [
-        {
-          "$type": "TypeAttribute",
-          "name": "condition",
-          "type": {
-            "$type": "ArrayType",
-            "elementType": {
-              "$type": "SimpleType",
-              "typeRef": {
-                "$ref": "#/interfaces@14"
-              }
-            }
-          },
-          "isOptional": false
-        },
-        {
-          "$type": "TypeAttribute",
-          "name": "expression",
-          "type": {
-            "$type": "ArrayType",
-            "elementType": {
-              "$type": "SimpleType",
-              "typeRef": {
-                "$ref": "#/interfaces@6"
-              }
-            }
-          },
-          "isOptional": false
-        }
-      ],
-      "name": "ControlStructure",
-      "superTypes": [
-        {
-          "$ref": "#/interfaces@3"
-        }
-      ]
-    },
-    {
-      "$type": "Interface",
-      "attributes": [
-        {
-          "$type": "TypeAttribute",
-          "name": "operator",
-          "type": {
-            "$type": "SimpleType",
-            "typeRef": {
-              "$ref": "#/interfaces@7"
-            }
-          },
-          "isOptional": false
-        },
-        {
-          "$type": "TypeAttribute",
-          "name": "leftCondition",
-          "type": {
-            "$type": "SimpleType",
-            "typeRef": {
-              "$ref": "#/interfaces@6"
-            }
-          },
-          "isOptional": false
-        },
-        {
-          "$type": "TypeAttribute",
-          "name": "rightCondition",
-          "type": {
-            "$type": "SimpleType",
-            "typeRef": {
-              "$ref": "#/interfaces@6"
-            }
-          },
-          "isOptional": false
-        }
-      ],
-      "name": "BooleanExpression",
-      "superTypes": []
-    },
-    {
-      "$type": "Interface",
-      "attributes": [
-        {
-          "$type": "TypeAttribute",
-          "name": "body",
-          "type": {
-            "$type": "ArrayType",
-            "elementType": {
-              "$type": "SimpleType",
-              "typeRef": {
-                "$ref": "#/interfaces@3"
-              }
-            }
-          },
-          "isOptional": false
-        }
-      ],
       "name": "Loop",
       "superTypes": [
         {
-          "$ref": "#/interfaces@13"
+          "$ref": "#/interfaces@4"
         }
-      ]
+      ],
+      "attributes": []
     },
     {
       "$type": "Interface",
-      "name": "Backward",
+      "name": "ControlRobot",
       "superTypes": [
         {
-          "$ref": "#/interfaces@17"
+          "$ref": "#/interfaces@3"
         }
       ],
       "attributes": []
@@ -3040,7 +2900,7 @@ export const MyRobotGrammar = (): Grammar => loadedMyRobotGrammar ?? (loadedMyRo
           "type": {
             "$type": "SimpleType",
             "typeRef": {
-              "$ref": "#/interfaces@6"
+              "$ref": "#/interfaces@24"
             }
           }
         }
@@ -3048,16 +2908,16 @@ export const MyRobotGrammar = (): Grammar => loadedMyRobotGrammar ?? (loadedMyRo
       "name": "Movement",
       "superTypes": [
         {
-          "$ref": "#/interfaces@18"
+          "$ref": "#/interfaces@7"
         }
       ]
     },
     {
       "$type": "Interface",
-      "name": "ControlRobot",
+      "name": "Backward",
       "superTypes": [
         {
-          "$ref": "#/interfaces@3"
+          "$ref": "#/interfaces@8"
         }
       ],
       "attributes": []
@@ -3067,7 +2927,7 @@ export const MyRobotGrammar = (): Grammar => loadedMyRobotGrammar ?? (loadedMyRo
       "name": "Forward",
       "superTypes": [
         {
-          "$ref": "#/interfaces@17"
+          "$ref": "#/interfaces@8"
         }
       ],
       "attributes": []
@@ -3077,7 +2937,7 @@ export const MyRobotGrammar = (): Grammar => loadedMyRobotGrammar ?? (loadedMyRo
       "name": "Left",
       "superTypes": [
         {
-          "$ref": "#/interfaces@17"
+          "$ref": "#/interfaces@8"
         }
       ],
       "attributes": []
@@ -3087,10 +2947,118 @@ export const MyRobotGrammar = (): Grammar => loadedMyRobotGrammar ?? (loadedMyRo
       "name": "Right",
       "superTypes": [
         {
-          "$ref": "#/interfaces@17"
+          "$ref": "#/interfaces@8"
         }
       ],
       "attributes": []
+    },
+    {
+      "$type": "Interface",
+      "attributes": [
+        {
+          "$type": "TypeAttribute",
+          "name": "angle",
+          "isOptional": true,
+          "type": {
+            "$type": "SimpleType",
+            "typeRef": {
+              "$ref": "#/interfaces@24"
+            }
+          }
+        }
+      ],
+      "name": "Rotate",
+      "superTypes": [
+        {
+          "$ref": "#/interfaces@7"
+        }
+      ]
+    },
+    {
+      "$type": "Interface",
+      "name": "Clock",
+      "superTypes": [
+        {
+          "$ref": "#/interfaces@13"
+        }
+      ],
+      "attributes": []
+    },
+    {
+      "$type": "Interface",
+      "name": "ClockLeft",
+      "superTypes": [
+        {
+          "$ref": "#/interfaces@13"
+        }
+      ],
+      "attributes": []
+    },
+    {
+      "$type": "Interface",
+      "attributes": [
+        {
+          "$type": "TypeAttribute",
+          "name": "value",
+          "isOptional": true,
+          "type": {
+            "$type": "UnionType",
+            "types": [
+              {
+                "$type": "SimpleType",
+                "typeRef": {
+                  "$ref": "#/interfaces@24"
+                }
+              },
+              {
+                "$type": "SimpleType",
+                "typeRef": {
+                  "$ref": "#/interfaces@23"
+                }
+              }
+            ]
+          }
+        }
+      ],
+      "name": "Entity",
+      "superTypes": [
+        {
+          "$ref": "#/interfaces@3"
+        }
+      ]
+    },
+    {
+      "$type": "Interface",
+      "attributes": [
+        {
+          "$type": "TypeAttribute",
+          "name": "name",
+          "type": {
+            "$type": "SimpleType",
+            "typeRef": {
+              "$ref": "#/types@7"
+            }
+          },
+          "isOptional": false
+        },
+        {
+          "$type": "TypeAttribute",
+          "name": "type",
+          "type": {
+            "$type": "SimpleType",
+            "typeRef": {
+              "$ref": "#/types@0"
+            }
+          },
+          "isOptional": false
+        }
+      ],
+      "name": "Parameter",
+      "superTypes": [
+        {
+          "$ref": "#/interfaces@16"
+        }
+      ]
     },
     {
       "$type": "Interface",
@@ -3132,7 +3100,7 @@ export const MyRobotGrammar = (): Grammar => loadedMyRobotGrammar ?? (loadedMyRo
       "name": "VariableStatement",
       "superTypes": [
         {
-          "$ref": "#/interfaces@5"
+          "$ref": "#/interfaces@16"
         }
       ]
     },
@@ -3147,7 +3115,7 @@ export const MyRobotGrammar = (): Grammar => loadedMyRobotGrammar ?? (loadedMyRo
             "referenceType": {
               "$type": "SimpleType",
               "typeRef": {
-                "$ref": "#/interfaces@22"
+                "$ref": "#/interfaces@18"
               }
             }
           },
@@ -3158,10 +3126,21 @@ export const MyRobotGrammar = (): Grammar => loadedMyRobotGrammar ?? (loadedMyRo
           "name": "value",
           "isOptional": true,
           "type": {
-            "$type": "SimpleType",
-            "typeRef": {
-              "$ref": "#/interfaces@6"
-            }
+            "$type": "UnionType",
+            "types": [
+              {
+                "$type": "SimpleType",
+                "typeRef": {
+                  "$ref": "#/interfaces@24"
+                }
+              },
+              {
+                "$type": "SimpleType",
+                "typeRef": {
+                  "$ref": "#/interfaces@23"
+                }
+              }
+            ]
           }
         }
       ],
@@ -3192,7 +3171,7 @@ export const MyRobotGrammar = (): Grammar => loadedMyRobotGrammar ?? (loadedMyRo
           "type": {
             "$type": "SimpleType",
             "typeRef": {
-              "$ref": "#/interfaces@6"
+              "$ref": "#/interfaces@24"
             }
           },
           "isOptional": false
@@ -3207,48 +3186,6 @@ export const MyRobotGrammar = (): Grammar => loadedMyRobotGrammar ?? (loadedMyRo
     },
     {
       "$type": "Interface",
-      "name": "ClockLeft",
-      "superTypes": [
-        {
-          "$ref": "#/interfaces@26"
-        }
-      ],
-      "attributes": []
-    },
-    {
-      "$type": "Interface",
-      "attributes": [
-        {
-          "$type": "TypeAttribute",
-          "name": "angle",
-          "isOptional": true,
-          "type": {
-            "$type": "SimpleType",
-            "typeRef": {
-              "$ref": "#/interfaces@6"
-            }
-          }
-        }
-      ],
-      "name": "Rotate",
-      "superTypes": [
-        {
-          "$ref": "#/interfaces@18"
-        }
-      ]
-    },
-    {
-      "$type": "Interface",
-      "name": "Clock",
-      "superTypes": [
-        {
-          "$ref": "#/interfaces@26"
-        }
-      ],
-      "attributes": []
-    },
-    {
-      "$type": "Interface",
       "attributes": [
         {
           "$type": "TypeAttribute",
@@ -3267,16 +3204,16 @@ export const MyRobotGrammar = (): Grammar => loadedMyRobotGrammar ?? (loadedMyRo
         {
           "$type": "TypeAttribute",
           "name": "arguments",
+          "isOptional": true,
           "type": {
             "$type": "ArrayType",
             "elementType": {
               "$type": "SimpleType",
               "typeRef": {
-                "$ref": "#/interfaces@6"
+                "$ref": "#/interfaces@22"
               }
             }
-          },
-          "isOptional": false
+          }
         }
       ],
       "name": "CallFunction",
@@ -3288,80 +3225,26 @@ export const MyRobotGrammar = (): Grammar => loadedMyRobotGrammar ?? (loadedMyRo
     },
     {
       "$type": "Interface",
-      "name": "LowerThan",
+      "name": "Expression",
+      "attributes": [],
+      "superTypes": []
+    },
+    {
+      "$type": "Interface",
+      "name": "UnaryBooleanExpression",
       "superTypes": [
         {
-          "$ref": "#/interfaces@7"
+          "$ref": "#/interfaces@22"
         }
       ],
       "attributes": []
     },
     {
       "$type": "Interface",
-      "name": "EqualTo",
+      "name": "UnaryArithmeticExpression",
       "superTypes": [
         {
-          "$ref": "#/interfaces@7"
-        }
-      ],
-      "attributes": []
-    },
-    {
-      "$type": "Interface",
-      "name": "UpperThan",
-      "superTypes": [
-        {
-          "$ref": "#/interfaces@7"
-        }
-      ],
-      "attributes": []
-    },
-    {
-      "$type": "Interface",
-      "name": "Not",
-      "superTypes": [
-        {
-          "$ref": "#/interfaces@7"
-        }
-      ],
-      "attributes": []
-    },
-    {
-      "$type": "Interface",
-      "name": "Or",
-      "superTypes": [
-        {
-          "$ref": "#/interfaces@7"
-        }
-      ],
-      "attributes": []
-    },
-    {
-      "$type": "Interface",
-      "name": "LowerOrEqualTo",
-      "superTypes": [
-        {
-          "$ref": "#/interfaces@7"
-        }
-      ],
-      "attributes": []
-    },
-    {
-      "$type": "Interface",
-      "name": "UpperOrEqualTo",
-      "superTypes": [
-        {
-          "$ref": "#/interfaces@7"
-        }
-      ],
-      "attributes": []
-    },
-    {
-      "$type": "Interface",
-      "name": "And",
-      "superTypes": [
-        {
-          "$ref": "#/interfaces@7"
+          "$ref": "#/interfaces@22"
         }
       ],
       "attributes": []
@@ -3386,22 +3269,22 @@ export const MyRobotGrammar = (): Grammar => loadedMyRobotGrammar ?? (loadedMyRo
         {
           "$type": "TypeAttribute",
           "name": "arguments",
+          "isOptional": true,
           "type": {
             "$type": "ArrayType",
             "elementType": {
               "$type": "SimpleType",
               "typeRef": {
-                "$ref": "#/interfaces@6"
+                "$ref": "#/interfaces@22"
               }
             }
-          },
-          "isOptional": false
+          }
         }
       ],
       "name": "CallFunctionExpr",
       "superTypes": [
         {
-          "$ref": "#/interfaces@8"
+          "$ref": "#/interfaces@24"
         }
       ]
     },
@@ -3416,7 +3299,7 @@ export const MyRobotGrammar = (): Grammar => loadedMyRobotGrammar ?? (loadedMyRo
             "referenceType": {
               "$type": "SimpleType",
               "typeRef": {
-                "$ref": "#/interfaces@5"
+                "$ref": "#/interfaces@16"
               }
             }
           },
@@ -3426,7 +3309,7 @@ export const MyRobotGrammar = (): Grammar => loadedMyRobotGrammar ?? (loadedMyRo
       "name": "CallEntity",
       "superTypes": [
         {
-          "$ref": "#/interfaces@8"
+          "$ref": "#/interfaces@24"
         }
       ]
     },
@@ -3435,35 +3318,20 @@ export const MyRobotGrammar = (): Grammar => loadedMyRobotGrammar ?? (loadedMyRo
       "name": "GetSensor",
       "superTypes": [
         {
-          "$ref": "#/interfaces@8"
+          "$ref": "#/interfaces@24"
         }
       ],
       "attributes": []
     },
     {
       "$type": "Interface",
-      "attributes": [
-        {
-          "$type": "TypeAttribute",
-          "name": "operator",
-          "type": {
-            "$type": "ArrayType",
-            "elementType": {
-              "$type": "SimpleType",
-              "typeRef": {
-                "$ref": "#/interfaces@10"
-              }
-            }
-          },
-          "isOptional": false
-        }
-      ],
-      "name": "AddSubExpression",
+      "name": "Value",
       "superTypes": [
         {
-          "$ref": "#/interfaces@9"
+          "$ref": "#/interfaces@24"
         }
-      ]
+      ],
+      "attributes": []
     },
     {
       "$type": "Interface",
@@ -3474,7 +3342,7 @@ export const MyRobotGrammar = (): Grammar => loadedMyRobotGrammar ?? (loadedMyRo
           "type": {
             "$type": "SimpleType",
             "typeRef": {
-              "$ref": "#/interfaces@8"
+              "$ref": "#/interfaces@24"
             }
           },
           "isOptional": false
@@ -3483,12 +3351,9 @@ export const MyRobotGrammar = (): Grammar => loadedMyRobotGrammar ?? (loadedMyRo
           "$type": "TypeAttribute",
           "name": "operator",
           "type": {
-            "$type": "ArrayType",
-            "elementType": {
-              "$type": "SimpleType",
-              "typeRef": {
-                "$ref": "#/interfaces@11"
-              }
+            "$type": "SimpleType",
+            "typeRef": {
+              "$ref": "#/interfaces@30"
             }
           },
           "isOptional": false
@@ -3497,36 +3362,44 @@ export const MyRobotGrammar = (): Grammar => loadedMyRobotGrammar ?? (loadedMyRo
           "$type": "TypeAttribute",
           "name": "rightOperand",
           "type": {
-            "$type": "ArrayType",
-            "elementType": {
-              "$type": "SimpleType",
-              "typeRef": {
-                "$ref": "#/interfaces@8"
+            "$type": "UnionType",
+            "types": [
+              {
+                "$type": "SimpleType",
+                "typeRef": {
+                  "$ref": "#/interfaces@24"
+                }
+              },
+              {
+                "$type": "SimpleType",
+                "typeRef": {
+                  "$ref": "#/interfaces@29"
+                }
               }
-            }
+            ]
           },
           "isOptional": false
         }
       ],
-      "name": "MultiDivExpression",
-      "superTypes": []
+      "name": "ArithmeticExpression",
+      "superTypes": [
+        {
+          "$ref": "#/interfaces@22"
+        }
+      ]
     },
     {
       "$type": "Interface",
-      "name": "Value",
-      "superTypes": [
-        {
-          "$ref": "#/interfaces@8"
-        }
-      ],
-      "attributes": []
+      "name": "ArithmeticOperator",
+      "attributes": [],
+      "superTypes": []
     },
     {
       "$type": "Interface",
       "name": "Add",
       "superTypes": [
         {
-          "$ref": "#/interfaces@10"
+          "$ref": "#/interfaces@30"
         }
       ],
       "attributes": []
@@ -3536,7 +3409,7 @@ export const MyRobotGrammar = (): Grammar => loadedMyRobotGrammar ?? (loadedMyRo
       "name": "Sub",
       "superTypes": [
         {
-          "$ref": "#/interfaces@10"
+          "$ref": "#/interfaces@30"
         }
       ],
       "attributes": []
@@ -3546,7 +3419,7 @@ export const MyRobotGrammar = (): Grammar => loadedMyRobotGrammar ?? (loadedMyRo
       "name": "Multiply",
       "superTypes": [
         {
-          "$ref": "#/interfaces@11"
+          "$ref": "#/interfaces@30"
         }
       ],
       "attributes": []
@@ -3556,7 +3429,137 @@ export const MyRobotGrammar = (): Grammar => loadedMyRobotGrammar ?? (loadedMyRo
       "name": "Divise",
       "superTypes": [
         {
-          "$ref": "#/interfaces@11"
+          "$ref": "#/interfaces@30"
+        }
+      ],
+      "attributes": []
+    },
+    {
+      "$type": "Interface",
+      "attributes": [
+        {
+          "$type": "TypeAttribute",
+          "name": "leftCondition",
+          "isOptional": true,
+          "type": {
+            "$type": "SimpleType",
+            "typeRef": {
+              "$ref": "#/interfaces@24"
+            }
+          }
+        },
+        {
+          "$type": "TypeAttribute",
+          "name": "operator",
+          "type": {
+            "$type": "SimpleType",
+            "typeRef": {
+              "$ref": "#/interfaces@36"
+            }
+          },
+          "isOptional": false
+        },
+        {
+          "$type": "TypeAttribute",
+          "name": "rightCondition",
+          "type": {
+            "$type": "SimpleType",
+            "typeRef": {
+              "$ref": "#/interfaces@24"
+            }
+          },
+          "isOptional": false
+        }
+      ],
+      "name": "BooleanExpression",
+      "superTypes": [
+        {
+          "$ref": "#/interfaces@22"
+        }
+      ]
+    },
+    {
+      "$type": "Interface",
+      "name": "BooleanOperator",
+      "attributes": [],
+      "superTypes": []
+    },
+    {
+      "$type": "Interface",
+      "name": "LowerThan",
+      "superTypes": [
+        {
+          "$ref": "#/interfaces@36"
+        }
+      ],
+      "attributes": []
+    },
+    {
+      "$type": "Interface",
+      "name": "EqualTo",
+      "superTypes": [
+        {
+          "$ref": "#/interfaces@36"
+        }
+      ],
+      "attributes": []
+    },
+    {
+      "$type": "Interface",
+      "name": "UpperThan",
+      "superTypes": [
+        {
+          "$ref": "#/interfaces@36"
+        }
+      ],
+      "attributes": []
+    },
+    {
+      "$type": "Interface",
+      "name": "Not",
+      "superTypes": [
+        {
+          "$ref": "#/interfaces@36"
+        }
+      ],
+      "attributes": []
+    },
+    {
+      "$type": "Interface",
+      "name": "Or",
+      "superTypes": [
+        {
+          "$ref": "#/interfaces@36"
+        }
+      ],
+      "attributes": []
+    },
+    {
+      "$type": "Interface",
+      "name": "And",
+      "superTypes": [
+        {
+          "$ref": "#/interfaces@36"
+        }
+      ],
+      "attributes": []
+    },
+    {
+      "$type": "Interface",
+      "name": "LowerOrEqualTo",
+      "superTypes": [
+        {
+          "$ref": "#/interfaces@36"
+        }
+      ],
+      "attributes": []
+    },
+    {
+      "$type": "Interface",
+      "name": "UpperOrEqualTo",
+      "superTypes": [
+        {
+          "$ref": "#/interfaces@36"
         }
       ],
       "attributes": []

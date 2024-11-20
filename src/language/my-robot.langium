@@ -5,59 +5,29 @@ import 'myRobotDSL-types'
 import 'XMLType-types'
 
 
+fragment Block: '{'( body+=Statement )*'}';
+fragment BlockIf: '{'( then+=Statement )*'}';
+fragment BlockElse: '{'( else+=Statement )*'}';
+
 entry Program returns Program: 
     ( function+=Fonction )*
 ;
 
-Statement returns Statement:
-    If | Loop | Backward | Forward | Left | Right | Entity | VariableAssignation | SetSpeed | ClockLeft | Clock | CallFunction 
-;
-
-Expression returns Expression:
-    UnaryExpression | ArithmeticExpression | AddSubExpression | MultiDivExpression
-;
-
-BooleanOperator returns BooleanOperator:
-    LowerThan | EqualTo | UpperThan | Not | Or | LowerOrEqualTo | UpperOrEqualTo | And
-;
-
-Entity returns Entity:
-    VariableStatement | Parameter 
-;
-
-UnaryExpression returns UnaryExpression:
-    CallFunctionExpr | CallEntity | GetSensor | Value 
-;
-
-ArithmeticExpression returns ArithmeticExpression:
-    AddSubExpression | MultiDivExpression 
-;
-
-AddSubOperator returns AddSubOperator:
-    Add | Sub 
-;
-
-MultiDivOperator returns MultiDivOperator:
-    Multiply | Divise 
-;
-
-EString returns string:
-    STRING | ID 
-;
-
-Fonction returns Fonction:  
+Fonction returns Fonction:
     'let' returntype=ReturnType name=ID '('(parameter+=Parameter ("," parameter+=Parameter  )*)?')' 
         Block
 ;
-
-fragment Block: '{'( body+=Statement )*'}';
 
 ReturnType returns ReturnType:
     type = Type | 'void' 
 ;
 
-Parameter returns Parameter:
-    type=Type name=ID
+Statement returns Statement:
+    ControlStructure | ControlRobot | Entity | VariableAssignation | SetSpeed | CallFunction 
+;
+
+ControlStructure returns ControlStructure:
+    If | Loop
 ;
 
 If returns If:
@@ -65,57 +35,130 @@ If returns If:
         'then' BlockIf ('else' BlockElse )?
 ;
 
-fragment BlockIf: '{'( then+=Statement )*'}';
-fragment BlockElse: '{'( else+=Statement )*'}';
-
 Loop returns Loop:
     'loop' condition+=BooleanExpression
         Block
 ;
 
+ControlRobot returns ControlRobot:
+   Movement | Rotate 
+;
+
+Movement returns Movement:
+    Backward | Forward | Left | Right 
+;
+
 Backward returns Backward:
-    'Backward' distance=Expression 'in' unit=Unit 
+    'Backward' distance=UnaryArithmeticExpression 'in' unit=Unit 
 ;
 
 Forward returns Forward:
-    'Forward' distance=Expression 'in' unit=Unit 
+    'Forward' distance=UnaryArithmeticExpression 'in' unit=Unit 
 ;
 
 Left returns Left:
-    'Left' distance=Expression 'in' unit=Unit 
+    'Left' distance=UnaryArithmeticExpression 'in' unit=Unit 
 ;
 
 Right returns Right:
-    'Right' distance=Expression 'in' unit=Unit
+    'Right' distance=UnaryArithmeticExpression 'in' unit=Unit
 ;
 
-VariableStatement returns VariableStatement:
-    'var' type = (Type | Unit) name=ID '=' value=Expression
-;
-
-VariableAssignation returns VariableAssignation:
-    variable=[VariableStatement:EString ] '=' (value=Expression)
-;
-
-SetSpeed returns SetSpeed:
-    'setSpeed' '(' distance=Expression ('in')? unit=Unit ')'  
-;
-
-ClockLeft returns ClockLeft:
-    'ClockLeft' angle=Expression
+Rotate returns Rotate:
+    ClockLeft | Clock
 ;
 
 Clock returns Clock:
-    'Clock' angle=Expression   
+    'Clock' angle=UnaryArithmeticExpression   
+;
+
+ClockLeft returns ClockLeft:
+    'ClockLeft' angle=UnaryArithmeticExpression
+;
+
+Entity returns Entity:
+    VariableStatement | Parameter
+;
+
+Parameter returns Parameter:
+    type=Type name=ID
+;
+
+VariableStatement returns VariableStatement:
+    'var' type = (Type | Unit) name=ID '=' value=(UnaryArithmeticExpression | UnaryBooleanExpression)
+;
+
+VariableAssignation returns VariableAssignation:
+    variable=[VariableStatement:EString ] '=' value=(UnaryArithmeticExpression | UnaryBooleanExpression)
+;
+
+SetSpeed returns SetSpeed:
+    'setSpeed' '(' distance=UnaryArithmeticExpression ('in')? unit=Unit ')'  
 ;
 
 CallFunction returns CallFunction:
     function=[Fonction:EString ] '(' ( arguments+=Expression  ("," arguments+=Expression  )* )? ')' 
 ;
 
+Expression returns Expression:
+    UnaryBooleanExpression | UnaryArithmeticExpression | ArithmeticExpression | BooleanExpression
+;
+
+UnaryBooleanExpression returns UnaryBooleanExpression:
+    {UnaryBooleanExpression} 'True' | 'False'
+;
+
+UnaryArithmeticExpression returns UnaryArithmeticExpression:
+    CallFunctionExpr | CallEntity | GetSensor | Value
+;
+
+CallFunctionExpr returns CallFunctionExpr:
+    function=[Fonction:EString ] '(' ( arguments+=Expression  ("," arguments+=Expression  )* )? ')'  
+;
+
+CallEntity returns CallEntity:
+    entity=[Entity:EString ]  
+;
+
+GetSensor returns GetSensor:
+    {GetSensor} 'getTimestamp()' | 'getDistance()' | 'getSpeed()'
+;
+
+Value returns Value:
+    {Value} INT
+;
+
+ArithmeticExpression returns ArithmeticExpression:
+    leftOperand=UnaryArithmeticExpression ( operator=ArithmeticOperator rightOperand=(UnaryArithmeticExpression | ArithmeticExpression) )*
+;
+
+ArithmeticOperator returns ArithmeticOperator:
+    Add | Sub | Multiply | Divise
+;
+
+Add returns Add:
+    {Add} '+'  
+;
+
+Sub returns Sub:
+    {Sub} '-'  
+;
+
+Multiply returns Multiply:
+    {Multiply} '*'
+;
+
+Divise returns Divise:
+    {Divise} '/' 
+;
+
 BooleanExpression returns BooleanExpression:
-    (leftCondition=Expression operator=BooleanOperator rightCondition=Expression) | 
-    (operator= Not rightCondition=Expression)
+    (leftCondition=UnaryArithmeticExpression operator=BooleanOperator rightCondition=UnaryArithmeticExpression) | 
+    (operator= Not rightCondition=UnaryArithmeticExpression)
+;
+
+BooleanOperator returns BooleanOperator:
+    LowerThan | EqualTo | UpperThan | Not | Or | LowerOrEqualTo | UpperOrEqualTo | And
 ;
 
 LowerThan returns LowerThan:
@@ -150,44 +193,8 @@ UpperOrEqualTo returns UpperOrEqualTo:
     {UpperOrEqualTo} '>='  
 ;
 
-CallFunctionExpr returns CallFunctionExpr:
-    function=[Fonction:EString ] '(' ( arguments+=Expression  ("," arguments+=Expression  )* )? ')'  
-;
-
-CallEntity returns CallEntity:
-    entity=[Entity:EString ]  
-;
-
-GetSensor returns GetSensor:
-    {GetSensor} 'getTimestamp()' | 'getDistance()' | 'getSpeed()'
-;
-
-AddSubExpression returns AddSubExpression:
-    leftOperand=MultiDivExpression ( operator+=AddSubOperator rightOperand+=MultiDivExpression )* 
-;
-
-MultiDivExpression returns MultiDivExpression:
-    leftOperand=UnaryExpression ( operator+=MultiDivOperator rightOperand+=UnaryExpression )*
-;
-
-Value returns Value:
-    {Value} INT  
-;
-
-Add returns Add:
-    {Add} '+'  
-;
-
-Sub returns Sub:
-    {Sub} '-'  
-;
-
-Multiply returns Multiply:
-    {Multiply} '*'
-;
-
-Divise returns Divise:
-    {Divise} '/' 
+EString returns string:
+    STRING | ID 
 ;
 
 Unit returns Unit:

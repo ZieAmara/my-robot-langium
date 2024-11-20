@@ -10,182 +10,141 @@ type Unit_cm = 'cm';
 type Unit_mm = 'mm';
 
 interface Program {
-	name?: string
-	function: Fonction[]
+  function: Fonction[];
 }
 
 interface Fonction {
-	name: ID
-	returntype?: ReturnType
-	body: Statement[]
-	parameter: Parameter[]
+  name: ID;
+  returntype?: ReturnType;
+  parameter: Parameter[];
+  body: Statement[];
 }
 
 interface ReturnType {
-	type: Type | 'void'
+  type: Type | 'void';
 }
 
-interface Statement {
-}
+interface Statement {}
 
-interface Parameter extends Entity {
-	name: ID
-	type: Type
-}
-
-interface Entity extends Statement {
-	value?: Expression
-}
-
-interface Expression {
-}
-
-interface BooleanOperator {
-}
-
-interface UnaryExpression extends Expression {
-}
-
-interface ArithmeticExpression extends Expression {
-	leftOperand: MultiDivExpression
-	rightOperand: MultiDivExpression[]
-	arithmeticexpression: ArithmeticExpression[]
-}
-
-interface AddSubOperator {
-}
-
-interface MultiDivOperator {
+interface ControlStructure extends Statement {
+  condition: BooleanExpression[];
+  body: Statement[];
 }
 
 interface If extends ControlStructure {
-	then: Statement[]
-	else: Statement[]
+  then: Statement[];
+  else?: Statement[];
 }
 
-interface ControlStructure extends Statement {
-	condition: BooleanExpression[]
-	expression: Expression[]
-}
+interface Loop extends ControlStructure {}
 
-interface BooleanExpression {
-	operator: BooleanOperator
-	leftCondition: Expression
-	rightCondition: Expression
-}
-
-interface Loop extends ControlStructure {
-	body: Statement[]
-}
-
-interface Backward extends Movement {
-}
+interface ControlRobot extends Statement {}
 
 interface Movement extends ControlRobot {
-	unit: Unit
-	distance?: Expression
+  unit: Unit;
+  distance?: UnaryArithmeticExpression;
 }
 
-interface ControlRobot extends Statement {
+interface Backward extends Movement {}
+
+interface Forward extends Movement {}
+
+interface Left extends Movement {}
+
+interface Right extends Movement {}
+
+interface Rotate extends ControlRobot {
+  angle?: UnaryArithmeticExpression;
 }
 
-interface Forward extends Movement {
+interface Clock extends Rotate {}
+
+interface ClockLeft extends Rotate {}
+
+interface Entity extends Statement {
+  value?: UnaryArithmeticExpression | UnaryBooleanExpression;
 }
 
-interface Left extends Movement {
-}
-
-interface Right extends Movement {
+interface Parameter extends Entity {
+  name: ID;
+  type: Type;
 }
 
 interface VariableStatement extends Entity {
-	name: ID
-	type: Type | Unit
+  name: ID;
+  type: Type | Unit;
 }
 
 interface VariableAssignation extends Statement {
-	variable: @VariableStatement
-	value?: Expression
+  variable: @VariableStatement;
+  value?: UnaryArithmeticExpression | UnaryBooleanExpression;
 }
 
 interface SetSpeed extends Statement {
-	unit: Unit
-	distance: Expression
-}
-
-interface ClockLeft extends Rotate {
-}
-
-interface Rotate extends ControlRobot {
-	angle?: Expression
-}
-
-interface Clock extends Rotate {
+  unit: Unit;
+  distance: UnaryArithmeticExpression;
 }
 
 interface CallFunction extends Statement {
-	function: @Fonction
-	arguments: Expression[]
+  function: @Fonction;
+  arguments?: Expression[];
 }
 
-interface LowerThan extends BooleanOperator {
+interface Expression {}
+
+interface UnaryBooleanExpression extends Expression {}
+
+interface UnaryArithmeticExpression extends Expression {}
+
+interface CallFunctionExpr extends UnaryArithmeticExpression {
+  function: @Fonction;
+  arguments?: Expression[];
 }
 
-interface EqualTo extends BooleanOperator {
+interface CallEntity extends UnaryArithmeticExpression {
+  entity: @Entity;
 }
 
-interface UpperThan extends BooleanOperator {
+interface GetSensor extends UnaryArithmeticExpression {}
+
+interface Value extends UnaryArithmeticExpression {}
+
+interface ArithmeticExpression extends Expression {
+  leftOperand: UnaryArithmeticExpression;
+  operator: ArithmeticOperator;
+  rightOperand: UnaryArithmeticExpression | ArithmeticExpression;
 }
 
-interface Not extends BooleanOperator {
+interface ArithmeticOperator {}
+
+interface Add extends ArithmeticOperator {}
+
+interface Sub extends ArithmeticOperator {}
+
+interface Multiply extends ArithmeticOperator {}
+
+interface Divise extends ArithmeticOperator {}
+
+interface BooleanExpression extends Expression {
+  leftCondition?: UnaryArithmeticExpression;
+  operator: BooleanOperator;
+  rightCondition: UnaryArithmeticExpression;
 }
 
-interface Or extends BooleanOperator {
-}
+interface BooleanOperator {}
 
-interface LowerOrEqualTo extends BooleanOperator {
-}
+interface LowerThan extends BooleanOperator {}
 
-interface UpperOrEqualTo extends BooleanOperator {
-}
+interface EqualTo extends BooleanOperator {}
 
-interface And extends BooleanOperator {
-}
+interface UpperThan extends BooleanOperator {}
 
-interface CallFunctionExpr extends UnaryExpression {
-	function: @Fonction
-	arguments: Expression[]
-}
+interface Not extends BooleanOperator {}
 
-interface CallEntity extends UnaryExpression {
-	entity: @Entity
-}
+interface Or extends BooleanOperator {}
 
-interface GetSensor extends UnaryExpression {
-}
+interface And extends BooleanOperator {}
 
-interface AddSubExpression extends ArithmeticExpression {
-	operator: AddSubOperator[]
-}
+interface LowerOrEqualTo extends BooleanOperator {}
 
-interface MultiDivExpression {
-	leftOperand: UnaryExpression
-	operator: MultiDivOperator[]
-	rightOperand: UnaryExpression[]
-}
-
-interface Value extends UnaryExpression {
-}
-
-interface Add extends AddSubOperator {
-}
-
-interface Sub extends AddSubOperator {
-}
-
-interface Multiply extends MultiDivOperator {
-}
-
-interface Divise extends MultiDivOperator {
-}
-
+interface UpperOrEqualTo extends BooleanOperator {}
