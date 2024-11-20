@@ -26,7 +26,7 @@ export class MyRobotValidator {
         // create a set of visited functions
         // and report an error when we see one we've already seen
         const reported = new Set();
-        program.function.forEach(f => {
+        program.fonction.forEach(f => {
             if (reported.has(f.name)) {
                 accept('error',  `Function has non-unique name '${f.name}'.`,  {node: f, property: 'name'});
             }
@@ -37,7 +37,7 @@ export class MyRobotValidator {
     checkUniqueVariableDeclarations(program: Program, accept: ValidationAcceptor): void {
         // create a set of visited functions
         // and report an error when we see one we've already seen
-        program.function.forEach(f => {
+        program.fonction.forEach(f => {
             const reported = new Set();
             f.body.forEach(body => {
                 if (body.$type === 'VariableStatement') {

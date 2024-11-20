@@ -10,7 +10,7 @@ type Unit_cm = 'cm';
 type Unit_mm = 'mm';
 
 interface Program {
-  function: Fonction[];
+  fonction: Fonction[];
 }
 
 interface Fonction {
@@ -86,7 +86,7 @@ interface SetSpeed extends Statement {
 }
 
 interface CallFunction extends Statement {
-  function: @Fonction;
+  fonction: @Fonction;
   arguments?: Expression[];
 }
 
@@ -97,7 +97,7 @@ interface UnaryBooleanExpression extends Expression {}
 interface UnaryArithmeticExpression extends Expression {}
 
 interface CallFunctionExpr extends UnaryArithmeticExpression {
-  function: @Fonction;
+  fonction: @Fonction;
   arguments?: Expression[];
 }
 

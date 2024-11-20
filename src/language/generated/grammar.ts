@@ -130,7 +130,7 @@ export const MyRobotGrammar = (): Grammar => loadedMyRobotGrammar ?? (loadedMyRo
       },
       "definition": {
         "$type": "Assignment",
-        "feature": "function",
+        "feature": "fonction",
         "operator": "+=",
         "terminal": {
           "$type": "RuleCall",
@@ -1150,7 +1150,7 @@ export const MyRobotGrammar = (): Grammar => loadedMyRobotGrammar ?? (loadedMyRo
         "elements": [
           {
             "$type": "Assignment",
-            "feature": "function",
+            "feature": "fonction",
             "operator": "=",
             "terminal": {
               "$type": "CrossReference",
@@ -1364,7 +1364,7 @@ export const MyRobotGrammar = (): Grammar => loadedMyRobotGrammar ?? (loadedMyRo
         "elements": [
           {
             "$type": "Assignment",
-            "feature": "function",
+            "feature": "fonction",
             "operator": "=",
             "terminal": {
               "$type": "CrossReference",
@@ -2675,7 +2675,7 @@ export const MyRobotGrammar = (): Grammar => loadedMyRobotGrammar ?? (loadedMyRo
       "attributes": [
         {
           "$type": "TypeAttribute",
-          "name": "function",
+          "name": "fonction",
           "type": {
             "$type": "ArrayType",
             "elementType": {
@@ -3189,7 +3189,7 @@ export const MyRobotGrammar = (): Grammar => loadedMyRobotGrammar ?? (loadedMyRo
       "attributes": [
         {
           "$type": "TypeAttribute",
-          "name": "function",
+          "name": "fonction",
           "type": {
             "$type": "ReferenceType",
             "referenceType": {
@@ -3254,7 +3254,7 @@ export const MyRobotGrammar = (): Grammar => loadedMyRobotGrammar ?? (loadedMyRo
       "attributes": [
         {
           "$type": "TypeAttribute",
-          "name": "function",
+          "name": "fonction",
           "type": {
             "$type": "ReferenceType",
             "referenceType": {

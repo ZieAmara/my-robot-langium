@@ -32231,7 +32231,7 @@ var MyRobotAstReflection = class extends AbstractAstReflection {
         return {
           name: "Program",
           mandatory: [
-            { name: "function", type: "array" }
+            { name: "fonction", type: "array" }
           ]
         };
       }
@@ -32405,7 +32405,7 @@ var MyRobotGrammar = () => loadedMyRobotGrammar != null ? loadedMyRobotGrammar :
       },
       "definition": {
         "$type": "Assignment",
-        "feature": "function",
+        "feature": "fonction",
         "operator": "+=",
         "terminal": {
           "$type": "RuleCall",
@@ -34950,7 +34950,7 @@ var MyRobotGrammar = () => loadedMyRobotGrammar != null ? loadedMyRobotGrammar :
       "attributes": [
         {
           "$type": "TypeAttribute",
-          "name": "function",
+          "name": "fonction",
           "type": {
             "$type": "ArrayType",
             "elementType": {
@@ -35971,7 +35971,7 @@ function registerValidationChecks2(services) {
 var MyRobotValidator = class {
   checkUniqueFunctionDefs(program, accept) {
     const reported = /* @__PURE__ */ new Set();
-    program.function.forEach((f) => {
+    program.fonction.forEach((f) => {
       if (reported.has(f.name)) {
         accept("error", `Function has non-unique name '${f.name}'.`, { node: f, property: "name" });
       }
@@ -35979,7 +35979,7 @@ var MyRobotValidator = class {
     });
   }
   checkUniqueVariableDeclarations(program, accept) {
-    program.function.forEach((f) => {
+    program.fonction.forEach((f) => {
       const reported = /* @__PURE__ */ new Set();
       f.body.forEach((body) => {
         if (body.$type === "VariableStatement") {

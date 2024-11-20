@@ -6,7 +6,7 @@ import type { Program } from '../language/generated/ast.js';
 
 
 export function generate(program: Program): string {
-    const length = program.function;
+    const length = program.fonction;
     return length.toString();
 }
 

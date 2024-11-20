@@ -85,7 +85,7 @@ export function isFonction(item: unknown): item is Fonction {
 
 export interface Program extends AstNode {
     readonly $type: 'Program';
-    function: Array<Fonction>
+    fonction: Array<Fonction>
 }
 
 export const Program = 'Program';
@@ -288,7 +288,7 @@ export function isUnaryBooleanExpression(item: unknown): item is UnaryBooleanExp
 export interface CallFunction extends Statement {
     readonly $type: 'CallFunction';
     arguments: Array<Expression>
-    function: Reference<Fonction>
+    fonction: Reference<Fonction>
 }
 
 export const CallFunction = 'CallFunction';
@@ -368,7 +368,7 @@ export function isCallEntity(item: unknown): item is CallEntity {
 export interface CallFunctionExpr extends UnaryArithmeticExpression {
     readonly $type: 'CallFunctionExpr';
     arguments: Array<Expression>
-    function: Reference<Fonction>
+    fonction: Reference<Fonction>
 }
 
 export const CallFunctionExpr = 'CallFunctionExpr';
@@ -653,8 +653,8 @@ export class MyRobotAstReflection extends AbstractAstReflection {
             case 'CallEntity:entity': {
                 return Entity;
             }
-            case 'CallFunction:function':
-            case 'CallFunctionExpr:function': {
+            case 'CallFunction:fonction':
+            case 'CallFunctionExpr:fonction': {
                 return Fonction;
             }
             case 'VariableAssignation:variable': {
@@ -681,7 +681,7 @@ export class MyRobotAstReflection extends AbstractAstReflection {
                 return {
                     name: 'Program',
                     mandatory: [
-                        { name: 'function', type: 'array' }
+                        { name: 'fonction', type: 'array' }
                     ]
                 };
             }

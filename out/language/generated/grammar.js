@@ -127,7 +127,7 @@ export const MyRobotGrammar = () => loadedMyRobotGrammar !== null && loadedMyRob
       },
       "definition": {
         "$type": "Assignment",
-        "feature": "function",
+        "feature": "fonction",
         "operator": "+=",
         "terminal": {
           "$type": "RuleCall",
@@ -2672,7 +2672,7 @@ export const MyRobotGrammar = () => loadedMyRobotGrammar !== null && loadedMyRob
       "attributes": [
         {
           "$type": "TypeAttribute",
-          "name": "function",
+          "name": "fonction",
           "type": {
             "$type": "ArrayType",
             "elementType": {

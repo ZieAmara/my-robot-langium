@@ -296,7 +296,7 @@ export class MyRobotAstReflection extends AbstractAstReflection {
                 return {
                     name: 'Program',
                     mandatory: [
-                        { name: 'function', type: 'array' }
+                        { name: 'fonction', type: 'array' }
                     ]
                 };
             }

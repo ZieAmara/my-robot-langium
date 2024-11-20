@@ -3,7 +3,7 @@
 //import * as path from 'node:path';
 //import { extractDestinationAndName } from './cli-util.js';
 export function generate(program) {
-    const length = program.function;
+    const length = program.fonction;
     return length.toString();
 }
 /*

@@ -10,7 +10,7 @@ fragment BlockIf: '{'( then+=Statement )*'}';
 fragment BlockElse: '{'( else+=Statement )*'}';
 
 entry Program returns Program: 
-    ( function+=Fonction )*
+    ( fonction+=Fonction )*
 ;
 
 Fonction returns Fonction:
@@ -97,7 +97,7 @@ SetSpeed returns SetSpeed:
 ;
 
 CallFunction returns CallFunction:
-    function=[Fonction:EString ] '(' ( arguments+=Expression  ("," arguments+=Expression  )* )? ')' 
+    fonction=[Fonction:EString ] '(' ( arguments+=Expression  ("," arguments+=Expression  )* )? ')' 
 ;
 
 Expression returns Expression:
@@ -113,7 +113,7 @@ UnaryArithmeticExpression returns UnaryArithmeticExpression:
 ;
 
 CallFunctionExpr returns CallFunctionExpr:
-    function=[Fonction:EString ] '(' ( arguments+=Expression  ("," arguments+=Expression  )* )? ')'  
+    fonction=[Fonction:EString ] '(' ( arguments+=Expression  ("," arguments+=Expression  )* )? ')'  
 ;
 
 CallEntity returns CallEntity:
