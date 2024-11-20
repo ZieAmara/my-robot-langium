@@ -269,8 +269,8 @@ export class MyRobotAstReflection extends AbstractAstReflection {
             case 'CallEntity:entity': {
                 return Entity;
             }
-            case 'CallFunction:function':
-            case 'CallFunctionExpr:function': {
+            case 'CallFunction:fonction':
+            case 'CallFunctionExpr:fonction': {
                 return Fonction;
             }
             case 'VariableAssignation:variable': {
@@ -297,6 +297,15 @@ export class MyRobotAstReflection extends AbstractAstReflection {
                     name: 'Program',
                     mandatory: [
                         { name: 'fonction', type: 'array' }
+                    ]
+                };
+            }
+            case 'ArithmeticExpression': {
+                return {
+                    name: 'ArithmeticExpression',
+                    mandatory: [
+                        { name: 'operator', type: 'array' },
+                        { name: 'rightOperand', type: 'array' }
                     ]
                 };
             }

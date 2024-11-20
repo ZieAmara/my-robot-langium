@@ -49,19 +49,19 @@ Movement returns Movement:
 ;
 
 Backward returns Backward:
-    'Backward' distance=UnaryArithmeticExpression 'in' unit=Unit 
+    'Backward' distance=Expression 'in' unit=Unit 
 ;
 
 Forward returns Forward:
-    'Forward' distance=UnaryArithmeticExpression 'in' unit=Unit 
+    'Forward' distance=Expression 'in' unit=Unit 
 ;
 
 Left returns Left:
-    'Left' distance=UnaryArithmeticExpression 'in' unit=Unit 
+    'Left' distance=Expression 'in' unit=Unit 
 ;
 
 Right returns Right:
-    'Right' distance=UnaryArithmeticExpression 'in' unit=Unit
+    'Right' distance=Expression 'in' unit=Unit
 ;
 
 Rotate returns Rotate:
@@ -69,11 +69,11 @@ Rotate returns Rotate:
 ;
 
 Clock returns Clock:
-    'Clock' angle=UnaryArithmeticExpression   
+    'Clock' angle=Expression   
 ;
 
 ClockLeft returns ClockLeft:
-    'ClockLeft' angle=UnaryArithmeticExpression
+    'ClockLeft' angle=Expression
 ;
 
 Entity returns Entity:
@@ -85,15 +85,15 @@ Parameter returns Parameter:
 ;
 
 VariableStatement returns VariableStatement:
-    'var' type = (Type | Unit) name=ID '=' value=(UnaryArithmeticExpression | UnaryBooleanExpression)
+    'var' type = (Type | Unit) name=ID '=' value=Expression
 ;
 
 VariableAssignation returns VariableAssignation:
-    variable=[VariableStatement:EString ] '=' value=(UnaryArithmeticExpression | UnaryBooleanExpression)
+    variable=[VariableStatement:EString ] '=' value=Expression
 ;
 
 SetSpeed returns SetSpeed:
-    'setSpeed' '(' distance=UnaryArithmeticExpression ('in')? unit=Unit ')'  
+    'setSpeed' '(' distance=Expression ('in')? unit=Unit ')'  
 ;
 
 CallFunction returns CallFunction:
@@ -129,7 +129,7 @@ Value returns Value:
 ;
 
 ArithmeticExpression returns ArithmeticExpression:
-    leftOperand=UnaryArithmeticExpression ( operator=ArithmeticOperator rightOperand=(UnaryArithmeticExpression | ArithmeticExpression) )*
+    leftOperand=UnaryArithmeticExpression ( operator+=ArithmeticOperator rightOperand+=UnaryArithmeticExpression )*
 ;
 
 ArithmeticOperator returns ArithmeticOperator:

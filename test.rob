@@ -2,7 +2,7 @@ let void aret () {
     setSpeed(150 in mm)
     var number count = 0
     loop count < 5
-    {	
+    {
         count = count + 1
         square()
     }
@@ -29,6 +29,6 @@ let void entry () {
         Forward dist - 25 in cm
         Clock 90
         time = getTimestamp()
-        var number a = 5 + dist * time / 3 
+        var number a = 5 + dist * time / 3
     }
 }

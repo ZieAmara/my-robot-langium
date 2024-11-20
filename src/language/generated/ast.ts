@@ -237,11 +237,10 @@ export function isUpperThan(item: unknown): item is UpperThan {
 }
 
 export interface ArithmeticExpression extends Expression {
-    readonly $container: ArithmeticExpression;
     readonly $type: 'ArithmeticExpression';
     leftOperand: UnaryArithmeticExpression
-    operator: ArithmeticOperator
-    rightOperand: ArithmeticExpression | UnaryArithmeticExpression
+    operator: Array<ArithmeticOperator>
+    rightOperand: Array<UnaryArithmeticExpression>
 }
 
 export const ArithmeticExpression = 'ArithmeticExpression';
@@ -275,7 +274,6 @@ export function isUnaryArithmeticExpression(item: unknown): item is UnaryArithme
 }
 
 export interface UnaryBooleanExpression extends Expression {
-    readonly $container: Entity | VariableAssignation;
     readonly $type: 'UnaryBooleanExpression';
 }
 
@@ -321,7 +319,7 @@ export function isControlStructure(item: unknown): item is ControlStructure {
 
 export interface Entity extends Statement {
     readonly $type: 'Entity' | 'Parameter' | 'VariableStatement';
-    value?: UnaryArithmeticExpression | UnaryBooleanExpression
+    value?: Expression
 }
 
 export const Entity = 'Entity';
@@ -332,7 +330,7 @@ export function isEntity(item: unknown): item is Entity {
 
 export interface SetSpeed extends Statement {
     readonly $type: 'SetSpeed';
-    distance: UnaryArithmeticExpression
+    distance: Expression
     unit: Unit
 }
 
@@ -344,7 +342,7 @@ export function isSetSpeed(item: unknown): item is SetSpeed {
 
 export interface VariableAssignation extends Statement {
     readonly $type: 'VariableAssignation';
-    value?: UnaryArithmeticExpression | UnaryBooleanExpression
+    value?: Expression
     variable: Reference<VariableStatement>
 }
 
@@ -399,7 +397,7 @@ export function isValue(item: unknown): item is Value {
 
 export interface Movement extends ControlRobot {
     readonly $type: 'Backward' | 'Forward' | 'Left' | 'Movement' | 'Right';
-    distance?: UnaryArithmeticExpression
+    distance?: Expression
     unit: Unit
 }
 
@@ -411,7 +409,7 @@ export function isMovement(item: unknown): item is Movement {
 
 export interface Rotate extends ControlRobot {
     readonly $type: 'Clock' | 'ClockLeft' | 'Rotate';
-    angle?: UnaryArithmeticExpression
+    angle?: Expression
 }
 
 export const Rotate = 'Rotate';
@@ -682,6 +680,15 @@ export class MyRobotAstReflection extends AbstractAstReflection {
                     name: 'Program',
                     mandatory: [
                         { name: 'fonction', type: 'array' }
+                    ]
+                };
+            }
+            case 'ArithmeticExpression': {
+                return {
+                    name: 'ArithmeticExpression',
+                    mandatory: [
+                        { name: 'operator', type: 'array' },
+                        { name: 'rightOperand', type: 'array' }
                     ]
                 };
             }

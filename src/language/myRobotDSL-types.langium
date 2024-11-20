@@ -42,7 +42,7 @@ interface ControlRobot extends Statement {}
 
 interface Movement extends ControlRobot {
   unit: Unit;
-  distance?: UnaryArithmeticExpression;
+  distance?: Expression;
 }
 
 interface Backward extends Movement {}
@@ -54,7 +54,7 @@ interface Left extends Movement {}
 interface Right extends Movement {}
 
 interface Rotate extends ControlRobot {
-  angle?: UnaryArithmeticExpression;
+  angle?: Expression;
 }
 
 interface Clock extends Rotate {}
@@ -62,7 +62,7 @@ interface Clock extends Rotate {}
 interface ClockLeft extends Rotate {}
 
 interface Entity extends Statement {
-  value?: UnaryArithmeticExpression | UnaryBooleanExpression;
+  value?: Expression;
 }
 
 interface Parameter extends Entity {
@@ -77,12 +77,12 @@ interface VariableStatement extends Entity {
 
 interface VariableAssignation extends Statement {
   variable: @VariableStatement;
-  value?: UnaryArithmeticExpression | UnaryBooleanExpression;
+  value?: Expression;
 }
 
 interface SetSpeed extends Statement {
   unit: Unit;
-  distance: UnaryArithmeticExpression;
+  distance: Expression;
 }
 
 interface CallFunction extends Statement {
@@ -111,8 +111,8 @@ interface Value extends UnaryArithmeticExpression {}
 
 interface ArithmeticExpression extends Expression {
   leftOperand: UnaryArithmeticExpression;
-  operator: ArithmeticOperator;
-  rightOperand: UnaryArithmeticExpression | ArithmeticExpression;
+  operator: ArithmeticOperator[];
+  rightOperand: UnaryArithmeticExpression[];
 }
 
 interface ArithmeticOperator {}

@@ -32204,8 +32204,8 @@ var MyRobotAstReflection = class extends AbstractAstReflection {
       case "CallEntity:entity": {
         return Entity;
       }
-      case "CallFunction:function":
-      case "CallFunctionExpr:function": {
+      case "CallFunction:fonction":
+      case "CallFunctionExpr:fonction": {
         return Fonction;
       }
       case "VariableAssignation:variable": {
@@ -32232,6 +32232,15 @@ var MyRobotAstReflection = class extends AbstractAstReflection {
           name: "Program",
           mandatory: [
             { name: "fonction", type: "array" }
+          ]
+        };
+      }
+      case "ArithmeticExpression": {
+        return {
+          name: "ArithmeticExpression",
+          mandatory: [
+            { name: "operator", type: "array" },
+            { name: "rightOperand", type: "array" }
           ]
         };
       }
@@ -32850,7 +32859,7 @@ var MyRobotGrammar = () => loadedMyRobotGrammar != null ? loadedMyRobotGrammar :
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@27"
+                "$ref": "#/rules@25"
               },
               "arguments": []
             }
@@ -32900,7 +32909,7 @@ var MyRobotGrammar = () => loadedMyRobotGrammar != null ? loadedMyRobotGrammar :
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@27"
+                "$ref": "#/rules@25"
               },
               "arguments": []
             }
@@ -32950,7 +32959,7 @@ var MyRobotGrammar = () => loadedMyRobotGrammar != null ? loadedMyRobotGrammar :
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@27"
+                "$ref": "#/rules@25"
               },
               "arguments": []
             }
@@ -33000,7 +33009,7 @@ var MyRobotGrammar = () => loadedMyRobotGrammar != null ? loadedMyRobotGrammar :
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@27"
+                "$ref": "#/rules@25"
               },
               "arguments": []
             }
@@ -33082,7 +33091,7 @@ var MyRobotGrammar = () => loadedMyRobotGrammar != null ? loadedMyRobotGrammar :
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@27"
+                "$ref": "#/rules@25"
               },
               "arguments": []
             }
@@ -33116,7 +33125,7 @@ var MyRobotGrammar = () => loadedMyRobotGrammar != null ? loadedMyRobotGrammar :
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@27"
+                "$ref": "#/rules@25"
               },
               "arguments": []
             }
@@ -33262,23 +33271,11 @@ var MyRobotGrammar = () => loadedMyRobotGrammar != null ? loadedMyRobotGrammar :
             "feature": "value",
             "operator": "=",
             "terminal": {
-              "$type": "Alternatives",
-              "elements": [
-                {
-                  "$type": "RuleCall",
-                  "rule": {
-                    "$ref": "#/rules@27"
-                  },
-                  "arguments": []
-                },
-                {
-                  "$type": "RuleCall",
-                  "rule": {
-                    "$ref": "#/rules@26"
-                  },
-                  "arguments": []
-                }
-              ]
+              "$type": "RuleCall",
+              "rule": {
+                "$ref": "#/rules@25"
+              },
+              "arguments": []
             }
           }
         ]
@@ -33327,23 +33324,11 @@ var MyRobotGrammar = () => loadedMyRobotGrammar != null ? loadedMyRobotGrammar :
             "feature": "value",
             "operator": "=",
             "terminal": {
-              "$type": "Alternatives",
-              "elements": [
-                {
-                  "$type": "RuleCall",
-                  "rule": {
-                    "$ref": "#/rules@27"
-                  },
-                  "arguments": []
-                },
-                {
-                  "$type": "RuleCall",
-                  "rule": {
-                    "$ref": "#/rules@26"
-                  },
-                  "arguments": []
-                }
-              ]
+              "$type": "RuleCall",
+              "rule": {
+                "$ref": "#/rules@25"
+              },
+              "arguments": []
             }
           }
         ]
@@ -33425,7 +33410,7 @@ var MyRobotGrammar = () => loadedMyRobotGrammar != null ? loadedMyRobotGrammar :
         "elements": [
           {
             "$type": "Assignment",
-            "feature": "function",
+            "feature": "fonction",
             "operator": "=",
             "terminal": {
               "$type": "CrossReference",
@@ -33639,7 +33624,7 @@ var MyRobotGrammar = () => loadedMyRobotGrammar != null ? loadedMyRobotGrammar :
         "elements": [
           {
             "$type": "Assignment",
-            "feature": "function",
+            "feature": "fonction",
             "operator": "=",
             "terminal": {
               "$type": "CrossReference",
@@ -33844,7 +33829,7 @@ var MyRobotGrammar = () => loadedMyRobotGrammar != null ? loadedMyRobotGrammar :
               {
                 "$type": "Assignment",
                 "feature": "operator",
-                "operator": "=",
+                "operator": "+=",
                 "terminal": {
                   "$type": "RuleCall",
                   "rule": {
@@ -33856,25 +33841,13 @@ var MyRobotGrammar = () => loadedMyRobotGrammar != null ? loadedMyRobotGrammar :
               {
                 "$type": "Assignment",
                 "feature": "rightOperand",
-                "operator": "=",
+                "operator": "+=",
                 "terminal": {
-                  "$type": "Alternatives",
-                  "elements": [
-                    {
-                      "$type": "RuleCall",
-                      "rule": {
-                        "$ref": "#/rules@27"
-                      },
-                      "arguments": []
-                    },
-                    {
-                      "$type": "RuleCall",
-                      "rule": {
-                        "$ref": "#/rules@32"
-                      },
-                      "arguments": []
-                    }
-                  ]
+                  "$type": "RuleCall",
+                  "rule": {
+                    "$ref": "#/rules@27"
+                  },
+                  "arguments": []
                 }
               }
             ],
@@ -35175,7 +35148,7 @@ var MyRobotGrammar = () => loadedMyRobotGrammar != null ? loadedMyRobotGrammar :
           "type": {
             "$type": "SimpleType",
             "typeRef": {
-              "$ref": "#/interfaces@24"
+              "$ref": "#/interfaces@22"
             }
           }
         }
@@ -35237,7 +35210,7 @@ var MyRobotGrammar = () => loadedMyRobotGrammar != null ? loadedMyRobotGrammar :
           "type": {
             "$type": "SimpleType",
             "typeRef": {
-              "$ref": "#/interfaces@24"
+              "$ref": "#/interfaces@22"
             }
           }
         }
@@ -35277,21 +35250,10 @@ var MyRobotGrammar = () => loadedMyRobotGrammar != null ? loadedMyRobotGrammar :
           "name": "value",
           "isOptional": true,
           "type": {
-            "$type": "UnionType",
-            "types": [
-              {
-                "$type": "SimpleType",
-                "typeRef": {
-                  "$ref": "#/interfaces@24"
-                }
-              },
-              {
-                "$type": "SimpleType",
-                "typeRef": {
-                  "$ref": "#/interfaces@23"
-                }
-              }
-            ]
+            "$type": "SimpleType",
+            "typeRef": {
+              "$ref": "#/interfaces@22"
+            }
           }
         }
       ],
@@ -35401,21 +35363,10 @@ var MyRobotGrammar = () => loadedMyRobotGrammar != null ? loadedMyRobotGrammar :
           "name": "value",
           "isOptional": true,
           "type": {
-            "$type": "UnionType",
-            "types": [
-              {
-                "$type": "SimpleType",
-                "typeRef": {
-                  "$ref": "#/interfaces@24"
-                }
-              },
-              {
-                "$type": "SimpleType",
-                "typeRef": {
-                  "$ref": "#/interfaces@23"
-                }
-              }
-            ]
+            "$type": "SimpleType",
+            "typeRef": {
+              "$ref": "#/interfaces@22"
+            }
           }
         }
       ],
@@ -35464,7 +35415,7 @@ var MyRobotGrammar = () => loadedMyRobotGrammar != null ? loadedMyRobotGrammar :
       "attributes": [
         {
           "$type": "TypeAttribute",
-          "name": "function",
+          "name": "fonction",
           "type": {
             "$type": "ReferenceType",
             "referenceType": {
@@ -35529,7 +35480,7 @@ var MyRobotGrammar = () => loadedMyRobotGrammar != null ? loadedMyRobotGrammar :
       "attributes": [
         {
           "$type": "TypeAttribute",
-          "name": "function",
+          "name": "fonction",
           "type": {
             "$type": "ReferenceType",
             "referenceType": {
@@ -35626,9 +35577,12 @@ var MyRobotGrammar = () => loadedMyRobotGrammar != null ? loadedMyRobotGrammar :
           "$type": "TypeAttribute",
           "name": "operator",
           "type": {
-            "$type": "SimpleType",
-            "typeRef": {
-              "$ref": "#/interfaces@30"
+            "$type": "ArrayType",
+            "elementType": {
+              "$type": "SimpleType",
+              "typeRef": {
+                "$ref": "#/interfaces@30"
+              }
             }
           },
           "isOptional": false
@@ -35637,21 +35591,13 @@ var MyRobotGrammar = () => loadedMyRobotGrammar != null ? loadedMyRobotGrammar :
           "$type": "TypeAttribute",
           "name": "rightOperand",
           "type": {
-            "$type": "UnionType",
-            "types": [
-              {
-                "$type": "SimpleType",
-                "typeRef": {
-                  "$ref": "#/interfaces@24"
-                }
-              },
-              {
-                "$type": "SimpleType",
-                "typeRef": {
-                  "$ref": "#/interfaces@29"
-                }
+            "$type": "ArrayType",
+            "elementType": {
+              "$type": "SimpleType",
+              "typeRef": {
+                "$ref": "#/interfaces@24"
               }
-            ]
+            }
           },
           "isOptional": false
         }
