@@ -5,7 +5,9 @@ let void aret () {
     {
         count = count + 1
         square()
+        return count
     }
+    return count
 }
 
 let void square(){

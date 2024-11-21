@@ -5,9 +5,9 @@ import 'myRobotDSL-types'
 import 'XMLType-types'
 
 
-fragment Block: '{'( body+=Statement )*'}';
-fragment BlockIf: '{'( then+=Statement )*'}';
-fragment BlockElse: '{'( else+=Statement )*'}';
+fragment Block: '{'( body+=Statement )* ('return' returnValue=Expression)? '}';
+fragment BlockIf: '{'( thenStatement+=Statement )* ('return' returnIfValue=Expression)? '}';
+fragment BlockElse: '{'( elseStatement+=Statement )* ('return' returnElseValue=Expression)? '}';
 
 entry Program returns Program: 
     ( fonction+=Fonction )*
@@ -97,7 +97,7 @@ SetSpeed returns SetSpeed:
 ;
 
 CallFunction returns CallFunction:
-    fonction=[Fonction:EString ] '(' ( arguments+=Expression  ("," arguments+=Expression  )* )? ')' 
+    fonction=[Fonction:EString ] '(' ( args+=Expression  ("," args+=Expression  )* )? ')' 
 ;
 
 Expression returns Expression:
@@ -113,7 +113,7 @@ UnaryArithmeticExpression returns UnaryArithmeticExpression:
 ;
 
 CallFunctionExpr returns CallFunctionExpr:
-    fonction=[Fonction:EString ] '(' ( arguments+=Expression  ("," arguments+=Expression  )* )? ')'  
+    fonction=[Fonction:EString ] '(' ( args+=Expression  ("," args+=Expression  )* )? ')'  
 ;
 
 CallEntity returns CallEntity:

@@ -75,6 +75,7 @@ export interface Fonction extends AstNode {
     name: ID
     parameter: Array<Parameter>
     returntype?: ReturnType
+    returnValue?: Expression
 }
 
 export const Fonction = 'Fonction';
@@ -285,7 +286,7 @@ export function isUnaryBooleanExpression(item: unknown): item is UnaryBooleanExp
 
 export interface CallFunction extends Statement {
     readonly $type: 'CallFunction';
-    arguments: Array<Expression>
+    args: Array<Expression>
     fonction: Reference<Fonction>
 }
 
@@ -365,7 +366,7 @@ export function isCallEntity(item: unknown): item is CallEntity {
 
 export interface CallFunctionExpr extends UnaryArithmeticExpression {
     readonly $type: 'CallFunctionExpr';
-    arguments: Array<Expression>
+    args: Array<Expression>
     fonction: Reference<Fonction>
 }
 
@@ -420,8 +421,10 @@ export function isRotate(item: unknown): item is Rotate {
 
 export interface If extends ControlStructure {
     readonly $type: 'If';
-    else: Array<Statement>
-    then: Array<Statement>
+    elseStatement?: Array<Statement>
+    returnElseValue?: Expression
+    returnIfValue?: Expression
+    thenStatement: Array<Statement>
 }
 
 export const If = 'If';
@@ -432,6 +435,7 @@ export function isIf(item: unknown): item is If {
 
 export interface Loop extends ControlStructure {
     readonly $type: 'Loop';
+    returnValue?: Expression
 }
 
 export const Loop = 'Loop';
@@ -696,7 +700,7 @@ export class MyRobotAstReflection extends AbstractAstReflection {
                 return {
                     name: 'CallFunction',
                     mandatory: [
-                        { name: 'arguments', type: 'array' }
+                        { name: 'args', type: 'array' }
                     ]
                 };
             }
@@ -713,7 +717,7 @@ export class MyRobotAstReflection extends AbstractAstReflection {
                 return {
                     name: 'CallFunctionExpr',
                     mandatory: [
-                        { name: 'arguments', type: 'array' }
+                        { name: 'args', type: 'array' }
                     ]
                 };
             }
@@ -721,8 +725,8 @@ export class MyRobotAstReflection extends AbstractAstReflection {
                 return {
                     name: 'If',
                     mandatory: [
-                        { name: 'else', type: 'array' },
-                        { name: 'then', type: 'array' }
+                        { name: 'elseStatement', type: 'array' },
+                        { name: 'thenStatement', type: 'array' }
                     ]
                 };
             }

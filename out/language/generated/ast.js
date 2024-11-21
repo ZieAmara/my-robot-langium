@@ -313,7 +313,7 @@ export class MyRobotAstReflection extends AbstractAstReflection {
                 return {
                     name: 'CallFunction',
                     mandatory: [
-                        { name: 'arguments', type: 'array' }
+                        { name: 'args', type: 'array' }
                     ]
                 };
             }
@@ -330,7 +330,7 @@ export class MyRobotAstReflection extends AbstractAstReflection {
                 return {
                     name: 'CallFunctionExpr',
                     mandatory: [
-                        { name: 'arguments', type: 'array' }
+                        { name: 'args', type: 'array' }
                     ]
                 };
             }
@@ -338,8 +338,8 @@ export class MyRobotAstReflection extends AbstractAstReflection {
                 return {
                     name: 'If',
                     mandatory: [
-                        { name: 'else', type: 'array' },
-                        { name: 'then', type: 'array' }
+                        { name: 'elseStatement', type: 'array' },
+                        { name: 'thenStatement', type: 'array' }
                     ]
                 };
             }

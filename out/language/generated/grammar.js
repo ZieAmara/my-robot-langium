@@ -35,6 +35,28 @@ export const MyRobotGrammar = () => loadedMyRobotGrammar !== null && loadedMyRob
             "cardinality": "*"
           },
           {
+            "$type": "Group",
+            "elements": [
+              {
+                "$type": "Keyword",
+                "value": "return"
+              },
+              {
+                "$type": "Assignment",
+                "feature": "returnValue",
+                "operator": "=",
+                "terminal": {
+                  "$type": "RuleCall",
+                  "rule": {
+                    "$ref": "#/rules@25"
+                  },
+                  "arguments": []
+                }
+              }
+            ],
+            "cardinality": "?"
+          },
+          {
             "$type": "Keyword",
             "value": "}"
           }
@@ -59,7 +81,7 @@ export const MyRobotGrammar = () => loadedMyRobotGrammar !== null && loadedMyRob
           },
           {
             "$type": "Assignment",
-            "feature": "then",
+            "feature": "thenStatement",
             "operator": "+=",
             "terminal": {
               "$type": "RuleCall",
@@ -69,6 +91,28 @@ export const MyRobotGrammar = () => loadedMyRobotGrammar !== null && loadedMyRob
               "arguments": []
             },
             "cardinality": "*"
+          },
+          {
+            "$type": "Group",
+            "elements": [
+              {
+                "$type": "Keyword",
+                "value": "return"
+              },
+              {
+                "$type": "Assignment",
+                "feature": "returnIfValue",
+                "operator": "=",
+                "terminal": {
+                  "$type": "RuleCall",
+                  "rule": {
+                    "$ref": "#/rules@25"
+                  },
+                  "arguments": []
+                }
+              }
+            ],
+            "cardinality": "?"
           },
           {
             "$type": "Keyword",
@@ -95,7 +139,7 @@ export const MyRobotGrammar = () => loadedMyRobotGrammar !== null && loadedMyRob
           },
           {
             "$type": "Assignment",
-            "feature": "else",
+            "feature": "elseStatement",
             "operator": "+=",
             "terminal": {
               "$type": "RuleCall",
@@ -105,6 +149,28 @@ export const MyRobotGrammar = () => loadedMyRobotGrammar !== null && loadedMyRob
               "arguments": []
             },
             "cardinality": "*"
+          },
+          {
+            "$type": "Group",
+            "elements": [
+              {
+                "$type": "Keyword",
+                "value": "return"
+              },
+              {
+                "$type": "Assignment",
+                "feature": "returnElseValue",
+                "operator": "=",
+                "terminal": {
+                  "$type": "RuleCall",
+                  "rule": {
+                    "$ref": "#/rules@25"
+                  },
+                  "arguments": []
+                }
+              }
+            ],
+            "cardinality": "?"
           },
           {
             "$type": "Keyword",
@@ -1077,7 +1143,7 @@ export const MyRobotGrammar = () => loadedMyRobotGrammar !== null && loadedMyRob
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@27"
+                "$ref": "#/rules@25"
               },
               "arguments": []
             }
@@ -1149,7 +1215,7 @@ export const MyRobotGrammar = () => loadedMyRobotGrammar !== null && loadedMyRob
             "elements": [
               {
                 "$type": "Assignment",
-                "feature": "arguments",
+                "feature": "args",
                 "operator": "+=",
                 "terminal": {
                   "$type": "RuleCall",
@@ -1168,7 +1234,7 @@ export const MyRobotGrammar = () => loadedMyRobotGrammar !== null && loadedMyRob
                   },
                   {
                     "$type": "Assignment",
-                    "feature": "arguments",
+                    "feature": "args",
                     "operator": "+=",
                     "terminal": {
                       "$type": "RuleCall",
@@ -1363,7 +1429,7 @@ export const MyRobotGrammar = () => loadedMyRobotGrammar !== null && loadedMyRob
             "elements": [
               {
                 "$type": "Assignment",
-                "feature": "arguments",
+                "feature": "args",
                 "operator": "+=",
                 "terminal": {
                   "$type": "RuleCall",
@@ -1382,7 +1448,7 @@ export const MyRobotGrammar = () => loadedMyRobotGrammar !== null && loadedMyRob
                   },
                   {
                     "$type": "Assignment",
-                    "feature": "arguments",
+                    "feature": "args",
                     "operator": "+=",
                     "terminal": {
                       "$type": "RuleCall",
@@ -2153,7 +2219,7 @@ export const MyRobotGrammar = () => loadedMyRobotGrammar !== null && loadedMyRob
       "$type": "ParserRule",
       "name": "Unit",
       "returnType": {
-        "$ref": "#/types@3"
+        "$ref": "#/types@4"
       },
       "definition": {
         "$type": "Alternatives",
@@ -2192,7 +2258,7 @@ export const MyRobotGrammar = () => loadedMyRobotGrammar !== null && loadedMyRob
       "$type": "ParserRule",
       "name": "Unit_m",
       "returnType": {
-        "$ref": "#/types@4"
+        "$ref": "#/types@5"
       },
       "definition": {
         "$type": "Keyword",
@@ -2209,7 +2275,7 @@ export const MyRobotGrammar = () => loadedMyRobotGrammar !== null && loadedMyRob
       "$type": "ParserRule",
       "name": "Unit_cm",
       "returnType": {
-        "$ref": "#/types@5"
+        "$ref": "#/types@6"
       },
       "definition": {
         "$type": "Keyword",
@@ -2226,7 +2292,7 @@ export const MyRobotGrammar = () => loadedMyRobotGrammar !== null && loadedMyRob
       "$type": "ParserRule",
       "name": "Unit_mm",
       "returnType": {
-        "$ref": "#/types@6"
+        "$ref": "#/types@7"
       },
       "definition": {
         "$type": "Keyword",
@@ -2243,7 +2309,7 @@ export const MyRobotGrammar = () => loadedMyRobotGrammar !== null && loadedMyRob
       "$type": "ParserRule",
       "name": "Type",
       "returnType": {
-        "$ref": "#/types@0"
+        "$ref": "#/types@1"
       },
       "definition": {
         "$type": "Alternatives",
@@ -2275,7 +2341,7 @@ export const MyRobotGrammar = () => loadedMyRobotGrammar !== null && loadedMyRob
       "$type": "ParserRule",
       "name": "Type_number",
       "returnType": {
-        "$ref": "#/types@1"
+        "$ref": "#/types@2"
       },
       "definition": {
         "$type": "Keyword",
@@ -2292,7 +2358,7 @@ export const MyRobotGrammar = () => loadedMyRobotGrammar !== null && loadedMyRob
       "$type": "ParserRule",
       "name": "Type_boolean",
       "returnType": {
-        "$ref": "#/types@2"
+        "$ref": "#/types@3"
       },
       "definition": {
         "$type": "Keyword",
@@ -2661,7 +2727,7 @@ export const MyRobotGrammar = () => loadedMyRobotGrammar !== null && loadedMyRob
           "type": {
             "$type": "SimpleType",
             "typeRef": {
-              "$ref": "#/types@7"
+              "$ref": "#/types@0"
             }
           },
           "isOptional": false
@@ -2674,6 +2740,17 @@ export const MyRobotGrammar = () => loadedMyRobotGrammar !== null && loadedMyRob
             "$type": "SimpleType",
             "typeRef": {
               "$ref": "#/interfaces@2"
+            }
+          }
+        },
+        {
+          "$type": "TypeAttribute",
+          "name": "returnValue",
+          "isOptional": true,
+          "type": {
+            "$type": "SimpleType",
+            "typeRef": {
+              "$ref": "#/interfaces@22"
             }
           }
         },
@@ -2721,7 +2798,7 @@ export const MyRobotGrammar = () => loadedMyRobotGrammar !== null && loadedMyRob
               {
                 "$type": "SimpleType",
                 "typeRef": {
-                  "$ref": "#/types@0"
+                  "$ref": "#/types@1"
                 }
               },
               {
@@ -2786,7 +2863,7 @@ export const MyRobotGrammar = () => loadedMyRobotGrammar !== null && loadedMyRob
       "attributes": [
         {
           "$type": "TypeAttribute",
-          "name": "then",
+          "name": "thenStatement",
           "type": {
             "$type": "ArrayType",
             "elementType": {
@@ -2800,7 +2877,7 @@ export const MyRobotGrammar = () => loadedMyRobotGrammar !== null && loadedMyRob
         },
         {
           "$type": "TypeAttribute",
-          "name": "else",
+          "name": "elseStatement",
           "isOptional": true,
           "type": {
             "$type": "ArrayType",
@@ -2809,6 +2886,28 @@ export const MyRobotGrammar = () => loadedMyRobotGrammar !== null && loadedMyRob
               "typeRef": {
                 "$ref": "#/interfaces@3"
               }
+            }
+          }
+        },
+        {
+          "$type": "TypeAttribute",
+          "name": "returnIfValue",
+          "isOptional": true,
+          "type": {
+            "$type": "SimpleType",
+            "typeRef": {
+              "$ref": "#/interfaces@22"
+            }
+          }
+        },
+        {
+          "$type": "TypeAttribute",
+          "name": "returnElseValue",
+          "isOptional": true,
+          "type": {
+            "$type": "SimpleType",
+            "typeRef": {
+              "$ref": "#/interfaces@22"
             }
           }
         }
@@ -2822,13 +2921,25 @@ export const MyRobotGrammar = () => loadedMyRobotGrammar !== null && loadedMyRob
     },
     {
       "$type": "Interface",
+      "attributes": [
+        {
+          "$type": "TypeAttribute",
+          "name": "returnValue",
+          "isOptional": true,
+          "type": {
+            "$type": "SimpleType",
+            "typeRef": {
+              "$ref": "#/interfaces@22"
+            }
+          }
+        }
+      ],
       "name": "Loop",
       "superTypes": [
         {
           "$ref": "#/interfaces@4"
         }
-      ],
-      "attributes": []
+      ]
     },
     {
       "$type": "Interface",
@@ -2849,7 +2960,7 @@ export const MyRobotGrammar = () => loadedMyRobotGrammar !== null && loadedMyRob
           "type": {
             "$type": "SimpleType",
             "typeRef": {
-              "$ref": "#/types@3"
+              "$ref": "#/types@4"
             }
           },
           "isOptional": false
@@ -2986,7 +3097,7 @@ export const MyRobotGrammar = () => loadedMyRobotGrammar !== null && loadedMyRob
           "type": {
             "$type": "SimpleType",
             "typeRef": {
-              "$ref": "#/types@7"
+              "$ref": "#/types@0"
             }
           },
           "isOptional": false
@@ -2997,7 +3108,7 @@ export const MyRobotGrammar = () => loadedMyRobotGrammar !== null && loadedMyRob
           "type": {
             "$type": "SimpleType",
             "typeRef": {
-              "$ref": "#/types@0"
+              "$ref": "#/types@1"
             }
           },
           "isOptional": false
@@ -3019,7 +3130,7 @@ export const MyRobotGrammar = () => loadedMyRobotGrammar !== null && loadedMyRob
           "type": {
             "$type": "SimpleType",
             "typeRef": {
-              "$ref": "#/types@7"
+              "$ref": "#/types@0"
             }
           },
           "isOptional": false
@@ -3033,13 +3144,13 @@ export const MyRobotGrammar = () => loadedMyRobotGrammar !== null && loadedMyRob
               {
                 "$type": "SimpleType",
                 "typeRef": {
-                  "$ref": "#/types@0"
+                  "$ref": "#/types@1"
                 }
               },
               {
                 "$type": "SimpleType",
                 "typeRef": {
-                  "$ref": "#/types@3"
+                  "$ref": "#/types@4"
                 }
               }
             ]
@@ -3099,7 +3210,7 @@ export const MyRobotGrammar = () => loadedMyRobotGrammar !== null && loadedMyRob
           "type": {
             "$type": "SimpleType",
             "typeRef": {
-              "$ref": "#/types@3"
+              "$ref": "#/types@4"
             }
           },
           "isOptional": false
@@ -3110,7 +3221,7 @@ export const MyRobotGrammar = () => loadedMyRobotGrammar !== null && loadedMyRob
           "type": {
             "$type": "SimpleType",
             "typeRef": {
-              "$ref": "#/interfaces@24"
+              "$ref": "#/interfaces@22"
             }
           },
           "isOptional": false
@@ -3142,7 +3253,7 @@ export const MyRobotGrammar = () => loadedMyRobotGrammar !== null && loadedMyRob
         },
         {
           "$type": "TypeAttribute",
-          "name": "arguments",
+          "name": "args",
           "isOptional": true,
           "type": {
             "$type": "ArrayType",
@@ -3207,7 +3318,7 @@ export const MyRobotGrammar = () => loadedMyRobotGrammar !== null && loadedMyRob
         },
         {
           "$type": "TypeAttribute",
-          "name": "arguments",
+          "name": "args",
           "isOptional": true,
           "type": {
             "$type": "ArrayType",
@@ -3502,6 +3613,14 @@ export const MyRobotGrammar = () => loadedMyRobotGrammar !== null && loadedMyRob
   "types": [
     {
       "$type": "Type",
+      "name": "ID",
+      "type": {
+        "$type": "SimpleType",
+        "primitiveType": "string"
+      }
+    },
+    {
+      "$type": "Type",
       "name": "Type",
       "type": {
         "$type": "UnionType",
@@ -3509,13 +3628,13 @@ export const MyRobotGrammar = () => loadedMyRobotGrammar !== null && loadedMyRob
           {
             "$type": "SimpleType",
             "typeRef": {
-              "$ref": "#/types@1"
+              "$ref": "#/types@2"
             }
           },
           {
             "$type": "SimpleType",
             "typeRef": {
-              "$ref": "#/types@2"
+              "$ref": "#/types@3"
             }
           }
         ]
@@ -3546,12 +3665,6 @@ export const MyRobotGrammar = () => loadedMyRobotGrammar !== null && loadedMyRob
           {
             "$type": "SimpleType",
             "typeRef": {
-              "$ref": "#/types@4"
-            }
-          },
-          {
-            "$type": "SimpleType",
-            "typeRef": {
               "$ref": "#/types@5"
             }
           },
@@ -3559,6 +3672,12 @@ export const MyRobotGrammar = () => loadedMyRobotGrammar !== null && loadedMyRob
             "$type": "SimpleType",
             "typeRef": {
               "$ref": "#/types@6"
+            }
+          },
+          {
+            "$type": "SimpleType",
+            "typeRef": {
+              "$ref": "#/types@7"
             }
           }
         ]
@@ -3586,14 +3705,6 @@ export const MyRobotGrammar = () => loadedMyRobotGrammar !== null && loadedMyRob
       "type": {
         "$type": "SimpleType",
         "stringType": "mm"
-      }
-    },
-    {
-      "$type": "Type",
-      "name": "ID",
-      "type": {
-        "$type": "SimpleType",
-        "primitiveType": "string"
       }
     }
   ],

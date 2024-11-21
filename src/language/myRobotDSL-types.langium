@@ -1,14 +1,5 @@
 import 'XMLType-types'
 
-type Type = Type_number | Type_boolean;
-type Type_number = 'number';
-type Type_boolean = 'boolean';
-
-type Unit = Unit_m | Unit_cm | Unit_mm;
-type Unit_m = 'm';
-type Unit_cm = 'cm';
-type Unit_mm = 'mm';
-
 interface Program {
   fonction: Fonction[];
 }
@@ -16,6 +7,7 @@ interface Program {
 interface Fonction {
   name: ID;
   returntype?: ReturnType;
+  returnValue?: Expression;
   parameter: Parameter[];
   body: Statement[];
 }
@@ -32,11 +24,15 @@ interface ControlStructure extends Statement {
 }
 
 interface If extends ControlStructure {
-  then: Statement[];
-  else?: Statement[];
+  thenStatement: Statement[];
+  elseStatement?: Statement[];
+  returnIfValue?: Expression;
+  returnElseValue?: Expression;
 }
 
-interface Loop extends ControlStructure {}
+interface Loop extends ControlStructure {
+  returnValue?: Expression;
+}
 
 interface ControlRobot extends Statement {}
 
@@ -87,7 +83,7 @@ interface SetSpeed extends Statement {
 
 interface CallFunction extends Statement {
   fonction: @Fonction;
-  arguments?: Expression[];
+  args?: Expression[];
 }
 
 interface Expression {}
@@ -98,7 +94,7 @@ interface UnaryArithmeticExpression extends Expression {}
 
 interface CallFunctionExpr extends UnaryArithmeticExpression {
   fonction: @Fonction;
-  arguments?: Expression[];
+  args?: Expression[];
 }
 
 interface CallEntity extends UnaryArithmeticExpression {

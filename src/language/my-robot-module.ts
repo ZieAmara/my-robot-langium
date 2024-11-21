@@ -2,13 +2,15 @@ import type { DefaultSharedModuleContext, LangiumServices, LangiumSharedServices
 import { createDefaultModule, createDefaultSharedModule, inject } from 'langium';
 import { MyRobotGeneratedModule, MyRobotGeneratedSharedModule } from './generated/module.js';
 import { MyRobotValidator, registerValidationChecks } from './my-robot-validator.js';
+import { MyRobotAcceptWeaver, weaveAcceptMethods } from './visitorGenerator/accept-weaver.js';
 
 /**
  * Declaration of custom services - add your own service classes here.
  */
 export type MyRobotAddedServices = {
     validation: {
-        MyRobotValidator: MyRobotValidator
+        MyRobotValidator: MyRobotValidator,
+        MyRobotAcceptWeaver: MyRobotAcceptWeaver
     }
 }
 
@@ -25,7 +27,8 @@ export type MyRobotServices = LangiumServices & MyRobotAddedServices
  */
 export const MyRobotModule: Module<MyRobotServices, PartialLangiumServices & MyRobotAddedServices> = {
     validation: {
-        MyRobotValidator: () => new MyRobotValidator()
+        MyRobotValidator: () => new MyRobotValidator(),
+        MyRobotAcceptWeaver: () => new MyRobotAcceptWeaver()
     }
 };
 
@@ -59,5 +62,6 @@ export function createMyRobotServices(context: DefaultSharedModuleContext): {
     );
     shared.ServiceRegistry.register(MyRobot);
     registerValidationChecks(MyRobot);
+    weaveAcceptMethods(MyRobot);
     return { shared, MyRobot };
 }
