@@ -152,7 +152,8 @@ export class Loop extends ControlStructure implements ASTInterfaces.Loop {
     // simply copy-paste the interface fields as public parameters
     // you can find them in generated/ast.ts
     constructor(
-        public override $type: 'Loop'
+        public override $type: 'Loop',
+        public returnValue?: Expression
     ){
         super($type, [], [])
     }
