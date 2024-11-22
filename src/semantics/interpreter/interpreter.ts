@@ -19,7 +19,7 @@ const globalContext: {
 };
 
 
-export class MyRobotInterpreter implements Visitor {
+export class InterpreterVisitor implements Visitor {
     private scene: Scene;
     private robot: Robot;
 
@@ -37,7 +37,7 @@ export class MyRobotInterpreter implements Visitor {
         globalContext.currentScene = this.scene;
     }
 
-    visitProgram(node: Program): Scene {
+    visitProgram(node: Program): void {
         // Vérification de l'existence de fonctions dans le programme
         if (!node.fonction || node.fonction.length === 0) {
             throw new Error("Le programme doit contenir au moins une fonction.");
@@ -63,11 +63,9 @@ export class MyRobotInterpreter implements Visitor {
         } else {
             throw new Error("Aucune scène active pour ajouter un horodatage.");
         }
-
-        return globalContext.currentScene!;
     }
 
-    visitFonction(node: Fonction) {
+    visitFonction(node: Fonction): void {
         // Vérifier que la fonction a un corps défini
         if (!node.body || node.body.length === 0) {
             throw new Error(`La fonction '${node.name}' n'a pas de corps défini.`);
@@ -89,7 +87,7 @@ export class MyRobotInterpreter implements Visitor {
         console.log(`Fin de l'exécution de la fonction : ${node.name}`);
     }
 
-    visitReturnType(node: ReturnType) {
+    visitReturnType(node: ReturnType): void {
         // Vérifie si le type attendu est défini
         if (!node.type) {
             throw new Error(`Le type de retour attendu pour la fonction n'est pas défini.`);
@@ -110,7 +108,7 @@ export class MyRobotInterpreter implements Visitor {
         return returnValue;
     }
 
-    visitStatement(node: Statement) {}
+    visitStatement(node: Statement): void {}
 
     visitControlStructure(node: ControlStructure) {
         if (node.$type === 'If') {
@@ -122,7 +120,7 @@ export class MyRobotInterpreter implements Visitor {
         throw new Error(`Le type de structure de contrôle '${node.$type}' n'est pas supporté.`);
     }
 
-    visitIf(node: If) {
+    visitIf(node: If): void {
         // Si la condition est un tableau, traiter chaque élément
         if (Array.isArray(node.condition)) {
             node.condition.forEach(conditionNode => {
@@ -152,7 +150,7 @@ export class MyRobotInterpreter implements Visitor {
         }
     }
 
-    visitLoop(node: Loop) {
+    visitLoop(node: Loop): void {
         // Si la condition est un tableau, traiter chaque élément pour évaluer le résultat final
         let conditionResult = false;
     
@@ -199,99 +197,99 @@ export class MyRobotInterpreter implements Visitor {
         }
     }
 
-    visitControlRobot(node: ControlRobot) {}
+    visitControlRobot(node: ControlRobot): void {}
 
-    visitMovement(node: Movement) {
+    visitMovement(node: Movement): void {
         const robot = globalContext.currentScene?.robot;
         if (!robot) throw new Error("Aucun robot trouvé pour effectuer le mouvement.");
         if (node.distance) robot.move(acceptNode(node.distance, this));
     }
 
-    visitBackward(node: Backward) {
+    visitBackward(node: Backward): void {
         const robot = globalContext.currentScene?.robot;
         if (!robot) throw new Error("Aucun robot trouvé pour effectuer le mouvement arrière.");
         if (node.distance) robot.move(acceptNode(node.distance, this));
     }
 
-    visitForward(node: Forward) {
+    visitForward(node: Forward): void {
         this.visitMovement(node);
     }
 
-    visitLeft(node: Left) {
+    visitLeft(node: Left): void {
         const robot = globalContext.currentScene?.robot;
         if (!robot) throw new Error("Aucun robot rencontré pour effectuer le mouvement gauche.");
         if (node.distance) robot.side(-acceptNode(node.distance, this));
     }
 
-    visitRight(node: Right) {
+    visitRight(node: Right): void {
         const robot = globalContext.currentScene?.robot;
         if (!robot) throw new Error("Aucun robot rencontré pour effectuer le mouvement droit.");
         if (node.distance) robot.side(acceptNode(node.distance, this));
     }
 
-    visitRotate(node: Rotate) {}
+    visitRotate(node: Rotate): void {}
 
     visitClock(node: Clock) {}
 
-    visitClockLeft(node: ClockLeft) {}
+    visitClockLeft(node: ClockLeft): void {}
 
-    visitEntity(node: Entity) {}
+    visitEntity(node: Entity): void {}
 
-    visitParameter(node: Parameter) {}
+    visitParameter(node: Parameter): void {}
 
-    visitVariableStatement(node: VariableStatement) {}
+    visitVariableStatement(node: VariableStatement): void {}
 
-    visitVariableAssignation(node: VariableAssignation) {}
+    visitVariableAssignation(node: VariableAssignation): void {}
 
-    visitSetSpeed(node: SetSpeed) {}
+    visitSetSpeed(node: SetSpeed): void {}
 
-    visitCallFunction(node: CallFunction) {}
+    visitCallFunction(node: CallFunction): void {}
 
-    visitExpression(node: Expression) {}
+    visitExpression(node: Expression): void {}
 
-    visitUnaryBooleanExpression(node: UnaryBooleanExpression) {}
+    visitUnaryBooleanExpression(node: UnaryBooleanExpression): void {}
 
-    visitUnaryArithmeticExpression(node: UnaryArithmeticExpression) {}
+    visitUnaryArithmeticExpression(node: UnaryArithmeticExpression): void {}
 
-    visitCallFunctionExpr(node: CallFunctionExpr) {}
+    visitCallFunctionExpr(node: CallFunctionExpr): void {}
 
-    visitCallEntity(node: CallEntity) {}
+    visitCallEntity(node: CallEntity): void {}
 
-    visitGetSensor(node: GetSensor) {}
+    visitGetSensor(node: GetSensor): void {}
     
-    visitValue(node: Value) {}
+    visitValue(node: Value): void {}
 
-    visitArithmeticExpression(node: ArithmeticExpression) {}
+    visitArithmeticExpression(node: ArithmeticExpression): void {}
 
-    visitArithmeticOperator(node: ArithmeticOperator) {}
+    visitArithmeticOperator(node: ArithmeticOperator): void {}
 
-    visitAdd(node: Add) {}
+    visitAdd(node: Add): void {}
 
-    visitSub(node: Sub) {}
+    visitSub(node: Sub): void {}
 
-    visitMultiply(node: Multiply) {}
+    visitMultiply(node: Multiply): void {}
 
-    visitDivise(node: Divise) {}
+    visitDivise(node: Divise): void {}
 
-    visitBooleanExpression(node: BooleanExpression) {}
+    visitBooleanExpression(node: BooleanExpression): void {}
 
-    visitBooleanOperator(node: BooleanOperator) {}
+    visitBooleanOperator(node: BooleanOperator): void {}
 
-    visitLowerThan(node: LowerThan) {}
+    visitLowerThan(node: LowerThan): void {}
 
-    visitEqualTo(node: EqualTo) {}
+    visitEqualTo(node: EqualTo): void {}
 
-    visitUpperThan(node: UpperThan) {}
+    visitUpperThan(node: UpperThan): void {}
 
-    visitNot(node: Not) {}
+    visitNot(node: Not): void {}
 
-    visitOr(node: Or) {}
+    visitOr(node: Or): void {}
 
-    visitLowerOrEqualTo(node: LowerOrEqualTo) {}
+    visitLowerOrEqualTo(node: LowerOrEqualTo): void {}
 
-    visitUpperOrEqualTo(node: UpperOrEqualTo) {}
+    visitUpperOrEqualTo(node: UpperOrEqualTo): void {}
 
-    visitAnd(node: And) {}
+    visitAnd(node: And): void {}
 
 }
 

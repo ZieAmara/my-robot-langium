@@ -421,7 +421,7 @@ export function isRotate(item: unknown): item is Rotate {
 
 export interface If extends ControlStructure {
     readonly $type: 'If';
-    elseStatement?: Array<Statement>
+    elseStatement: Array<Statement>
     returnElseValue?: Expression
     returnIfValue?: Expression
     thenStatement: Array<Statement>
