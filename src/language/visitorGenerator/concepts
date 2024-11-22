@@ -2,7 +2,7 @@ Program
 Fonction
 ReturnType
 Statement
-ControlStructure
+ReturnStatement
 If
 Loop
 ControlRobot

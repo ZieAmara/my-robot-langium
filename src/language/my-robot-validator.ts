@@ -1,5 +1,5 @@
 import type { ValidationAcceptor, ValidationChecks } from 'langium';
-import type { MyRobotAstType, Program, VariableStatement } from './generated/ast.js';
+import { If, Loop, MyRobotAstType, Program, VariableStatement } from './generated/ast.js';
 import type { MyRobotServices } from './my-robot-module.js';
 
 /**
@@ -10,9 +10,16 @@ export function registerValidationChecks(services: MyRobotServices) {
     const validator = services.validation.MyRobotValidator;
     const checks: ValidationChecks<MyRobotAstType> = {
         Program: [
-            validator.checkUniqueFunctionDefs, 
-            validator.checkUniqueVariableDeclarations
-        ]
+            validator.checkUniqueFonctionDefs, 
+            validator.checkUniqueVariableDeclarations,
+            validator.checkUniqueFonctionReturnStatements
+        ],
+        If: [
+            validator.checkUniqueControlStructureReturnStatements
+        ],
+        Loop: [
+            validator.checkUniqueControlStructureReturnStatements
+        ],
     };
     registry.register(checks, validator);
 }
@@ -22,7 +29,7 @@ export function registerValidationChecks(services: MyRobotServices) {
  */
 export class MyRobotValidator {
 
-    checkUniqueFunctionDefs(program: Program, accept: ValidationAcceptor): void {
+    checkUniqueFonctionDefs(program: Program, accept: ValidationAcceptor): void {
         // create a set of visited functions
         // and report an error when we see one we've already seen
         const reported = new Set();
@@ -51,4 +58,52 @@ export class MyRobotValidator {
         });
     }
 
+    checkUniqueFonctionReturnStatements(program: Program, accept: ValidationAcceptor): void {
+        let returnCount = 0;
+        program.fonction.forEach(f => {
+            f.body.forEach(body => {
+                if (body.$type === 'ReturnStatement') {
+                    returnCount++;
+                    if (returnCount > 1) {
+                        accept('error', `Function '${f.name}' has multiple return statements in one block.`, {node: body});
+                    }
+                }
+            });
+        });
+    }
+
+    checkUniqueControlStructureReturnStatements(controlStructure: If | Loop, accept: ValidationAcceptor): void {
+        let returnCount = 0;
+        if (controlStructure.$type === 'If') {
+            controlStructure.thenStatement.forEach(body => {
+                if (body.$type === 'ReturnStatement') {
+                    returnCount++;
+                    if (returnCount > 1) {
+                        accept('error', `If statement has multiple return statements in one block.`, {node: body});
+                    }
+                }
+            })
+            if (controlStructure.elseStatement) {
+                controlStructure.elseStatement.forEach(body => {
+                    if (body.$type === 'ReturnStatement') {
+                        returnCount++;
+                        if (returnCount > 1) {
+                            accept('error', `Else statement has multiple return statements in one block.`, {node: body});
+                        }
+                    }
+                })
+            }
+        }
+        else if (controlStructure.$type === 'Loop') {
+            controlStructure.body.forEach(body => {
+                if (body.$type === 'ReturnStatement') {
+                    returnCount++;
+                    if (returnCount > 1) {
+                        accept('error', `Loop statement has multiple return statements in one block.`, {node: body});
+                    }
+                }
+            })
+        }
+    }
+    
 }

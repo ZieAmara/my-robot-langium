@@ -32,5 +32,6 @@ let void entry () {
         Clock 90
         time = getTimestamp()
         var number a = 5 + dist * time / 3
+        return time
     }
 }

@@ -1,6 +1,7 @@
 import { createDefaultModule, createDefaultSharedModule, inject } from 'langium';
 import { MyRobotGeneratedModule, MyRobotGeneratedSharedModule } from './generated/module.js';
 import { MyRobotValidator, registerValidationChecks } from './my-robot-validator.js';
+import { MyRobotAcceptWeaver, weaveAcceptMethods } from './visitorGenerator/accept-weaver.js';
 /**
  * Dependency injection module that overrides Langium default services and contributes the
  * declared custom services. The Langium defaults can be partially specified to override only
@@ -8,7 +9,8 @@ import { MyRobotValidator, registerValidationChecks } from './my-robot-validator
  */
 export const MyRobotModule = {
     validation: {
-        MyRobotValidator: () => new MyRobotValidator()
+        MyRobotValidator: () => new MyRobotValidator(),
+        MyRobotAcceptWeaver: () => new MyRobotAcceptWeaver()
     }
 };
 /**
@@ -31,6 +33,7 @@ export function createMyRobotServices(context) {
     const MyRobot = inject(createDefaultModule({ shared }), MyRobotGeneratedModule, MyRobotModule);
     shared.ServiceRegistry.register(MyRobot);
     registerValidationChecks(MyRobot);
+    weaveAcceptMethods(MyRobot);
     return { shared, MyRobot };
 }
 //# sourceMappingURL=my-robot-module.js.map

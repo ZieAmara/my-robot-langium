@@ -74,8 +74,7 @@ export interface Fonction extends AstNode {
     body: Array<Statement>
     name: ID
     parameter: Array<Parameter>
-    returntype?: ReturnType
-    returnValue?: Expression
+    returnType?: ReturnType
 }
 
 export const Fonction = 'Fonction';
@@ -98,7 +97,7 @@ export function isProgram(item: unknown): item is Program {
 export interface ReturnType extends AstNode {
     readonly $container: Fonction;
     readonly $type: 'ReturnType';
-    type: 'void' | Type
+    returnType: 'void' | Type
 }
 
 export const ReturnType = 'ReturnType';
@@ -108,7 +107,7 @@ export function isReturnType(item: unknown): item is ReturnType {
 }
 
 export interface Statement extends AstNode {
-    readonly $type: 'Backward' | 'CallFunction' | 'Clock' | 'ClockLeft' | 'ControlRobot' | 'ControlStructure' | 'Entity' | 'Forward' | 'If' | 'Left' | 'Loop' | 'Movement' | 'Parameter' | 'Right' | 'Rotate' | 'SetSpeed' | 'Statement' | 'VariableAssignation' | 'VariableStatement';
+    readonly $type: 'Backward' | 'CallFunction' | 'Clock' | 'ClockLeft' | 'ControlRobot' | 'Entity' | 'Forward' | 'If' | 'Left' | 'Loop' | 'Movement' | 'Parameter' | 'ReturnStatement' | 'Right' | 'Rotate' | 'SetSpeed' | 'Statement' | 'VariableAssignation' | 'VariableStatement';
 }
 
 export const Statement = 'Statement';
@@ -251,7 +250,7 @@ export function isArithmeticExpression(item: unknown): item is ArithmeticExpress
 }
 
 export interface BooleanExpression extends Expression {
-    readonly $container: ControlStructure;
+    readonly $container: If | Loop;
     readonly $type: 'BooleanExpression';
     leftCondition?: UnaryArithmeticExpression
     operator: BooleanOperator
@@ -306,18 +305,6 @@ export function isControlRobot(item: unknown): item is ControlRobot {
     return reflection.isInstance(item, ControlRobot);
 }
 
-export interface ControlStructure extends Statement {
-    readonly $type: 'ControlStructure' | 'If' | 'Loop';
-    body: Array<Statement>
-    condition: Array<BooleanExpression>
-}
-
-export const ControlStructure = 'ControlStructure';
-
-export function isControlStructure(item: unknown): item is ControlStructure {
-    return reflection.isInstance(item, ControlStructure);
-}
-
 export interface Entity extends Statement {
     readonly $type: 'Entity' | 'Parameter' | 'VariableStatement';
     value?: Expression
@@ -327,6 +314,42 @@ export const Entity = 'Entity';
 
 export function isEntity(item: unknown): item is Entity {
     return reflection.isInstance(item, Entity);
+}
+
+export interface If extends Statement {
+    readonly $type: 'If';
+    condition: BooleanExpression
+    elseStatement: Array<Statement>
+    thenStatement: Array<Statement>
+}
+
+export const If = 'If';
+
+export function isIf(item: unknown): item is If {
+    return reflection.isInstance(item, If);
+}
+
+export interface Loop extends Statement {
+    readonly $type: 'Loop';
+    body: Array<Statement>
+    condition: BooleanExpression
+}
+
+export const Loop = 'Loop';
+
+export function isLoop(item: unknown): item is Loop {
+    return reflection.isInstance(item, Loop);
+}
+
+export interface ReturnStatement extends Statement {
+    readonly $type: 'ReturnStatement';
+    returnValue: Expression
+}
+
+export const ReturnStatement = 'ReturnStatement';
+
+export function isReturnStatement(item: unknown): item is ReturnStatement {
+    return reflection.isInstance(item, ReturnStatement);
 }
 
 export interface SetSpeed extends Statement {
@@ -417,31 +440,6 @@ export const Rotate = 'Rotate';
 
 export function isRotate(item: unknown): item is Rotate {
     return reflection.isInstance(item, Rotate);
-}
-
-export interface If extends ControlStructure {
-    readonly $type: 'If';
-    elseStatement: Array<Statement>
-    returnElseValue?: Expression
-    returnIfValue?: Expression
-    thenStatement: Array<Statement>
-}
-
-export const If = 'If';
-
-export function isIf(item: unknown): item is If {
-    return reflection.isInstance(item, If);
-}
-
-export interface Loop extends ControlStructure {
-    readonly $type: 'Loop';
-    returnValue?: Expression
-}
-
-export const Loop = 'Loop';
-
-export function isLoop(item: unknown): item is Loop {
-    return reflection.isInstance(item, Loop);
 }
 
 export interface Parameter extends Entity {
@@ -543,7 +541,6 @@ export type MyRobotAstType = {
     Clock: Clock
     ClockLeft: ClockLeft
     ControlRobot: ControlRobot
-    ControlStructure: ControlStructure
     Divise: Divise
     Entity: Entity
     EqualTo: EqualTo
@@ -562,6 +559,7 @@ export type MyRobotAstType = {
     Or: Or
     Parameter: Parameter
     Program: Program
+    ReturnStatement: ReturnStatement
     ReturnType: ReturnType
     Right: Right
     Rotate: Rotate
@@ -580,7 +578,7 @@ export type MyRobotAstType = {
 export class MyRobotAstReflection extends AbstractAstReflection {
 
     getAllTypes(): string[] {
-        return ['Add', 'And', 'ArithmeticExpression', 'ArithmeticOperator', 'Backward', 'BooleanExpression', 'BooleanOperator', 'CallEntity', 'CallFunction', 'CallFunctionExpr', 'Clock', 'ClockLeft', 'ControlRobot', 'ControlStructure', 'Divise', 'Entity', 'EqualTo', 'Expression', 'Fonction', 'Forward', 'GetSensor', 'If', 'Left', 'Loop', 'LowerOrEqualTo', 'LowerThan', 'Movement', 'Multiply', 'Not', 'Or', 'Parameter', 'Program', 'ReturnType', 'Right', 'Rotate', 'SetSpeed', 'Statement', 'Sub', 'UnaryArithmeticExpression', 'UnaryBooleanExpression', 'UpperOrEqualTo', 'UpperThan', 'Value', 'VariableAssignation', 'VariableStatement'];
+        return ['Add', 'And', 'ArithmeticExpression', 'ArithmeticOperator', 'Backward', 'BooleanExpression', 'BooleanOperator', 'CallEntity', 'CallFunction', 'CallFunctionExpr', 'Clock', 'ClockLeft', 'ControlRobot', 'Divise', 'Entity', 'EqualTo', 'Expression', 'Fonction', 'Forward', 'GetSensor', 'If', 'Left', 'Loop', 'LowerOrEqualTo', 'LowerThan', 'Movement', 'Multiply', 'Not', 'Or', 'Parameter', 'Program', 'ReturnStatement', 'ReturnType', 'Right', 'Rotate', 'SetSpeed', 'Statement', 'Sub', 'UnaryArithmeticExpression', 'UnaryBooleanExpression', 'UpperOrEqualTo', 'UpperThan', 'Value', 'VariableAssignation', 'VariableStatement'];
     }
 
     protected override computeIsSubtype(subtype: string, supertype: string): boolean {
@@ -621,8 +619,10 @@ export class MyRobotAstReflection extends AbstractAstReflection {
             }
             case CallFunction:
             case ControlRobot:
-            case ControlStructure:
             case Entity:
+            case If:
+            case Loop:
+            case ReturnStatement:
             case SetSpeed:
             case VariableAssignation: {
                 return this.isSubtype(Statement, supertype);
@@ -630,10 +630,6 @@ export class MyRobotAstReflection extends AbstractAstReflection {
             case Clock:
             case ClockLeft: {
                 return this.isSubtype(Rotate, supertype);
-            }
-            case If:
-            case Loop: {
-                return this.isSubtype(ControlStructure, supertype);
             }
             case Movement:
             case Rotate: {
@@ -704,12 +700,20 @@ export class MyRobotAstReflection extends AbstractAstReflection {
                     ]
                 };
             }
-            case 'ControlStructure': {
+            case 'If': {
                 return {
-                    name: 'ControlStructure',
+                    name: 'If',
                     mandatory: [
-                        { name: 'body', type: 'array' },
-                        { name: 'condition', type: 'array' }
+                        { name: 'elseStatement', type: 'array' },
+                        { name: 'thenStatement', type: 'array' }
+                    ]
+                };
+            }
+            case 'Loop': {
+                return {
+                    name: 'Loop',
+                    mandatory: [
+                        { name: 'body', type: 'array' }
                     ]
                 };
             }
@@ -718,15 +722,6 @@ export class MyRobotAstReflection extends AbstractAstReflection {
                     name: 'CallFunctionExpr',
                     mandatory: [
                         { name: 'args', type: 'array' }
-                    ]
-                };
-            }
-            case 'If': {
-                return {
-                    name: 'If',
-                    mandatory: [
-                        { name: 'elseStatement', type: 'array' },
-                        { name: 'thenStatement', type: 'array' }
                     ]
                 };
             }

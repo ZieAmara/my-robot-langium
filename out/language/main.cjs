@@ -32109,8 +32109,10 @@ var UnaryArithmeticExpression = "UnaryArithmeticExpression";
 var UnaryBooleanExpression = "UnaryBooleanExpression";
 var CallFunction = "CallFunction";
 var ControlRobot = "ControlRobot";
-var ControlStructure = "ControlStructure";
 var Entity = "Entity";
+var If = "If";
+var Loop = "Loop";
+var ReturnStatement = "ReturnStatement";
 var SetSpeed = "SetSpeed";
 var VariableAssignation = "VariableAssignation";
 var CallEntity = "CallEntity";
@@ -32119,8 +32121,6 @@ var GetSensor = "GetSensor";
 var Value = "Value";
 var Movement = "Movement";
 var Rotate = "Rotate";
-var If = "If";
-var Loop = "Loop";
 var Parameter2 = "Parameter";
 var VariableStatement = "VariableStatement";
 var Backward = "Backward";
@@ -32131,7 +32131,7 @@ var Clock = "Clock";
 var ClockLeft = "ClockLeft";
 var MyRobotAstReflection = class extends AbstractAstReflection {
   getAllTypes() {
-    return ["Add", "And", "ArithmeticExpression", "ArithmeticOperator", "Backward", "BooleanExpression", "BooleanOperator", "CallEntity", "CallFunction", "CallFunctionExpr", "Clock", "ClockLeft", "ControlRobot", "ControlStructure", "Divise", "Entity", "EqualTo", "Expression", "Fonction", "Forward", "GetSensor", "If", "Left", "Loop", "LowerOrEqualTo", "LowerThan", "Movement", "Multiply", "Not", "Or", "Parameter", "Program", "ReturnType", "Right", "Rotate", "SetSpeed", "Statement", "Sub", "UnaryArithmeticExpression", "UnaryBooleanExpression", "UpperOrEqualTo", "UpperThan", "Value", "VariableAssignation", "VariableStatement"];
+    return ["Add", "And", "ArithmeticExpression", "ArithmeticOperator", "Backward", "BooleanExpression", "BooleanOperator", "CallEntity", "CallFunction", "CallFunctionExpr", "Clock", "ClockLeft", "ControlRobot", "Divise", "Entity", "EqualTo", "Expression", "Fonction", "Forward", "GetSensor", "If", "Left", "Loop", "LowerOrEqualTo", "LowerThan", "Movement", "Multiply", "Not", "Or", "Parameter", "Program", "ReturnStatement", "ReturnType", "Right", "Rotate", "SetSpeed", "Statement", "Sub", "UnaryArithmeticExpression", "UnaryBooleanExpression", "UpperOrEqualTo", "UpperThan", "Value", "VariableAssignation", "VariableStatement"];
   }
   computeIsSubtype(subtype, supertype) {
     switch (subtype) {
@@ -32171,8 +32171,10 @@ var MyRobotAstReflection = class extends AbstractAstReflection {
       }
       case CallFunction:
       case ControlRobot:
-      case ControlStructure:
       case Entity:
+      case If:
+      case Loop:
+      case ReturnStatement:
       case SetSpeed:
       case VariableAssignation: {
         return this.isSubtype(Statement, supertype);
@@ -32180,10 +32182,6 @@ var MyRobotAstReflection = class extends AbstractAstReflection {
       case Clock:
       case ClockLeft: {
         return this.isSubtype(Rotate, supertype);
-      }
-      case If:
-      case Loop: {
-        return this.isSubtype(ControlStructure, supertype);
       }
       case Movement:
       case Rotate: {
@@ -32252,12 +32250,20 @@ var MyRobotAstReflection = class extends AbstractAstReflection {
           ]
         };
       }
-      case "ControlStructure": {
+      case "If": {
         return {
-          name: "ControlStructure",
+          name: "If",
           mandatory: [
-            { name: "body", type: "array" },
-            { name: "condition", type: "array" }
+            { name: "elseStatement", type: "array" },
+            { name: "thenStatement", type: "array" }
+          ]
+        };
+      }
+      case "Loop": {
+        return {
+          name: "Loop",
+          mandatory: [
+            { name: "body", type: "array" }
           ]
         };
       }
@@ -32266,15 +32272,6 @@ var MyRobotAstReflection = class extends AbstractAstReflection {
           name: "CallFunctionExpr",
           mandatory: [
             { name: "args", type: "array" }
-          ]
-        };
-      }
-      case "If": {
-        return {
-          name: "If",
-          mandatory: [
-            { name: "elseStatement", type: "array" },
-            { name: "thenStatement", type: "array" }
           ]
         };
       }
@@ -32322,28 +32319,6 @@ var MyRobotGrammar = () => loadedMyRobotGrammar != null ? loadedMyRobotGrammar :
             "cardinality": "*"
           },
           {
-            "$type": "Group",
-            "elements": [
-              {
-                "$type": "Keyword",
-                "value": "return"
-              },
-              {
-                "$type": "Assignment",
-                "feature": "returnValue",
-                "operator": "=",
-                "terminal": {
-                  "$type": "RuleCall",
-                  "rule": {
-                    "$ref": "#/rules@25"
-                  },
-                  "arguments": []
-                }
-              }
-            ],
-            "cardinality": "?"
-          },
-          {
             "$type": "Keyword",
             "value": "}"
           }
@@ -32380,28 +32355,6 @@ var MyRobotGrammar = () => loadedMyRobotGrammar != null ? loadedMyRobotGrammar :
             "cardinality": "*"
           },
           {
-            "$type": "Group",
-            "elements": [
-              {
-                "$type": "Keyword",
-                "value": "return"
-              },
-              {
-                "$type": "Assignment",
-                "feature": "returnIfValue",
-                "operator": "=",
-                "terminal": {
-                  "$type": "RuleCall",
-                  "rule": {
-                    "$ref": "#/rules@25"
-                  },
-                  "arguments": []
-                }
-              }
-            ],
-            "cardinality": "?"
-          },
-          {
             "$type": "Keyword",
             "value": "}"
           }
@@ -32436,28 +32389,6 @@ var MyRobotGrammar = () => loadedMyRobotGrammar != null ? loadedMyRobotGrammar :
               "arguments": []
             },
             "cardinality": "*"
-          },
-          {
-            "$type": "Group",
-            "elements": [
-              {
-                "$type": "Keyword",
-                "value": "return"
-              },
-              {
-                "$type": "Assignment",
-                "feature": "returnElseValue",
-                "operator": "=",
-                "terminal": {
-                  "$type": "RuleCall",
-                  "rule": {
-                    "$ref": "#/rules@25"
-                  },
-                  "arguments": []
-                }
-              }
-            ],
-            "cardinality": "?"
           },
           {
             "$type": "Keyword",
@@ -32512,7 +32443,7 @@ var MyRobotGrammar = () => loadedMyRobotGrammar != null ? loadedMyRobotGrammar :
           },
           {
             "$type": "Assignment",
-            "feature": "returntype",
+            "feature": "returnType",
             "operator": "=",
             "terminal": {
               "$type": "RuleCall",
@@ -32609,7 +32540,7 @@ var MyRobotGrammar = () => loadedMyRobotGrammar != null ? loadedMyRobotGrammar :
         "elements": [
           {
             "$type": "Assignment",
-            "feature": "type",
+            "feature": "returnType",
             "operator": "=",
             "terminal": {
               "$type": "RuleCall",
@@ -32644,7 +32575,14 @@ var MyRobotGrammar = () => loadedMyRobotGrammar != null ? loadedMyRobotGrammar :
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@7"
+              "$ref": "#/rules@8"
+            },
+            "arguments": []
+          },
+          {
+            "$type": "RuleCall",
+            "rule": {
+              "$ref": "#/rules@9"
             },
             "arguments": []
           },
@@ -32682,6 +32620,13 @@ var MyRobotGrammar = () => loadedMyRobotGrammar != null ? loadedMyRobotGrammar :
               "$ref": "#/rules@24"
             },
             "arguments": []
+          },
+          {
+            "$type": "RuleCall",
+            "rule": {
+              "$ref": "#/rules@7"
+            },
+            "arguments": []
           }
         ]
       },
@@ -32694,26 +32639,28 @@ var MyRobotGrammar = () => loadedMyRobotGrammar != null ? loadedMyRobotGrammar :
     },
     {
       "$type": "ParserRule",
-      "name": "ControlStructure",
+      "name": "ReturnStatement",
       "returnType": {
         "$ref": "#/interfaces@4"
       },
       "definition": {
-        "$type": "Alternatives",
+        "$type": "Group",
         "elements": [
           {
-            "$type": "RuleCall",
-            "rule": {
-              "$ref": "#/rules@8"
-            },
-            "arguments": []
+            "$type": "Keyword",
+            "value": "return"
           },
           {
-            "$type": "RuleCall",
-            "rule": {
-              "$ref": "#/rules@9"
-            },
-            "arguments": []
+            "$type": "Assignment",
+            "feature": "returnValue",
+            "operator": "=",
+            "terminal": {
+              "$type": "RuleCall",
+              "rule": {
+                "$ref": "#/rules@25"
+              },
+              "arguments": []
+            }
           }
         ]
       },
@@ -32740,7 +32687,7 @@ var MyRobotGrammar = () => loadedMyRobotGrammar != null ? loadedMyRobotGrammar :
           {
             "$type": "Assignment",
             "feature": "condition",
-            "operator": "+=",
+            "operator": "=",
             "terminal": {
               "$type": "RuleCall",
               "rule": {
@@ -32802,7 +32749,7 @@ var MyRobotGrammar = () => loadedMyRobotGrammar != null ? loadedMyRobotGrammar :
           {
             "$type": "Assignment",
             "feature": "condition",
-            "operator": "+=",
+            "operator": "=",
             "terminal": {
               "$type": "RuleCall",
               "rule": {
@@ -35021,23 +34968,12 @@ var MyRobotGrammar = () => loadedMyRobotGrammar != null ? loadedMyRobotGrammar :
         },
         {
           "$type": "TypeAttribute",
-          "name": "returntype",
+          "name": "returnType",
           "isOptional": true,
           "type": {
             "$type": "SimpleType",
             "typeRef": {
               "$ref": "#/interfaces@2"
-            }
-          }
-        },
-        {
-          "$type": "TypeAttribute",
-          "name": "returnValue",
-          "isOptional": true,
-          "type": {
-            "$type": "SimpleType",
-            "typeRef": {
-              "$ref": "#/interfaces@22"
             }
           }
         },
@@ -35078,7 +35014,7 @@ var MyRobotGrammar = () => loadedMyRobotGrammar != null ? loadedMyRobotGrammar :
       "attributes": [
         {
           "$type": "TypeAttribute",
-          "name": "type",
+          "name": "returnType",
           "type": {
             "$type": "UnionType",
             "types": [
@@ -35111,34 +35047,17 @@ var MyRobotGrammar = () => loadedMyRobotGrammar != null ? loadedMyRobotGrammar :
       "attributes": [
         {
           "$type": "TypeAttribute",
-          "name": "condition",
+          "name": "returnValue",
           "type": {
-            "$type": "ArrayType",
-            "elementType": {
-              "$type": "SimpleType",
-              "typeRef": {
-                "$ref": "#/interfaces@35"
-              }
-            }
-          },
-          "isOptional": false
-        },
-        {
-          "$type": "TypeAttribute",
-          "name": "body",
-          "type": {
-            "$type": "ArrayType",
-            "elementType": {
-              "$type": "SimpleType",
-              "typeRef": {
-                "$ref": "#/interfaces@3"
-              }
+            "$type": "SimpleType",
+            "typeRef": {
+              "$ref": "#/interfaces@22"
             }
           },
           "isOptional": false
         }
       ],
-      "name": "ControlStructure",
+      "name": "ReturnStatement",
       "superTypes": [
         {
           "$ref": "#/interfaces@3"
@@ -35148,6 +35067,17 @@ var MyRobotGrammar = () => loadedMyRobotGrammar != null ? loadedMyRobotGrammar :
     {
       "$type": "Interface",
       "attributes": [
+        {
+          "$type": "TypeAttribute",
+          "name": "condition",
+          "type": {
+            "$type": "SimpleType",
+            "typeRef": {
+              "$ref": "#/interfaces@35"
+            }
+          },
+          "isOptional": false
+        },
         {
           "$type": "TypeAttribute",
           "name": "thenStatement",
@@ -35175,34 +35105,12 @@ var MyRobotGrammar = () => loadedMyRobotGrammar != null ? loadedMyRobotGrammar :
               }
             }
           }
-        },
-        {
-          "$type": "TypeAttribute",
-          "name": "returnIfValue",
-          "isOptional": true,
-          "type": {
-            "$type": "SimpleType",
-            "typeRef": {
-              "$ref": "#/interfaces@22"
-            }
-          }
-        },
-        {
-          "$type": "TypeAttribute",
-          "name": "returnElseValue",
-          "isOptional": true,
-          "type": {
-            "$type": "SimpleType",
-            "typeRef": {
-              "$ref": "#/interfaces@22"
-            }
-          }
         }
       ],
       "name": "If",
       "superTypes": [
         {
-          "$ref": "#/interfaces@4"
+          "$ref": "#/interfaces@3"
         }
       ]
     },
@@ -35211,20 +35119,34 @@ var MyRobotGrammar = () => loadedMyRobotGrammar != null ? loadedMyRobotGrammar :
       "attributes": [
         {
           "$type": "TypeAttribute",
-          "name": "returnValue",
-          "isOptional": true,
+          "name": "condition",
           "type": {
             "$type": "SimpleType",
             "typeRef": {
-              "$ref": "#/interfaces@22"
+              "$ref": "#/interfaces@35"
             }
-          }
+          },
+          "isOptional": false
+        },
+        {
+          "$type": "TypeAttribute",
+          "name": "body",
+          "type": {
+            "$type": "ArrayType",
+            "elementType": {
+              "$type": "SimpleType",
+              "typeRef": {
+                "$ref": "#/interfaces@3"
+              }
+            }
+          },
+          "isOptional": false
         }
       ],
       "name": "Loop",
       "superTypes": [
         {
-          "$ref": "#/interfaces@4"
+          "$ref": "#/interfaces@3"
         }
       ]
     },
@@ -36019,14 +35941,21 @@ function registerValidationChecks2(services) {
   const validator = services.validation.MyRobotValidator;
   const checks = {
     Program: [
-      validator.checkUniqueFunctionDefs,
-      validator.checkUniqueVariableDeclarations
+      validator.checkUniqueFonctionDefs,
+      validator.checkUniqueVariableDeclarations,
+      validator.checkUniqueFonctionReturnStatements
+    ],
+    If: [
+      validator.checkUniqueControlStructureReturnStatements
+    ],
+    Loop: [
+      validator.checkUniqueControlStructureReturnStatements
     ]
   };
   registry.register(checks, validator);
 }
 var MyRobotValidator = class {
-  checkUniqueFunctionDefs(program, accept) {
+  checkUniqueFonctionDefs(program, accept) {
     const reported = /* @__PURE__ */ new Set();
     program.fonction.forEach((f) => {
       if (reported.has(f.name)) {
@@ -36049,12 +35978,342 @@ var MyRobotValidator = class {
       });
     });
   }
+  checkUniqueFonctionReturnStatements(program, accept) {
+    let returnCount = 0;
+    program.fonction.forEach((f) => {
+      f.body.forEach((body) => {
+        if (body.$type === "ReturnStatement") {
+          returnCount++;
+          if (returnCount > 1) {
+            accept("error", `Function '${f.name}' has multiple return statements in one block.`, { node: body });
+          }
+        }
+      });
+    });
+  }
+  checkUniqueControlStructureReturnStatements(controlStructure, accept) {
+    let returnCount = 0;
+    if (controlStructure.$type === "If") {
+      controlStructure.thenStatement.forEach((body) => {
+        if (body.$type === "ReturnStatement") {
+          returnCount++;
+          if (returnCount > 1) {
+            accept("error", `If statement has multiple return statements in one block.`, { node: body });
+          }
+        }
+      });
+      if (controlStructure.elseStatement) {
+        controlStructure.elseStatement.forEach((body) => {
+          if (body.$type === "ReturnStatement") {
+            returnCount++;
+            if (returnCount > 1) {
+              accept("error", `Else statement has multiple return statements in one block.`, { node: body });
+            }
+          }
+        });
+      }
+    } else if (controlStructure.$type === "Loop") {
+      controlStructure.body.forEach((body) => {
+        if (body.$type === "ReturnStatement") {
+          returnCount++;
+          if (returnCount > 1) {
+            accept("error", `Loop statement has multiple return statements in one block.`, { node: body });
+          }
+        }
+      });
+    }
+  }
+};
+
+// src/language/visitorGenerator/accept-weaver.ts
+function weaveAcceptMethods(services) {
+  const registry = services.validation.ValidationRegistry;
+  const weaver = services.validation.MyRobotAcceptWeaver;
+  registry.register(weaver.checks, weaver);
+}
+var MyRobotAcceptWeaver = class {
+  constructor() {
+    // TODO : Remove lines for abstract concepts
+    this.checks = {
+      Program: this.weaveProgram,
+      Fonction: this.weaveFonction,
+      ReturnType: this.weaveReturnType,
+      Statement: this.weaveStatement,
+      ReturnStatement: this.weaveReturnStatement,
+      If: this.weaveIf,
+      Loop: this.weaveLoop,
+      ControlRobot: this.weaveControlRobot,
+      Movement: this.weaveMovement,
+      Backward: this.weaveBackward,
+      Forward: this.weaveForward,
+      Left: this.weaveLeft,
+      Right: this.weaveRight,
+      Rotate: this.weaveRotate,
+      Clock: this.weaveClock,
+      ClockLeft: this.weaveClockLeft,
+      Entity: this.weaveEntity,
+      Parameter: this.weaveParameter,
+      VariableStatement: this.weaveVariableStatement,
+      VariableAssignation: this.weaveVariableAssignation,
+      SetSpeed: this.weaveSetSpeed,
+      CallFunction: this.weaveCallFunction,
+      Expression: this.weaveExpression,
+      UnaryBooleanExpression: this.weaveUnaryBooleanExpression,
+      UnaryArithmeticExpression: this.weaveUnaryArithmeticExpression,
+      CallFunctionExpr: this.weaveCallFunctionExpr,
+      CallEntity: this.weaveCallEntity,
+      GetSensor: this.weaveGetSensor,
+      Value: this.weaveValue,
+      ArithmeticExpression: this.weaveArithmeticExpression,
+      ArithmeticOperator: this.weaveArithmeticOperator,
+      Add: this.weaveAdd,
+      Sub: this.weaveSub,
+      Multiply: this.weaveMultiply,
+      Divise: this.weaveDivise,
+      BooleanExpression: this.weaveBooleanExpression,
+      BooleanOperator: this.weaveBooleanOperator,
+      LowerThan: this.weaveLowerThan,
+      EqualTo: this.weaveEqualTo,
+      UpperThan: this.weaveUpperThan,
+      Not: this.weaveNot,
+      Or: this.weaveOr,
+      LowerOrEqualTo: this.weaveLowerOrEqualTo,
+      UpperOrEqualTo: this.weaveUpperOrEqualTo,
+      And: this.weaveAnd
+    };
+  }
+  weaveProgram(node, accept) {
+    node.accept = (visitor2) => {
+      return visitor2.visitProgram(node);
+    };
+  }
+  weaveFonction(node, accept) {
+    node.accept = (visitor2) => {
+      return visitor2.visitFonction(node);
+    };
+  }
+  weaveReturnType(node, accept) {
+    node.accept = (visitor2) => {
+      return visitor2.visitReturnType(node);
+    };
+  }
+  weaveStatement(node, accept) {
+    node.accept = (visitor2) => {
+      return visitor2.visitStatement(node);
+    };
+  }
+  weaveReturnStatement(node, accept) {
+    node.accept = (visitor2) => {
+      return visitor2.visitReturnStatement(node);
+    };
+  }
+  weaveIf(node, accept) {
+    node.accept = (visitor2) => {
+      return visitor2.visitIf(node);
+    };
+  }
+  weaveLoop(node, accept) {
+    node.accept = (visitor2) => {
+      return visitor2.visitLoop(node);
+    };
+  }
+  weaveControlRobot(node, accept) {
+    node.accept = (visitor2) => {
+      return visitor2.visitControlRobot(node);
+    };
+  }
+  weaveMovement(node, accept) {
+    node.accept = (visitor2) => {
+      return visitor2.visitMovement(node);
+    };
+  }
+  weaveBackward(node, accept) {
+    node.accept = (visitor2) => {
+      return visitor2.visitBackward(node);
+    };
+  }
+  weaveForward(node, accept) {
+    node.accept = (visitor2) => {
+      return visitor2.visitForward(node);
+    };
+  }
+  weaveLeft(node, accept) {
+    node.accept = (visitor2) => {
+      return visitor2.visitLeft(node);
+    };
+  }
+  weaveRight(node, accept) {
+    node.accept = (visitor2) => {
+      return visitor2.visitRight(node);
+    };
+  }
+  weaveRotate(node, accept) {
+    node.accept = (visitor2) => {
+      return visitor2.visitRotate(node);
+    };
+  }
+  weaveClock(node, accept) {
+    node.accept = (visitor2) => {
+      return visitor2.visitClock(node);
+    };
+  }
+  weaveClockLeft(node, accept) {
+    node.accept = (visitor2) => {
+      return visitor2.visitClockLeft(node);
+    };
+  }
+  weaveEntity(node, accept) {
+    node.accept = (visitor2) => {
+      return visitor2.visitEntity(node);
+    };
+  }
+  weaveParameter(node, accept) {
+    node.accept = (visitor2) => {
+      return visitor2.visitParameter(node);
+    };
+  }
+  weaveVariableStatement(node, accept) {
+    node.accept = (visitor2) => {
+      return visitor2.visitVariableStatement(node);
+    };
+  }
+  weaveVariableAssignation(node, accept) {
+    node.accept = (visitor2) => {
+      return visitor2.visitVariableAssignation(node);
+    };
+  }
+  weaveSetSpeed(node, accept) {
+    node.accept = (visitor2) => {
+      return visitor2.visitSetSpeed(node);
+    };
+  }
+  weaveCallFunction(node, accept) {
+    node.accept = (visitor2) => {
+      return visitor2.visitCallFunction(node);
+    };
+  }
+  weaveExpression(node, accept) {
+    node.accept = (visitor2) => {
+      return visitor2.visitExpression(node);
+    };
+  }
+  weaveUnaryBooleanExpression(node, accept) {
+    node.accept = (visitor2) => {
+      return visitor2.visitUnaryBooleanExpression(node);
+    };
+  }
+  weaveUnaryArithmeticExpression(node, accept) {
+    node.accept = (visitor2) => {
+      return visitor2.visitUnaryArithmeticExpression(node);
+    };
+  }
+  weaveCallFunctionExpr(node, accept) {
+    node.accept = (visitor2) => {
+      return visitor2.visitCallFunctionExpr(node);
+    };
+  }
+  weaveCallEntity(node, accept) {
+    node.accept = (visitor2) => {
+      return visitor2.visitCallEntity(node);
+    };
+  }
+  weaveGetSensor(node, accept) {
+    node.accept = (visitor2) => {
+      return visitor2.visitGetSensor(node);
+    };
+  }
+  weaveValue(node, accept) {
+    node.accept = (visitor2) => {
+      return visitor2.visitValue(node);
+    };
+  }
+  weaveArithmeticExpression(node, accept) {
+    node.accept = (visitor2) => {
+      return visitor2.visitArithmeticExpression(node);
+    };
+  }
+  weaveArithmeticOperator(node, accept) {
+    node.accept = (visitor2) => {
+      return visitor2.visitArithmeticOperator(node);
+    };
+  }
+  weaveAdd(node, accept) {
+    node.accept = (visitor2) => {
+      return visitor2.visitAdd(node);
+    };
+  }
+  weaveSub(node, accept) {
+    node.accept = (visitor2) => {
+      return visitor2.visitSub(node);
+    };
+  }
+  weaveMultiply(node, accept) {
+    node.accept = (visitor2) => {
+      return visitor2.visitMultiply(node);
+    };
+  }
+  weaveDivise(node, accept) {
+    node.accept = (visitor2) => {
+      return visitor2.visitDivise(node);
+    };
+  }
+  weaveBooleanExpression(node, accept) {
+    node.accept = (visitor2) => {
+      return visitor2.visitBooleanExpression(node);
+    };
+  }
+  weaveBooleanOperator(node, accept) {
+    node.accept = (visitor2) => {
+      return visitor2.visitBooleanOperator(node);
+    };
+  }
+  weaveLowerThan(node, accept) {
+    node.accept = (visitor2) => {
+      return visitor2.visitLowerThan(node);
+    };
+  }
+  weaveEqualTo(node, accept) {
+    node.accept = (visitor2) => {
+      return visitor2.visitEqualTo(node);
+    };
+  }
+  weaveUpperThan(node, accept) {
+    node.accept = (visitor2) => {
+      return visitor2.visitUpperThan(node);
+    };
+  }
+  weaveNot(node, accept) {
+    node.accept = (visitor2) => {
+      return visitor2.visitNot(node);
+    };
+  }
+  weaveOr(node, accept) {
+    node.accept = (visitor2) => {
+      return visitor2.visitOr(node);
+    };
+  }
+  weaveLowerOrEqualTo(node, accept) {
+    node.accept = (visitor2) => {
+      return visitor2.visitLowerOrEqualTo(node);
+    };
+  }
+  weaveUpperOrEqualTo(node, accept) {
+    node.accept = (visitor2) => {
+      return visitor2.visitUpperOrEqualTo(node);
+    };
+  }
+  weaveAnd(node, accept) {
+    node.accept = (visitor2) => {
+      return visitor2.visitAnd(node);
+    };
+  }
 };
 
 // src/language/my-robot-module.ts
 var MyRobotModule = {
   validation: {
-    MyRobotValidator: () => new MyRobotValidator()
+    MyRobotValidator: () => new MyRobotValidator(),
+    MyRobotAcceptWeaver: () => new MyRobotAcceptWeaver()
   }
 };
 function createMyRobotServices(context) {
@@ -36069,6 +36328,7 @@ function createMyRobotServices(context) {
   );
   shared2.ServiceRegistry.register(MyRobot);
   registerValidationChecks2(MyRobot);
+  weaveAcceptMethods(MyRobot);
   return { shared: shared2, MyRobot };
 }
 

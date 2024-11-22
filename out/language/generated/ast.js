@@ -114,13 +114,21 @@ export const ControlRobot = 'ControlRobot';
 export function isControlRobot(item) {
     return reflection.isInstance(item, ControlRobot);
 }
-export const ControlStructure = 'ControlStructure';
-export function isControlStructure(item) {
-    return reflection.isInstance(item, ControlStructure);
-}
 export const Entity = 'Entity';
 export function isEntity(item) {
     return reflection.isInstance(item, Entity);
+}
+export const If = 'If';
+export function isIf(item) {
+    return reflection.isInstance(item, If);
+}
+export const Loop = 'Loop';
+export function isLoop(item) {
+    return reflection.isInstance(item, Loop);
+}
+export const ReturnStatement = 'ReturnStatement';
+export function isReturnStatement(item) {
+    return reflection.isInstance(item, ReturnStatement);
 }
 export const SetSpeed = 'SetSpeed';
 export function isSetSpeed(item) {
@@ -153,14 +161,6 @@ export function isMovement(item) {
 export const Rotate = 'Rotate';
 export function isRotate(item) {
     return reflection.isInstance(item, Rotate);
-}
-export const If = 'If';
-export function isIf(item) {
-    return reflection.isInstance(item, If);
-}
-export const Loop = 'Loop';
-export function isLoop(item) {
-    return reflection.isInstance(item, Loop);
 }
 export const Parameter = 'Parameter';
 export function isParameter(item) {
@@ -196,7 +196,7 @@ export function isClockLeft(item) {
 }
 export class MyRobotAstReflection extends AbstractAstReflection {
     getAllTypes() {
-        return ['Add', 'And', 'ArithmeticExpression', 'ArithmeticOperator', 'Backward', 'BooleanExpression', 'BooleanOperator', 'CallEntity', 'CallFunction', 'CallFunctionExpr', 'Clock', 'ClockLeft', 'ControlRobot', 'ControlStructure', 'Divise', 'Entity', 'EqualTo', 'Expression', 'Fonction', 'Forward', 'GetSensor', 'If', 'Left', 'Loop', 'LowerOrEqualTo', 'LowerThan', 'Movement', 'Multiply', 'Not', 'Or', 'Parameter', 'Program', 'ReturnType', 'Right', 'Rotate', 'SetSpeed', 'Statement', 'Sub', 'UnaryArithmeticExpression', 'UnaryBooleanExpression', 'UpperOrEqualTo', 'UpperThan', 'Value', 'VariableAssignation', 'VariableStatement'];
+        return ['Add', 'And', 'ArithmeticExpression', 'ArithmeticOperator', 'Backward', 'BooleanExpression', 'BooleanOperator', 'CallEntity', 'CallFunction', 'CallFunctionExpr', 'Clock', 'ClockLeft', 'ControlRobot', 'Divise', 'Entity', 'EqualTo', 'Expression', 'Fonction', 'Forward', 'GetSensor', 'If', 'Left', 'Loop', 'LowerOrEqualTo', 'LowerThan', 'Movement', 'Multiply', 'Not', 'Or', 'Parameter', 'Program', 'ReturnStatement', 'ReturnType', 'Right', 'Rotate', 'SetSpeed', 'Statement', 'Sub', 'UnaryArithmeticExpression', 'UnaryBooleanExpression', 'UpperOrEqualTo', 'UpperThan', 'Value', 'VariableAssignation', 'VariableStatement'];
     }
     computeIsSubtype(subtype, supertype) {
         switch (subtype) {
@@ -236,8 +236,10 @@ export class MyRobotAstReflection extends AbstractAstReflection {
             }
             case CallFunction:
             case ControlRobot:
-            case ControlStructure:
             case Entity:
+            case If:
+            case Loop:
+            case ReturnStatement:
             case SetSpeed:
             case VariableAssignation: {
                 return this.isSubtype(Statement, supertype);
@@ -245,10 +247,6 @@ export class MyRobotAstReflection extends AbstractAstReflection {
             case Clock:
             case ClockLeft: {
                 return this.isSubtype(Rotate, supertype);
-            }
-            case If:
-            case Loop: {
-                return this.isSubtype(ControlStructure, supertype);
             }
             case Movement:
             case Rotate: {
@@ -317,12 +315,20 @@ export class MyRobotAstReflection extends AbstractAstReflection {
                     ]
                 };
             }
-            case 'ControlStructure': {
+            case 'If': {
                 return {
-                    name: 'ControlStructure',
+                    name: 'If',
                     mandatory: [
-                        { name: 'body', type: 'array' },
-                        { name: 'condition', type: 'array' }
+                        { name: 'elseStatement', type: 'array' },
+                        { name: 'thenStatement', type: 'array' }
+                    ]
+                };
+            }
+            case 'Loop': {
+                return {
+                    name: 'Loop',
+                    mandatory: [
+                        { name: 'body', type: 'array' }
                     ]
                 };
             }
@@ -331,15 +337,6 @@ export class MyRobotAstReflection extends AbstractAstReflection {
                     name: 'CallFunctionExpr',
                     mandatory: [
                         { name: 'args', type: 'array' }
-                    ]
-                };
-            }
-            case 'If': {
-                return {
-                    name: 'If',
-                    mandatory: [
-                        { name: 'elseStatement', type: 'array' },
-                        { name: 'thenStatement', type: 'array' }
                     ]
                 };
             }

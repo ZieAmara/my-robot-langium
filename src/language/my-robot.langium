@@ -5,38 +5,38 @@ import 'myRobotDSL-types'
 import 'XMLType-types'
 
 
-fragment Block: '{'( body+=Statement )* ('return' returnValue=Expression)? '}';
-fragment BlockIf: '{'( thenStatement+=Statement )* ('return' returnIfValue=Expression)? '}';
-fragment BlockElse: '{'( elseStatement+=Statement )* ('return' returnElseValue=Expression)? '}';
+fragment Block: '{'( body+=Statement )*'}';
+fragment BlockIf: '{'( thenStatement+=Statement )*'}';
+fragment BlockElse: '{'( elseStatement+=Statement )*'}';
 
 entry Program returns Program: 
     ( fonction+=Fonction )*
 ;
 
 Fonction returns Fonction:
-    'let' returntype=ReturnType name=ID '('(parameter+=Parameter ("," parameter+=Parameter  )*)?')' 
+    'let' returnType=ReturnType name=ID '('(parameter+=Parameter ("," parameter+=Parameter  )*)?')' 
         Block
 ;
 
 ReturnType returns ReturnType:
-    type = Type | 'void' 
+    returnType = Type | 'void' 
 ;
 
 Statement returns Statement:
-    ControlStructure | ControlRobot | Entity | VariableAssignation | SetSpeed | CallFunction 
+    If | Loop | ControlRobot | Entity | VariableAssignation | SetSpeed | CallFunction | ReturnStatement
 ;
 
-ControlStructure returns ControlStructure:
-    If | Loop
+ReturnStatement returns ReturnStatement:
+    'return' returnValue=Expression
 ;
 
 If returns If:
-    'if' condition+=BooleanExpression
+    'if' condition=BooleanExpression
         'then' BlockIf ('else' BlockElse )?
 ;
 
 Loop returns Loop:
-    'loop' condition+=BooleanExpression
+    'loop' condition=BooleanExpression
         Block
 ;
 
@@ -101,7 +101,7 @@ CallFunction returns CallFunction:
 ;
 
 Expression returns Expression:
-    UnaryBooleanExpression | UnaryArithmeticExpression | ArithmeticExpression | BooleanExpression
+    UnaryBooleanExpression | UnaryArithmeticExpression | ArithmeticExpression | BooleanExpression 
 ;
 
 UnaryBooleanExpression returns UnaryBooleanExpression:

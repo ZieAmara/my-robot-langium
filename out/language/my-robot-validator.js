@@ -6,9 +6,16 @@ export function registerValidationChecks(services) {
     const validator = services.validation.MyRobotValidator;
     const checks = {
         Program: [
-            validator.checkUniqueFunctionDefs,
-            validator.checkUniqueVariableDeclarations
-        ]
+            validator.checkUniqueFonctionDefs,
+            validator.checkUniqueVariableDeclarations,
+            validator.checkUniqueFonctionReturnStatements
+        ],
+        If: [
+            validator.checkUniqueControlStructureReturnStatements
+        ],
+        Loop: [
+            validator.checkUniqueControlStructureReturnStatements
+        ],
     };
     registry.register(checks, validator);
 }
@@ -16,7 +23,7 @@ export function registerValidationChecks(services) {
  * Implementation of custom validations.
  */
 export class MyRobotValidator {
-    checkUniqueFunctionDefs(program, accept) {
+    checkUniqueFonctionDefs(program, accept) {
         // create a set of visited functions
         // and report an error when we see one we've already seen
         const reported = new Set();
@@ -42,6 +49,52 @@ export class MyRobotValidator {
                 }
             });
         });
+    }
+    checkUniqueFonctionReturnStatements(program, accept) {
+        let returnCount = 0;
+        program.fonction.forEach(f => {
+            f.body.forEach(body => {
+                if (body.$type === 'ReturnStatement') {
+                    returnCount++;
+                    if (returnCount > 1) {
+                        accept('error', `Function '${f.name}' has multiple return statements in one block.`, { node: body });
+                    }
+                }
+            });
+        });
+    }
+    checkUniqueControlStructureReturnStatements(controlStructure, accept) {
+        let returnCount = 0;
+        if (controlStructure.$type === 'If') {
+            controlStructure.thenStatement.forEach(body => {
+                if (body.$type === 'ReturnStatement') {
+                    returnCount++;
+                    if (returnCount > 1) {
+                        accept('error', `If statement has multiple return statements in one block.`, { node: body });
+                    }
+                }
+            });
+            if (controlStructure.elseStatement) {
+                controlStructure.elseStatement.forEach(body => {
+                    if (body.$type === 'ReturnStatement') {
+                        returnCount++;
+                        if (returnCount > 1) {
+                            accept('error', `Else statement has multiple return statements in one block.`, { node: body });
+                        }
+                    }
+                });
+            }
+        }
+        else if (controlStructure.$type === 'Loop') {
+            controlStructure.body.forEach(body => {
+                if (body.$type === 'ReturnStatement') {
+                    returnCount++;
+                    if (returnCount > 1) {
+                        accept('error', `Loop statement has multiple return statements in one block.`, { node: body });
+                    }
+                }
+            });
+        }
     }
 }
 //# sourceMappingURL=my-robot-validator.js.map

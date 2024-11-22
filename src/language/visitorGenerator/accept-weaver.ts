@@ -24,7 +24,7 @@ export class MyRobotAcceptWeaver {
 		Fonction : this.weaveFonction,
 		ReturnType : this.weaveReturnType,
 		Statement : this.weaveStatement,
-		ControlStructure : this.weaveControlStructure,
+		ReturnStatement : this.weaveReturnStatement,
 		If : this.weaveIf,
 		Loop : this.weaveLoop,
 		ControlRobot : this.weaveControlRobot,
@@ -84,8 +84,8 @@ weaveStatement(node : InterfaceAST.Statement, accept : ValidationAcceptor) : voi
     (<any> node).accept = (visitor: Visitor) => { return visitor.visitStatement(node as unknown as ClassAST.Statement); }
 }
 
-weaveControlStructure(node : InterfaceAST.ControlStructure, accept : ValidationAcceptor) : void {
-    (<any> node).accept = (visitor: Visitor) => { return visitor.visitControlStructure(node as unknown as ClassAST.ControlStructure); }
+weaveReturnStatement(node : InterfaceAST.ReturnStatement, accept : ValidationAcceptor) : void {
+    (<any> node).accept = (visitor: Visitor) => { return visitor.visitReturnStatement(node as unknown as ClassAST.ReturnStatement); }
 }
 
 weaveIf(node : InterfaceAST.If, accept : ValidationAcceptor) : void {

@@ -6,32 +6,30 @@ interface Program {
 
 interface Fonction {
   name: ID;
-  returntype?: ReturnType;
-  returnValue?: Expression;
+  returnType?: ReturnType;
   parameter: Parameter[];
   body: Statement[];
 }
 
 interface ReturnType {
-  type: Type | 'void';
+  returnType: Type | 'void';
 }
 
 interface Statement {}
 
-interface ControlStructure extends Statement {
-  condition: BooleanExpression[];
-  body: Statement[];
+interface ReturnStatement extends Statement {
+  returnValue: Expression;
 }
 
-interface If extends ControlStructure {
+interface If extends Statement{
+  condition: BooleanExpression;
   thenStatement: Statement[];
   elseStatement?: Statement[];
-  returnIfValue?: Expression;
-  returnElseValue?: Expression;
 }
 
-interface Loop extends ControlStructure {
-  returnValue?: Expression;
+interface Loop extends Statement {
+  condition: BooleanExpression;
+  body: Statement[];
 }
 
 interface ControlRobot extends Statement {}

@@ -7,7 +7,7 @@ export interface Visitor{
 	visitFonction(node : Fonction) : any;
 	visitReturnType(node : ReturnType) : any;
 	visitStatement(node : Statement) : any;
-	visitControlStructure(node : ControlStructure) : any;
+	visitReturnStatement(node : ReturnStatement) : any;
 	visitIf(node : If) : any;
 	visitLoop(node : Loop) : any;
 	visitControlRobot(node : ControlRobot) : any;
@@ -89,8 +89,7 @@ export class Fonction implements ASTInterfaces.Fonction {
         public body: Array<Statement>,
         public name: ID,
         public parameter: Array<Parameter>,
-        public returntype?: ReturnType,
-        public returnValue?: Expression
+        public returntype?: ReturnType
     ){}
     accept(visitor: Visitor) : any {}
 }
@@ -102,7 +101,7 @@ export class ReturnType implements ASTInterfaces.ReturnType {
     constructor(
         public $container: Fonction,
         public $type: 'ReturnType',
-        public type: 'void' | Type
+        public returnType: 'void' | Type
     ){}
     accept(visitor: Visitor) : any {}
 }
@@ -112,50 +111,49 @@ export class Statement implements ASTInterfaces.Statement {
     // simply copy-paste the interface fields as public parameters
     // you can find them in generated/ast.ts
     constructor(
-        public $type: 'Backward' | 'CallFunction' | 'Clock' | 'ClockLeft' | 'ControlRobot' | 'ControlStructure' | 'Entity' | 'Forward' | 'If' | 'Left' | 'Loop' | 'Movement' | 'Parameter' | 'Right' | 'Rotate' | 'SetSpeed' | 'Statement' | 'VariableAssignation' | 'VariableStatement'
+        public $type: 'Backward' | 'CallFunction' | 'Clock' | 'ClockLeft' | 'ControlRobot' | 'ReturnStatement' | 'Entity' | 'Forward' | 'If' | 'Left' | 'Loop' | 'Movement' | 'Parameter' | 'Right' | 'Rotate' | 'SetSpeed' | 'Statement' | 'VariableAssignation' | 'VariableStatement'
     ){}
     accept(visitor: Visitor) : any {}
 }
 
-export class ControlStructure  extends Statement  implements ASTInterfaces.ControlStructure {
+export class ReturnStatement  extends Statement  implements ASTInterfaces.ReturnStatement {
     // the constructor must take all attribute of the implemented interface 
     // simply copy-paste the interface fields as public parameters
     // you can find them in generated/ast.ts
     constructor(
-        public override $type: 'ControlStructure' | 'If' | 'Loop',
-        public body: Array<Statement>,
-        public condition: Array<BooleanExpression>
+        public override $type: 'ReturnStatement',
+        public returnValue: Expression
     ){
         super($type)
     }
     override accept(visitor: Visitor) : any {}
 }
 
-export class If extends ControlStructure  implements ASTInterfaces.If {
+export class If extends Statement  implements ASTInterfaces.If {
     // the constructor must take all attribute of the implemented interface 
     // simply copy-paste the interface fields as public parameters
     // you can find them in generated/ast.ts
     constructor(
         public override $type: 'If',
+        public condition: BooleanExpression,
         public thenStatement: Array<Statement>,
-        public elseStatement?: Array<Statement>,
-        public returnElseValue?: Expression,
-        public returnIfValue?: Expression, 
+        public elseStatement: Array<Statement>,
     ){
-        super($type, [...thenStatement], [])
+        super($type)
     }
     override accept(visitor: Visitor) : any {}
 }
 
-export class Loop extends ControlStructure implements ASTInterfaces.Loop {
+export class Loop extends Statement implements ASTInterfaces.Loop {
     // the constructor must take all attribute of the implemented interface 
     // simply copy-paste the interface fields as public parameters
     // you can find them in generated/ast.ts
     constructor(
         public override $type: 'Loop',
-        public returnValue?: Expression
+        public condition: BooleanExpression,
+        public body: Array<Statement>
     ){
-        super($type, [], [])
+        super($type)
     }
     override accept(visitor: Visitor) : any {}
 }
@@ -511,7 +509,7 @@ export class BooleanExpression extends Expression implements ASTInterfaces.Boole
     // simply copy-paste the interface fields as public parameters
     // you can find them in generated/ast.ts
     constructor(
-        public $container: ControlStructure,
+        public $container: If | Loop,
         public override $type: 'BooleanExpression',
         public operator: BooleanOperator,
         public rightCondition: UnaryArithmeticExpression,
@@ -638,8 +636,8 @@ export function acceptNode(node: AstNode, visitor: Visitor): any {
             return (node as ReturnType).accept(visitor);
         case 'Statement':
             return (node as Statement).accept(visitor);
-        case 'ControlStructure':
-            return (node as ControlStructure).accept(visitor);
+        case 'ReturnStatement':
+            return (node as ReturnStatement).accept(visitor);
         case 'If':
             return (node as If).accept(visitor);
         case 'Loop':
