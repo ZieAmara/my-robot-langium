@@ -16,7 +16,7 @@
   },
   "include": [
      "src/**/*.ts"
-  ],
+, "entities_0.ts"  ],
   "exclude": [
      "out",
      "node_modules"

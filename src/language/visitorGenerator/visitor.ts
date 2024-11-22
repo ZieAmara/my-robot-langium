@@ -1,6 +1,6 @@
 
 import * as ASTInterfaces from '../generated/ast.js';
-import { Reference } from 'langium';
+import { AstNode, Reference } from 'langium';
 
 export interface Visitor{
     visitProgram(node : Program) : any;
@@ -626,5 +626,102 @@ export class And extends BooleanOperator implements ASTInterfaces.And {
         super($type)
     }
     override accept(visitor: Visitor) : any {}
+}
+
+export function acceptNode(node: AstNode, visitor: Visitor): any {
+    switch (node.$type) {
+        case 'Program':
+            return (node as Program).accept(visitor);
+        case 'Fonction':
+            return (node as Fonction).accept(visitor);
+        case 'ReturnType':
+            return (node as ReturnType).accept(visitor);
+        case 'Statement':
+            return (node as Statement).accept(visitor);
+        case 'ControlStructure':
+            return (node as ControlStructure).accept(visitor);
+        case 'If':
+            return (node as If).accept(visitor);
+        case 'Loop':
+            return (node as Loop).accept(visitor);
+        case 'ControlRobot':
+            return (node as ControlRobot).accept(visitor);
+        case 'Movement':
+            return (node as Movement).accept(visitor);
+        case 'Backward':
+            return (node as Backward).accept(visitor);
+        case 'Forward':
+            return (node as Forward).accept(visitor);
+        case 'Left':
+            return (node as Left).accept(visitor);
+        case 'Right':
+            return (node as Right).accept(visitor);
+        case 'Rotate':
+            return (node as Rotate).accept(visitor);
+        case 'Clock':
+            return (node as Clock).accept(visitor);
+        case 'ClockLeft':
+            return (node as ClockLeft).accept(visitor);
+        case 'Entity':
+            return (node as Entity).accept(visitor);
+        case 'Parameter':
+            return (node as Parameter).accept(visitor);
+        case 'VariableStatement':
+            return (node as VariableStatement).accept(visitor);
+        case 'VariableAssignation':
+            return (node as VariableAssignation).accept(visitor);
+        case 'SetSpeed':
+            return (node as SetSpeed).accept(visitor);
+        case 'CallFunction':
+            return (node as CallFunction).accept(visitor);
+        case 'Expression':
+            return (node as Expression).accept(visitor);
+        case 'UnaryBooleanExpression':
+            return (node as UnaryBooleanExpression).accept(visitor);
+        case 'UnaryArithmeticExpression':
+            return (node as UnaryArithmeticExpression).accept(visitor);
+        case 'CallFunctionExpr':
+            return (node as CallFunctionExpr).accept(visitor);
+        case 'CallEntity':
+            return (node as CallEntity).accept(visitor);
+        case 'GetSensor':
+            return (node as GetSensor).accept(visitor);
+        case 'Value':
+            return (node as Value).accept(visitor);
+        case 'ArithmeticExpression':
+            return (node as ArithmeticExpression).accept(visitor);
+        case 'ArithmeticOperator':
+            return (node as ArithmeticOperator).accept(visitor);
+        case 'Add':
+            return (node as Add).accept(visitor);
+        case 'Sub':
+            return (node as Sub).accept(visitor);
+        case 'Multiply':
+            return (node as Multiply).accept(visitor);
+        case 'Divise':
+            return (node as Divise).accept(visitor);
+        case 'BooleanExpression':
+            return (node as BooleanExpression).accept(visitor);
+        case 'BooleanOperator':
+            return (node as BooleanOperator).accept(visitor);
+        case 'LowerThan':
+            return (node as LowerThan).accept(visitor);
+        case 'EqualTo':
+            return (node as EqualTo).accept(visitor);
+        case 'UpperThan':
+            return (node as UpperThan).accept(visitor);
+        case 'Not':
+            return (node as Not).accept(visitor);
+        case 'Or':
+            return (node as Or).accept(visitor);
+        case 'LowerOrEqualTo':
+            return (node as LowerOrEqualTo).accept(visitor);
+        case 'UpperOrEqualTo':
+            return (node as UpperOrEqualTo).accept(visitor);
+        case 'And':
+            return (node as And).accept(visitor);
+        default:
+            throw new Error(`Unknown node type: ${node.$type}`);
+    }
 }
 
