@@ -66,24 +66,37 @@ void setup() {
 
   Omni.PIDEnable(0.31, 0.01, 0, 10);
 }
+
+
 `;
     
     visitProgram(node : Program) : any {
         node.fonction.map(f => {
-            this.visitFonction(f as Fonction);
+            this.arduinoCode += this.visitFonction(f as Fonction);;
         })
         return this.arduinoCode
     }
 	
     visitFonction(node : Fonction) : any {
-        this.visitReturnType(node.returnType as ReturnType)
-        + node.name + "(" + node.parameter.map(p => this.visitParameter(p as Parameter)).join(",") + ") { \n" 
+        return this.visitReturnType(node.returnType as ReturnType)
+        + node.name + " (" + node.parameter.map(p => this.visitParameter(p as Parameter)).join(",") + ") { \n" 
         + node.body.map(s => this.visitStatement(s as Statement)).join("; \n") + "}";
     }
 	
-    visitReturnType(node : ReturnType) : any {}
+    visitReturnType(node : ReturnType) : any {
+        switch (node.returnType) {
+            case "number":
+                return "float ";
+            case "boolean":
+                return "bool ";
+            default:
+                return "void ";
+        }
+    }
 	
-    visitStatement(node : Statement) : any {}
+    visitStatement(node : Statement) : any {
+        return "Ok";
+    }
 	
     visitReturnStatement(node : ReturnStatement) : any{}
 	
@@ -111,7 +124,9 @@ void setup() {
 	
     visitEntity(node : Entity) : any {}
 	
-    visitParameter(node : Parameter) : any {}
+    visitParameter(node : Parameter) : any {
+        return "Ok";
+    }
 	
     visitVariableStatement(node : VariableStatement) : any {}
 	

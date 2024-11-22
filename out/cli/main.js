@@ -5,17 +5,24 @@ import { createMyRobotServices } from '../language/my-robot-module.js';
 import { extractAstNode } from './cli-util.js';
 import { generate } from './generator.js';
 import { NodeFileSystem } from 'langium/node';
+import { CompilerVisitor } from '../semantics/compiler/compiler.js';
 export const generateAction = async (fileName, opts) => {
     const services = createMyRobotServices(NodeFileSystem).MyRobot;
     const program = await extractAstNode(fileName, services);
     const generatedFilePath = generate(program);
     console.log(chalk.green(`JavaScript code generated successfully: ${generatedFilePath}`));
 };
+export const compileAction = async (fileName) => {
+    const services = createMyRobotServices(NodeFileSystem).MyRobot;
+    const program = await extractAstNode(fileName, services);
+    const compilerVisitor = new CompilerVisitor();
+    console.log(program.accept(compilerVisitor));
+};
 export default function () {
     const program = new Command();
     program
         // eslint-disable-next-line @typescript-eslint/no-var-requires
-        .version(require('../../package.json').version);
+        .version("0.0.1");
     const fileExtensions = MyRobotLanguageMetaData.fileExtensions.join(', ');
     program
         .command('generate')
@@ -23,6 +30,13 @@ export default function () {
         .option('-d, --destination <dir>', 'destination directory of generating')
         .description('generates JavaScript code that prints "Hello, {name}!" for each greeting in a source file')
         .action(generateAction);
+    // node ./bin/cli compile <.rob filePath>
+    program
+        .command('compile')
+        .argument('<file>', `source file (possible file extensions: ${fileExtensions})`)
+        .option('-d, --destination <dir>', 'destination directory of generating')
+        .description('generates JavaScript code that prints "Hello, {name}!" for each greeting in a source file')
+        .action(compileAction);
     program.parse(process.argv);
 }
 //# sourceMappingURL=main.js.map
