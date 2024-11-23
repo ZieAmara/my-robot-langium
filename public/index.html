@@ -4,14 +4,14 @@
         <meta charset='utf-8'>
         <!-- Page & Monaco styling -->
         <link href="styles.css" rel="stylesheet"/>
-        <title>RoboML in Langium</title>
+        <title>RobotDsl in Langium</title>
 
         <script src="https://cdn.jsdelivr.net/npm/p5@1.7.0/lib/p5.js"></script>
         <!-- <script src="simulator/libraries/p5.js"></script> -->
         <script src="simulator/libraries/p5.sound.min.js"></script>
     </head>
     <body>
-        <h1>RoboML in Langium</h1>
+        <h1>RobotDsl in Langium</h1>
         <div id="buttons">
             <input class="build" type="button" value="Parse and Validate" onclick="window.parseAndValidate()">
             <input class="build" type="button" value="Execute Simulation" onclick="window.execute()">
@@ -36,7 +36,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <span class="close">&times;</span>
-                    <h2>RoboML Type checking errors</h2>
+                    <h2>RobotDsl Type checking errors</h2>
                 </div>
                 <div class="modal-body"></div>
             </div>
@@ -47,7 +47,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <span class="close">&times;</span>
-                    <h2>RoboML Type checking validation</h2>
+                    <h2>RobotDsl Type checking validation</h2>
                 </div>
                 <div class="modal-body">
                     Your code is correctly typed.
@@ -55,10 +55,10 @@
             </div>
         </div>
         
-        <footer>
+        <!-- <footer>
             <p style="font-style:italic">Powered by</p>
             <img width="125" src="https://langium.org/assets/langium_logo_w_nib.svg" alt="Langium">
-        </footer>
+        </footer> -->
         <!-- Monaco Configuration -->
         <script type="module" src="setup.js"></script>
         <script src="simulator/wall.js"></script>

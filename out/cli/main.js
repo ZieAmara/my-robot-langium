@@ -1,26 +1,40 @@
-import chalk from 'chalk';
 import { Command } from 'commander';
+import chalk from 'chalk';
 import { MyRobotLanguageMetaData } from '../language/generated/module.js';
 import { createMyRobotServices } from '../language/my-robot-module.js';
 import { extractAstNode, extractDocument } from './cli-util.js';
-import { generate } from './generator.js';
 import { NodeFileSystem } from 'langium/node';
 import { CompilerVisitor } from '../semantics/compiler/compiler.js';
-/**
- * Parse and validate a program written in our language.
- * Verifies that no lexer or parser errors occur.
- * Implicitly also checks for validation errors while extracting the document
- *
- * @param fileName Program to validate
- */
-export const parseAndValidate = async (fileName) => {
-    // retrieve the services for our language
+import { generateCommands } from '../generator/generator.js';
+import * as url from 'node:url';
+import * as fs from 'node:fs/promises';
+import * as path from 'node:path';
+const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
+const packagePath = path.resolve(__dirname, '..', '..', 'package.json');
+const packageContent = await fs.readFile(packagePath, 'utf-8');
+export const generateAction = async (fileName, opts) => {
     const services = createMyRobotServices(NodeFileSystem).MyRobot;
-    // extract a document for our program
+    const model = await extractAstNode(fileName, services);
+    // serialize & output the model ast
+    const serializedAst = services.serializer.JsonSerializer.serialize(model, { sourceText: true, textRegions: true });
+    console.log(serializedAst);
+};
+export const compileAction = async (fileName) => {
+    const services = createMyRobotServices(NodeFileSystem).MyRobot;
+    const program = await extractAstNode(fileName, services);
+    const compilerVisitor = new CompilerVisitor();
+    console.log(program.accept(compilerVisitor));
+};
+export const generateCmds = async (fileName) => {
+    const services = createMyRobotServices(NodeFileSystem).MyRobot;
+    const model = await extractAstNode(fileName, services);
+    // directly output these commands to the console
+    console.log(JSON.stringify(generateCommands(model)));
+};
+export const parseAndValidate = async (fileName) => {
+    const services = createMyRobotServices(NodeFileSystem).MyRobot;
     const document = await extractDocument(fileName, services);
-    // extract the parse result details
     const parseResult = document.parseResult;
-    // verify no lexer, parser, or general diagnostic errors show up
     if (parseResult.lexerErrors.length === 0 &&
         parseResult.parserErrors.length === 0) {
         console.log(chalk.green(`Parsed and validated ${fileName} successfully!`));
@@ -29,29 +43,11 @@ export const parseAndValidate = async (fileName) => {
         console.log(chalk.red(`Failed to parse and validate ${fileName}!`));
     }
 };
-export const generateAction = async (fileName, opts) => {
-    const services = createMyRobotServices(NodeFileSystem).MyRobot;
-    const program = await extractAstNode(fileName, services);
-    const generatedFilePath = generate(program);
-    console.log(chalk.green(`JavaScript code generated successfully: ${generatedFilePath}`));
-};
-export const compileAction = async (fileName) => {
-    const services = createMyRobotServices(NodeFileSystem).MyRobot;
-    const program = await extractAstNode(fileName, services);
-    const compilerVisitor = new CompilerVisitor();
-    console.log(program.accept(compilerVisitor));
-};
 export default function () {
     const program = new Command();
-    program
-        // eslint-disable-next-line @typescript-eslint/no-var-requires
-        .version("0.0.1");
+    console.log("SRC/CLI/");
+    program.version(JSON.parse(packageContent).version);
     const fileExtensions = MyRobotLanguageMetaData.fileExtensions.join(', ');
-    program
-        .command('parseAndValidate')
-        .argument('<file>', 'Source file to parse & validate (ending in ${fileExtensions})')
-        .description('Indicates where a program parses & validates successfully, but produces no output code')
-        .action(parseAndValidate); // we'll need to implement this function
     program
         .command('generate')
         .argument('<file>', `source file (possible file extensions: ${fileExtensions})`)
@@ -65,6 +61,16 @@ export default function () {
         .option('-d, --destination <dir>', 'destination directory of generating')
         .description('generates JavaScript code that prints "Hello, {name}!" for each greeting in a source file')
         .action(compileAction);
+    program
+        .command('parseAndValidate')
+        .argument('<file>', `Source file to parse & validate (ending in ${fileExtensions})`)
+        .description('Indicates where a program parses & validates successfully, but produces no output code')
+        .action(parseAndValidate);
+    program
+        .command('generate-cmds')
+        .argument('<file>', `source file (possible file extensions: ${fileExtensions})`)
+        .description('Generates Robot movement commands, suitable for consumption by a simple stack-based drawing machine')
+        .action(generateCmds);
     program.parse(process.argv);
 }
 //# sourceMappingURL=main.js.map

@@ -1,7 +1,9 @@
 "use strict";
 var __create = Object.create;
 var __defProp = Object.defineProperty;
+var __defProps = Object.defineProperties;
 var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
+var __getOwnPropDescs = Object.getOwnPropertyDescriptors;
 var __getOwnPropNames = Object.getOwnPropertyNames;
 var __getOwnPropSymbols = Object.getOwnPropertySymbols;
 var __getProtoOf = Object.getPrototypeOf;
@@ -19,6 +21,7 @@ var __spreadValues = (a2, b) => {
     }
   return a2;
 };
+var __spreadProps = (a2, b) => __defProps(a2, __getOwnPropDescs(b));
 var __commonJS = (cb, mod) => function __require() {
   return mod || (0, cb[__getOwnPropNames(cb)[0]])((mod = { exports: {} }).exports, mod), mod.exports;
 };
@@ -2989,14 +2992,14 @@ var require_main = __commonJS({
     ril_1.default.install();
     var api_1 = require_api();
     var path = require("path");
-    var os = require("os");
+    var os2 = require("os");
     var crypto_1 = require("crypto");
     var net_1 = require("net");
     __exportStar(require_api(), exports2);
     var IPCMessageReader = class extends api_1.AbstractMessageReader {
-      constructor(process2) {
+      constructor(process3) {
         super();
-        this.process = process2;
+        this.process = process3;
         let eventEmitter = this.process;
         eventEmitter.on("error", (error) => this.fireError(error));
         eventEmitter.on("close", () => this.fireClose());
@@ -3008,9 +3011,9 @@ var require_main = __commonJS({
     };
     exports2.IPCMessageReader = IPCMessageReader;
     var IPCMessageWriter = class extends api_1.AbstractMessageWriter {
-      constructor(process2) {
+      constructor(process3) {
         super();
-        this.process = process2;
+        this.process = process3;
         this.errorCount = 0;
         let eventEmitter = this.process;
         eventEmitter.on("error", (error) => this.fireError(error));
@@ -3085,7 +3088,7 @@ var require_main = __commonJS({
       if (XDG_RUNTIME_DIR) {
         result = path.join(XDG_RUNTIME_DIR, `vscode-ipc-${randomSuffix}.sock`);
       } else {
-        result = path.join(os.tmpdir(), `vscode-${randomSuffix}.sock`);
+        result = path.join(os2.tmpdir(), `vscode-${randomSuffix}.sock`);
       }
       const limit = safeIpcPathLengths.get(process.platform);
       if (limit !== void 0 && result.length >= limit) {
@@ -8127,9 +8130,9 @@ var require_files = __commonJS({
         "});"
       ].join("");
       return new Promise((resolve2, reject2) => {
-        let env = process.env;
+        let env2 = process.env;
         let newEnv = /* @__PURE__ */ Object.create(null);
-        Object.keys(env).forEach((key) => newEnv[key] = env[key]);
+        Object.keys(env2).forEach((key) => newEnv[key] = env2[key]);
         if (nodePath && fs2.existsSync(nodePath)) {
           if (newEnv[nodePathKey]) {
             newEnv[nodePathKey] = nodePath + path.delimiter + newEnv[nodePathKey];
@@ -8177,12 +8180,12 @@ var require_files = __commonJS({
     exports2.resolve = resolve;
     function resolveGlobalNodePath(tracer) {
       let npmCommand = "npm";
-      const env = /* @__PURE__ */ Object.create(null);
-      Object.keys(process.env).forEach((key) => env[key] = process.env[key]);
-      env["NO_UPDATE_NOTIFIER"] = "true";
+      const env2 = /* @__PURE__ */ Object.create(null);
+      Object.keys(process.env).forEach((key) => env2[key] = process.env[key]);
+      env2["NO_UPDATE_NOTIFIER"] = "true";
       const options = {
         encoding: "utf8",
-        env
+        env: env2
       };
       if (isWindows()) {
         npmCommand = "npm.cmd";
@@ -8599,7 +8602,7 @@ var FullTextDocument = class _FullTextDocument {
     return this._content;
   }
   update(changes, version) {
-    for (const change of changes) {
+    for (let change of changes) {
       if (_FullTextDocument.isIncremental(change)) {
         const range = getWellformedRange(change.range);
         const startOffset = this.offsetAt(range.start);
@@ -8643,53 +8646,42 @@ var FullTextDocument = class _FullTextDocument {
   }
   positionAt(offset) {
     offset = Math.max(Math.min(offset, this._content.length), 0);
-    const lineOffsets = this.getLineOffsets();
+    let lineOffsets = this.getLineOffsets();
     let low = 0, high = lineOffsets.length;
     if (high === 0) {
       return { line: 0, character: offset };
     }
     while (low < high) {
-      const mid = Math.floor((low + high) / 2);
+      let mid = Math.floor((low + high) / 2);
       if (lineOffsets[mid] > offset) {
         high = mid;
       } else {
         low = mid + 1;
       }
     }
-    const line = low - 1;
-    offset = this.ensureBeforeEOL(offset, lineOffsets[line]);
+    let line = low - 1;
     return { line, character: offset - lineOffsets[line] };
   }
   offsetAt(position) {
-    const lineOffsets = this.getLineOffsets();
+    let lineOffsets = this.getLineOffsets();
     if (position.line >= lineOffsets.length) {
       return this._content.length;
     } else if (position.line < 0) {
       return 0;
     }
-    const lineOffset = lineOffsets[position.line];
-    if (position.character <= 0) {
-      return lineOffset;
-    }
-    const nextLineOffset = position.line + 1 < lineOffsets.length ? lineOffsets[position.line + 1] : this._content.length;
-    const offset = Math.min(lineOffset + position.character, nextLineOffset);
-    return this.ensureBeforeEOL(offset, lineOffset);
-  }
-  ensureBeforeEOL(offset, lineOffset) {
-    while (offset > lineOffset && isEOL(this._content.charCodeAt(offset - 1))) {
-      offset--;
-    }
-    return offset;
+    let lineOffset = lineOffsets[position.line];
+    let nextLineOffset = position.line + 1 < lineOffsets.length ? lineOffsets[position.line + 1] : this._content.length;
+    return Math.max(Math.min(lineOffset + position.character, nextLineOffset), lineOffset);
   }
   get lineCount() {
     return this.getLineOffsets().length;
   }
   static isIncremental(event) {
-    const candidate = event;
+    let candidate = event;
     return candidate !== void 0 && candidate !== null && typeof candidate.text === "string" && candidate.range !== void 0 && (candidate.rangeLength === void 0 || typeof candidate.rangeLength === "number");
   }
   static isFull(event) {
-    const candidate = event;
+    let candidate = event;
     return candidate !== void 0 && candidate !== null && typeof candidate.text === "string" && candidate.range === void 0 && candidate.rangeLength === void 0;
   }
 };
@@ -8709,9 +8701,9 @@ var TextDocument;
   }
   TextDocument2.update = update;
   function applyEdits(document, edits) {
-    const text = document.getText();
-    const sortedEdits = mergeSort(edits.map(getWellformedEdit), (a2, b) => {
-      const diff = a2.range.start.line - b.range.start.line;
+    let text = document.getText();
+    let sortedEdits = mergeSort(edits.map(getWellformedEdit), (a2, b) => {
+      let diff = a2.range.start.line - b.range.start.line;
       if (diff === 0) {
         return a2.range.start.character - b.range.start.character;
       }
@@ -8720,7 +8712,7 @@ var TextDocument;
     let lastModifiedOffset = 0;
     const spans = [];
     for (const e of sortedEdits) {
-      const startOffset = document.offsetAt(e.range.start);
+      let startOffset = document.offsetAt(e.range.start);
       if (startOffset < lastModifiedOffset) {
         throw new Error("Overlapping edit");
       } else if (startOffset > lastModifiedOffset) {
@@ -8749,7 +8741,7 @@ function mergeSort(data, compare) {
   let rightIdx = 0;
   let i = 0;
   while (leftIdx < left.length && rightIdx < right.length) {
-    const ret = compare(left[leftIdx], right[rightIdx]);
+    let ret = compare(left[leftIdx], right[rightIdx]);
     if (ret <= 0) {
       data[i++] = left[leftIdx++];
     } else {
@@ -8767,8 +8759,8 @@ function mergeSort(data, compare) {
 function computeLineOffsets(text, isAtLineStart, textOffset = 0) {
   const result = isAtLineStart ? [textOffset] : [];
   for (let i = 0; i < text.length; i++) {
-    const ch = text.charCodeAt(i);
-    if (isEOL(ch)) {
+    let ch = text.charCodeAt(i);
+    if (ch === 13 || ch === 10) {
       if (ch === 13 && i + 1 < text.length && text.charCodeAt(i + 1) === 10) {
         i++;
       }
@@ -8776,9 +8768,6 @@ function computeLineOffsets(text, isAtLineStart, textOffset = 0) {
     }
   }
   return result;
-}
-function isEOL(char) {
-  return char === 13 || char === 10;
 }
 function getWellformedRange(range) {
   const start = range.start;
@@ -12482,7 +12471,7 @@ function partialRegex(regex) {
   }
   const re = regex, source = regex.source;
   let i = 0;
-  function process2() {
+  function process3() {
     let result = "", tmp;
     function appendRaw(nbChars) {
       result += source.substr(i, nbChars);
@@ -12559,17 +12548,17 @@ function partialRegex(regex) {
               case ":":
                 result += "(?:";
                 i += 3;
-                result += process2() + "|$)";
+                result += process3() + "|$)";
                 break;
               case "=":
                 result += "(?=";
                 i += 3;
-                result += process2() + ")";
+                result += process3() + ")";
                 break;
               case "!":
                 tmp = i;
                 i += 3;
-                process2();
+                process3();
                 result += source.substr(tmp, i - tmp);
                 break;
               case "<":
@@ -12578,19 +12567,19 @@ function partialRegex(regex) {
                   case "!":
                     tmp = i;
                     i += 4;
-                    process2();
+                    process3();
                     result += source.substr(tmp, i - tmp);
                     break;
                   default:
                     appendRaw(source.indexOf(">", i) - i + 1);
-                    result += process2() + "|$)";
+                    result += process3() + "|$)";
                     break;
                 }
                 break;
             }
           } else {
             appendRaw(1);
-            result += process2() + "|$)";
+            result += process3() + "|$)";
           }
           break;
         case ")":
@@ -12603,7 +12592,7 @@ function partialRegex(regex) {
     }
     return result;
   }
-  return new RegExp(process2(), regex.flags);
+  return new RegExp(process3(), regex.flags);
 }
 
 // node_modules/vscode-uri/lib/esm/index.mjs
@@ -18545,6 +18534,26 @@ var DefaultDocumentSymbolProvider = class {
 
 // node_modules/langium/lib/lsp/execute-command-handler.js
 var import_vscode_languageserver10 = __toESM(require_main4(), 1);
+var AbstractExecuteCommandHandler = class {
+  get commands() {
+    return Array.from(this.registeredCommands.keys());
+  }
+  constructor() {
+    this.registeredCommands = /* @__PURE__ */ new Map();
+    this.registerCommands(this.createCommandAcceptor());
+  }
+  async executeCommand(name, args, cancelToken = import_vscode_languageserver10.CancellationToken.None) {
+    const command = this.registeredCommands.get(name);
+    if (command) {
+      return command(args, cancelToken);
+    } else {
+      return void 0;
+    }
+  }
+  createCommandAcceptor() {
+    return (name, execute) => this.registeredCommands.set(name, execute);
+  }
+};
 
 // node_modules/langium/lib/lsp/fuzzy-matcher.js
 var DefaultFuzzyMatcher = class {
@@ -20400,14 +20409,14 @@ var objectCreate = Object.create;
 var baseCreate = function() {
   function object() {
   }
-  return function(proto) {
-    if (!isObject_default(proto)) {
+  return function(proto2) {
+    if (!isObject_default(proto2)) {
       return {};
     }
     if (objectCreate) {
-      return objectCreate(proto);
+      return objectCreate(proto2);
     }
-    object.prototype = proto;
+    object.prototype = proto2;
     var result = new object();
     object.prototype = void 0;
     return result;
@@ -20696,8 +20705,8 @@ var createAssigner_default = createAssigner;
 // node_modules/lodash-es/_isPrototype.js
 var objectProto5 = Object.prototype;
 function isPrototype(value) {
-  var Ctor = value && value.constructor, proto = typeof Ctor == "function" && Ctor.prototype || objectProto5;
-  return value === proto;
+  var Ctor = value && value.constructor, proto2 = typeof Ctor == "function" && Ctor.prototype || objectProto5;
+  return value === proto2;
 }
 var isPrototype_default = isPrototype;
 
@@ -36309,6 +36318,1035 @@ var MyRobotAcceptWeaver = class {
   }
 };
 
+// src/language/visitorGenerator/visitor.ts
+function acceptNode(node, visitor2) {
+  switch (node.$type) {
+    case "Program":
+      return node.accept(visitor2);
+    case "Fonction":
+      return node.accept(visitor2);
+    case "ReturnType":
+      return node.accept(visitor2);
+    case "Statement":
+      return node.accept(visitor2);
+    case "ReturnStatement":
+      return node.accept(visitor2);
+    case "If":
+      return node.accept(visitor2);
+    case "Loop":
+      return node.accept(visitor2);
+    case "ControlRobot":
+      return node.accept(visitor2);
+    case "Movement":
+      return node.accept(visitor2);
+    case "Backward":
+      return node.accept(visitor2);
+    case "Forward":
+      return node.accept(visitor2);
+    case "Left":
+      return node.accept(visitor2);
+    case "Right":
+      return node.accept(visitor2);
+    case "Rotate":
+      return node.accept(visitor2);
+    case "Clock":
+      return node.accept(visitor2);
+    case "ClockLeft":
+      return node.accept(visitor2);
+    case "Entity":
+      return node.accept(visitor2);
+    case "Parameter":
+      return node.accept(visitor2);
+    case "VariableStatement":
+      return node.accept(visitor2);
+    case "VariableAssignation":
+      return node.accept(visitor2);
+    case "SetSpeed":
+      return node.accept(visitor2);
+    case "CallFunction":
+      return node.accept(visitor2);
+    case "Expression":
+      return node.accept(visitor2);
+    case "UnaryBooleanExpression":
+      return node.accept(visitor2);
+    case "UnaryArithmeticExpression":
+      return node.accept(visitor2);
+    case "CallFunctionExpr":
+      return node.accept(visitor2);
+    case "CallEntity":
+      return node.accept(visitor2);
+    case "GetSensor":
+      return node.accept(visitor2);
+    case "Value":
+      return node.accept(visitor2);
+    case "ArithmeticExpression":
+      return node.accept(visitor2);
+    case "ArithmeticOperator":
+      return node.accept(visitor2);
+    case "Add":
+      return node.accept(visitor2);
+    case "Sub":
+      return node.accept(visitor2);
+    case "Multiply":
+      return node.accept(visitor2);
+    case "Divise":
+      return node.accept(visitor2);
+    case "BooleanExpression":
+      return node.accept(visitor2);
+    case "BooleanOperator":
+      return node.accept(visitor2);
+    case "LowerThan":
+      return node.accept(visitor2);
+    case "EqualTo":
+      return node.accept(visitor2);
+    case "UpperThan":
+      return node.accept(visitor2);
+    case "Not":
+      return node.accept(visitor2);
+    case "Or":
+      return node.accept(visitor2);
+    case "LowerOrEqualTo":
+      return node.accept(visitor2);
+    case "UpperOrEqualTo":
+      return node.accept(visitor2);
+    case "And":
+      return node.accept(visitor2);
+    default:
+      throw new Error(`Unknown node type: ${node.$type}`);
+  }
+}
+
+// src/web/simulator/utils.ts
+var Vector = class _Vector {
+  static fromAngle(rad, norm) {
+    return new _Vector(Math.cos(rad) * norm, Math.sin(rad) * norm);
+  }
+  static null() {
+    return new _Vector(0, 0);
+  }
+  constructor(x, y) {
+    this.x = x;
+    this.y = y;
+  }
+  plus(other) {
+    return new _Vector(this.x + other.x, this.y + other.y);
+  }
+  minus(other) {
+    return new _Vector(this.x - other.x, this.y - other.y);
+  }
+  scale(factor) {
+    return new _Vector(this.x * factor, this.y * factor);
+  }
+  projX() {
+    return new _Vector(this.x, 0);
+  }
+  projY() {
+    return new _Vector(0, this.y);
+  }
+  norm() {
+    return Math.sqrt(this.x * this.x + this.y * this.y);
+  }
+};
+var Ray = class {
+  constructor(origin, vector) {
+    this.origin = origin;
+    this.vector = vector;
+  }
+  intersect(entities) {
+    let pois = [];
+    for (var i = 0; i < entities.length; i++) {
+      let e = entities[i];
+      let entityPOI = e.intersect(this);
+      console.log(entityPOI);
+      pois = pois.concat(entityPOI);
+    }
+    return this.findClosestIntersection(pois);
+  }
+  findClosestIntersection(pois) {
+    let idx = 0;
+    let minDist = Infinity;
+    if (pois.length > 0) {
+      for (var i = 0; i < pois.length; i++) {
+        let d = this.origin.minus(pois[i]).norm();
+        if (d < minDist) {
+          minDist = d;
+          idx = i;
+        }
+      }
+      return pois[idx];
+    } else {
+      return void 0;
+    }
+  }
+  getPoiFinder() {
+    return (p1, p2) => {
+      const P = p1.minus(p2);
+      const V = this.vector;
+      const den = P.x * V.y - V.x * P.y;
+      if (den != 0) {
+        const I = p1.minus(this.origin);
+        let nomT = I.x * V.y - V.x * I.y;
+        let nomU = P.x * I.y - I.x * P.y;
+        let t = nomT / den;
+        let u = -nomU / den;
+        if (t > 0 && t < 1 && u > 0) {
+          return p1.plus(P.scale(-t));
+        }
+      }
+      return void 0;
+    };
+  }
+};
+
+// src/web/simulator/entities.ts
+var Robot = class {
+  constructor(pos, size, angle, speed, scene) {
+    this.type = "Robot";
+    this.pos = pos;
+    this.size = size;
+    this.rad = angle * Math.PI / 180;
+    this.speed = speed;
+    this.scene = scene;
+  }
+  intersect(ray) {
+    return [];
+  }
+  turn(angle) {
+    this.rad += angle * Math.PI / 180;
+    const duration = angle / this.speed * 1e3;
+    this.scene.time += duration;
+    this.scene.timestamps.push(new Timestamp(this.scene.time, this));
+  }
+  move(dist) {
+    const dx = Math.cos(this.rad) * dist;
+    const dy = Math.sin(this.rad) * dist;
+    this.pos.x += dx;
+    this.pos.y += dy;
+    const duration = dist / this.speed * 1e3;
+    this.scene.time += duration;
+    this.scene.timestamps.push(new Timestamp(this.scene.time, this));
+  }
+  side(dist) {
+    const sideAngle = this.rad - Math.PI / 2;
+    const dx = Math.cos(sideAngle) * dist;
+    const dy = Math.sin(sideAngle) * dist;
+    this.pos.x += dx;
+    this.pos.y += dy;
+    const duration = dist / this.speed * 1e3;
+    this.scene.time += duration;
+    this.scene.timestamps.push(new Timestamp(this.scene.time, this));
+  }
+  getRay() {
+    return new Ray(this.pos, Vector.fromAngle(this.rad, 1e4).scale(-1));
+  }
+};
+var Timestamp = class extends Robot {
+  constructor(time, robot) {
+    super(robot.pos.scale(1), robot.size.scale(1), robot.rad, robot.speed, robot.scene);
+    this.rad = robot.rad;
+    this.time = time;
+  }
+};
+var Wall = class {
+  constructor(p1, p2) {
+    this.type = "Wall";
+    this.pos = p1;
+    this.size = p2;
+  }
+  intersect(ray) {
+    const poi = ray.getPoiFinder()(this.pos, this.size);
+    return poi ? [poi] : [];
+  }
+};
+
+// src/web/simulator/scene.ts
+var BaseScene = class {
+  constructor(size = new Vector(1e4, 1e4)) {
+    this.entities = [];
+    this.time = 0;
+    this.timestamps = [];
+    this.size = size;
+    this.robot = new Robot(this.size.scale(0.5), new Vector(250, 250), 0, 30, this);
+    this.entities.push(new Wall(Vector.null(), this.size.projX()));
+    this.entities.push(new Wall(Vector.null(), this.size.projY()));
+    this.entities.push(new Wall(this.size, this.size.projY()));
+    this.entities.push(new Wall(this.size, this.size.projX()));
+    this.timestamps.push(new Timestamp(0, this.robot));
+  }
+};
+
+// src/semantics/interpreter/interpreter.ts
+var globalContext = {
+  variables: {},
+  functions: {},
+  currentScene: null
+};
+var InterpreterVisitor = class {
+  constructor(sceneWidth, sceneHeight) {
+    if (sceneWidth && sceneHeight) {
+      this.scene = new BaseScene(new Vector(sceneWidth * 10, sceneHeight * 10));
+    } else {
+      this.scene = new BaseScene();
+    }
+    this.robot = this.scene.robot;
+    globalContext.currentScene = this.scene;
+  }
+  visitProgram(node) {
+    const entryFunction = node.fonction.find((f) => f.name === "entry");
+    if (!entryFunction) {
+      throw new Error("La fonction 'entry' doit \xEAtre d\xE9finie.");
+    }
+    return this.visitFonction(entryFunction);
+  }
+  visitFonction(node) {
+    if (!node.body || node.body.length === 0) {
+      throw new Error(`La fonction '${node.name}' n'a pas de corps d\xE9fini.`);
+    }
+    console.log(`Ex\xE9cution de la fonction : ${node.name}`);
+    const previousVariables = __spreadValues({}, globalContext.variables);
+    for (const statement of node.body) {
+      acceptNode(statement, this);
+    }
+    globalContext.variables = previousVariables;
+    console.log(`Fin de l'ex\xE9cution de la fonction : ${node.name}`);
+  }
+  visitReturnType(node) {
+    if (!node.returnType) {
+      throw new Error(`Le type de retour attendu pour la fonction n'est pas d\xE9fini.`);
+    }
+    const returnValue = acceptNode(node, this);
+    if (typeof returnValue !== node.returnType) {
+      throw new Error(
+        `Type de retour incorrect : attendu '${node.returnType}', obtenu '${typeof returnValue}'.`
+      );
+    }
+    console.log(`Type de retour valide : '${node.returnType}'.`);
+    return returnValue;
+  }
+  visitStatement(node) {
+  }
+  visitReturnStatement(node) {
+  }
+  visitIf(node) {
+    if (Array.isArray(node.condition)) {
+      node.condition.forEach((conditionNode) => {
+        const conditionResult = acceptNode(conditionNode, this);
+        if (typeof conditionResult !== "boolean") {
+          throw new Error("Chaque condition doit \xEAtre une expression bool\xE9enne.");
+        }
+      });
+    } else {
+      const condition = acceptNode(node.condition, this);
+      if (typeof condition !== "boolean") {
+        throw new Error("La condition de l'instruction 'if' doit \xEAtre une expression bool\xE9enne.");
+      }
+      if (condition) {
+        for (const statement of node.thenStatement) {
+          acceptNode(statement, this);
+        }
+      } else if (node.elseStatement) {
+        for (const statement of node.elseStatement) {
+          acceptNode(statement, this);
+        }
+      }
+    }
+  }
+  visitLoop(node) {
+    let conditionResult = false;
+    if (Array.isArray(node.condition)) {
+      node.condition.forEach((conditionNode) => {
+        const result = acceptNode(conditionNode, this);
+        if (typeof result !== "boolean") {
+          throw new Error("Chaque condition dans la boucle doit \xEAtre une expression bool\xE9enne.");
+        }
+        conditionResult = conditionResult || result;
+      });
+    } else {
+      conditionResult = acceptNode(node.condition, this);
+      if (typeof conditionResult !== "boolean") {
+        throw new Error("La condition de la boucle doit \xEAtre une expression bool\xE9enne.");
+      }
+    }
+    while (conditionResult) {
+      for (const statement of node.body) {
+        acceptNode(statement, this);
+      }
+      if (Array.isArray(node.condition)) {
+        conditionResult = false;
+        node.condition.forEach((conditionNode) => {
+          const result = acceptNode(conditionNode, this);
+          if (typeof result !== "boolean") {
+            throw new Error("Chaque condition dans la boucle doit \xEAtre une expression bool\xE9enne.");
+          }
+          conditionResult = conditionResult || result;
+        });
+      } else {
+        conditionResult = acceptNode(node.condition, this);
+        if (typeof conditionResult !== "boolean") {
+          throw new Error("La condition de la boucle doit \xEAtre une expression bool\xE9enne.");
+        }
+      }
+    }
+  }
+  visitControlRobot(node) {
+  }
+  visitMovement(node) {
+    var _a;
+    const robot = (_a = globalContext.currentScene) == null ? void 0 : _a.robot;
+    if (!robot)
+      throw new Error("Aucun robot trouv\xE9 pour effectuer le mouvement.");
+    if (node.distance)
+      robot.move(acceptNode(node.distance, this));
+  }
+  visitBackward(node) {
+    var _a;
+    const robot = (_a = globalContext.currentScene) == null ? void 0 : _a.robot;
+    if (!robot)
+      throw new Error("Aucun robot trouv\xE9 pour effectuer le mouvement arri\xE8re.");
+    if (node.distance)
+      robot.move(acceptNode(node.distance, this));
+  }
+  visitForward(node) {
+    this.visitMovement(node);
+  }
+  visitLeft(node) {
+    var _a;
+    const robot = (_a = globalContext.currentScene) == null ? void 0 : _a.robot;
+    if (!robot)
+      throw new Error("Aucun robot rencontr\xE9 pour effectuer le mouvement gauche.");
+    if (node.distance)
+      robot.side(-acceptNode(node.distance, this));
+  }
+  visitRight(node) {
+    var _a;
+    const robot = (_a = globalContext.currentScene) == null ? void 0 : _a.robot;
+    if (!robot)
+      throw new Error("Aucun robot rencontr\xE9 pour effectuer le mouvement droit.");
+    if (node.distance)
+      robot.side(acceptNode(node.distance, this));
+  }
+  visitRotate(node) {
+  }
+  visitClock(node) {
+  }
+  visitClockLeft(node) {
+  }
+  visitEntity(node) {
+  }
+  visitParameter(node) {
+  }
+  visitVariableStatement(node) {
+  }
+  visitVariableAssignation(node) {
+  }
+  visitSetSpeed(node) {
+  }
+  visitCallFunction(node) {
+  }
+  visitExpression(node) {
+  }
+  visitUnaryBooleanExpression(node) {
+  }
+  visitUnaryArithmeticExpression(node) {
+  }
+  visitCallFunctionExpr(node) {
+  }
+  visitCallEntity(node) {
+  }
+  visitGetSensor(node) {
+  }
+  visitValue(node) {
+  }
+  visitArithmeticExpression(node) {
+  }
+  visitArithmeticOperator(node) {
+  }
+  visitAdd(node) {
+  }
+  visitSub(node) {
+  }
+  visitMultiply(node) {
+  }
+  visitDivise(node) {
+  }
+  visitBooleanExpression(node) {
+  }
+  visitBooleanOperator(node) {
+  }
+  visitLowerThan(node) {
+  }
+  visitEqualTo(node) {
+  }
+  visitUpperThan(node) {
+  }
+  visitNot(node) {
+  }
+  visitOr(node) {
+  }
+  visitLowerOrEqualTo(node) {
+  }
+  visitUpperOrEqualTo(node) {
+  }
+  visitAnd(node) {
+  }
+};
+
+// src/generator/generator.ts
+function generateCommands(robot, sceneWidth, sceneHeight) {
+  const visitor2 = new InterpreterVisitor(sceneWidth, sceneHeight);
+  return robot.accept(visitor2);
+}
+
+// node_modules/chalk/source/vendor/ansi-styles/index.js
+var ANSI_BACKGROUND_OFFSET = 10;
+var wrapAnsi16 = (offset = 0) => (code) => `\x1B[${code + offset}m`;
+var wrapAnsi256 = (offset = 0) => (code) => `\x1B[${38 + offset};5;${code}m`;
+var wrapAnsi16m = (offset = 0) => (red, green, blue) => `\x1B[${38 + offset};2;${red};${green};${blue}m`;
+var styles = {
+  modifier: {
+    reset: [0, 0],
+    // 21 isn't widely supported and 22 does the same thing
+    bold: [1, 22],
+    dim: [2, 22],
+    italic: [3, 23],
+    underline: [4, 24],
+    overline: [53, 55],
+    inverse: [7, 27],
+    hidden: [8, 28],
+    strikethrough: [9, 29]
+  },
+  color: {
+    black: [30, 39],
+    red: [31, 39],
+    green: [32, 39],
+    yellow: [33, 39],
+    blue: [34, 39],
+    magenta: [35, 39],
+    cyan: [36, 39],
+    white: [37, 39],
+    // Bright color
+    blackBright: [90, 39],
+    gray: [90, 39],
+    // Alias of `blackBright`
+    grey: [90, 39],
+    // Alias of `blackBright`
+    redBright: [91, 39],
+    greenBright: [92, 39],
+    yellowBright: [93, 39],
+    blueBright: [94, 39],
+    magentaBright: [95, 39],
+    cyanBright: [96, 39],
+    whiteBright: [97, 39]
+  },
+  bgColor: {
+    bgBlack: [40, 49],
+    bgRed: [41, 49],
+    bgGreen: [42, 49],
+    bgYellow: [43, 49],
+    bgBlue: [44, 49],
+    bgMagenta: [45, 49],
+    bgCyan: [46, 49],
+    bgWhite: [47, 49],
+    // Bright color
+    bgBlackBright: [100, 49],
+    bgGray: [100, 49],
+    // Alias of `bgBlackBright`
+    bgGrey: [100, 49],
+    // Alias of `bgBlackBright`
+    bgRedBright: [101, 49],
+    bgGreenBright: [102, 49],
+    bgYellowBright: [103, 49],
+    bgBlueBright: [104, 49],
+    bgMagentaBright: [105, 49],
+    bgCyanBright: [106, 49],
+    bgWhiteBright: [107, 49]
+  }
+};
+var modifierNames = Object.keys(styles.modifier);
+var foregroundColorNames = Object.keys(styles.color);
+var backgroundColorNames = Object.keys(styles.bgColor);
+var colorNames = [...foregroundColorNames, ...backgroundColorNames];
+function assembleStyles() {
+  const codes = /* @__PURE__ */ new Map();
+  for (const [groupName, group] of Object.entries(styles)) {
+    for (const [styleName, style] of Object.entries(group)) {
+      styles[styleName] = {
+        open: `\x1B[${style[0]}m`,
+        close: `\x1B[${style[1]}m`
+      };
+      group[styleName] = styles[styleName];
+      codes.set(style[0], style[1]);
+    }
+    Object.defineProperty(styles, groupName, {
+      value: group,
+      enumerable: false
+    });
+  }
+  Object.defineProperty(styles, "codes", {
+    value: codes,
+    enumerable: false
+  });
+  styles.color.close = "\x1B[39m";
+  styles.bgColor.close = "\x1B[49m";
+  styles.color.ansi = wrapAnsi16();
+  styles.color.ansi256 = wrapAnsi256();
+  styles.color.ansi16m = wrapAnsi16m();
+  styles.bgColor.ansi = wrapAnsi16(ANSI_BACKGROUND_OFFSET);
+  styles.bgColor.ansi256 = wrapAnsi256(ANSI_BACKGROUND_OFFSET);
+  styles.bgColor.ansi16m = wrapAnsi16m(ANSI_BACKGROUND_OFFSET);
+  Object.defineProperties(styles, {
+    rgbToAnsi256: {
+      value(red, green, blue) {
+        if (red === green && green === blue) {
+          if (red < 8) {
+            return 16;
+          }
+          if (red > 248) {
+            return 231;
+          }
+          return Math.round((red - 8) / 247 * 24) + 232;
+        }
+        return 16 + 36 * Math.round(red / 255 * 5) + 6 * Math.round(green / 255 * 5) + Math.round(blue / 255 * 5);
+      },
+      enumerable: false
+    },
+    hexToRgb: {
+      value(hex) {
+        const matches = /[a-f\d]{6}|[a-f\d]{3}/i.exec(hex.toString(16));
+        if (!matches) {
+          return [0, 0, 0];
+        }
+        let [colorString] = matches;
+        if (colorString.length === 3) {
+          colorString = [...colorString].map((character) => character + character).join("");
+        }
+        const integer = Number.parseInt(colorString, 16);
+        return [
+          /* eslint-disable no-bitwise */
+          integer >> 16 & 255,
+          integer >> 8 & 255,
+          integer & 255
+          /* eslint-enable no-bitwise */
+        ];
+      },
+      enumerable: false
+    },
+    hexToAnsi256: {
+      value: (hex) => styles.rgbToAnsi256(...styles.hexToRgb(hex)),
+      enumerable: false
+    },
+    ansi256ToAnsi: {
+      value(code) {
+        if (code < 8) {
+          return 30 + code;
+        }
+        if (code < 16) {
+          return 90 + (code - 8);
+        }
+        let red;
+        let green;
+        let blue;
+        if (code >= 232) {
+          red = ((code - 232) * 10 + 8) / 255;
+          green = red;
+          blue = red;
+        } else {
+          code -= 16;
+          const remainder = code % 36;
+          red = Math.floor(code / 36) / 5;
+          green = Math.floor(remainder / 6) / 5;
+          blue = remainder % 6 / 5;
+        }
+        const value = Math.max(red, green, blue) * 2;
+        if (value === 0) {
+          return 30;
+        }
+        let result = 30 + (Math.round(blue) << 2 | Math.round(green) << 1 | Math.round(red));
+        if (value === 2) {
+          result += 60;
+        }
+        return result;
+      },
+      enumerable: false
+    },
+    rgbToAnsi: {
+      value: (red, green, blue) => styles.ansi256ToAnsi(styles.rgbToAnsi256(red, green, blue)),
+      enumerable: false
+    },
+    hexToAnsi: {
+      value: (hex) => styles.ansi256ToAnsi(styles.hexToAnsi256(hex)),
+      enumerable: false
+    }
+  });
+  return styles;
+}
+var ansiStyles = assembleStyles();
+var ansi_styles_default = ansiStyles;
+
+// node_modules/chalk/source/vendor/supports-color/index.js
+var import_node_process = __toESM(require("process"), 1);
+var import_node_os = __toESM(require("os"), 1);
+var import_node_tty = __toESM(require("tty"), 1);
+function hasFlag(flag, argv = globalThis.Deno ? globalThis.Deno.args : import_node_process.default.argv) {
+  const prefix = flag.startsWith("-") ? "" : flag.length === 1 ? "-" : "--";
+  const position = argv.indexOf(prefix + flag);
+  const terminatorPosition = argv.indexOf("--");
+  return position !== -1 && (terminatorPosition === -1 || position < terminatorPosition);
+}
+var { env } = import_node_process.default;
+var flagForceColor;
+if (hasFlag("no-color") || hasFlag("no-colors") || hasFlag("color=false") || hasFlag("color=never")) {
+  flagForceColor = 0;
+} else if (hasFlag("color") || hasFlag("colors") || hasFlag("color=true") || hasFlag("color=always")) {
+  flagForceColor = 1;
+}
+function envForceColor() {
+  if ("FORCE_COLOR" in env) {
+    if (env.FORCE_COLOR === "true") {
+      return 1;
+    }
+    if (env.FORCE_COLOR === "false") {
+      return 0;
+    }
+    return env.FORCE_COLOR.length === 0 ? 1 : Math.min(Number.parseInt(env.FORCE_COLOR, 10), 3);
+  }
+}
+function translateLevel(level) {
+  if (level === 0) {
+    return false;
+  }
+  return {
+    level,
+    hasBasic: true,
+    has256: level >= 2,
+    has16m: level >= 3
+  };
+}
+function _supportsColor(haveStream, { streamIsTTY, sniffFlags = true } = {}) {
+  const noFlagForceColor = envForceColor();
+  if (noFlagForceColor !== void 0) {
+    flagForceColor = noFlagForceColor;
+  }
+  const forceColor = sniffFlags ? flagForceColor : noFlagForceColor;
+  if (forceColor === 0) {
+    return 0;
+  }
+  if (sniffFlags) {
+    if (hasFlag("color=16m") || hasFlag("color=full") || hasFlag("color=truecolor")) {
+      return 3;
+    }
+    if (hasFlag("color=256")) {
+      return 2;
+    }
+  }
+  if ("TF_BUILD" in env && "AGENT_NAME" in env) {
+    return 1;
+  }
+  if (haveStream && !streamIsTTY && forceColor === void 0) {
+    return 0;
+  }
+  const min2 = forceColor || 0;
+  if (env.TERM === "dumb") {
+    return min2;
+  }
+  if (import_node_process.default.platform === "win32") {
+    const osRelease = import_node_os.default.release().split(".");
+    if (Number(osRelease[0]) >= 10 && Number(osRelease[2]) >= 10586) {
+      return Number(osRelease[2]) >= 14931 ? 3 : 2;
+    }
+    return 1;
+  }
+  if ("CI" in env) {
+    if ("GITHUB_ACTIONS" in env || "GITEA_ACTIONS" in env) {
+      return 3;
+    }
+    if (["TRAVIS", "CIRCLECI", "APPVEYOR", "GITLAB_CI", "BUILDKITE", "DRONE"].some((sign) => sign in env) || env.CI_NAME === "codeship") {
+      return 1;
+    }
+    return min2;
+  }
+  if ("TEAMCITY_VERSION" in env) {
+    return /^(9\.(0*[1-9]\d*)\.|\d{2,}\.)/.test(env.TEAMCITY_VERSION) ? 1 : 0;
+  }
+  if (env.COLORTERM === "truecolor") {
+    return 3;
+  }
+  if (env.TERM === "xterm-kitty") {
+    return 3;
+  }
+  if ("TERM_PROGRAM" in env) {
+    const version = Number.parseInt((env.TERM_PROGRAM_VERSION || "").split(".")[0], 10);
+    switch (env.TERM_PROGRAM) {
+      case "iTerm.app": {
+        return version >= 3 ? 3 : 2;
+      }
+      case "Apple_Terminal": {
+        return 2;
+      }
+    }
+  }
+  if (/-256(color)?$/i.test(env.TERM)) {
+    return 2;
+  }
+  if (/^screen|^xterm|^vt100|^vt220|^rxvt|color|ansi|cygwin|linux/i.test(env.TERM)) {
+    return 1;
+  }
+  if ("COLORTERM" in env) {
+    return 1;
+  }
+  return min2;
+}
+function createSupportsColor(stream2, options = {}) {
+  const level = _supportsColor(stream2, __spreadValues({
+    streamIsTTY: stream2 && stream2.isTTY
+  }, options));
+  return translateLevel(level);
+}
+var supportsColor = {
+  stdout: createSupportsColor({ isTTY: import_node_tty.default.isatty(1) }),
+  stderr: createSupportsColor({ isTTY: import_node_tty.default.isatty(2) })
+};
+var supports_color_default = supportsColor;
+
+// node_modules/chalk/source/utilities.js
+function stringReplaceAll(string, substring, replacer) {
+  let index = string.indexOf(substring);
+  if (index === -1) {
+    return string;
+  }
+  const substringLength = substring.length;
+  let endIndex = 0;
+  let returnValue = "";
+  do {
+    returnValue += string.slice(endIndex, index) + substring + replacer;
+    endIndex = index + substringLength;
+    index = string.indexOf(substring, endIndex);
+  } while (index !== -1);
+  returnValue += string.slice(endIndex);
+  return returnValue;
+}
+function stringEncaseCRLFWithFirstIndex(string, prefix, postfix, index) {
+  let endIndex = 0;
+  let returnValue = "";
+  do {
+    const gotCR = string[index - 1] === "\r";
+    returnValue += string.slice(endIndex, gotCR ? index - 1 : index) + prefix + (gotCR ? "\r\n" : "\n") + postfix;
+    endIndex = index + 1;
+    index = string.indexOf("\n", endIndex);
+  } while (index !== -1);
+  returnValue += string.slice(endIndex);
+  return returnValue;
+}
+
+// node_modules/chalk/source/index.js
+var { stdout: stdoutColor, stderr: stderrColor } = supports_color_default;
+var GENERATOR = Symbol("GENERATOR");
+var STYLER = Symbol("STYLER");
+var IS_EMPTY = Symbol("IS_EMPTY");
+var levelMapping = [
+  "ansi",
+  "ansi",
+  "ansi256",
+  "ansi16m"
+];
+var styles2 = /* @__PURE__ */ Object.create(null);
+var applyOptions = (object, options = {}) => {
+  if (options.level && !(Number.isInteger(options.level) && options.level >= 0 && options.level <= 3)) {
+    throw new Error("The `level` option should be an integer from 0 to 3");
+  }
+  const colorLevel = stdoutColor ? stdoutColor.level : 0;
+  object.level = options.level === void 0 ? colorLevel : options.level;
+};
+var chalkFactory = (options) => {
+  const chalk2 = (...strings) => strings.join(" ");
+  applyOptions(chalk2, options);
+  Object.setPrototypeOf(chalk2, createChalk.prototype);
+  return chalk2;
+};
+function createChalk(options) {
+  return chalkFactory(options);
+}
+Object.setPrototypeOf(createChalk.prototype, Function.prototype);
+for (const [styleName, style] of Object.entries(ansi_styles_default)) {
+  styles2[styleName] = {
+    get() {
+      const builder = createBuilder(this, createStyler(style.open, style.close, this[STYLER]), this[IS_EMPTY]);
+      Object.defineProperty(this, styleName, { value: builder });
+      return builder;
+    }
+  };
+}
+styles2.visible = {
+  get() {
+    const builder = createBuilder(this, this[STYLER], true);
+    Object.defineProperty(this, "visible", { value: builder });
+    return builder;
+  }
+};
+var getModelAnsi = (model, level, type, ...arguments_) => {
+  if (model === "rgb") {
+    if (level === "ansi16m") {
+      return ansi_styles_default[type].ansi16m(...arguments_);
+    }
+    if (level === "ansi256") {
+      return ansi_styles_default[type].ansi256(ansi_styles_default.rgbToAnsi256(...arguments_));
+    }
+    return ansi_styles_default[type].ansi(ansi_styles_default.rgbToAnsi(...arguments_));
+  }
+  if (model === "hex") {
+    return getModelAnsi("rgb", level, type, ...ansi_styles_default.hexToRgb(...arguments_));
+  }
+  return ansi_styles_default[type][model](...arguments_);
+};
+var usedModels = ["rgb", "hex", "ansi256"];
+for (const model of usedModels) {
+  styles2[model] = {
+    get() {
+      const { level } = this;
+      return function(...arguments_) {
+        const styler = createStyler(getModelAnsi(model, levelMapping[level], "color", ...arguments_), ansi_styles_default.color.close, this[STYLER]);
+        return createBuilder(this, styler, this[IS_EMPTY]);
+      };
+    }
+  };
+  const bgModel = "bg" + model[0].toUpperCase() + model.slice(1);
+  styles2[bgModel] = {
+    get() {
+      const { level } = this;
+      return function(...arguments_) {
+        const styler = createStyler(getModelAnsi(model, levelMapping[level], "bgColor", ...arguments_), ansi_styles_default.bgColor.close, this[STYLER]);
+        return createBuilder(this, styler, this[IS_EMPTY]);
+      };
+    }
+  };
+}
+var proto = Object.defineProperties(() => {
+}, __spreadProps(__spreadValues({}, styles2), {
+  level: {
+    enumerable: true,
+    get() {
+      return this[GENERATOR].level;
+    },
+    set(level) {
+      this[GENERATOR].level = level;
+    }
+  }
+}));
+var createStyler = (open, close, parent) => {
+  let openAll;
+  let closeAll;
+  if (parent === void 0) {
+    openAll = open;
+    closeAll = close;
+  } else {
+    openAll = parent.openAll + open;
+    closeAll = close + parent.closeAll;
+  }
+  return {
+    open,
+    close,
+    openAll,
+    closeAll,
+    parent
+  };
+};
+var createBuilder = (self2, _styler, _isEmpty) => {
+  const builder = (...arguments_) => applyStyle(builder, arguments_.length === 1 ? "" + arguments_[0] : arguments_.join(" "));
+  Object.setPrototypeOf(builder, proto);
+  builder[GENERATOR] = self2;
+  builder[STYLER] = _styler;
+  builder[IS_EMPTY] = _isEmpty;
+  return builder;
+};
+var applyStyle = (self2, string) => {
+  if (self2.level <= 0 || !string) {
+    return self2[IS_EMPTY] ? "" : string;
+  }
+  let styler = self2[STYLER];
+  if (styler === void 0) {
+    return string;
+  }
+  const { openAll, closeAll } = styler;
+  if (string.includes("\x1B")) {
+    while (styler !== void 0) {
+      string = stringReplaceAll(string, styler.close, styler.open);
+      styler = styler.parent;
+    }
+  }
+  const lfIndex = string.indexOf("\n");
+  if (lfIndex !== -1) {
+    string = stringEncaseCRLFWithFirstIndex(string, closeAll, openAll, lfIndex);
+  }
+  return openAll + string + closeAll;
+};
+Object.defineProperties(createChalk.prototype, styles2);
+var chalk = createChalk();
+var chalkStderr = createChalk({ level: stderrColor ? stderrColor.level : 0 });
+var source_default = chalk;
+
+// src/web/index.ts
+async function extractAstNodeFromString(content, services) {
+  var _a;
+  const doc = services.shared.workspace.LangiumDocumentFactory.fromString(content, URI.parse("memory://minilogo.document"));
+  await services.shared.workspace.DocumentBuilder.build([doc], { validation: true });
+  return (_a = doc.parseResult) == null ? void 0 : _a.value;
+}
+async function extractDocumentFromString(content, services) {
+  var _a;
+  const doc = services.shared.workspace.LangiumDocumentFactory.fromString(content, URI.parse("memory://minilogo.document"));
+  await services.shared.workspace.DocumentBuilder.build([doc], { validation: true });
+  const validationErrors = ((_a = doc.diagnostics) != null ? _a : []).filter((e) => e.severity === 1);
+  if (validationErrors.length > 0) {
+    const errors = validationErrors.map(
+      (validationError) => `line ${validationError.range.start.line + 1}: ${validationError.message} [${doc.textDocument.getText(validationError.range)}]`
+    );
+    console.error(source_default.red("There are validation errors:"));
+    errors.forEach((error) => console.error(source_default.red(error)));
+    throw new Error(errors.join("\n"));
+  }
+  return doc;
+}
+async function parseAndGenerate(value) {
+  const robotDslProgram = value[0];
+  const sceneWidth = value[1];
+  const sceneHeight = value[2];
+  const services = createMyRobotServices(EmptyFileSystem).MyRobot;
+  const model = await extractAstNodeFromString(robotDslProgram, services);
+  const scene = generateCommands(model, sceneWidth, sceneHeight);
+  return Promise.resolve(scene);
+}
+var parseAndValidate = async (robotDslProgram) => {
+  const services = createMyRobotServices(EmptyFileSystem).MyRobot;
+  try {
+    await extractDocumentFromString(robotDslProgram, services);
+    const document = await extractDocumentFromString(robotDslProgram, services);
+    const parseResult = document.parseResult;
+    if (parseResult.lexerErrors.length === 0 && parseResult.parserErrors.length === 0) {
+      console.log(source_default.green(`Parsed and validated successfully!`));
+      return [];
+    } else {
+      let errors = [];
+      if (parseResult.lexerErrors.length > 0) {
+        const lexerMessage = parseResult.lexerErrors.map(
+          (lexerError) => `${lexerError.line ? "line " + lexerError.line + 1 : ""}: ${lexerError.message}`
+        );
+        errors = errors.concat(lexerMessage);
+      }
+      if (parseResult.parserErrors.length > 0) {
+        const parserMessage = parseResult.parserErrors.map(
+          (parserError) => `${parserError.message}`
+        );
+        errors = errors.concat(parserMessage);
+      }
+      console.log(source_default.red(`Failed to parse and validate!`));
+      return errors;
+    }
+  } catch (error) {
+    console.log(source_default.red(`Failed to parse and validate!`));
+    return error.message.split("\n");
+  }
+};
+
 // src/language/my-robot-module.ts
 var MyRobotModule = {
   validation: {
@@ -36326,11 +37364,22 @@ function createMyRobotServices(context) {
     MyRobotGeneratedModule,
     MyRobotModule
   );
+  shared2.lsp.ExecuteCommandHandler = new MyRobotCommandHandler();
   shared2.ServiceRegistry.register(MyRobot);
   registerValidationChecks2(MyRobot);
   weaveAcceptMethods(MyRobot);
   return { shared: shared2, MyRobot };
 }
+var MyRobotCommandHandler = class extends AbstractExecuteCommandHandler {
+  registerCommands(acceptor) {
+    acceptor("parseAndGenerate", (args) => {
+      return parseAndGenerate(args[0]);
+    });
+    acceptor("parseAndValidate", (args) => {
+      return parseAndValidate(args[0]);
+    });
+  }
+};
 
 // src/language/main.ts
 var connection = (0, import_node2.createConnection)(import_node2.ProposedFeatures.all);

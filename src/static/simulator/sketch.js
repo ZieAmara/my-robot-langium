@@ -1,11 +1,13 @@
 function setup() {
-  createCanvas(1000, 1000, document.getElementById("simulator"));
+  const simulatorDiv = document.querySelector('.simulator');
+  createCanvas(simulatorDiv.clientWidth, simulatorDiv.clientHeight, document.getElementById("simulator"));
   window.entities = [];
   window.p5robot = null;
   window.time = 0;
   window.lastTimestamp = 0;
   window.scene = null;
-  window.p5robot = new Robot(1, width/2, height/2);
+  // window.p5robot = new Robot(1, width/2, height/2);
+  window.robotPath = [];
 }
 
 function draw() {
@@ -23,6 +25,7 @@ function draw() {
   }
 
   if(window.p5robot !== null){
+    drawRobotPath();
     window.p5robot.show();
   }
 }
@@ -39,11 +42,22 @@ function updateRobot(){
     window.time = nextKnownState.time;
     window.lastTimestamp++;
   }
+
+  robotPath.push({ x: window.p5robot.x, y: window.p5robot.y });
 }
 
 function resetSimulation() {
   window.time = 0;
   window.lastTimestamp = 0;
+  robotPath = [];
+}
+
+function drawRobotPath() {
+  beginShape(LINES);
+  for (let i = 0; i < robotPath.length; i++) {
+    vertex(robotPath[i].x/10, robotPath[i].y/10);
+  }
+  endShape();
 }
 
 window.setup = setup
