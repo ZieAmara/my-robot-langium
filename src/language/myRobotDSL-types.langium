@@ -121,13 +121,21 @@ interface ArithmeticExpression extends Expression {
 
 interface ArithmeticOperator {}
 
-interface Add extends ArithmeticOperator {}
+interface Add extends ArithmeticOperator {
+  symbole: '+' 
+}
 
-interface Sub extends ArithmeticOperator {}
+interface Sub extends ArithmeticOperator {
+  symbole: '-'
+}
 
-interface Multiply extends ArithmeticOperator {}
+interface Multiply extends ArithmeticOperator {
+  symbole: '*'
+}
 
-interface Divise extends ArithmeticOperator {}
+interface Divise extends ArithmeticOperator {
+  symbole: '/'
+}
 
 interface BooleanExpression extends Expression {
   leftCondition?: UnaryArithmeticExpression;
@@ -135,22 +143,36 @@ interface BooleanExpression extends Expression {
   rightCondition: UnaryArithmeticExpression;
 }
 
-interface BooleanOperator {
-  symbole?: '==' | '!' | '<' | '<=' | '>' | '>=' | '&&' | '||'
+interface BooleanOperator {}
+
+interface LowerThan extends BooleanOperator {
+  symbole: '<'
 }
 
-interface LowerThan extends BooleanOperator {}
+interface EqualTo extends BooleanOperator {
+  symbole: '=='
+}
 
-interface EqualTo extends BooleanOperator {}
+interface UpperThan extends BooleanOperator {
+  symbole: '>'
+}
 
-interface UpperThan extends BooleanOperator {}
+interface Not extends BooleanOperator {
+  symbole: '!'
+}
 
-interface Not extends BooleanOperator {}
+interface Or extends BooleanOperator {
+  symbole: '||'
+}
 
-interface Or extends BooleanOperator {}
+interface And extends BooleanOperator {
+  symbole: '&&'
+}
 
-interface And extends BooleanOperator {}
+interface LowerOrEqualTo extends BooleanOperator {
+  symbole?: '<='
+}
 
-interface LowerOrEqualTo extends BooleanOperator {}
-
-interface UpperOrEqualTo extends BooleanOperator {}
+interface UpperOrEqualTo extends BooleanOperator {
+  symbole?: '>='
+}

@@ -50,7 +50,6 @@ export function isArithmeticOperator(item: unknown): item is ArithmeticOperator 
 
 export interface BooleanOperator extends AstNode {
     readonly $type: 'And' | 'BooleanOperator' | 'EqualTo' | 'LowerOrEqualTo' | 'LowerThan' | 'Not' | 'Or' | 'UpperOrEqualTo' | 'UpperThan';
-    symbole?: '!' | '&&' | '<' | '<=' | '==' | '>' | '>=' | '||'
 }
 
 export const BooleanOperator = 'BooleanOperator';
@@ -119,6 +118,7 @@ export function isStatement(item: unknown): item is Statement {
 
 export interface Add extends ArithmeticOperator {
     readonly $type: 'Add';
+    symbole: '+'
 }
 
 export const Add = 'Add';
@@ -129,6 +129,7 @@ export function isAdd(item: unknown): item is Add {
 
 export interface Divise extends ArithmeticOperator {
     readonly $type: 'Divise';
+    symbole: '/'
 }
 
 export const Divise = 'Divise';
@@ -139,6 +140,7 @@ export function isDivise(item: unknown): item is Divise {
 
 export interface Multiply extends ArithmeticOperator {
     readonly $type: 'Multiply';
+    symbole: '*'
 }
 
 export const Multiply = 'Multiply';
@@ -149,6 +151,7 @@ export function isMultiply(item: unknown): item is Multiply {
 
 export interface Sub extends ArithmeticOperator {
     readonly $type: 'Sub';
+    symbole: '-'
 }
 
 export const Sub = 'Sub';
@@ -159,6 +162,7 @@ export function isSub(item: unknown): item is Sub {
 
 export interface And extends BooleanOperator {
     readonly $type: 'And';
+    symbole: '&&'
 }
 
 export const And = 'And';
@@ -169,6 +173,7 @@ export function isAnd(item: unknown): item is And {
 
 export interface EqualTo extends BooleanOperator {
     readonly $type: 'EqualTo';
+    symbole: '=='
 }
 
 export const EqualTo = 'EqualTo';
@@ -179,6 +184,7 @@ export function isEqualTo(item: unknown): item is EqualTo {
 
 export interface LowerOrEqualTo extends BooleanOperator {
     readonly $type: 'LowerOrEqualTo';
+    symbole?: '<='
 }
 
 export const LowerOrEqualTo = 'LowerOrEqualTo';
@@ -189,6 +195,7 @@ export function isLowerOrEqualTo(item: unknown): item is LowerOrEqualTo {
 
 export interface LowerThan extends BooleanOperator {
     readonly $type: 'LowerThan';
+    symbole: '<'
 }
 
 export const LowerThan = 'LowerThan';
@@ -199,6 +206,7 @@ export function isLowerThan(item: unknown): item is LowerThan {
 
 export interface Not extends BooleanOperator {
     readonly $type: 'Not';
+    symbole: '!'
 }
 
 export const Not = 'Not';
@@ -209,6 +217,7 @@ export function isNot(item: unknown): item is Not {
 
 export interface Or extends BooleanOperator {
     readonly $type: 'Or';
+    symbole: '||'
 }
 
 export const Or = 'Or';
@@ -219,6 +228,7 @@ export function isOr(item: unknown): item is Or {
 
 export interface UpperOrEqualTo extends BooleanOperator {
     readonly $type: 'UpperOrEqualTo';
+    symbole?: '>='
 }
 
 export const UpperOrEqualTo = 'UpperOrEqualTo';
@@ -229,6 +239,7 @@ export function isUpperOrEqualTo(item: unknown): item is UpperOrEqualTo {
 
 export interface UpperThan extends BooleanOperator {
     readonly $type: 'UpperThan';
+    symbole: '>'
 }
 
 export const UpperThan = 'UpperThan';

@@ -504,7 +504,8 @@ export class Add extends ArithmeticOperator implements ASTInterfaces.Add {
     // simply copy-paste the interface fields as public parameters
     // you can find them in generated/ast.ts
     constructor(
-        public override $type: 'Add'
+        public override $type: 'Add',
+        public symbole: '+'
     ){
         super($type)
     }
@@ -516,7 +517,8 @@ export class Sub extends ArithmeticOperator implements ASTInterfaces.Sub {
     // simply copy-paste the interface fields as public parameters
     // you can find them in generated/ast.ts
     constructor(
-        public override $type: 'Sub'
+        public override $type: 'Sub',
+        public symbole: '-'
     ){
         super($type)
     }
@@ -528,7 +530,8 @@ export class Multiply extends ArithmeticOperator implements ASTInterfaces.Multip
     // simply copy-paste the interface fields as public parameters
     // you can find them in generated/ast.ts
     constructor(
-        public override $type: 'Multiply'
+        public override $type: 'Multiply',
+        public symbole: '*'
     ){
         super($type)
     }
@@ -540,7 +543,8 @@ export class Divise extends ArithmeticOperator implements ASTInterfaces.Divise {
     // simply copy-paste the interface fields as public parameters
     // you can find them in generated/ast.ts
     constructor(
-        public override $type: 'Divise'
+        public override $type: 'Divise',
+        public symbole: '/'
     ){
         super($type)
     }
@@ -578,7 +582,8 @@ export class LowerThan extends BooleanOperator implements ASTInterfaces.LowerTha
     // simply copy-paste the interface fields as public parameters
     // you can find them in generated/ast.ts
     constructor(
-        public override $type: 'LowerThan'
+        public override $type: 'LowerThan',
+        public symbole: '<'
     ){
         super($type)
     }
@@ -590,7 +595,8 @@ export class EqualTo extends BooleanOperator implements ASTInterfaces.EqualTo {
     // simply copy-paste the interface fields as public parameters
     // you can find them in generated/ast.ts
     constructor(
-        public override $type: 'EqualTo'
+        public override $type: 'EqualTo',
+        public symbole: '=='
     ){
         super($type)
     }
@@ -602,7 +608,8 @@ export class UpperThan extends BooleanOperator implements ASTInterfaces.UpperTha
     // simply copy-paste the interface fields as public parameters
     // you can find them in generated/ast.ts
     constructor(
-        public override $type: 'UpperThan'
+        public override $type: 'UpperThan',
+        public symbole: '>'
     ){
         super($type)
     }
@@ -614,7 +621,8 @@ export class Not extends BooleanOperator implements ASTInterfaces.Not {
     // simply copy-paste the interface fields as public parameters
     // you can find them in generated/ast.ts
     constructor(
-        public override $type: 'Not'
+        public override $type: 'Not',
+        public symbole: '!'
     ){
         super($type)
     }
@@ -626,7 +634,8 @@ export class Or extends BooleanOperator implements ASTInterfaces.Or {
     // simply copy-paste the interface fields as public parameters
     // you can find them in generated/ast.ts
     constructor(
-        public override $type: 'Or'
+        public override $type: 'Or',
+        public symbole: '||'
     ){
         super($type)
     }
@@ -638,7 +647,8 @@ export class LowerOrEqualTo extends BooleanOperator implements ASTInterfaces.Low
     // simply copy-paste the interface fields as public parameters
     // you can find them in generated/ast.ts
     constructor(
-        public override $type: 'LowerOrEqualTo'
+        public override $type: 'LowerOrEqualTo',
+        public symbole: '<='
     ){
         super($type)
     }
@@ -650,7 +660,8 @@ export class UpperOrEqualTo extends BooleanOperator implements ASTInterfaces.Upp
     // simply copy-paste the interface fields as public parameters
     // you can find them in generated/ast.ts
     constructor(
-        public override $type: 'UpperOrEqualTo'
+        public override $type: 'UpperOrEqualTo',
+        public symbole: '>='
     ){
         super($type)
     }
@@ -662,7 +673,8 @@ export class And extends BooleanOperator implements ASTInterfaces.And {
     // simply copy-paste the interface fields as public parameters
     // you can find them in generated/ast.ts
     constructor(
-        public override $type: 'And'
+        public override $type: 'And',
+        public symbole: '&&'
     ){
         super($type)
     }

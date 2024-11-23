@@ -371,9 +371,10 @@ export class Add extends ArithmeticOperator {
     // the constructor must take all attribute of the implemented interface 
     // simply copy-paste the interface fields as public parameters
     // you can find them in generated/ast.ts
-    constructor($type) {
+    constructor($type, symbole) {
         super($type);
         this.$type = $type;
+        this.symbole = symbole;
     }
     accept(visitor) { }
 }
@@ -381,9 +382,10 @@ export class Sub extends ArithmeticOperator {
     // the constructor must take all attribute of the implemented interface 
     // simply copy-paste the interface fields as public parameters
     // you can find them in generated/ast.ts
-    constructor($type) {
+    constructor($type, symbole) {
         super($type);
         this.$type = $type;
+        this.symbole = symbole;
     }
     accept(visitor) { }
 }
@@ -391,9 +393,10 @@ export class Multiply extends ArithmeticOperator {
     // the constructor must take all attribute of the implemented interface 
     // simply copy-paste the interface fields as public parameters
     // you can find them in generated/ast.ts
-    constructor($type) {
+    constructor($type, symbole) {
         super($type);
         this.$type = $type;
+        this.symbole = symbole;
     }
     accept(visitor) { }
 }
@@ -401,9 +404,10 @@ export class Divise extends ArithmeticOperator {
     // the constructor must take all attribute of the implemented interface 
     // simply copy-paste the interface fields as public parameters
     // you can find them in generated/ast.ts
-    constructor($type) {
+    constructor($type, symbole) {
         super($type);
         this.$type = $type;
+        this.symbole = symbole;
     }
     accept(visitor) { }
 }
@@ -434,9 +438,10 @@ export class LowerThan extends BooleanOperator {
     // the constructor must take all attribute of the implemented interface 
     // simply copy-paste the interface fields as public parameters
     // you can find them in generated/ast.ts
-    constructor($type) {
+    constructor($type, symbole) {
         super($type);
         this.$type = $type;
+        this.symbole = symbole;
     }
     accept(visitor) { }
 }
@@ -444,9 +449,10 @@ export class EqualTo extends BooleanOperator {
     // the constructor must take all attribute of the implemented interface 
     // simply copy-paste the interface fields as public parameters
     // you can find them in generated/ast.ts
-    constructor($type) {
+    constructor($type, symbole) {
         super($type);
         this.$type = $type;
+        this.symbole = symbole;
     }
     accept(visitor) { }
 }
@@ -454,9 +460,10 @@ export class UpperThan extends BooleanOperator {
     // the constructor must take all attribute of the implemented interface 
     // simply copy-paste the interface fields as public parameters
     // you can find them in generated/ast.ts
-    constructor($type) {
+    constructor($type, symbole) {
         super($type);
         this.$type = $type;
+        this.symbole = symbole;
     }
     accept(visitor) { }
 }
@@ -464,9 +471,10 @@ export class Not extends BooleanOperator {
     // the constructor must take all attribute of the implemented interface 
     // simply copy-paste the interface fields as public parameters
     // you can find them in generated/ast.ts
-    constructor($type) {
+    constructor($type, symbole) {
         super($type);
         this.$type = $type;
+        this.symbole = symbole;
     }
     accept(visitor) { }
 }
@@ -474,9 +482,10 @@ export class Or extends BooleanOperator {
     // the constructor must take all attribute of the implemented interface 
     // simply copy-paste the interface fields as public parameters
     // you can find them in generated/ast.ts
-    constructor($type) {
+    constructor($type, symbole) {
         super($type);
         this.$type = $type;
+        this.symbole = symbole;
     }
     accept(visitor) { }
 }
@@ -484,9 +493,10 @@ export class LowerOrEqualTo extends BooleanOperator {
     // the constructor must take all attribute of the implemented interface 
     // simply copy-paste the interface fields as public parameters
     // you can find them in generated/ast.ts
-    constructor($type) {
+    constructor($type, symbole) {
         super($type);
         this.$type = $type;
+        this.symbole = symbole;
     }
     accept(visitor) { }
 }
@@ -494,9 +504,10 @@ export class UpperOrEqualTo extends BooleanOperator {
     // the constructor must take all attribute of the implemented interface 
     // simply copy-paste the interface fields as public parameters
     // you can find them in generated/ast.ts
-    constructor($type) {
+    constructor($type, symbole) {
         super($type);
         this.$type = $type;
+        this.symbole = symbole;
     }
     accept(visitor) { }
 }
@@ -504,9 +515,10 @@ export class And extends BooleanOperator {
     // the constructor must take all attribute of the implemented interface 
     // simply copy-paste the interface fields as public parameters
     // you can find them in generated/ast.ts
-    constructor($type) {
+    constructor($type, symbole) {
         super($type);
         this.$type = $type;
+        this.symbole = symbole;
     }
     accept(visitor) { }
 }

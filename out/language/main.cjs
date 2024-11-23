@@ -34043,19 +34043,13 @@ var MyRobotGrammar = () => loadedMyRobotGrammar != null ? loadedMyRobotGrammar :
         "$ref": "#/interfaces@34"
       },
       "definition": {
-        "$type": "Group",
-        "elements": [
-          {
-            "$type": "Action",
-            "type": {
-              "$ref": "#/interfaces@34"
-            }
-          },
-          {
-            "$type": "Keyword",
-            "value": "+"
-          }
-        ]
+        "$type": "Assignment",
+        "feature": "symbole",
+        "operator": "=",
+        "terminal": {
+          "$type": "Keyword",
+          "value": "+"
+        }
       },
       "definesHiddenTokens": false,
       "entry": false,
@@ -34071,19 +34065,13 @@ var MyRobotGrammar = () => loadedMyRobotGrammar != null ? loadedMyRobotGrammar :
         "$ref": "#/interfaces@35"
       },
       "definition": {
-        "$type": "Group",
-        "elements": [
-          {
-            "$type": "Action",
-            "type": {
-              "$ref": "#/interfaces@35"
-            }
-          },
-          {
-            "$type": "Keyword",
-            "value": "-"
-          }
-        ]
+        "$type": "Assignment",
+        "feature": "symbole",
+        "operator": "=",
+        "terminal": {
+          "$type": "Keyword",
+          "value": "-"
+        }
       },
       "definesHiddenTokens": false,
       "entry": false,
@@ -34099,19 +34087,13 @@ var MyRobotGrammar = () => loadedMyRobotGrammar != null ? loadedMyRobotGrammar :
         "$ref": "#/interfaces@36"
       },
       "definition": {
-        "$type": "Group",
-        "elements": [
-          {
-            "$type": "Action",
-            "type": {
-              "$ref": "#/interfaces@36"
-            }
-          },
-          {
-            "$type": "Keyword",
-            "value": "*"
-          }
-        ]
+        "$type": "Assignment",
+        "feature": "symbole",
+        "operator": "=",
+        "terminal": {
+          "$type": "Keyword",
+          "value": "*"
+        }
       },
       "definesHiddenTokens": false,
       "entry": false,
@@ -34127,19 +34109,13 @@ var MyRobotGrammar = () => loadedMyRobotGrammar != null ? loadedMyRobotGrammar :
         "$ref": "#/interfaces@37"
       },
       "definition": {
-        "$type": "Group",
-        "elements": [
-          {
-            "$type": "Action",
-            "type": {
-              "$ref": "#/interfaces@37"
-            }
-          },
-          {
-            "$type": "Keyword",
-            "value": "/"
-          }
-        ]
+        "$type": "Assignment",
+        "feature": "symbole",
+        "operator": "=",
+        "terminal": {
+          "$type": "Keyword",
+          "value": "/"
+        }
       },
       "definesHiddenTokens": false,
       "entry": false,
@@ -34326,8 +34302,13 @@ var MyRobotGrammar = () => loadedMyRobotGrammar != null ? loadedMyRobotGrammar :
             }
           },
           {
-            "$type": "Keyword",
-            "value": "<"
+            "$type": "Assignment",
+            "feature": "symbole",
+            "operator": "=",
+            "terminal": {
+              "$type": "Keyword",
+              "value": "<"
+            }
           }
         ]
       },
@@ -34354,8 +34335,13 @@ var MyRobotGrammar = () => loadedMyRobotGrammar != null ? loadedMyRobotGrammar :
             }
           },
           {
-            "$type": "Keyword",
-            "value": "=="
+            "$type": "Assignment",
+            "feature": "symbole",
+            "operator": "=",
+            "terminal": {
+              "$type": "Keyword",
+              "value": "=="
+            }
           }
         ]
       },
@@ -34382,8 +34368,13 @@ var MyRobotGrammar = () => loadedMyRobotGrammar != null ? loadedMyRobotGrammar :
             }
           },
           {
-            "$type": "Keyword",
-            "value": ">"
+            "$type": "Assignment",
+            "feature": "symbole",
+            "operator": "=",
+            "terminal": {
+              "$type": "Keyword",
+              "value": ">"
+            }
           }
         ]
       },
@@ -34410,8 +34401,13 @@ var MyRobotGrammar = () => loadedMyRobotGrammar != null ? loadedMyRobotGrammar :
             }
           },
           {
-            "$type": "Keyword",
-            "value": "!"
+            "$type": "Assignment",
+            "feature": "symbole",
+            "operator": "=",
+            "terminal": {
+              "$type": "Keyword",
+              "value": "!"
+            }
           }
         ]
       },
@@ -34438,8 +34434,13 @@ var MyRobotGrammar = () => loadedMyRobotGrammar != null ? loadedMyRobotGrammar :
             }
           },
           {
-            "$type": "Keyword",
-            "value": "||"
+            "$type": "Assignment",
+            "feature": "symbole",
+            "operator": "=",
+            "terminal": {
+              "$type": "Keyword",
+              "value": "||"
+            }
           }
         ]
       },
@@ -34466,8 +34467,13 @@ var MyRobotGrammar = () => loadedMyRobotGrammar != null ? loadedMyRobotGrammar :
             }
           },
           {
-            "$type": "Keyword",
-            "value": "&&"
+            "$type": "Assignment",
+            "feature": "symbole",
+            "operator": "=",
+            "terminal": {
+              "$type": "Keyword",
+              "value": "&&"
+            }
           }
         ]
       },
@@ -34494,8 +34500,13 @@ var MyRobotGrammar = () => loadedMyRobotGrammar != null ? loadedMyRobotGrammar :
             }
           },
           {
-            "$type": "Keyword",
-            "value": "<="
+            "$type": "Assignment",
+            "feature": "symbole",
+            "operator": "=",
+            "terminal": {
+              "$type": "Keyword",
+              "value": "<="
+            }
           }
         ]
       },
@@ -34522,8 +34533,13 @@ var MyRobotGrammar = () => loadedMyRobotGrammar != null ? loadedMyRobotGrammar :
             }
           },
           {
-            "$type": "Keyword",
-            "value": ">="
+            "$type": "Assignment",
+            "feature": "symbole",
+            "operator": "=",
+            "terminal": {
+              "$type": "Keyword",
+              "value": ">="
+            }
           }
         ]
       },
@@ -35815,43 +35831,83 @@ var MyRobotGrammar = () => loadedMyRobotGrammar != null ? loadedMyRobotGrammar :
     },
     {
       "$type": "Interface",
+      "attributes": [
+        {
+          "$type": "TypeAttribute",
+          "name": "symbole",
+          "type": {
+            "$type": "SimpleType",
+            "stringType": "+"
+          },
+          "isOptional": false
+        }
+      ],
       "name": "Add",
       "superTypes": [
         {
           "$ref": "#/interfaces@33"
         }
-      ],
-      "attributes": []
+      ]
     },
     {
       "$type": "Interface",
+      "attributes": [
+        {
+          "$type": "TypeAttribute",
+          "name": "symbole",
+          "type": {
+            "$type": "SimpleType",
+            "stringType": "-"
+          },
+          "isOptional": false
+        }
+      ],
       "name": "Sub",
       "superTypes": [
         {
           "$ref": "#/interfaces@33"
         }
-      ],
-      "attributes": []
+      ]
     },
     {
       "$type": "Interface",
+      "attributes": [
+        {
+          "$type": "TypeAttribute",
+          "name": "symbole",
+          "type": {
+            "$type": "SimpleType",
+            "stringType": "*"
+          },
+          "isOptional": false
+        }
+      ],
       "name": "Multiply",
       "superTypes": [
         {
           "$ref": "#/interfaces@33"
         }
-      ],
-      "attributes": []
+      ]
     },
     {
       "$type": "Interface",
+      "attributes": [
+        {
+          "$type": "TypeAttribute",
+          "name": "symbole",
+          "type": {
+            "$type": "SimpleType",
+            "stringType": "/"
+          },
+          "isOptional": false
+        }
+      ],
       "name": "Divise",
       "superTypes": [
         {
           "$ref": "#/interfaces@33"
         }
-      ],
-      "attributes": []
+      ]
     },
     {
       "$type": "Interface",
@@ -35899,132 +35955,169 @@ var MyRobotGrammar = () => loadedMyRobotGrammar != null ? loadedMyRobotGrammar :
     },
     {
       "$type": "Interface",
+      "name": "BooleanOperator",
+      "attributes": [],
+      "superTypes": []
+    },
+    {
+      "$type": "Interface",
+      "attributes": [
+        {
+          "$type": "TypeAttribute",
+          "name": "symbole",
+          "type": {
+            "$type": "SimpleType",
+            "stringType": "<"
+          },
+          "isOptional": false
+        }
+      ],
+      "name": "LowerThan",
+      "superTypes": [
+        {
+          "$ref": "#/interfaces@39"
+        }
+      ]
+    },
+    {
+      "$type": "Interface",
+      "attributes": [
+        {
+          "$type": "TypeAttribute",
+          "name": "symbole",
+          "type": {
+            "$type": "SimpleType",
+            "stringType": "=="
+          },
+          "isOptional": false
+        }
+      ],
+      "name": "EqualTo",
+      "superTypes": [
+        {
+          "$ref": "#/interfaces@39"
+        }
+      ]
+    },
+    {
+      "$type": "Interface",
+      "attributes": [
+        {
+          "$type": "TypeAttribute",
+          "name": "symbole",
+          "type": {
+            "$type": "SimpleType",
+            "stringType": ">"
+          },
+          "isOptional": false
+        }
+      ],
+      "name": "UpperThan",
+      "superTypes": [
+        {
+          "$ref": "#/interfaces@39"
+        }
+      ]
+    },
+    {
+      "$type": "Interface",
+      "attributes": [
+        {
+          "$type": "TypeAttribute",
+          "name": "symbole",
+          "type": {
+            "$type": "SimpleType",
+            "stringType": "!"
+          },
+          "isOptional": false
+        }
+      ],
+      "name": "Not",
+      "superTypes": [
+        {
+          "$ref": "#/interfaces@39"
+        }
+      ]
+    },
+    {
+      "$type": "Interface",
+      "attributes": [
+        {
+          "$type": "TypeAttribute",
+          "name": "symbole",
+          "type": {
+            "$type": "SimpleType",
+            "stringType": "||"
+          },
+          "isOptional": false
+        }
+      ],
+      "name": "Or",
+      "superTypes": [
+        {
+          "$ref": "#/interfaces@39"
+        }
+      ]
+    },
+    {
+      "$type": "Interface",
+      "attributes": [
+        {
+          "$type": "TypeAttribute",
+          "name": "symbole",
+          "type": {
+            "$type": "SimpleType",
+            "stringType": "&&"
+          },
+          "isOptional": false
+        }
+      ],
+      "name": "And",
+      "superTypes": [
+        {
+          "$ref": "#/interfaces@39"
+        }
+      ]
+    },
+    {
+      "$type": "Interface",
       "attributes": [
         {
           "$type": "TypeAttribute",
           "name": "symbole",
           "isOptional": true,
           "type": {
-            "$type": "UnionType",
-            "types": [
-              {
-                "$type": "SimpleType",
-                "stringType": "=="
-              },
-              {
-                "$type": "SimpleType",
-                "stringType": "!"
-              },
-              {
-                "$type": "SimpleType",
-                "stringType": "<"
-              },
-              {
-                "$type": "SimpleType",
-                "stringType": "<="
-              },
-              {
-                "$type": "SimpleType",
-                "stringType": ">"
-              },
-              {
-                "$type": "SimpleType",
-                "stringType": ">="
-              },
-              {
-                "$type": "SimpleType",
-                "stringType": "&&"
-              },
-              {
-                "$type": "SimpleType",
-                "stringType": "||"
-              }
-            ]
+            "$type": "SimpleType",
+            "stringType": "<="
           }
         }
       ],
-      "name": "BooleanOperator",
-      "superTypes": []
-    },
-    {
-      "$type": "Interface",
-      "name": "LowerThan",
-      "superTypes": [
-        {
-          "$ref": "#/interfaces@39"
-        }
-      ],
-      "attributes": []
-    },
-    {
-      "$type": "Interface",
-      "name": "EqualTo",
-      "superTypes": [
-        {
-          "$ref": "#/interfaces@39"
-        }
-      ],
-      "attributes": []
-    },
-    {
-      "$type": "Interface",
-      "name": "UpperThan",
-      "superTypes": [
-        {
-          "$ref": "#/interfaces@39"
-        }
-      ],
-      "attributes": []
-    },
-    {
-      "$type": "Interface",
-      "name": "Not",
-      "superTypes": [
-        {
-          "$ref": "#/interfaces@39"
-        }
-      ],
-      "attributes": []
-    },
-    {
-      "$type": "Interface",
-      "name": "Or",
-      "superTypes": [
-        {
-          "$ref": "#/interfaces@39"
-        }
-      ],
-      "attributes": []
-    },
-    {
-      "$type": "Interface",
-      "name": "And",
-      "superTypes": [
-        {
-          "$ref": "#/interfaces@39"
-        }
-      ],
-      "attributes": []
-    },
-    {
-      "$type": "Interface",
       "name": "LowerOrEqualTo",
       "superTypes": [
         {
           "$ref": "#/interfaces@39"
         }
-      ],
-      "attributes": []
+      ]
     },
     {
       "$type": "Interface",
+      "attributes": [
+        {
+          "$type": "TypeAttribute",
+          "name": "symbole",
+          "isOptional": true,
+          "type": {
+            "$type": "SimpleType",
+            "stringType": ">="
+          }
+        }
+      ],
       "name": "UpperOrEqualTo",
       "superTypes": [
         {
           "$ref": "#/interfaces@39"
         }
-      ],
-      "attributes": []
+      ]
     }
   ],
   "types": [

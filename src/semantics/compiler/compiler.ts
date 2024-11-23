@@ -420,19 +420,19 @@ void _rotate(int angle) {
     }
 	
     visitAdd(node : Add) : any {
-        return "+";
+        return node.symbole;
     }
 	
     visitSub(node : Sub) : any {
-        return "-";
+        return node.symbole;
     }
 	
     visitMultiply(node : Multiply) : any {
-        return "*";
+        return node.symbole;
     }
 	
     visitDivise(node : Divise) : any {
-        return "/";
+        return node.symbole;
     }
 	
     visitBooleanExpression(node : BooleanExpression) : any {
@@ -467,35 +467,35 @@ void _rotate(int angle) {
     }
 	
     visitLowerThan(node : LowerThan) : any {
-        return "<";
+        return node.symbole;
     }
 	
     visitEqualTo(node : EqualTo) : any {
-        return "===";
+        return node.symbole;
     }
 	
     visitUpperThan(node : UpperThan) : any {
-        return ">";
+        return node.symbole;
     }
 	
     visitNot(node : Not) : any {
-        return "!";
+        return node.symbole;
     }
 	
     visitOr(node : Or) : any {
-        return "||";
+        return node.symbole;
     }
 	
     visitLowerOrEqualTo(node : LowerOrEqualTo) : any {
-        return "<=";
+        return node.symbole;
     }
 	
     visitUpperOrEqualTo(node : UpperOrEqualTo) : any {
-        return ">=";
+        return node.symbole;
     }
 	
     visitAnd(node : And) : any {
-        return "&&";
+        return node.symbole;
     }
 
     private toMillimeter(distance: number, unit: Unit): number {

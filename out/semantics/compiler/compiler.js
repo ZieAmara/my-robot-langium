@@ -385,16 +385,16 @@ void _rotate(int angle) {
         }
     }
     visitAdd(node) {
-        return "+";
+        return node.symbole;
     }
     visitSub(node) {
-        return "-";
+        return node.symbole;
     }
     visitMultiply(node) {
-        return "*";
+        return node.symbole;
     }
     visitDivise(node) {
-        return "/";
+        return node.symbole;
     }
     visitBooleanExpression(node) {
         const leftValue = this.visitUnaryArithmeticExpression(node.leftCondition);
@@ -425,28 +425,28 @@ void _rotate(int angle) {
         }
     }
     visitLowerThan(node) {
-        return "<";
+        return node.symbole;
     }
     visitEqualTo(node) {
-        return "===";
+        return node.symbole;
     }
     visitUpperThan(node) {
-        return ">";
+        return node.symbole;
     }
     visitNot(node) {
-        return "!";
+        return node.symbole;
     }
     visitOr(node) {
-        return "||";
+        return node.symbole;
     }
     visitLowerOrEqualTo(node) {
-        return "<=";
+        return node.symbole;
     }
     visitUpperOrEqualTo(node) {
-        return ">=";
+        return node.symbole;
     }
     visitAnd(node) {
-        return "&&";
+        return node.symbole;
     }
     toMillimeter(distance, unit) {
         switch (unit) {
