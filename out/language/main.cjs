@@ -36318,104 +36318,6 @@ var MyRobotAcceptWeaver = class {
   }
 };
 
-// src/language/visitorGenerator/visitor.ts
-function acceptNode(node, visitor2) {
-  switch (node.$type) {
-    case "Program":
-      return node.accept(visitor2);
-    case "Fonction":
-      return node.accept(visitor2);
-    case "ReturnType":
-      return node.accept(visitor2);
-    case "Statement":
-      return node.accept(visitor2);
-    case "ReturnStatement":
-      return node.accept(visitor2);
-    case "If":
-      return node.accept(visitor2);
-    case "Loop":
-      return node.accept(visitor2);
-    case "ControlRobot":
-      return node.accept(visitor2);
-    case "Movement":
-      return node.accept(visitor2);
-    case "Backward":
-      return node.accept(visitor2);
-    case "Forward":
-      return node.accept(visitor2);
-    case "Left":
-      return node.accept(visitor2);
-    case "Right":
-      return node.accept(visitor2);
-    case "Rotate":
-      return node.accept(visitor2);
-    case "Clock":
-      return node.accept(visitor2);
-    case "ClockLeft":
-      return node.accept(visitor2);
-    case "Entity":
-      return node.accept(visitor2);
-    case "Parameter":
-      return node.accept(visitor2);
-    case "VariableStatement":
-      return node.accept(visitor2);
-    case "VariableAssignation":
-      return node.accept(visitor2);
-    case "SetSpeed":
-      return node.accept(visitor2);
-    case "CallFunction":
-      return node.accept(visitor2);
-    case "Expression":
-      return node.accept(visitor2);
-    case "UnaryBooleanExpression":
-      return node.accept(visitor2);
-    case "UnaryArithmeticExpression":
-      return node.accept(visitor2);
-    case "CallFunctionExpr":
-      return node.accept(visitor2);
-    case "CallEntity":
-      return node.accept(visitor2);
-    case "GetSensor":
-      return node.accept(visitor2);
-    case "Value":
-      return node.accept(visitor2);
-    case "ArithmeticExpression":
-      return node.accept(visitor2);
-    case "ArithmeticOperator":
-      return node.accept(visitor2);
-    case "Add":
-      return node.accept(visitor2);
-    case "Sub":
-      return node.accept(visitor2);
-    case "Multiply":
-      return node.accept(visitor2);
-    case "Divise":
-      return node.accept(visitor2);
-    case "BooleanExpression":
-      return node.accept(visitor2);
-    case "BooleanOperator":
-      return node.accept(visitor2);
-    case "LowerThan":
-      return node.accept(visitor2);
-    case "EqualTo":
-      return node.accept(visitor2);
-    case "UpperThan":
-      return node.accept(visitor2);
-    case "Not":
-      return node.accept(visitor2);
-    case "Or":
-      return node.accept(visitor2);
-    case "LowerOrEqualTo":
-      return node.accept(visitor2);
-    case "UpperOrEqualTo":
-      return node.accept(visitor2);
-    case "And":
-      return node.accept(visitor2);
-    default:
-      throw new Error(`Unknown node type: ${node.$type}`);
-  }
-}
-
 // src/web/simulator/utils.ts
 var Vector = class _Vector {
   static fromAngle(rad, norm) {
@@ -36599,131 +36501,28 @@ var InterpreterVisitor = class {
     return this.visitFonction(entryFunction);
   }
   visitFonction(node) {
-    if (!node.body || node.body.length === 0) {
-      throw new Error(`La fonction '${node.name}' n'a pas de corps d\xE9fini.`);
-    }
-    console.log(`Ex\xE9cution de la fonction : ${node.name}`);
-    const previousVariables = __spreadValues({}, globalContext.variables);
-    for (const statement of node.body) {
-      acceptNode(statement, this);
-    }
-    globalContext.variables = previousVariables;
-    console.log(`Fin de l'ex\xE9cution de la fonction : ${node.name}`);
   }
   visitReturnType(node) {
-    if (!node.returnType) {
-      throw new Error(`Le type de retour attendu pour la fonction n'est pas d\xE9fini.`);
-    }
-    const returnValue = acceptNode(node, this);
-    if (typeof returnValue !== node.returnType) {
-      throw new Error(
-        `Type de retour incorrect : attendu '${node.returnType}', obtenu '${typeof returnValue}'.`
-      );
-    }
-    console.log(`Type de retour valide : '${node.returnType}'.`);
-    return returnValue;
   }
   visitStatement(node) {
   }
   visitReturnStatement(node) {
   }
   visitIf(node) {
-    if (Array.isArray(node.condition)) {
-      node.condition.forEach((conditionNode) => {
-        const conditionResult = acceptNode(conditionNode, this);
-        if (typeof conditionResult !== "boolean") {
-          throw new Error("Chaque condition doit \xEAtre une expression bool\xE9enne.");
-        }
-      });
-    } else {
-      const condition = acceptNode(node.condition, this);
-      if (typeof condition !== "boolean") {
-        throw new Error("La condition de l'instruction 'if' doit \xEAtre une expression bool\xE9enne.");
-      }
-      if (condition) {
-        for (const statement of node.thenStatement) {
-          acceptNode(statement, this);
-        }
-      } else if (node.elseStatement) {
-        for (const statement of node.elseStatement) {
-          acceptNode(statement, this);
-        }
-      }
-    }
   }
   visitLoop(node) {
-    let conditionResult = false;
-    if (Array.isArray(node.condition)) {
-      node.condition.forEach((conditionNode) => {
-        const result = acceptNode(conditionNode, this);
-        if (typeof result !== "boolean") {
-          throw new Error("Chaque condition dans la boucle doit \xEAtre une expression bool\xE9enne.");
-        }
-        conditionResult = conditionResult || result;
-      });
-    } else {
-      conditionResult = acceptNode(node.condition, this);
-      if (typeof conditionResult !== "boolean") {
-        throw new Error("La condition de la boucle doit \xEAtre une expression bool\xE9enne.");
-      }
-    }
-    while (conditionResult) {
-      for (const statement of node.body) {
-        acceptNode(statement, this);
-      }
-      if (Array.isArray(node.condition)) {
-        conditionResult = false;
-        node.condition.forEach((conditionNode) => {
-          const result = acceptNode(conditionNode, this);
-          if (typeof result !== "boolean") {
-            throw new Error("Chaque condition dans la boucle doit \xEAtre une expression bool\xE9enne.");
-          }
-          conditionResult = conditionResult || result;
-        });
-      } else {
-        conditionResult = acceptNode(node.condition, this);
-        if (typeof conditionResult !== "boolean") {
-          throw new Error("La condition de la boucle doit \xEAtre une expression bool\xE9enne.");
-        }
-      }
-    }
   }
   visitControlRobot(node) {
   }
   visitMovement(node) {
-    var _a;
-    const robot = (_a = globalContext.currentScene) == null ? void 0 : _a.robot;
-    if (!robot)
-      throw new Error("Aucun robot trouv\xE9 pour effectuer le mouvement.");
-    if (node.distance)
-      robot.move(acceptNode(node.distance, this));
   }
   visitBackward(node) {
-    var _a;
-    const robot = (_a = globalContext.currentScene) == null ? void 0 : _a.robot;
-    if (!robot)
-      throw new Error("Aucun robot trouv\xE9 pour effectuer le mouvement arri\xE8re.");
-    if (node.distance)
-      robot.move(acceptNode(node.distance, this));
   }
   visitForward(node) {
-    this.visitMovement(node);
   }
   visitLeft(node) {
-    var _a;
-    const robot = (_a = globalContext.currentScene) == null ? void 0 : _a.robot;
-    if (!robot)
-      throw new Error("Aucun robot rencontr\xE9 pour effectuer le mouvement gauche.");
-    if (node.distance)
-      robot.side(-acceptNode(node.distance, this));
   }
   visitRight(node) {
-    var _a;
-    const robot = (_a = globalContext.currentScene) == null ? void 0 : _a.robot;
-    if (!robot)
-      throw new Error("Aucun robot rencontr\xE9 pour effectuer le mouvement droit.");
-    if (node.distance)
-      robot.side(acceptNode(node.distance, this));
   }
   visitRotate(node) {
   }
