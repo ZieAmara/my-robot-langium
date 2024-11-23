@@ -121,7 +121,19 @@ CallEntity returns CallEntity:
 ;
 
 GetSensor returns GetSensor:
-    {GetSensor} 'getTimestamp()' | 'getDistance()' | 'getSpeed()'
+    GetDistance | GetSpeed | GetTimestamp
+;
+
+GetDistance returns GetDistance:
+    {GetDistance} 'getDistance()'
+;
+
+GetSpeed returns GetSpeed:
+    {GetSpeed} 'getSpeed()'
+;
+
+GetTimestamp returns GetTimestamp:
+    {GetTimestamp} 'getTimestamp()'
 ;
 
 Value returns Value:
@@ -174,15 +186,15 @@ UpperThan returns UpperThan:
 ;
 
 Not returns Not:
-    {Not} 'NOT'  
+    {Not} '!'
 ;
 
 Or returns Or:
-    {Or} 'OR'  
+    {Or} '||'  
 ;
 
 And returns And:
-    {And} 'AND'
+    {And} '&&'
 ;
 
 LowerOrEqualTo returns LowerOrEqualTo:

@@ -65,6 +65,45 @@ void setup() {
   Omni.PIDEnable(0.31, 0.01, 0, 10);
 }
 
+void _forward(int distance) {
+    Omni.setCarAdvance(Omni.getCarSpeedMMPS());
+    Omni.delayMS(distance/Omni.getCarSpeedMMPS()*1000);
+    Omni.setCarStop();
+}
+
+void _backward(int distance) {
+    Omni.setCarBackoff(Omni.getCarSpeedMMPS());
+    Omni.delayMS(distance/Omni.getCarSpeedMMPS()*1000);
+    Omni.setCarStop();
+}
+
+void _left(int distance) {
+    Omni.setCarLeft(Omni.getCarSpeedMMPS());
+    Omni.delayMS(distance/Omni.getCarSpeedMMPS()*1000);
+    Omni.setCarStop();
+}
+
+void _right(int distance) {
+    Omni.setCarRight(Omni.getCarSpeedMMPS());
+    Omni.delayMS(distance/Omni.getCarSpeedMMPS()*1000);
+    Omni.setCarStop();
+}
+
+void _rotate(int angle) {
+    if (angle > 0) {
+        Omni.setCarRotateRight(Omni.getCarSpeedMMPS());
+    } else {
+        Omni.setCarRotateLeft(Omni.getCarSpeedMMPS());
+    }
+
+    int circumference = wheel1.getCirMM();
+    int distance = (angle / 360.0) * circumference;
+    int timeToWait = (distance / Omni.getCarSpeedMMPS()) * 1000;
+    Omni.delayMS(timeToWait);
+    Omni.setCarStop();
+}
+
+
 `;
     }
     visitProgram(node) {
@@ -177,19 +216,23 @@ void setup() {
     }
     visitBackward(node) {
         const distance = this.visitExpression(node.distance);
-        return `Omni.setCarAdvance(${distance});\n`;
+        const distanceToMillimeter = this.toMillimeter(distance, node.unit);
+        return "_backward(" + distanceToMillimeter + ");\n";
     }
     visitForward(node) {
         const distance = this.visitExpression(node.distance);
-        return `Omni.setCarBackoff(${distance});\n`;
+        const distanceToMillimeter = this.toMillimeter(distance, node.unit);
+        return "_forward(" + distanceToMillimeter + ");\n";
     }
     visitLeft(node) {
         const distance = this.visitExpression(node.distance);
-        return `Omni.setCarLeft(${distance});\n`;
+        const distanceToMillimeter = this.toMillimeter(distance, node.unit);
+        return `Omni.setCarLeft(${distanceToMillimeter});\n`;
     }
     visitRight(node) {
         const distance = this.visitExpression(node.distance);
-        return `Omni.setCarRight(${distance});\n`;
+        const distanceToMillimeter = this.toMillimeter(distance, node.unit);
+        return `Omni.setCarRight(${distanceToMillimeter});\n`;
     }
     visitRotate(node) {
         switch (node.$type) {
@@ -203,11 +246,11 @@ void setup() {
     }
     visitClock(node) {
         const angle = this.visitExpression(node.angle);
-        return `Omni.setCarRotate(${angle});\n`;
+        return "_rotate(" + angle + ");\n";
     }
     visitClockLeft(node) {
-        const angle = this.visitExpression(node.angle);
-        return `Omni.setCarRotateLeft(${angle});\n`;
+        const angle = -this.visitExpression(node.angle);
+        return "_rotate(" + angle + ");\n";
     }
     visitEntity(node) {
         switch (node.$type) {
@@ -238,7 +281,9 @@ void setup() {
         return ((_a = node.variable.ref) === null || _a === void 0 ? void 0 : _a.name) + " = " + this.visitValue(node.value) + ";\n";
     }
     visitSetSpeed(node) {
-        return "Omni.setMotorAllAdvance(" + this.visitExpression(node.distance) + ");\n";
+        const distance = this.visitExpression(node.distance);
+        const distanceInMillimeter = this.toMillimeter(distance, node.unit);
+        return "Omni.setCarSpeedMMPS(" + distanceInMillimeter + ", 9999);\n";
     }
     visitCallFunction(node) {
         var _a;
@@ -290,20 +335,38 @@ void setup() {
         return this.visitExpression((_a = node.entity.ref) === null || _a === void 0 ? void 0 : _a.value);
     }
     visitGetSensor(node) {
-        return node;
+        switch (node.$type) {
+            case "GetDistance":
+                return this.visitGetDistance(node);
+            case "GetSpeed":
+                return this.visitGetSpeed(node);
+            case "GetTimestamp":
+                return this.visitGetTimestamp(node);
+            default:
+                return "// Unknown get sensor\n";
+        }
+    }
+    visitGetDistance(node) {
+        return 0;
+    }
+    visitGetSpeed(node) {
+        return "Omni.getCarSpeedMMPS()";
+    }
+    visitGetTimestamp(node) {
+        return "Omni.getTimestamp()";
     }
     visitValue(node) {
         return node.value;
     }
     visitArithmeticExpression(node) {
-        var result = this.visitUnaryArithmeticExpression(node.leftOperand);
-        let count = 0;
-        node.operator.forEach(() => {
-            count++;
-        });
-        for (let i = 0; i < count; i++) {
-            result += " " + this.visitArithmeticOperator(node.operator[i]) + " "
-                + this.visitUnaryArithmeticExpression(node.rightOperand[i]);
+        const leftValue = this.visitUnaryArithmeticExpression(node.leftOperand);
+        const rightValues = node.rightOperand.map(operand => this.visitUnaryArithmeticExpression(operand));
+        const operator = node.operator;
+        let compt = -1;
+        let result = leftValue;
+        for (const rightValue of rightValues) {
+            compt++;
+            result = result + operator[compt] + rightValue;
         }
         return result;
     }
@@ -318,7 +381,7 @@ void setup() {
             case "Divise":
                 return this.visitDivise(node);
             default:
-                return "";
+                return "Operator not found";
         }
     }
     visitAdd(node) {
@@ -334,9 +397,10 @@ void setup() {
         return "/";
     }
     visitBooleanExpression(node) {
-        return this.visitUnaryArithmeticExpression(node.leftCondition) + " "
-            + this.visitBooleanOperator(node.operator) + " "
-            + this.visitUnaryArithmeticExpression(node.rightCondition);
+        const leftValue = this.visitUnaryArithmeticExpression(node.leftCondition);
+        const rightValue = this.visitUnaryArithmeticExpression(node.rightCondition);
+        const operator = this.visitBooleanOperator(node.operator);
+        return leftValue + " " + operator + " " + rightValue;
     }
     visitBooleanOperator(node) {
         switch (node.$type) {
@@ -357,7 +421,7 @@ void setup() {
             case "And":
                 return this.visitAnd(node);
             default:
-                return "";
+                return "Operator not found";
         }
     }
     visitLowerThan(node) {
@@ -383,6 +447,16 @@ void setup() {
     }
     visitAnd(node) {
         return "&&";
+    }
+    toMillimeter(distance, unit) {
+        switch (unit) {
+            case "cm":
+                return distance * 10;
+            case "m":
+                return distance * 1000;
+            default:
+                return distance;
+        }
     }
 }
 //# sourceMappingURL=compiler.js.map

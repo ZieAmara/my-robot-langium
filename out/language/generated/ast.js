@@ -170,6 +170,18 @@ export const VariableStatement = 'VariableStatement';
 export function isVariableStatement(item) {
     return reflection.isInstance(item, VariableStatement);
 }
+export const GetDistance = 'GetDistance';
+export function isGetDistance(item) {
+    return reflection.isInstance(item, GetDistance);
+}
+export const GetSpeed = 'GetSpeed';
+export function isGetSpeed(item) {
+    return reflection.isInstance(item, GetSpeed);
+}
+export const GetTimestamp = 'GetTimestamp';
+export function isGetTimestamp(item) {
+    return reflection.isInstance(item, GetTimestamp);
+}
 export const Backward = 'Backward';
 export function isBackward(item) {
     return reflection.isInstance(item, Backward);
@@ -196,7 +208,7 @@ export function isClockLeft(item) {
 }
 export class MyRobotAstReflection extends AbstractAstReflection {
     getAllTypes() {
-        return ['Add', 'And', 'ArithmeticExpression', 'ArithmeticOperator', 'Backward', 'BooleanExpression', 'BooleanOperator', 'CallEntity', 'CallFunction', 'CallFunctionExpr', 'Clock', 'ClockLeft', 'ControlRobot', 'Divise', 'Entity', 'EqualTo', 'Expression', 'Fonction', 'Forward', 'GetSensor', 'If', 'Left', 'Loop', 'LowerOrEqualTo', 'LowerThan', 'Movement', 'Multiply', 'Not', 'Or', 'Parameter', 'Program', 'ReturnStatement', 'ReturnType', 'Right', 'Rotate', 'SetSpeed', 'Statement', 'Sub', 'UnaryArithmeticExpression', 'UnaryBooleanExpression', 'UpperOrEqualTo', 'UpperThan', 'Value', 'VariableAssignation', 'VariableStatement'];
+        return ['Add', 'And', 'ArithmeticExpression', 'ArithmeticOperator', 'Backward', 'BooleanExpression', 'BooleanOperator', 'CallEntity', 'CallFunction', 'CallFunctionExpr', 'Clock', 'ClockLeft', 'ControlRobot', 'Divise', 'Entity', 'EqualTo', 'Expression', 'Fonction', 'Forward', 'GetDistance', 'GetSensor', 'GetSpeed', 'GetTimestamp', 'If', 'Left', 'Loop', 'LowerOrEqualTo', 'LowerThan', 'Movement', 'Multiply', 'Not', 'Or', 'Parameter', 'Program', 'ReturnStatement', 'ReturnType', 'Right', 'Rotate', 'SetSpeed', 'Statement', 'Sub', 'UnaryArithmeticExpression', 'UnaryBooleanExpression', 'UpperOrEqualTo', 'UpperThan', 'Value', 'VariableAssignation', 'VariableStatement'];
     }
     computeIsSubtype(subtype, supertype) {
         switch (subtype) {
@@ -247,6 +259,11 @@ export class MyRobotAstReflection extends AbstractAstReflection {
             case Clock:
             case ClockLeft: {
                 return this.isSubtype(Rotate, supertype);
+            }
+            case GetDistance:
+            case GetSpeed:
+            case GetTimestamp: {
+                return this.isSubtype(GetSensor, supertype);
             }
             case Movement:
             case Rotate: {
@@ -304,6 +321,14 @@ export class MyRobotAstReflection extends AbstractAstReflection {
                     mandatory: [
                         { name: 'operator', type: 'array' },
                         { name: 'rightOperand', type: 'array' }
+                    ]
+                };
+            }
+            case 'UnaryBooleanExpression': {
+                return {
+                    name: 'UnaryBooleanExpression',
+                    mandatory: [
+                        { name: 'value', type: 'boolean' }
                     ]
                 };
             }

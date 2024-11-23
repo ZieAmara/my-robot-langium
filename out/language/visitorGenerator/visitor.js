@@ -255,8 +255,9 @@ export class UnaryBooleanExpression {
     // the constructor must take all attribute of the implemented interface 
     // simply copy-paste the interface fields as public parameters
     // you can find them in generated/ast.ts
-    constructor($type) {
+    constructor($type, value) {
         this.$type = $type;
+        this.value = value;
     }
     accept(visitor) { }
 }
@@ -294,6 +295,36 @@ export class CallEntity extends UnaryArithmeticExpression {
     accept(visitor) { }
 }
 export class GetSensor extends UnaryArithmeticExpression {
+    // the constructor must take all attribute of the implemented interface 
+    // simply copy-paste the interface fields as public parameters
+    // you can find them in generated/ast.ts
+    constructor($type) {
+        super($type);
+        this.$type = $type;
+    }
+    accept(visitor) { }
+}
+export class GetDistance extends GetSensor {
+    // the constructor must take all attribute of the implemented interface 
+    // simply copy-paste the interface fields as public parameters
+    // you can find them in generated/ast.ts
+    constructor($type) {
+        super($type);
+        this.$type = $type;
+    }
+    accept(visitor) { }
+}
+export class GetSpeed extends GetSensor {
+    // the constructor must take all attribute of the implemented interface 
+    // simply copy-paste the interface fields as public parameters
+    // you can find them in generated/ast.ts
+    constructor($type) {
+        super($type);
+        this.$type = $type;
+    }
+    accept(visitor) { }
+}
+export class GetTimestamp extends GetSensor {
     // the constructor must take all attribute of the implemented interface 
     // simply copy-paste the interface fields as public parameters
     // you can find them in generated/ast.ts

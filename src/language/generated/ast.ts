@@ -50,6 +50,7 @@ export function isArithmeticOperator(item: unknown): item is ArithmeticOperator 
 
 export interface BooleanOperator extends AstNode {
     readonly $type: 'And' | 'BooleanOperator' | 'EqualTo' | 'LowerOrEqualTo' | 'LowerThan' | 'Not' | 'Or' | 'UpperOrEqualTo' | 'UpperThan';
+    symbole?: '!' | '&&' | '<' | '<=' | '==' | '>' | '>=' | '||'
 }
 
 export const BooleanOperator = 'BooleanOperator';
@@ -59,7 +60,7 @@ export function isBooleanOperator(item: unknown): item is BooleanOperator {
 }
 
 export interface Expression extends AstNode {
-    readonly $type: 'ArithmeticExpression' | 'BooleanExpression' | 'CallEntity' | 'CallFunctionExpr' | 'Expression' | 'GetSensor' | 'UnaryArithmeticExpression' | 'UnaryBooleanExpression' | 'Value';
+    readonly $type: 'ArithmeticExpression' | 'BooleanExpression' | 'CallEntity' | 'CallFunctionExpr' | 'Expression' | 'GetDistance' | 'GetSensor' | 'GetSpeed' | 'GetTimestamp' | 'UnaryArithmeticExpression' | 'UnaryBooleanExpression' | 'Value';
 }
 
 export const Expression = 'Expression';
@@ -264,7 +265,7 @@ export function isBooleanExpression(item: unknown): item is BooleanExpression {
 }
 
 export interface UnaryArithmeticExpression extends Expression {
-    readonly $type: 'CallEntity' | 'CallFunctionExpr' | 'GetSensor' | 'UnaryArithmeticExpression' | 'Value';
+    readonly $type: 'CallEntity' | 'CallFunctionExpr' | 'GetDistance' | 'GetSensor' | 'GetSpeed' | 'GetTimestamp' | 'UnaryArithmeticExpression' | 'Value';
 }
 
 export const UnaryArithmeticExpression = 'UnaryArithmeticExpression';
@@ -275,6 +276,7 @@ export function isUnaryArithmeticExpression(item: unknown): item is UnaryArithme
 
 export interface UnaryBooleanExpression extends Expression {
     readonly $type: 'UnaryBooleanExpression';
+    value: boolean
 }
 
 export const UnaryBooleanExpression = 'UnaryBooleanExpression';
@@ -400,7 +402,7 @@ export function isCallFunctionExpr(item: unknown): item is CallFunctionExpr {
 }
 
 export interface GetSensor extends UnaryArithmeticExpression {
-    readonly $type: 'GetSensor';
+    readonly $type: 'GetDistance' | 'GetSensor' | 'GetSpeed' | 'GetTimestamp';
 }
 
 export const GetSensor = 'GetSensor';
@@ -466,6 +468,36 @@ export const VariableStatement = 'VariableStatement';
 
 export function isVariableStatement(item: unknown): item is VariableStatement {
     return reflection.isInstance(item, VariableStatement);
+}
+
+export interface GetDistance extends GetSensor {
+    readonly $type: 'GetDistance';
+}
+
+export const GetDistance = 'GetDistance';
+
+export function isGetDistance(item: unknown): item is GetDistance {
+    return reflection.isInstance(item, GetDistance);
+}
+
+export interface GetSpeed extends GetSensor {
+    readonly $type: 'GetSpeed';
+}
+
+export const GetSpeed = 'GetSpeed';
+
+export function isGetSpeed(item: unknown): item is GetSpeed {
+    return reflection.isInstance(item, GetSpeed);
+}
+
+export interface GetTimestamp extends GetSensor {
+    readonly $type: 'GetTimestamp';
+}
+
+export const GetTimestamp = 'GetTimestamp';
+
+export function isGetTimestamp(item: unknown): item is GetTimestamp {
+    return reflection.isInstance(item, GetTimestamp);
 }
 
 export interface Backward extends Movement {
@@ -548,7 +580,10 @@ export type MyRobotAstType = {
     Expression: Expression
     Fonction: Fonction
     Forward: Forward
+    GetDistance: GetDistance
     GetSensor: GetSensor
+    GetSpeed: GetSpeed
+    GetTimestamp: GetTimestamp
     If: If
     Left: Left
     Loop: Loop
@@ -579,7 +614,7 @@ export type MyRobotAstType = {
 export class MyRobotAstReflection extends AbstractAstReflection {
 
     getAllTypes(): string[] {
-        return ['Add', 'And', 'ArithmeticExpression', 'ArithmeticOperator', 'Backward', 'BooleanExpression', 'BooleanOperator', 'CallEntity', 'CallFunction', 'CallFunctionExpr', 'Clock', 'ClockLeft', 'ControlRobot', 'Divise', 'Entity', 'EqualTo', 'Expression', 'Fonction', 'Forward', 'GetSensor', 'If', 'Left', 'Loop', 'LowerOrEqualTo', 'LowerThan', 'Movement', 'Multiply', 'Not', 'Or', 'Parameter', 'Program', 'ReturnStatement', 'ReturnType', 'Right', 'Rotate', 'SetSpeed', 'Statement', 'Sub', 'UnaryArithmeticExpression', 'UnaryBooleanExpression', 'UpperOrEqualTo', 'UpperThan', 'Value', 'VariableAssignation', 'VariableStatement'];
+        return ['Add', 'And', 'ArithmeticExpression', 'ArithmeticOperator', 'Backward', 'BooleanExpression', 'BooleanOperator', 'CallEntity', 'CallFunction', 'CallFunctionExpr', 'Clock', 'ClockLeft', 'ControlRobot', 'Divise', 'Entity', 'EqualTo', 'Expression', 'Fonction', 'Forward', 'GetDistance', 'GetSensor', 'GetSpeed', 'GetTimestamp', 'If', 'Left', 'Loop', 'LowerOrEqualTo', 'LowerThan', 'Movement', 'Multiply', 'Not', 'Or', 'Parameter', 'Program', 'ReturnStatement', 'ReturnType', 'Right', 'Rotate', 'SetSpeed', 'Statement', 'Sub', 'UnaryArithmeticExpression', 'UnaryBooleanExpression', 'UpperOrEqualTo', 'UpperThan', 'Value', 'VariableAssignation', 'VariableStatement'];
     }
 
     protected override computeIsSubtype(subtype: string, supertype: string): boolean {
@@ -631,6 +666,11 @@ export class MyRobotAstReflection extends AbstractAstReflection {
             case Clock:
             case ClockLeft: {
                 return this.isSubtype(Rotate, supertype);
+            }
+            case GetDistance:
+            case GetSpeed:
+            case GetTimestamp: {
+                return this.isSubtype(GetSensor, supertype);
             }
             case Movement:
             case Rotate: {
@@ -690,6 +730,14 @@ export class MyRobotAstReflection extends AbstractAstReflection {
                     mandatory: [
                         { name: 'operator', type: 'array' },
                         { name: 'rightOperand', type: 'array' }
+                    ]
+                };
+            }
+            case 'UnaryBooleanExpression': {
+                return {
+                    name: 'UnaryBooleanExpression',
+                    mandatory: [
+                        { name: 'value', type: 'boolean' }
                     ]
                 };
             }

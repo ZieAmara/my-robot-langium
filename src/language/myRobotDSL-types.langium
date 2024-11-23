@@ -86,7 +86,9 @@ interface CallFunction extends Statement {
 
 interface Expression {}
 
-interface UnaryBooleanExpression extends Expression {}
+interface UnaryBooleanExpression extends Expression {
+  value: boolean;
+}
 
 interface UnaryArithmeticExpression extends Expression {}
 
@@ -100,6 +102,12 @@ interface CallEntity extends UnaryArithmeticExpression {
 }
 
 interface GetSensor extends UnaryArithmeticExpression {}
+
+interface GetDistance extends GetSensor {}
+
+interface GetSpeed extends GetSensor {}
+
+interface GetTimestamp extends GetSensor {}
 
 interface Value extends UnaryArithmeticExpression {
   value: number;
@@ -127,7 +135,9 @@ interface BooleanExpression extends Expression {
   rightCondition: UnaryArithmeticExpression;
 }
 
-interface BooleanOperator {}
+interface BooleanOperator {
+  symbole?: '==' | '!' | '<' | '<=' | '>' | '>=' | '&&' | '||'
+}
 
 interface LowerThan extends BooleanOperator {}
 

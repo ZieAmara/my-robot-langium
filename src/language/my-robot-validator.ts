@@ -33,7 +33,7 @@ export function registerValidationChecks(services: MyRobotServices) {
 export class MyRobotValidator {
 
     checkValueAsNumber(exp: Value, accept: ValidationAcceptor): void {
-        accept('info', `Value = ${exp.value} `, {node: exp, property: 'value'});
+        accept('info', `Value = ${exp.value}`, {node: exp, property: 'value'});
     }
 
     checkUniqueFonctionDefs(program: Program, accept: ValidationAcceptor): void {

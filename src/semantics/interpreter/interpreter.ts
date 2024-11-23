@@ -1,7 +1,10 @@
 
 import { 
     Add, ArithmeticExpression, ArithmeticOperator, BooleanExpression, Fonction, If, LowerThan, Program, ReturnType, Sub, UpperThan, Statement, Loop, ControlRobot, Movement, Backward, Forward, Left, Right, Rotate, Clock, ClockLeft, Entity, Parameter, VariableStatement, VariableAssignation, SetSpeed, CallFunction, Expression, UnaryBooleanExpression, UnaryArithmeticExpression, CallFunctionExpr, CallEntity, GetSensor, Value, Multiply, Divise, BooleanOperator, EqualTo, Not, Or, LowerOrEqualTo, UpperOrEqualTo, And, 
-    ReturnStatement
+    ReturnStatement,
+    GetDistance,
+    GetSpeed,
+    GetTimestamp
 } from '../../language/generated/ast.js';
 import { Visitor } from '../../language/visitorGenerator/visitor.js';
 import { Robot } from '../../web/simulator/entities.js';
@@ -103,6 +106,12 @@ export class InterpreterVisitor implements Visitor {
     visitCallEntity(node : CallEntity) : any {}
 	
     visitGetSensor(node : GetSensor) : any {}
+
+    visitGetDistance(node : GetDistance) : any {}
+    
+    visitGetSpeed(node : GetSpeed) : any {}
+    
+    visitGetTimestamp(node : GetTimestamp) : any {}
 	
     visitValue(node : Value) : any {}
 	

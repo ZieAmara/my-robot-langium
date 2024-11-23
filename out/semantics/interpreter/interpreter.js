@@ -56,6 +56,9 @@ export class InterpreterVisitor {
     visitCallFunctionExpr(node) { }
     visitCallEntity(node) { }
     visitGetSensor(node) { }
+    visitGetDistance(node) { }
+    visitGetSpeed(node) { }
+    visitGetTimestamp(node) { }
     visitValue(node) { }
     visitArithmeticExpression(node) { }
     visitArithmeticOperator(node) { }

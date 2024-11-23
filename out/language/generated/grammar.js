@@ -176,7 +176,7 @@ export const MyRobotGrammar = () => loadedMyRobotGrammar !== null && loadedMyRob
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@56"
+                "$ref": "#/rules@59"
               },
               "arguments": []
             }
@@ -261,7 +261,7 @@ export const MyRobotGrammar = () => loadedMyRobotGrammar !== null && loadedMyRob
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@53"
+                "$ref": "#/rules@56"
               },
               "arguments": []
             }
@@ -407,7 +407,7 @@ export const MyRobotGrammar = () => loadedMyRobotGrammar !== null && loadedMyRob
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@38"
+                "$ref": "#/rules@41"
               },
               "arguments": []
             }
@@ -469,7 +469,7 @@ export const MyRobotGrammar = () => loadedMyRobotGrammar !== null && loadedMyRob
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@38"
+                "$ref": "#/rules@41"
               },
               "arguments": []
             }
@@ -604,7 +604,7 @@ export const MyRobotGrammar = () => loadedMyRobotGrammar !== null && loadedMyRob
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@49"
+                "$ref": "#/rules@52"
               },
               "arguments": []
             }
@@ -654,7 +654,7 @@ export const MyRobotGrammar = () => loadedMyRobotGrammar !== null && loadedMyRob
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@49"
+                "$ref": "#/rules@52"
               },
               "arguments": []
             }
@@ -704,7 +704,7 @@ export const MyRobotGrammar = () => loadedMyRobotGrammar !== null && loadedMyRob
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@49"
+                "$ref": "#/rules@52"
               },
               "arguments": []
             }
@@ -754,7 +754,7 @@ export const MyRobotGrammar = () => loadedMyRobotGrammar !== null && loadedMyRob
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@49"
+                "$ref": "#/rules@52"
               },
               "arguments": []
             }
@@ -916,7 +916,7 @@ export const MyRobotGrammar = () => loadedMyRobotGrammar !== null && loadedMyRob
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@53"
+                "$ref": "#/rules@56"
               },
               "arguments": []
             }
@@ -928,7 +928,7 @@ export const MyRobotGrammar = () => loadedMyRobotGrammar !== null && loadedMyRob
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@56"
+                "$ref": "#/rules@59"
               },
               "arguments": []
             }
@@ -965,14 +965,14 @@ export const MyRobotGrammar = () => loadedMyRobotGrammar !== null && loadedMyRob
                 {
                   "$type": "RuleCall",
                   "rule": {
-                    "$ref": "#/rules@53"
+                    "$ref": "#/rules@56"
                   },
                   "arguments": []
                 },
                 {
                   "$type": "RuleCall",
                   "rule": {
-                    "$ref": "#/rules@49"
+                    "$ref": "#/rules@52"
                   },
                   "arguments": []
                 }
@@ -986,7 +986,7 @@ export const MyRobotGrammar = () => loadedMyRobotGrammar !== null && loadedMyRob
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@56"
+                "$ref": "#/rules@59"
               },
               "arguments": []
             }
@@ -1037,7 +1037,7 @@ export const MyRobotGrammar = () => loadedMyRobotGrammar !== null && loadedMyRob
               "terminal": {
                 "$type": "RuleCall",
                 "rule": {
-                  "$ref": "#/rules@48"
+                  "$ref": "#/rules@51"
                 },
                 "arguments": []
               },
@@ -1110,7 +1110,7 @@ export const MyRobotGrammar = () => loadedMyRobotGrammar !== null && loadedMyRob
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@49"
+                "$ref": "#/rules@52"
               },
               "arguments": []
             }
@@ -1149,7 +1149,7 @@ export const MyRobotGrammar = () => loadedMyRobotGrammar !== null && loadedMyRob
               "terminal": {
                 "$type": "RuleCall",
                 "rule": {
-                  "$ref": "#/rules@48"
+                  "$ref": "#/rules@51"
                 },
                 "arguments": []
               },
@@ -1239,14 +1239,14 @@ export const MyRobotGrammar = () => loadedMyRobotGrammar !== null && loadedMyRob
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@32"
+              "$ref": "#/rules@35"
             },
             "arguments": []
           },
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@38"
+              "$ref": "#/rules@41"
             },
             "arguments": []
           }
@@ -1329,7 +1329,7 @@ export const MyRobotGrammar = () => loadedMyRobotGrammar !== null && loadedMyRob
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@31"
+              "$ref": "#/rules@34"
             },
             "arguments": []
           }
@@ -1363,7 +1363,7 @@ export const MyRobotGrammar = () => loadedMyRobotGrammar !== null && loadedMyRob
               "terminal": {
                 "$type": "RuleCall",
                 "rule": {
-                  "$ref": "#/rules@48"
+                  "$ref": "#/rules@51"
                 },
                 "arguments": []
               },
@@ -1445,7 +1445,7 @@ export const MyRobotGrammar = () => loadedMyRobotGrammar !== null && loadedMyRob
           "terminal": {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@48"
+              "$ref": "#/rules@51"
             },
             "arguments": []
           },
@@ -1469,23 +1469,77 @@ export const MyRobotGrammar = () => loadedMyRobotGrammar !== null && loadedMyRob
         "$type": "Alternatives",
         "elements": [
           {
-            "$type": "Group",
-            "elements": [
-              {
-                "$type": "Action",
-                "type": {
-                  "$ref": "#/interfaces@27"
-                }
-              },
-              {
-                "$type": "Keyword",
-                "value": "getTimestamp()"
-              }
-            ]
+            "$type": "RuleCall",
+            "rule": {
+              "$ref": "#/rules@31"
+            },
+            "arguments": []
+          },
+          {
+            "$type": "RuleCall",
+            "rule": {
+              "$ref": "#/rules@32"
+            },
+            "arguments": []
+          },
+          {
+            "$type": "RuleCall",
+            "rule": {
+              "$ref": "#/rules@33"
+            },
+            "arguments": []
+          }
+        ]
+      },
+      "definesHiddenTokens": false,
+      "entry": false,
+      "fragment": false,
+      "hiddenTokens": [],
+      "parameters": [],
+      "wildcard": false
+    },
+    {
+      "$type": "ParserRule",
+      "name": "GetDistance",
+      "returnType": {
+        "$ref": "#/interfaces@28"
+      },
+      "definition": {
+        "$type": "Group",
+        "elements": [
+          {
+            "$type": "Action",
+            "type": {
+              "$ref": "#/interfaces@28"
+            }
           },
           {
             "$type": "Keyword",
             "value": "getDistance()"
+          }
+        ]
+      },
+      "definesHiddenTokens": false,
+      "entry": false,
+      "fragment": false,
+      "hiddenTokens": [],
+      "parameters": [],
+      "wildcard": false
+    },
+    {
+      "$type": "ParserRule",
+      "name": "GetSpeed",
+      "returnType": {
+        "$ref": "#/interfaces@29"
+      },
+      "definition": {
+        "$type": "Group",
+        "elements": [
+          {
+            "$type": "Action",
+            "type": {
+              "$ref": "#/interfaces@29"
+            }
           },
           {
             "$type": "Keyword",
@@ -1502,9 +1556,37 @@ export const MyRobotGrammar = () => loadedMyRobotGrammar !== null && loadedMyRob
     },
     {
       "$type": "ParserRule",
+      "name": "GetTimestamp",
+      "returnType": {
+        "$ref": "#/interfaces@30"
+      },
+      "definition": {
+        "$type": "Group",
+        "elements": [
+          {
+            "$type": "Action",
+            "type": {
+              "$ref": "#/interfaces@30"
+            }
+          },
+          {
+            "$type": "Keyword",
+            "value": "getTimestamp()"
+          }
+        ]
+      },
+      "definesHiddenTokens": false,
+      "entry": false,
+      "fragment": false,
+      "hiddenTokens": [],
+      "parameters": [],
+      "wildcard": false
+    },
+    {
+      "$type": "ParserRule",
       "name": "Value",
       "returnType": {
-        "$ref": "#/interfaces@28"
+        "$ref": "#/interfaces@31"
       },
       "definition": {
         "$type": "Assignment",
@@ -1513,7 +1595,7 @@ export const MyRobotGrammar = () => loadedMyRobotGrammar !== null && loadedMyRob
         "terminal": {
           "$type": "RuleCall",
           "rule": {
-            "$ref": "#/rules@57"
+            "$ref": "#/rules@60"
           },
           "arguments": []
         }
@@ -1529,7 +1611,7 @@ export const MyRobotGrammar = () => loadedMyRobotGrammar !== null && loadedMyRob
       "$type": "ParserRule",
       "name": "ArithmeticExpression",
       "returnType": {
-        "$ref": "#/interfaces@29"
+        "$ref": "#/interfaces@32"
       },
       "definition": {
         "$type": "Group",
@@ -1556,7 +1638,7 @@ export const MyRobotGrammar = () => loadedMyRobotGrammar !== null && loadedMyRob
                 "terminal": {
                   "$type": "RuleCall",
                   "rule": {
-                    "$ref": "#/rules@33"
+                    "$ref": "#/rules@36"
                   },
                   "arguments": []
                 }
@@ -1589,7 +1671,7 @@ export const MyRobotGrammar = () => loadedMyRobotGrammar !== null && loadedMyRob
       "$type": "ParserRule",
       "name": "ArithmeticOperator",
       "returnType": {
-        "$ref": "#/interfaces@30"
+        "$ref": "#/interfaces@33"
       },
       "definition": {
         "$type": "Alternatives",
@@ -1597,28 +1679,28 @@ export const MyRobotGrammar = () => loadedMyRobotGrammar !== null && loadedMyRob
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@34"
-            },
-            "arguments": []
-          },
-          {
-            "$type": "RuleCall",
-            "rule": {
-              "$ref": "#/rules@35"
-            },
-            "arguments": []
-          },
-          {
-            "$type": "RuleCall",
-            "rule": {
-              "$ref": "#/rules@36"
-            },
-            "arguments": []
-          },
-          {
-            "$type": "RuleCall",
-            "rule": {
               "$ref": "#/rules@37"
+            },
+            "arguments": []
+          },
+          {
+            "$type": "RuleCall",
+            "rule": {
+              "$ref": "#/rules@38"
+            },
+            "arguments": []
+          },
+          {
+            "$type": "RuleCall",
+            "rule": {
+              "$ref": "#/rules@39"
+            },
+            "arguments": []
+          },
+          {
+            "$type": "RuleCall",
+            "rule": {
+              "$ref": "#/rules@40"
             },
             "arguments": []
           }
@@ -1635,7 +1717,7 @@ export const MyRobotGrammar = () => loadedMyRobotGrammar !== null && loadedMyRob
       "$type": "ParserRule",
       "name": "Add",
       "returnType": {
-        "$ref": "#/interfaces@31"
+        "$ref": "#/interfaces@34"
       },
       "definition": {
         "$type": "Group",
@@ -1643,7 +1725,7 @@ export const MyRobotGrammar = () => loadedMyRobotGrammar !== null && loadedMyRob
           {
             "$type": "Action",
             "type": {
-              "$ref": "#/interfaces@31"
+              "$ref": "#/interfaces@34"
             }
           },
           {
@@ -1663,7 +1745,7 @@ export const MyRobotGrammar = () => loadedMyRobotGrammar !== null && loadedMyRob
       "$type": "ParserRule",
       "name": "Sub",
       "returnType": {
-        "$ref": "#/interfaces@32"
+        "$ref": "#/interfaces@35"
       },
       "definition": {
         "$type": "Group",
@@ -1671,7 +1753,7 @@ export const MyRobotGrammar = () => loadedMyRobotGrammar !== null && loadedMyRob
           {
             "$type": "Action",
             "type": {
-              "$ref": "#/interfaces@32"
+              "$ref": "#/interfaces@35"
             }
           },
           {
@@ -1691,7 +1773,7 @@ export const MyRobotGrammar = () => loadedMyRobotGrammar !== null && loadedMyRob
       "$type": "ParserRule",
       "name": "Multiply",
       "returnType": {
-        "$ref": "#/interfaces@33"
+        "$ref": "#/interfaces@36"
       },
       "definition": {
         "$type": "Group",
@@ -1699,7 +1781,7 @@ export const MyRobotGrammar = () => loadedMyRobotGrammar !== null && loadedMyRob
           {
             "$type": "Action",
             "type": {
-              "$ref": "#/interfaces@33"
+              "$ref": "#/interfaces@36"
             }
           },
           {
@@ -1719,7 +1801,7 @@ export const MyRobotGrammar = () => loadedMyRobotGrammar !== null && loadedMyRob
       "$type": "ParserRule",
       "name": "Divise",
       "returnType": {
-        "$ref": "#/interfaces@34"
+        "$ref": "#/interfaces@37"
       },
       "definition": {
         "$type": "Group",
@@ -1727,7 +1809,7 @@ export const MyRobotGrammar = () => loadedMyRobotGrammar !== null && loadedMyRob
           {
             "$type": "Action",
             "type": {
-              "$ref": "#/interfaces@34"
+              "$ref": "#/interfaces@37"
             }
           },
           {
@@ -1747,7 +1829,7 @@ export const MyRobotGrammar = () => loadedMyRobotGrammar !== null && loadedMyRob
       "$type": "ParserRule",
       "name": "BooleanExpression",
       "returnType": {
-        "$ref": "#/interfaces@35"
+        "$ref": "#/interfaces@38"
       },
       "definition": {
         "$type": "Alternatives",
@@ -1774,7 +1856,7 @@ export const MyRobotGrammar = () => loadedMyRobotGrammar !== null && loadedMyRob
                 "terminal": {
                   "$type": "RuleCall",
                   "rule": {
-                    "$ref": "#/rules@39"
+                    "$ref": "#/rules@42"
                   },
                   "arguments": []
                 }
@@ -1803,7 +1885,7 @@ export const MyRobotGrammar = () => loadedMyRobotGrammar !== null && loadedMyRob
                 "terminal": {
                   "$type": "RuleCall",
                   "rule": {
-                    "$ref": "#/rules@43"
+                    "$ref": "#/rules@46"
                   },
                   "arguments": []
                 }
@@ -1835,32 +1917,11 @@ export const MyRobotGrammar = () => loadedMyRobotGrammar !== null && loadedMyRob
       "$type": "ParserRule",
       "name": "BooleanOperator",
       "returnType": {
-        "$ref": "#/interfaces@36"
+        "$ref": "#/interfaces@39"
       },
       "definition": {
         "$type": "Alternatives",
         "elements": [
-          {
-            "$type": "RuleCall",
-            "rule": {
-              "$ref": "#/rules@40"
-            },
-            "arguments": []
-          },
-          {
-            "$type": "RuleCall",
-            "rule": {
-              "$ref": "#/rules@41"
-            },
-            "arguments": []
-          },
-          {
-            "$type": "RuleCall",
-            "rule": {
-              "$ref": "#/rules@42"
-            },
-            "arguments": []
-          },
           {
             "$type": "RuleCall",
             "rule": {
@@ -1872,6 +1933,13 @@ export const MyRobotGrammar = () => loadedMyRobotGrammar !== null && loadedMyRob
             "$type": "RuleCall",
             "rule": {
               "$ref": "#/rules@44"
+            },
+            "arguments": []
+          },
+          {
+            "$type": "RuleCall",
+            "rule": {
+              "$ref": "#/rules@45"
             },
             "arguments": []
           },
@@ -1892,7 +1960,21 @@ export const MyRobotGrammar = () => loadedMyRobotGrammar !== null && loadedMyRob
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@45"
+              "$ref": "#/rules@49"
+            },
+            "arguments": []
+          },
+          {
+            "$type": "RuleCall",
+            "rule": {
+              "$ref": "#/rules@50"
+            },
+            "arguments": []
+          },
+          {
+            "$type": "RuleCall",
+            "rule": {
+              "$ref": "#/rules@48"
             },
             "arguments": []
           }
@@ -1909,7 +1991,7 @@ export const MyRobotGrammar = () => loadedMyRobotGrammar !== null && loadedMyRob
       "$type": "ParserRule",
       "name": "LowerThan",
       "returnType": {
-        "$ref": "#/interfaces@37"
+        "$ref": "#/interfaces@40"
       },
       "definition": {
         "$type": "Group",
@@ -1917,7 +1999,7 @@ export const MyRobotGrammar = () => loadedMyRobotGrammar !== null && loadedMyRob
           {
             "$type": "Action",
             "type": {
-              "$ref": "#/interfaces@37"
+              "$ref": "#/interfaces@40"
             }
           },
           {
@@ -1937,7 +2019,7 @@ export const MyRobotGrammar = () => loadedMyRobotGrammar !== null && loadedMyRob
       "$type": "ParserRule",
       "name": "EqualTo",
       "returnType": {
-        "$ref": "#/interfaces@38"
+        "$ref": "#/interfaces@41"
       },
       "definition": {
         "$type": "Group",
@@ -1945,7 +2027,7 @@ export const MyRobotGrammar = () => loadedMyRobotGrammar !== null && loadedMyRob
           {
             "$type": "Action",
             "type": {
-              "$ref": "#/interfaces@38"
+              "$ref": "#/interfaces@41"
             }
           },
           {
@@ -1965,7 +2047,7 @@ export const MyRobotGrammar = () => loadedMyRobotGrammar !== null && loadedMyRob
       "$type": "ParserRule",
       "name": "UpperThan",
       "returnType": {
-        "$ref": "#/interfaces@39"
+        "$ref": "#/interfaces@42"
       },
       "definition": {
         "$type": "Group",
@@ -1973,7 +2055,7 @@ export const MyRobotGrammar = () => loadedMyRobotGrammar !== null && loadedMyRob
           {
             "$type": "Action",
             "type": {
-              "$ref": "#/interfaces@39"
+              "$ref": "#/interfaces@42"
             }
           },
           {
@@ -1993,7 +2075,7 @@ export const MyRobotGrammar = () => loadedMyRobotGrammar !== null && loadedMyRob
       "$type": "ParserRule",
       "name": "Not",
       "returnType": {
-        "$ref": "#/interfaces@40"
+        "$ref": "#/interfaces@43"
       },
       "definition": {
         "$type": "Group",
@@ -2001,12 +2083,12 @@ export const MyRobotGrammar = () => loadedMyRobotGrammar !== null && loadedMyRob
           {
             "$type": "Action",
             "type": {
-              "$ref": "#/interfaces@40"
+              "$ref": "#/interfaces@43"
             }
           },
           {
             "$type": "Keyword",
-            "value": "NOT"
+            "value": "!"
           }
         ]
       },
@@ -2021,7 +2103,7 @@ export const MyRobotGrammar = () => loadedMyRobotGrammar !== null && loadedMyRob
       "$type": "ParserRule",
       "name": "Or",
       "returnType": {
-        "$ref": "#/interfaces@41"
+        "$ref": "#/interfaces@44"
       },
       "definition": {
         "$type": "Group",
@@ -2029,12 +2111,12 @@ export const MyRobotGrammar = () => loadedMyRobotGrammar !== null && loadedMyRob
           {
             "$type": "Action",
             "type": {
-              "$ref": "#/interfaces@41"
+              "$ref": "#/interfaces@44"
             }
           },
           {
             "$type": "Keyword",
-            "value": "OR"
+            "value": "||"
           }
         ]
       },
@@ -2049,7 +2131,7 @@ export const MyRobotGrammar = () => loadedMyRobotGrammar !== null && loadedMyRob
       "$type": "ParserRule",
       "name": "And",
       "returnType": {
-        "$ref": "#/interfaces@42"
+        "$ref": "#/interfaces@45"
       },
       "definition": {
         "$type": "Group",
@@ -2057,12 +2139,12 @@ export const MyRobotGrammar = () => loadedMyRobotGrammar !== null && loadedMyRob
           {
             "$type": "Action",
             "type": {
-              "$ref": "#/interfaces@42"
+              "$ref": "#/interfaces@45"
             }
           },
           {
             "$type": "Keyword",
-            "value": "AND"
+            "value": "&&"
           }
         ]
       },
@@ -2077,7 +2159,7 @@ export const MyRobotGrammar = () => loadedMyRobotGrammar !== null && loadedMyRob
       "$type": "ParserRule",
       "name": "LowerOrEqualTo",
       "returnType": {
-        "$ref": "#/interfaces@43"
+        "$ref": "#/interfaces@46"
       },
       "definition": {
         "$type": "Group",
@@ -2085,7 +2167,7 @@ export const MyRobotGrammar = () => loadedMyRobotGrammar !== null && loadedMyRob
           {
             "$type": "Action",
             "type": {
-              "$ref": "#/interfaces@43"
+              "$ref": "#/interfaces@46"
             }
           },
           {
@@ -2105,7 +2187,7 @@ export const MyRobotGrammar = () => loadedMyRobotGrammar !== null && loadedMyRob
       "$type": "ParserRule",
       "name": "UpperOrEqualTo",
       "returnType": {
-        "$ref": "#/interfaces@44"
+        "$ref": "#/interfaces@47"
       },
       "definition": {
         "$type": "Group",
@@ -2113,7 +2195,7 @@ export const MyRobotGrammar = () => loadedMyRobotGrammar !== null && loadedMyRob
           {
             "$type": "Action",
             "type": {
-              "$ref": "#/interfaces@44"
+              "$ref": "#/interfaces@47"
             }
           },
           {
@@ -2139,14 +2221,14 @@ export const MyRobotGrammar = () => loadedMyRobotGrammar !== null && loadedMyRob
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@58"
+              "$ref": "#/rules@61"
             },
             "arguments": []
           },
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@56"
+              "$ref": "#/rules@59"
             },
             "arguments": []
           }
@@ -2171,21 +2253,21 @@ export const MyRobotGrammar = () => loadedMyRobotGrammar !== null && loadedMyRob
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@50"
+              "$ref": "#/rules@53"
             },
             "arguments": []
           },
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@51"
+              "$ref": "#/rules@54"
             },
             "arguments": []
           },
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@52"
+              "$ref": "#/rules@55"
             },
             "arguments": []
           }
@@ -2261,14 +2343,14 @@ export const MyRobotGrammar = () => loadedMyRobotGrammar !== null && loadedMyRob
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@54"
+              "$ref": "#/rules@57"
             },
             "arguments": []
           },
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@55"
+              "$ref": "#/rules@58"
             },
             "arguments": []
           }
@@ -2783,7 +2865,7 @@ export const MyRobotGrammar = () => loadedMyRobotGrammar !== null && loadedMyRob
           "type": {
             "$type": "SimpleType",
             "typeRef": {
-              "$ref": "#/interfaces@35"
+              "$ref": "#/interfaces@38"
             }
           },
           "isOptional": false
@@ -2833,7 +2915,7 @@ export const MyRobotGrammar = () => loadedMyRobotGrammar !== null && loadedMyRob
           "type": {
             "$type": "SimpleType",
             "typeRef": {
-              "$ref": "#/interfaces@35"
+              "$ref": "#/interfaces@38"
             }
           },
           "isOptional": false
@@ -3200,13 +3282,23 @@ export const MyRobotGrammar = () => loadedMyRobotGrammar !== null && loadedMyRob
     },
     {
       "$type": "Interface",
+      "attributes": [
+        {
+          "$type": "TypeAttribute",
+          "name": "value",
+          "type": {
+            "$type": "SimpleType",
+            "primitiveType": "boolean"
+          },
+          "isOptional": false
+        }
+      ],
       "name": "UnaryBooleanExpression",
       "superTypes": [
         {
           "$ref": "#/interfaces@22"
         }
-      ],
-      "attributes": []
+      ]
     },
     {
       "$type": "Interface",
@@ -3294,6 +3386,36 @@ export const MyRobotGrammar = () => loadedMyRobotGrammar !== null && loadedMyRob
     },
     {
       "$type": "Interface",
+      "name": "GetDistance",
+      "superTypes": [
+        {
+          "$ref": "#/interfaces@27"
+        }
+      ],
+      "attributes": []
+    },
+    {
+      "$type": "Interface",
+      "name": "GetSpeed",
+      "superTypes": [
+        {
+          "$ref": "#/interfaces@27"
+        }
+      ],
+      "attributes": []
+    },
+    {
+      "$type": "Interface",
+      "name": "GetTimestamp",
+      "superTypes": [
+        {
+          "$ref": "#/interfaces@27"
+        }
+      ],
+      "attributes": []
+    },
+    {
+      "$type": "Interface",
       "attributes": [
         {
           "$type": "TypeAttribute",
@@ -3334,7 +3456,7 @@ export const MyRobotGrammar = () => loadedMyRobotGrammar !== null && loadedMyRob
             "elementType": {
               "$type": "SimpleType",
               "typeRef": {
-                "$ref": "#/interfaces@30"
+                "$ref": "#/interfaces@33"
               }
             }
           },
@@ -3373,7 +3495,7 @@ export const MyRobotGrammar = () => loadedMyRobotGrammar !== null && loadedMyRob
       "name": "Add",
       "superTypes": [
         {
-          "$ref": "#/interfaces@30"
+          "$ref": "#/interfaces@33"
         }
       ],
       "attributes": []
@@ -3383,7 +3505,7 @@ export const MyRobotGrammar = () => loadedMyRobotGrammar !== null && loadedMyRob
       "name": "Sub",
       "superTypes": [
         {
-          "$ref": "#/interfaces@30"
+          "$ref": "#/interfaces@33"
         }
       ],
       "attributes": []
@@ -3393,7 +3515,7 @@ export const MyRobotGrammar = () => loadedMyRobotGrammar !== null && loadedMyRob
       "name": "Multiply",
       "superTypes": [
         {
-          "$ref": "#/interfaces@30"
+          "$ref": "#/interfaces@33"
         }
       ],
       "attributes": []
@@ -3403,7 +3525,7 @@ export const MyRobotGrammar = () => loadedMyRobotGrammar !== null && loadedMyRob
       "name": "Divise",
       "superTypes": [
         {
-          "$ref": "#/interfaces@30"
+          "$ref": "#/interfaces@33"
         }
       ],
       "attributes": []
@@ -3428,7 +3550,7 @@ export const MyRobotGrammar = () => loadedMyRobotGrammar !== null && loadedMyRob
           "type": {
             "$type": "SimpleType",
             "typeRef": {
-              "$ref": "#/interfaces@36"
+              "$ref": "#/interfaces@39"
             }
           },
           "isOptional": false
@@ -3454,8 +3576,51 @@ export const MyRobotGrammar = () => loadedMyRobotGrammar !== null && loadedMyRob
     },
     {
       "$type": "Interface",
+      "attributes": [
+        {
+          "$type": "TypeAttribute",
+          "name": "symbole",
+          "isOptional": true,
+          "type": {
+            "$type": "UnionType",
+            "types": [
+              {
+                "$type": "SimpleType",
+                "stringType": "=="
+              },
+              {
+                "$type": "SimpleType",
+                "stringType": "!"
+              },
+              {
+                "$type": "SimpleType",
+                "stringType": "<"
+              },
+              {
+                "$type": "SimpleType",
+                "stringType": "<="
+              },
+              {
+                "$type": "SimpleType",
+                "stringType": ">"
+              },
+              {
+                "$type": "SimpleType",
+                "stringType": ">="
+              },
+              {
+                "$type": "SimpleType",
+                "stringType": "&&"
+              },
+              {
+                "$type": "SimpleType",
+                "stringType": "||"
+              }
+            ]
+          }
+        }
+      ],
       "name": "BooleanOperator",
-      "attributes": [],
       "superTypes": []
     },
     {
@@ -3463,7 +3628,7 @@ export const MyRobotGrammar = () => loadedMyRobotGrammar !== null && loadedMyRob
       "name": "LowerThan",
       "superTypes": [
         {
-          "$ref": "#/interfaces@36"
+          "$ref": "#/interfaces@39"
         }
       ],
       "attributes": []
@@ -3473,7 +3638,7 @@ export const MyRobotGrammar = () => loadedMyRobotGrammar !== null && loadedMyRob
       "name": "EqualTo",
       "superTypes": [
         {
-          "$ref": "#/interfaces@36"
+          "$ref": "#/interfaces@39"
         }
       ],
       "attributes": []
@@ -3483,7 +3648,7 @@ export const MyRobotGrammar = () => loadedMyRobotGrammar !== null && loadedMyRob
       "name": "UpperThan",
       "superTypes": [
         {
-          "$ref": "#/interfaces@36"
+          "$ref": "#/interfaces@39"
         }
       ],
       "attributes": []
@@ -3493,7 +3658,7 @@ export const MyRobotGrammar = () => loadedMyRobotGrammar !== null && loadedMyRob
       "name": "Not",
       "superTypes": [
         {
-          "$ref": "#/interfaces@36"
+          "$ref": "#/interfaces@39"
         }
       ],
       "attributes": []
@@ -3503,7 +3668,7 @@ export const MyRobotGrammar = () => loadedMyRobotGrammar !== null && loadedMyRob
       "name": "Or",
       "superTypes": [
         {
-          "$ref": "#/interfaces@36"
+          "$ref": "#/interfaces@39"
         }
       ],
       "attributes": []
@@ -3513,7 +3678,7 @@ export const MyRobotGrammar = () => loadedMyRobotGrammar !== null && loadedMyRob
       "name": "And",
       "superTypes": [
         {
-          "$ref": "#/interfaces@36"
+          "$ref": "#/interfaces@39"
         }
       ],
       "attributes": []
@@ -3523,7 +3688,7 @@ export const MyRobotGrammar = () => loadedMyRobotGrammar !== null && loadedMyRob
       "name": "LowerOrEqualTo",
       "superTypes": [
         {
-          "$ref": "#/interfaces@36"
+          "$ref": "#/interfaces@39"
         }
       ],
       "attributes": []
@@ -3533,7 +3698,7 @@ export const MyRobotGrammar = () => loadedMyRobotGrammar !== null && loadedMyRob
       "name": "UpperOrEqualTo",
       "superTypes": [
         {
-          "$ref": "#/interfaces@36"
+          "$ref": "#/interfaces@39"
         }
       ],
       "attributes": []

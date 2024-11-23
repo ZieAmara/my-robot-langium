@@ -31,6 +31,9 @@ export interface Visitor{
 	visitCallFunctionExpr(node : CallFunctionExpr) : any;
 	visitCallEntity(node : CallEntity) : any;
 	visitGetSensor(node : GetSensor) : any;
+    visitGetDistance(node : GetDistance) : any;
+    visitGetSpeed(node : GetSpeed) : any;
+    visitGetTimestamp(node : GetTimestamp) : any;
 	visitValue(node : Value) : any;
 	visitArithmeticExpression(node : ArithmeticExpression) : any;
 	visitArithmeticOperator(node : ArithmeticOperator) : any;
@@ -357,7 +360,7 @@ export class Expression implements ASTInterfaces.Expression {
     // simply copy-paste the interface fields as public parameters
     // you can find them in generated/ast.ts
     constructor(
-        public $type: 'ArithmeticExpression' | 'BooleanExpression' | 'CallEntity' | 'CallFunctionExpr' | 'Expression' | 'GetSensor' | 'UnaryArithmeticExpression' | 'UnaryBooleanExpression' | 'Value'
+        public $type: 'ArithmeticExpression' | 'BooleanExpression' | 'CallEntity' | 'CallFunctionExpr' | 'Expression' | 'GetDistance' | 'GetSensor' | 'GetSpeed' | 'GetTimestamp' | 'UnaryArithmeticExpression' | 'UnaryBooleanExpression' | 'Value'
     ){}
     accept(visitor: Visitor) : any {}
 }
@@ -366,7 +369,10 @@ export class UnaryBooleanExpression implements ASTInterfaces.UnaryBooleanExpress
     // the constructor must take all attribute of the implemented interface 
     // simply copy-paste the interface fields as public parameters
     // you can find them in generated/ast.ts
-    constructor(public $type: 'UnaryBooleanExpression'){}
+    constructor(
+        public $type: 'UnaryBooleanExpression',
+        public value: boolean
+    ){}
     accept(visitor: Visitor) : any {}
 }
 
@@ -375,7 +381,7 @@ export class UnaryArithmeticExpression extends Expression implements ASTInterfac
     // simply copy-paste the interface fields as public parameters
     // you can find them in generated/ast.ts
     constructor(
-        public override $type: 'CallEntity' | 'CallFunctionExpr' | 'GetSensor' | 'UnaryArithmeticExpression' | 'Value'
+        public override $type: 'CallEntity' | 'CallFunctionExpr' | 'GetDistance' | 'GetSensor' | 'GetSpeed' | 'GetTimestamp' | 'UnaryArithmeticExpression' | 'Value'
     ){
         super($type)
     }
@@ -414,7 +420,43 @@ export class GetSensor extends UnaryArithmeticExpression implements ASTInterface
     // simply copy-paste the interface fields as public parameters
     // you can find them in generated/ast.ts
     constructor(
-        public override $type: 'GetSensor'
+        public override $type: 'GetDistance' | 'GetSensor' | 'GetSpeed' | 'GetTimestamp',
+    ){
+        super($type)
+    }
+    override accept(visitor: Visitor) : any {}
+}
+
+export class GetDistance extends GetSensor implements ASTInterfaces.GetDistance {
+    // the constructor must take all attribute of the implemented interface 
+    // simply copy-paste the interface fields as public parameters
+    // you can find them in generated/ast.ts
+    constructor(
+        public override $type: 'GetDistance',
+    ){
+        super($type)
+    }
+    override accept(visitor: Visitor) : any {}
+}
+
+export class GetSpeed extends GetSensor implements ASTInterfaces.GetSpeed {
+    // the constructor must take all attribute of the implemented interface 
+    // simply copy-paste the interface fields as public parameters
+    // you can find them in generated/ast.ts
+    constructor(
+        public override $type: 'GetSpeed',
+    ){
+        super($type)
+    }
+    override accept(visitor: Visitor) : any {}
+}
+
+export class GetTimestamp extends GetSensor implements ASTInterfaces.GetTimestamp {
+    // the constructor must take all attribute of the implemented interface 
+    // simply copy-paste the interface fields as public parameters
+    // you can find them in generated/ast.ts
+    constructor(
+        public override $type: 'GetTimestamp',
     ){
         super($type)
     }
