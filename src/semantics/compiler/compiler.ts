@@ -67,12 +67,11 @@ void setup() {
   Omni.PIDEnable(0.31, 0.01, 0, 10);
 }
 
-
 `;
     
     visitProgram(node : Program) : any {
         node.fonction.map(f => {
-            this.arduinoCode += this.visitFonction(f as Fonction);;
+            this.arduinoCode += "\n" + this.visitFonction(f as Fonction);;
         })
         return this.arduinoCode
     }
@@ -80,7 +79,7 @@ void setup() {
     visitFonction(node : Fonction) : any {
         return this.visitReturnType(node.returnType as ReturnType)
         + node.name + " (" + node.parameter.map(p => this.visitParameter(p as Parameter)).join(",") + ") { \n\t" 
-        + node.body.map(s => this.visitStatement(s as Statement)).join("; \n\t") + "; \n}\n";
+        + node.body.map(s => this.visitStatement(s as Statement)).join("\t") + "; \n}";
     }
 	
     visitReturnType(node : ReturnType) : any {
@@ -95,7 +94,38 @@ void setup() {
     }
 	
     visitStatement(node : Statement) : any {
-        return "Ok \n";
+        switch (node.$type) {
+            case "If":
+                return this.visitIf(node as If);
+            case "Loop":
+                return this.visitLoop(node as Loop);
+            case "ReturnStatement":
+                return this.visitReturnStatement(node as ReturnStatement);
+            case "VariableStatement":
+                return this.visitVariableStatement(node as VariableStatement);
+            case "Parameter":
+                return this.visitParameter(node as Parameter);
+            case "VariableAssignation":
+                return this.visitVariableAssignation(node as VariableAssignation);
+            case "SetSpeed":
+                return this.visitSetSpeed(node as SetSpeed);
+            case "CallFunction":
+                return this.visitCallFunction(node as CallFunction);
+            case "Backward":
+                return this.visitBackward(node as Backward);
+            case "Forward":
+                return this.visitForward(node as Forward);
+            case "Left":
+                return this.visitLeft(node as Left);
+            case "Right":
+                return this.visitRight(node as Right);
+            case "Clock":
+                return this.visitClock(node as Clock);
+            case "ClockLeft":
+                return this.visitClockLeft(node as ClockLeft);
+            default:
+                return "// Unknown statement\n";
+        }
     }
 	
     visitReturnStatement(node : ReturnStatement) : any{
@@ -103,49 +133,115 @@ void setup() {
     }
 	
     visitIf(node : If) : any {
-        var result = "if (" + this.visitExpression(node.condition as BooleanExpression) + ") { \n" 
-        + node.thenStatement.map(s => this.visitStatement(s as Statement)).join("; \n\t") + "}\n";
+        var result = "\n\tif (" + this.visitExpression(node.condition as BooleanExpression) + ") {\n\t\t" 
+        + node.thenStatement.map(s => this.visitStatement(s as Statement)).join("\t\t") + "}\n";
 
         if (node.elseStatement) {
             result += " else { \n" 
-            + node.elseStatement.map(s => this.visitStatement(s as Statement)).join("; \n\t") + "}\n";
+            + node.elseStatement.map(s => this.visitStatement(s as Statement)).join("\t\t") + "}\n";
         }
         return result;
     }
 	
     visitLoop(node : Loop) : any {
-        return "loop (" + this.visitExpression(node.condition as BooleanExpression) + ") { \n\t" 
-        + node.body.map(s => this.visitStatement(s as Statement)).join("; \n\t") + "}\n"; 
+        return "\n\tloop (" + this.visitExpression(node.condition as BooleanExpression) + ") { \n\t\t" 
+        + node.body.map(s => this.visitStatement(s as Statement)).join("\t\t") + "}\n"; 
     }
 	
     visitControlRobot(node : ControlRobot) : any {
-        return "Ok \n";
+        switch (node.$type) {
+            case "Movement":
+                return this.visitMovement(node as Movement);
+            case "Backward":
+                return this.visitBackward(node as Backward);
+            case "Forward":
+                return this.visitForward(node as Forward);
+            case "Left":
+                return this.visitLeft(node as Left);
+            case "Right":
+                return this.visitRight(node as Right);
+            case "Rotate":
+                return this.visitRotate(node as Rotate);
+            case "Clock":
+                return this.visitClock(node as Clock);
+            case "ClockLeft":
+                return this.visitClockLeft(node as ClockLeft);
+            default:
+                return "// Unknown control robot\n";
+        }
     }
 	
-    visitMovement(node : Movement) : any {}
+    visitMovement(node : Movement) : any {
+        switch (node.$type) {
+            case "Backward":
+                return this.visitBackward(node as Backward);
+            case "Forward":
+                return this.visitForward(node as Forward);
+            case "Left":
+                return this.visitLeft(node as Left);
+            case "Right":
+                return this.visitRight(node as Right);
+            default:
+                return "// Unknown movement\n";
+        }
+    }
 	
-    visitBackward(node : Backward) : any {}
+    visitBackward(node : Backward) : any {
+        const distance = this.visitExpression(node.distance as Expression);
+        return `Omni.setCarAdvance(${distance});\n`;
+    }
 	
-    visitForward(node : Forward) : any {}
+    visitForward(node : Forward) : any {
+        const distance = this.visitExpression(node.distance as Expression);
+        return `Omni.setCarBackoff(${distance});\n`;
+    }
 	
-    visitLeft(node : Left) : any {}
+    visitLeft(node : Left) : any {
+        const distance = this.visitExpression(node.distance as Expression);
+        return `Omni.setCarLeft(${distance});\n`;
+    }
 	
-    visitRight(node : Right) : any {}
+    visitRight(node : Right) : any {
+        const distance = this.visitExpression(node.distance as Expression);
+        return `Omni.setCarRight(${distance});\n`;
+    }
 	
-    visitRotate(node : Rotate) : any {}
+    visitRotate(node : Rotate) : any {
+        switch (node.$type) {
+            case "Clock":
+                return this.visitClock(node as Clock);
+            case "ClockLeft":
+                return this.visitClockLeft(node as ClockLeft);
+            default:
+                return "// Unknown rotate\n";
+        }
+    }
 	
-    visitClock(node : Clock) : any {}
+    visitClock(node : Clock) : any {
+        const angle = this.visitExpression(node.angle as Expression);
+        return `Omni.setCarRotate(${angle});\n`;
+    }
 	
-    visitClockLeft(node : ClockLeft) : any {}
+    visitClockLeft(node : ClockLeft) : any {
+        const angle = this.visitExpression(node.angle as Expression);
+        return `Omni.setCarRotateLeft(${angle});\n`;
+    }
 	
     visitEntity(node : Entity) : any {
-        return "Ok \n";
+        switch (node.$type) {
+            case "Parameter":
+                return this.visitParameter(node as Parameter);
+            case "VariableStatement":
+                return this.visitVariableStatement(node as VariableStatement);
+            default:
+                return "// Unknown entity\n";
+        }
     }
 	
     visitParameter(node : Parameter) : any {
         var result = node.type + " " + node.name;
         if (node.value != null) {
-            result += " = " + this.visitValue(node.value as Value) + ";\n";
+            result += " = " + this.visitValue(node.value as Value);
         }
         return result;
     }
@@ -153,28 +249,62 @@ void setup() {
     visitVariableStatement(node : VariableStatement) : any {
         var result = node.type + " " + node.name;
         if (node.value != null) {
-            result += " = " + this.visitValue(node.value as Value) + ";\n";
+            result += " = " + this.visitValue(node.value as Value);
         }
-        return result;
+        return result + ";\n";
     }
 	
     visitVariableAssignation(node : VariableAssignation) : any {
         return node.variable.ref?.name + " = " + this.visitValue(node.value as Value) + ";\n";
     }
 	
-    visitSetSpeed(node : SetSpeed) : any {}
+    visitSetSpeed(node : SetSpeed) : any {
+        return "Omni.setMotorAllAdvance(" + this.visitExpression(node.distance as Expression) + ");\n";
+    }
 	
     visitCallFunction(node : CallFunction) : any {
         return node.fonction.ref?.name + "(" + node.args.map(p => this.visitExpression(p as Expression)).join(",") + ");\n";
     }
 	
     visitExpression(node : Expression) : any {
-        return "Ok \n";
+        switch (node.$type) {
+            case "UnaryBooleanExpression":
+                return this.visitUnaryBooleanExpression(node as UnaryBooleanExpression);
+            case "CallEntity":
+                return this.visitCallEntity(node as CallEntity);
+            case "CallFunctionExpr":
+                return this.visitCallFunctionExpr(node as CallFunctionExpr);
+            case "GetSensor":
+                return this.visitGetSensor(node as GetSensor);
+            case "Value":
+                return this.visitValue(node as Value);
+            case "ArithmeticExpression":
+                return this.visitArithmeticExpression(node as ArithmeticExpression);
+            case "BooleanExpression":
+                return this.visitBooleanExpression(node as BooleanExpression);
+            default:
+                return "// Unknown expression\n";
+        }
     }
 	
-    visitUnaryBooleanExpression(node : UnaryBooleanExpression) : any {}
+    visitUnaryBooleanExpression(node : UnaryBooleanExpression) : any {
+        return node;
+    }
 	
-    visitUnaryArithmeticExpression(node : UnaryArithmeticExpression) : any {}
+    visitUnaryArithmeticExpression(node : UnaryArithmeticExpression) : any {
+        switch (node.$type) {
+            case "CallFunctionExpr":
+                return this.visitCallFunctionExpr(node as CallFunctionExpr);
+            case "CallEntity":
+                return this.visitCallEntity(node as CallEntity);
+            case "GetSensor":
+                return this.visitGetSensor(node as GetSensor);
+            case "Value":
+                return this.visitValue(node as Value);
+            default:
+                return "// Unknown unary arithmetic expression\n";
+        }
+    }
 	
     visitCallFunctionExpr(node : CallFunctionExpr) : any {
         return node.fonction.ref?.name + "(" + node.args.map(p => this.visitExpression(p as Expression)).join(",") + ")";
@@ -185,7 +315,7 @@ void setup() {
     visitGetSensor(node : GetSensor) : any {}
 	
     visitValue(node : Value) : any {
-        return "VALUE \n";
+        return "VALUE";
     }
 	
     visitArithmeticExpression(node : ArithmeticExpression) : any {
@@ -235,7 +365,7 @@ void setup() {
     visitBooleanExpression(node : BooleanExpression) : any {
         return this.visitUnaryArithmeticExpression(node.leftCondition as UnaryArithmeticExpression) + " " 
         + this.visitBooleanOperator(node.operator as BooleanOperator) + " " 
-        + this.visitUnaryArithmeticExpression(node.rightCondition as UnaryArithmeticExpression) + ";\n";
+        + this.visitUnaryArithmeticExpression(node.rightCondition as UnaryArithmeticExpression);
     }
 	
     visitBooleanOperator(node : BooleanOperator) : any {
