@@ -79,8 +79,8 @@ void setup() {
 	
     visitFonction(node : Fonction) : any {
         return this.visitReturnType(node.returnType as ReturnType)
-        + node.name + " (" + node.parameter.map(p => this.visitParameter(p as Parameter)).join(",") + ") { \n" 
-        + node.body.map(s => this.visitStatement(s as Statement)).join("; \n") + "}";
+        + node.name + " (" + node.parameter.map(p => this.visitParameter(p as Parameter)).join(",") + ") { \n\t" 
+        + node.body.map(s => this.visitStatement(s as Statement)).join("; \n\t") + "}";
     }
 	
     visitReturnType(node : ReturnType) : any {
@@ -98,13 +98,29 @@ void setup() {
         return "Ok";
     }
 	
-    visitReturnStatement(node : ReturnStatement) : any{}
+    visitReturnStatement(node : ReturnStatement) : any{
+        return this.visitExpression(node.returnValue as Expression);
+    }
 	
-    visitIf(node : If) : any {}
+    visitIf(node : If) : any {
+        var result = "if (" + this.visitExpression(node.condition as BooleanExpression) + ") { \n" 
+        + node.thenStatement.map(s => this.visitStatement(s as Statement)).join("; \n\t") + "}";
+
+        if (node.elseStatement) {
+            result += " else { \n" 
+            + node.elseStatement.map(s => this.visitStatement(s as Statement)).join("; \n\t") + "}";
+        }
+        return result;
+    }
 	
-    visitLoop(node : Loop) : any {}
+    visitLoop(node : Loop) : any {
+        return "loop (" + this.visitExpression(node.condition as BooleanExpression) + ") { \n\t" 
+        + node.body.map(s => this.visitStatement(s as Statement)).join("; \n\t") + "}"; 
+    }
 	
-    visitControlRobot(node : ControlRobot) : any {}
+    visitControlRobot(node : ControlRobot) : any {
+        return "Ok";
+    }
 	
     visitMovement(node : Movement) : any {}
 	
