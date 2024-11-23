@@ -101,7 +101,9 @@ interface CallEntity extends UnaryArithmeticExpression {
 
 interface GetSensor extends UnaryArithmeticExpression {}
 
-interface Value extends UnaryArithmeticExpression {}
+interface Value extends UnaryArithmeticExpression {
+  value: number;
+}
 
 interface ArithmeticExpression extends Expression {
   leftOperand: UnaryArithmeticExpression;

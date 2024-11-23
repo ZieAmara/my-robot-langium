@@ -125,7 +125,7 @@ GetSensor returns GetSensor:
 ;
 
 Value returns Value:
-    {Value} INT
+    value=INT
 ;
 
 ArithmeticExpression returns ArithmeticExpression:

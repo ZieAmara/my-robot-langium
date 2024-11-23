@@ -411,6 +411,7 @@ export function isGetSensor(item: unknown): item is GetSensor {
 
 export interface Value extends UnaryArithmeticExpression {
     readonly $type: 'Value';
+    value: number
 }
 
 export const Value = 'Value';
