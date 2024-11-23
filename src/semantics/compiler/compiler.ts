@@ -315,7 +315,7 @@ void setup() {
     visitGetSensor(node : GetSensor) : any {}
 	
     visitValue(node : Value) : any {
-        return "VALUE";
+        return node;
     }
 	
     visitArithmeticExpression(node : ArithmeticExpression) : any {

@@ -288,7 +288,7 @@ void setup() {
     visitCallEntity(node) { }
     visitGetSensor(node) { }
     visitValue(node) {
-        return "VALUE";
+        return node;
     }
     visitArithmeticExpression(node) {
         var result = this.visitUnaryArithmeticExpression(node.leftOperand);
