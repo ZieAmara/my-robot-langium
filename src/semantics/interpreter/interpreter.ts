@@ -39,35 +39,18 @@ export class InterpreterVisitor implements Visitor {
         globalContext.currentScene = this.scene;
     }
 
-    visitProgram(node: Program): void {
-        // Vérification de l'existence de fonctions dans le programme
-        if (!node.fonction || node.fonction.length === 0) {
-            throw new Error("Le programme doit contenir au moins une fonction.");
+    visitProgram(node: Program): any {
+        
+        const entryFunction = node.fonction.find(f => f.name === "entry");
+        if (!entryFunction) {
+            throw new Error("La fonction 'entry' doit être définie.");
         }
 
-        // Recherche de la fonction 'entry' pour démarrer l'exécution
-        const entryFonction = node.fonction.find(f => f.name === 'entry');
-        if (!entryFonction) {
-            throw new Error("Une fonction nommée 'entry' doit être définie dans le programme.");
-        }
-
-        // Initialisation ou configuration spécifique si nécessaire
-        console.log("Initialisation du programme...");
-
-        // Exécution de la fonction 'entry'
-        acceptNode(entryFonction, this);
-
-        // Ajouter un horodatage final
-        if (globalContext.currentScene) {
-            globalContext.currentScene.timestamps.push(
-                new Timestamp(globalContext.currentScene.time, globalContext.currentScene.robot)
-            );
-        } else {
-            throw new Error("Aucune scène active pour ajouter un horodatage.");
-        }
+        // Exécuter la fonction 'entry'
+        return this.visitFonction(entryFunction);
     }
 
-    visitFonction(node: Fonction): void {
+    visitFonction(node: Fonction): any {
         // Vérifier que la fonction a un corps défini
         if (!node.body || node.body.length === 0) {
             throw new Error(`La fonction '${node.name}' n'a pas de corps défini.`);
@@ -89,7 +72,7 @@ export class InterpreterVisitor implements Visitor {
         console.log(`Fin de l'exécution de la fonction : ${node.name}`);
     }
 
-    visitReturnType(node: ReturnType): void {
+    visitReturnType(node: ReturnType): any {
         // Vérifie si le type attendu est défini
         if (!node.returnType) {
             throw new Error(`Le type de retour attendu pour la fonction n'est pas défini.`);
@@ -110,13 +93,13 @@ export class InterpreterVisitor implements Visitor {
         return returnValue;
     }
 
-    visitStatement(node: Statement): void {}
+    visitStatement(node: Statement): any {}
 
     visitReturnStatement(node: ReturnStatement) {
         
     }
 
-    visitIf(node: If): void {
+    visitIf(node: If): any {
         // Si la condition est un tableau, traiter chaque élément
         if (Array.isArray(node.condition)) {
             node.condition.forEach(conditionNode => {
@@ -146,7 +129,7 @@ export class InterpreterVisitor implements Visitor {
         }
     }
 
-    visitLoop(node: Loop): void {
+    visitLoop(node: Loop): any {
         // Si la condition est un tableau, traiter chaque élément pour évaluer le résultat final
         let conditionResult = false;
     
@@ -193,98 +176,98 @@ export class InterpreterVisitor implements Visitor {
         }
     }
 
-    visitControlRobot(node: ControlRobot): void {}
+    visitControlRobot(node: ControlRobot): any {}
 
-    visitMovement(node: Movement): void {
+    visitMovement(node: Movement): any {
         const robot = globalContext.currentScene?.robot;
         if (!robot) throw new Error("Aucun robot trouvé pour effectuer le mouvement.");
         if (node.distance) robot.move(acceptNode(node.distance, this));
     }
 
-    visitBackward(node: Backward): void {
+    visitBackward(node: Backward): any {
         const robot = globalContext.currentScene?.robot;
         if (!robot) throw new Error("Aucun robot trouvé pour effectuer le mouvement arrière.");
         if (node.distance) robot.move(acceptNode(node.distance, this));
     }
 
-    visitForward(node: Forward): void {
+    visitForward(node: Forward): any {
         this.visitMovement(node);
     }
 
-    visitLeft(node: Left): void {
+    visitLeft(node: Left): any {
         const robot = globalContext.currentScene?.robot;
         if (!robot) throw new Error("Aucun robot rencontré pour effectuer le mouvement gauche.");
         if (node.distance) robot.side(-acceptNode(node.distance, this));
     }
 
-    visitRight(node: Right): void {
+    visitRight(node: Right): any {
         const robot = globalContext.currentScene?.robot;
         if (!robot) throw new Error("Aucun robot rencontré pour effectuer le mouvement droit.");
         if (node.distance) robot.side(acceptNode(node.distance, this));
     }
 
-    visitRotate(node: Rotate): void {}
+    visitRotate(node: Rotate): any {}
 
-    visitClock(node: Clock) {}
+    visitClock(node: Clock): any {}
 
-    visitClockLeft(node: ClockLeft): void {}
+    visitClockLeft(node: ClockLeft): any {}
 
-    visitEntity(node: Entity): void {}
+    visitEntity(node: Entity): any {}
 
-    visitParameter(node: Parameter): void {}
+    visitParameter(node: Parameter): any {}
 
-    visitVariableStatement(node: VariableStatement): void {}
+    visitVariableStatement(node: VariableStatement): any {}
 
-    visitVariableAssignation(node: VariableAssignation): void {}
+    visitVariableAssignation(node: VariableAssignation): any {}
 
-    visitSetSpeed(node: SetSpeed): void {}
+    visitSetSpeed(node: SetSpeed): any {}
 
-    visitCallFunction(node: CallFunction): void {}
+    visitCallFunction(node: CallFunction): any {}
 
-    visitExpression(node: Expression): void {}
+    visitExpression(node: Expression): any {}
 
-    visitUnaryBooleanExpression(node: UnaryBooleanExpression): void {}
+    visitUnaryBooleanExpression(node: UnaryBooleanExpression): any {}
 
-    visitUnaryArithmeticExpression(node: UnaryArithmeticExpression): void {}
+    visitUnaryArithmeticExpression(node: UnaryArithmeticExpression): any {}
 
-    visitCallFunctionExpr(node: CallFunctionExpr): void {}
+    visitCallFunctionExpr(node: CallFunctionExpr): any {}
 
-    visitCallEntity(node: CallEntity): void {}
+    visitCallEntity(node: CallEntity): any {}
 
-    visitGetSensor(node: GetSensor): void {}
+    visitGetSensor(node: GetSensor): any {}
     
-    visitValue(node: Value): void {}
+    visitValue(node: Value): any {}
 
-    visitArithmeticExpression(node: ArithmeticExpression): void {}
+    visitArithmeticExpression(node: ArithmeticExpression): any {}
 
-    visitArithmeticOperator(node: ArithmeticOperator): void {}
+    visitArithmeticOperator(node: ArithmeticOperator): any {}
 
-    visitAdd(node: Add): void {}
+    visitAdd(node: Add): any {}
 
-    visitSub(node: Sub): void {}
+    visitSub(node: Sub): any {}
 
-    visitMultiply(node: Multiply): void {}
+    visitMultiply(node: Multiply): any {}
 
-    visitDivise(node: Divise): void {}
+    visitDivise(node: Divise): any {}
 
-    visitBooleanExpression(node: BooleanExpression): void {}
+    visitBooleanExpression(node: BooleanExpression): any {}
 
-    visitBooleanOperator(node: BooleanOperator): void {}
+    visitBooleanOperator(node: BooleanOperator): any {}
 
-    visitLowerThan(node: LowerThan): void {}
+    visitLowerThan(node: LowerThan): any {}
 
-    visitEqualTo(node: EqualTo): void {}
+    visitEqualTo(node: EqualTo): any {}
 
-    visitUpperThan(node: UpperThan): void {}
+    visitUpperThan(node: UpperThan): any {}
 
-    visitNot(node: Not): void {}
+    visitNot(node: Not): any {}
 
-    visitOr(node: Or): void {}
+    visitOr(node: Or): any {}
 
-    visitLowerOrEqualTo(node: LowerOrEqualTo): void {}
+    visitLowerOrEqualTo(node: LowerOrEqualTo): any {}
 
-    visitUpperOrEqualTo(node: UpperOrEqualTo): void {}
+    visitUpperOrEqualTo(node: UpperOrEqualTo): any {}
 
-    visitAnd(node: And): void {}
+    visitAnd(node: And): any {}
 
 }
