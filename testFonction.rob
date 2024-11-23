@@ -1,2 +1,13 @@
-let number entry () {
+let void entry () {
+    setSpeed(200 mm) // distance per second (here 200mm/s)
+    var number time = getTimestamp()
+    loop time < 60000
+    {
+        var cm dist = getDistance()
+        Forward dist - 25 in cm
+        Clock 90
+        time = getTimestamp()
+        var number a = 5 + dist * time / 3
+        return time
+    }
 }

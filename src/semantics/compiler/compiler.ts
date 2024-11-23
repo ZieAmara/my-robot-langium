@@ -80,7 +80,7 @@ void setup() {
     visitFonction(node : Fonction) : any {
         return this.visitReturnType(node.returnType as ReturnType)
         + node.name + " (" + node.parameter.map(p => this.visitParameter(p as Parameter)).join(",") + ") { \n\t" 
-        + node.body.map(s => this.visitStatement(s as Statement)).join("; \n\t") + "}";
+        + node.body.map(s => this.visitStatement(s as Statement)).join("; \n\t") + "; \n}\n";
     }
 	
     visitReturnType(node : ReturnType) : any {
@@ -95,7 +95,7 @@ void setup() {
     }
 	
     visitStatement(node : Statement) : any {
-        return "Ok";
+        return "Ok \n";
     }
 	
     visitReturnStatement(node : ReturnStatement) : any{
@@ -104,22 +104,22 @@ void setup() {
 	
     visitIf(node : If) : any {
         var result = "if (" + this.visitExpression(node.condition as BooleanExpression) + ") { \n" 
-        + node.thenStatement.map(s => this.visitStatement(s as Statement)).join("; \n\t") + "}";
+        + node.thenStatement.map(s => this.visitStatement(s as Statement)).join("; \n\t") + "}\n";
 
         if (node.elseStatement) {
             result += " else { \n" 
-            + node.elseStatement.map(s => this.visitStatement(s as Statement)).join("; \n\t") + "}";
+            + node.elseStatement.map(s => this.visitStatement(s as Statement)).join("; \n\t") + "}\n";
         }
         return result;
     }
 	
     visitLoop(node : Loop) : any {
         return "loop (" + this.visitExpression(node.condition as BooleanExpression) + ") { \n\t" 
-        + node.body.map(s => this.visitStatement(s as Statement)).join("; \n\t") + "}"; 
+        + node.body.map(s => this.visitStatement(s as Statement)).join("; \n\t") + "}\n"; 
     }
 	
     visitControlRobot(node : ControlRobot) : any {
-        return "Ok";
+        return "Ok \n";
     }
 	
     visitMovement(node : Movement) : any {}
@@ -138,63 +138,158 @@ void setup() {
 	
     visitClockLeft(node : ClockLeft) : any {}
 	
-    visitEntity(node : Entity) : any {}
-	
-    visitParameter(node : Parameter) : any {
-        return "Ok";
+    visitEntity(node : Entity) : any {
+        return "Ok \n";
     }
 	
-    visitVariableStatement(node : VariableStatement) : any {}
+    visitParameter(node : Parameter) : any {
+        var result = node.type + " " + node.name;
+        if (node.value != null) {
+            result += " = " + this.visitValue(node.value as Value) + ";\n";
+        }
+        return result;
+    }
 	
-    visitVariableAssignation(node : VariableAssignation) : any {}
+    visitVariableStatement(node : VariableStatement) : any {
+        var result = node.type + " " + node.name;
+        if (node.value != null) {
+            result += " = " + this.visitValue(node.value as Value) + ";\n";
+        }
+        return result;
+    }
+	
+    visitVariableAssignation(node : VariableAssignation) : any {
+        return node.variable.ref?.name + " = " + this.visitValue(node.value as Value) + ";\n";
+    }
 	
     visitSetSpeed(node : SetSpeed) : any {}
 	
-    visitCallFunction(node : CallFunction) : any {}
+    visitCallFunction(node : CallFunction) : any {
+        return node.fonction.ref?.name + "(" + node.args.map(p => this.visitExpression(p as Expression)).join(",") + ");\n";
+    }
 	
-    visitExpression(node : Expression) : any {}
+    visitExpression(node : Expression) : any {
+        return "Ok \n";
+    }
 	
     visitUnaryBooleanExpression(node : UnaryBooleanExpression) : any {}
 	
     visitUnaryArithmeticExpression(node : UnaryArithmeticExpression) : any {}
 	
-    visitCallFunctionExpr(node : CallFunctionExpr) : any {}
+    visitCallFunctionExpr(node : CallFunctionExpr) : any {
+        return node.fonction.ref?.name + "(" + node.args.map(p => this.visitExpression(p as Expression)).join(",") + ")";
+    }
 	
     visitCallEntity(node : CallEntity) : any {}
 	
     visitGetSensor(node : GetSensor) : any {}
 	
-    visitValue(node : Value) : any {}
+    visitValue(node : Value) : any {
+        return "VALUE \n";
+    }
 	
-    visitArithmeticExpression(node : ArithmeticExpression) : any {}
+    visitArithmeticExpression(node : ArithmeticExpression) : any {
+        var result = this.visitUnaryArithmeticExpression(node.leftOperand as UnaryArithmeticExpression);
+        let count = 0;
+        node.operator.forEach(()=> {
+            count++;
+        })
+        for (let i = 0; i < count; i++) {
+            result += " " + this.visitArithmeticOperator(node.operator[i] as ArithmeticOperator) + " " 
+            + this.visitUnaryArithmeticExpression(node.rightOperand[i] as UnaryArithmeticExpression);
+        }
+        return result;
+    }
 	
-    visitArithmeticOperator(node : ArithmeticOperator) : any {}
+    visitArithmeticOperator(node : ArithmeticOperator) : any {
+        switch (node.$type) {
+            case "Add":
+                return this.visitAdd(node as Add);
+            case "Sub":
+                return this.visitSub(node as Sub);
+            case "Multiply":
+                return this.visitMultiply(node as Multiply);
+            case "Divise":
+                return this.visitDivise(node as Divise);
+            default:
+                return "";
+        }
+    }
 	
-    visitAdd(node : Add) : any {}
+    visitAdd(node : Add) : any {
+        return "+";
+    }
 	
-    visitSub(node : Sub) : any {}
+    visitSub(node : Sub) : any {
+        return "-";
+    }
 	
-    visitMultiply(node : Multiply) : any {}
+    visitMultiply(node : Multiply) : any {
+        return "*";
+    }
 	
-    visitDivise(node : Divise) : any {}
+    visitDivise(node : Divise) : any {
+        return "/";
+    }
 	
-    visitBooleanExpression(node : BooleanExpression) : any {}
+    visitBooleanExpression(node : BooleanExpression) : any {
+        return this.visitUnaryArithmeticExpression(node.leftCondition as UnaryArithmeticExpression) + " " 
+        + this.visitBooleanOperator(node.operator as BooleanOperator) + " " 
+        + this.visitUnaryArithmeticExpression(node.rightCondition as UnaryArithmeticExpression) + ";\n";
+    }
 	
-    visitBooleanOperator(node : BooleanOperator) : any {}
+    visitBooleanOperator(node : BooleanOperator) : any {
+        switch (node.$type) {
+            case "LowerThan":
+                return this.visitLowerThan(node as LowerThan);
+            case "EqualTo":
+                return this.visitEqualTo(node as EqualTo);
+            case "UpperThan":
+                return this.visitUpperThan(node as UpperThan);
+            case "Not":
+                return this.visitNot(node as Not);
+            case "Or":
+                return this.visitOr(node as Or);
+            case "LowerOrEqualTo":
+                return this.visitLowerOrEqualTo(node as LowerOrEqualTo);
+            case "UpperOrEqualTo":
+                return this.visitUpperOrEqualTo(node as UpperOrEqualTo);
+            case "And":
+                return this.visitAnd(node as And);
+            default:
+                return "";
+        }
+    }
 	
-    visitLowerThan(node : LowerThan) : any {}
+    visitLowerThan(node : LowerThan) : any {
+        return "<";
+    }
 	
-    visitEqualTo(node : EqualTo) : any {}
+    visitEqualTo(node : EqualTo) : any {
+        return "===";
+    }
 	
-    visitUpperThan(node : UpperThan) : any {}
+    visitUpperThan(node : UpperThan) : any {
+        return ">";
+    }
 	
-    visitNot(node : Not) : any {}
+    visitNot(node : Not) : any {
+        return "!";
+    }
 	
-    visitOr(node : Or) : any {}
+    visitOr(node : Or) : any {
+        return "||";
+    }
 	
-    visitLowerOrEqualTo(node : LowerOrEqualTo) : any {}
+    visitLowerOrEqualTo(node : LowerOrEqualTo) : any {
+        return "<=";
+    }
 	
-    visitUpperOrEqualTo(node : UpperOrEqualTo) : any {}
+    visitUpperOrEqualTo(node : UpperOrEqualTo) : any {
+        return ">=";
+    }
 	
-    visitAnd(node : And) : any {}
+    visitAnd(node : And) : any {
+        return "&&";
+    }
 }
