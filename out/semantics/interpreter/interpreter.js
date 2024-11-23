@@ -1,5 +1,4 @@
 import { acceptNode } from '../../language/visitorGenerator/visitor.js';
-import { Timestamp } from '../../web/simulator/entities.js';
 import { BaseScene } from '../../web/simulator/scene.js';
 import { Vector } from '../../web/simulator/utils.js';
 //A global context to store functions, variables during node traversal.
@@ -24,26 +23,12 @@ export class InterpreterVisitor {
         globalContext.currentScene = this.scene;
     }
     visitProgram(node) {
-        // Vérification de l'existence de fonctions dans le programme
-        if (!node.fonction || node.fonction.length === 0) {
-            throw new Error("Le programme doit contenir au moins une fonction.");
+        const entryFunction = node.fonction.find(f => f.name === "entry");
+        if (!entryFunction) {
+            throw new Error("La fonction 'entry' doit être définie.");
         }
-        // Recherche de la fonction 'entry' pour démarrer l'exécution
-        const entryFonction = node.fonction.find(f => f.name === 'entry');
-        if (!entryFonction) {
-            throw new Error("Une fonction nommée 'entry' doit être définie dans le programme.");
-        }
-        // Initialisation ou configuration spécifique si nécessaire
-        console.log("Initialisation du programme...");
-        // Exécution de la fonction 'entry'
-        acceptNode(entryFonction, this);
-        // Ajouter un horodatage final
-        if (globalContext.currentScene) {
-            globalContext.currentScene.timestamps.push(new Timestamp(globalContext.currentScene.time, globalContext.currentScene.robot));
-        }
-        else {
-            throw new Error("Aucune scène active pour ajouter un horodatage.");
-        }
+        // Exécuter la fonction 'entry'
+        return this.visitFonction(entryFunction);
     }
     visitFonction(node) {
         // Vérifier que la fonction a un corps défini

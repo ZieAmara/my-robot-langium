@@ -114,7 +114,22 @@ const setupSimulator = (scene) => {
 
 const parseAndValidate = (async () => {
     console.info('validating current code...');
-    // TODO : implement
+    // TODO : implement : Ok
+    const code = client.editor.getValue();
+    const errors = await vscode.commands.executeCommand('parseAndValidate', code);
+
+    if(errors.length > 0){
+        const modal = document.getElementById("errorModal");
+        modal.style.display = "block";
+        errors.forEach((error) => {
+            const errorDiv = document.createElement("div");
+            errorDiv.innerHTML = error;
+            modal.getElementsByClassName("modal-body")[0].appendChild(errorDiv);
+        });
+    } else {
+        const modal = document.getElementById("validModal");
+        modal.style.display = "block";
+    }
 });
 
 const typecheck = (async () => {
@@ -133,7 +148,12 @@ const typecheck = (async () => {
 
 const execute = (async () => {
     console.info('running current code...');
-    // TODO : implement
+    // TODO : implement : Ok
+    const value = client.editor.getValue();
+    const simulatorDiv = document.querySelector('.simulator');
+    // Execute custom LSP command, and receive the response
+    const scene = await vscode.commands.executeCommand('parseAndGenerate', [value, simulatorDiv.clientWidth, simulatorDiv.clientHeight])
+    window.setupSimulator = setupSimulator(scene);
 });
 
 window.parseAndValidate = parseAndValidate;

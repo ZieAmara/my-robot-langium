@@ -4,7 +4,7 @@ import {
     ReturnStatement
 } from '../../language/generated/ast.js';
 import { acceptNode, Visitor } from '../../language/visitorGenerator/visitor.js';
-import { Robot, Timestamp } from '../../web/simulator/entities.js';
+import { Robot } from '../../web/simulator/entities.js';
 import { BaseScene, Scene } from '../../web/simulator/scene.js';
 import { Vector } from '../../web/simulator/utils.js';
 

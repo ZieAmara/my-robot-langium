@@ -127,7 +127,7 @@ void setup() {
         return this.visitExpression(node.returnValue);
     }
     visitIf(node) {
-        var result = "if (" + this.visitExpression(node.condition) + ") {\n\t\t"
+        var result = "\n\tif (" + this.visitExpression(node.condition) + ") {\n\t\t"
             + node.thenStatement.map(s => this.visitStatement(s)).join("\t\t") + "}\n";
         if (node.elseStatement) {
             result += " else { \n"
@@ -136,7 +136,7 @@ void setup() {
         return result;
     }
     visitLoop(node) {
-        return "loop (" + this.visitExpression(node.condition) + ") { \n\t\t"
+        return "\n\tloop (" + this.visitExpression(node.condition) + ") { \n\t\t"
             + node.body.map(s => this.visitStatement(s)).join("\t\t") + "}\n";
     }
     visitControlRobot(node) {
