@@ -150,7 +150,7 @@ window.onclick = function(event) {
 } 
 
 
-const workerURL = new URL('./robot-dsl-server-worker.js', import.meta.url); // WARNING Dependent of your project
+const workerURL = new URL('./my-robot-server-worker.js', import.meta.url); // WARNING Dependent of your project
 console.log(workerURL.href);
 
 const lsWorker = new Worker(workerURL.href, {
