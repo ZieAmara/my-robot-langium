@@ -1,4 +1,4 @@
-import { Add, And, ArithmeticExpression, ArithmeticOperator, Backward, BooleanExpression, BooleanOperator, CallEntity, CallFunction, CallFunctionExpr, Clock, ClockLeft, ControlRobot, Divise, Entity, EqualTo, Expression, Fonction, Forward, GetSensor, If, Left, Loop, LowerOrEqualTo, LowerThan, Movement, Multiply, Not, Or, Parameter, Program, ReturnStatement, ReturnType, Right, Rotate, SetSpeed, Statement, Sub, UnaryArithmeticExpression, UnaryBooleanExpression, UpperOrEqualTo, UpperThan, Value, VariableAssignation, VariableStatement } from "../../language/generated/ast.js";
+import { Add, And, ArithmeticExpression, ArithmeticOperator, Backward, BooleanExpression, BooleanOperator, CallEntity, CallFunction, CallFunctionExpr, Clock, ClockLeft, ControlRobot, Divise, Entity, EqualTo, Expression, Fonction, Forward, GetSensor, If, Left, Loop, LowerOrEqualTo, LowerThan, Movement, Multiply, Not, Or, Parameter, Program, ReturnStatement, ReturnType, Right, Rotate, SetSpeed, Statement, Sub, UnaryArithmeticExpression, UnaryBooleanExpression, Unit, UpperOrEqualTo, UpperThan, Value, VariableAssignation, VariableStatement } from "../../language/generated/ast.js";
 import { Visitor } from "../../language/visitorGenerator/visitor.js";
 
 export class CompilerVisitor implements Visitor {
@@ -66,6 +66,45 @@ void setup() {
 
   Omni.PIDEnable(0.31, 0.01, 0, 10);
 }
+
+void _forward(int distance) {
+    Omni.setCarAdvance(Omni.getCarSpeedMMPS());
+    Omni.delayMS(distance/Omni.getCarSpeedMMPS()*1000);
+    Omni.setCarStop();
+}
+
+void _backward(int distance) {
+    Omni.setCarBackoff(Omni.getCarSpeedMMPS());
+    Omni.delayMS(distance/Omni.getCarSpeedMMPS()*1000);
+    Omni.setCarStop();
+}
+
+void _left(int distance) {
+    Omni.setCarLeft(Omni.getCarSpeedMMPS());
+    Omni.delayMS(distance/Omni.getCarSpeedMMPS()*1000);
+    Omni.setCarStop();
+}
+
+void _right(int distance) {
+    Omni.setCarRight(Omni.getCarSpeedMMPS());
+    Omni.delayMS(distance/Omni.getCarSpeedMMPS()*1000);
+    Omni.setCarStop();
+}
+
+void _rotate(int angle) {
+    if (angle > 0) {
+        Omni.setCarRotateRight(Omni.getCarSpeedMMPS());
+    } else {
+        Omni.setCarRotateLeft(Omni.getCarSpeedMMPS());
+    }
+
+    int circumference = wheel1.getCirMM();
+    int distance = (angle / 360.0) * circumference;
+    int timeToWait = (distance / Omni.getCarSpeedMMPS()) * 1000;
+    Omni.delayMS(timeToWait);
+    Omni.setCarStop();
+}
+
 
 `;
     
@@ -426,4 +465,16 @@ void setup() {
     visitAnd(node : And) : any {
         return "&&";
     }
+
+    private toMillimeter(distance: number, unit: Unit): number {
+        switch (unit) {
+            case "cm":
+                return distance * 10;
+            case "m":
+                return distance * 1000;
+            default:
+                return distance
+        }
+    }
+
 }
