@@ -285,10 +285,15 @@ void setup() {
         var _a;
         return ((_a = node.fonction.ref) === null || _a === void 0 ? void 0 : _a.name) + "(" + node.args.map(p => this.visitExpression(p)).join(",") + ")";
     }
-    visitCallEntity(node) { }
-    visitGetSensor(node) { }
-    visitValue(node) {
+    visitCallEntity(node) {
+        var _a;
+        return this.visitExpression((_a = node.entity.ref) === null || _a === void 0 ? void 0 : _a.value);
+    }
+    visitGetSensor(node) {
         return node;
+    }
+    visitValue(node) {
+        return node.value;
     }
     visitArithmeticExpression(node) {
         var result = this.visitUnaryArithmeticExpression(node.leftOperand);

@@ -307,9 +307,10 @@ export class Value extends UnaryArithmeticExpression {
     // the constructor must take all attribute of the implemented interface 
     // simply copy-paste the interface fields as public parameters
     // you can find them in generated/ast.ts
-    constructor($type) {
+    constructor($type, value) {
         super($type);
         this.$type = $type;
+        this.value = value;
     }
     accept(visitor) { }
 }

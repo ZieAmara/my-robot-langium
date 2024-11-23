@@ -426,7 +426,8 @@ export class Value extends UnaryArithmeticExpression implements ASTInterfaces.Va
     // simply copy-paste the interface fields as public parameters
     // you can find them in generated/ast.ts
     constructor(
-        public override $type: 'Value'
+        public override $type: 'Value',
+        public value: number
     ){
         super($type)
     }

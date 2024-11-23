@@ -310,12 +310,16 @@ void setup() {
         return node.fonction.ref?.name + "(" + node.args.map(p => this.visitExpression(p as Expression)).join(",") + ")";
     }
 	
-    visitCallEntity(node : CallEntity) : any {}
+    visitCallEntity(node : CallEntity) : any {
+        return this.visitExpression(node.entity.ref?.value as Expression);
+    }
 	
-    visitGetSensor(node : GetSensor) : any {}
+    visitGetSensor(node : GetSensor) : any {
+        return node;
+    }
 	
     visitValue(node : Value) : any {
-        return node;
+        return node.value;
     }
 	
     visitArithmeticExpression(node : ArithmeticExpression) : any {

@@ -1,5 +1,5 @@
 import type { ValidationAcceptor, ValidationChecks } from 'langium';
-import { If, Loop, MyRobotAstType, Program, VariableStatement } from './generated/ast.js';
+import { If, Loop, MyRobotAstType, Program, Value, VariableStatement } from './generated/ast.js';
 import type { MyRobotServices } from './my-robot-module.js';
 
 /**
@@ -20,6 +20,9 @@ export function registerValidationChecks(services: MyRobotServices) {
         Loop: [
             validator.checkUniqueControlStructureReturnStatements
         ],
+        Value: [
+            validator.checkValueAsNumber
+        ]
     };
     registry.register(checks, validator);
 }
@@ -28,6 +31,10 @@ export function registerValidationChecks(services: MyRobotServices) {
  * Implementation of custom validations.
  */
 export class MyRobotValidator {
+
+    checkValueAsNumber(exp: Value, accept: ValidationAcceptor): void {
+        accept('info', `Value = ${exp.value} `, {node: exp, property: 'value'});
+    }
 
     checkUniqueFonctionDefs(program: Program, accept: ValidationAcceptor): void {
         // create a set of visited functions

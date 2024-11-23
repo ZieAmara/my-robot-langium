@@ -1510,22 +1510,16 @@ export const MyRobotGrammar = (): Grammar => loadedMyRobotGrammar ?? (loadedMyRo
         "$ref": "#/interfaces@28"
       },
       "definition": {
-        "$type": "Group",
-        "elements": [
-          {
-            "$type": "Action",
-            "type": {
-              "$ref": "#/interfaces@28"
-            }
+        "$type": "Assignment",
+        "feature": "value",
+        "operator": "=",
+        "terminal": {
+          "$type": "RuleCall",
+          "rule": {
+            "$ref": "#/rules@57"
           },
-          {
-            "$type": "RuleCall",
-            "rule": {
-              "$ref": "#/rules@57"
-            },
-            "arguments": []
-          }
-        ]
+          "arguments": []
+        }
       },
       "definesHiddenTokens": false,
       "entry": false,
@@ -3303,13 +3297,23 @@ export const MyRobotGrammar = (): Grammar => loadedMyRobotGrammar ?? (loadedMyRo
     },
     {
       "$type": "Interface",
+      "attributes": [
+        {
+          "$type": "TypeAttribute",
+          "name": "value",
+          "type": {
+            "$type": "SimpleType",
+            "primitiveType": "number"
+          },
+          "isOptional": false
+        }
+      ],
       "name": "Value",
       "superTypes": [
         {
           "$ref": "#/interfaces@24"
         }
-      ],
-      "attributes": []
+      ]
     },
     {
       "$type": "Interface",
