@@ -279,7 +279,7 @@ void _rotate(int angle) {
         const name = node.name;
         var value = ``;
         if (node.value != null) {
-            value = this.visitValue(node.value);
+            value = this.visitExpression(node.value);
             return `${type} ${name} = ${value};\n`;
         }
         return `${type} ${name};\n`;
@@ -287,7 +287,7 @@ void _rotate(int angle) {
     visitVariableAssignation(node) {
         if (node.variable.ref) {
             const name = node.variable.ref.name;
-            const value = this.visitValue(node.value);
+            const value = this.visitExpression(node.value);
             return `${name} = ${value};\n`;
         }
         return `Variable not found;\n`;
@@ -315,6 +315,10 @@ void _rotate(int angle) {
                 return this.visitArithmeticExpression(node);
             case "UnaryArithmeticExpression":
                 return this.visitUnaryArithmeticExpression(node);
+            case "AddSubExpression":
+                return this.visitAddSubExpression(node);
+            case "MultiDivExpression":
+                return this.visitMultiDivExpression(node);
             case "BooleanExpression":
                 return this.visitBooleanExpression(node);
             case "UnaryBooleanExpression":
@@ -411,25 +415,24 @@ void _rotate(int angle) {
     visitAddSubExpression(node) {
         const leftValue = this.visitMultiDivExpression(node.leftOperand);
         const rightValues = node.rightOperand.map(operand => this.visitMultiDivExpression(operand));
-        const operator = node.operator;
-        let compt = -1;
+        const operators = node.operator.map(operator => this.visitAddSubOperator(operator));
         let exp = leftValue;
-        for (const rightValue of rightValues) {
-            compt++;
-            exp = exp + operator[compt] + rightValue;
+        for (let i = 0; i < rightValues.length; i++) {
+            const operator = operators[i];
+            const rightValue = rightValues[i];
+            exp = `${exp} ${operator} ${rightValue}`;
         }
         return exp;
     }
     visitMultiDivExpression(node) {
         const leftValue = this.visitUnaryArithmeticExpression(node.leftOperand);
-        const rightValues = node.rightOperand;
-        const operator = node.operator;
+        const rightValues = node.rightOperand.map(operand => this.visitUnaryArithmeticExpression(operand));
+        const operators = node.operator.map(operator => this.visitMultiDivOperator(operator));
         let compt = -1;
         let exp = leftValue;
         for (let rightValue of rightValues) {
             compt++;
-            const right = this.visitUnaryArithmeticExpression(rightValue);
-            exp = exp + operator[compt] + right;
+            exp = `${exp} ${operators[compt]} ${rightValue}`;
         }
         return exp;
     }
