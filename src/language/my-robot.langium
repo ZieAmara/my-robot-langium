@@ -121,7 +121,19 @@ CallEntity returns CallEntity:
 ;
 
 GetSensor returns GetSensor:
-    {GetSensor} 'getTimestamp()' | 'getDistance()' | 'getSpeed()'
+    GetDistance | GetSpeed | GetTimestamp
+;
+
+GetDistance returns GetDistance:
+    {GetDistance} 'getDistance()'
+;
+
+GetSpeed returns GetSpeed:
+    {GetSpeed} 'getSpeed()'
+;
+
+GetTimestamp returns GetTimestamp:
+    {GetTimestamp} 'getTimestamp()'
 ;
 
 Value returns Value:
@@ -137,19 +149,19 @@ ArithmeticOperator returns ArithmeticOperator:
 ;
 
 Add returns Add:
-    {Add} '+'  
+    symbole='+'  
 ;
 
 Sub returns Sub:
-    {Sub} '-'  
+    symbole='-'  
 ;
 
 Multiply returns Multiply:
-    {Multiply} '*'
+    symbole='*'
 ;
 
 Divise returns Divise:
-    {Divise} '/' 
+    symbole='/'
 ;
 
 BooleanExpression returns BooleanExpression:
@@ -162,35 +174,35 @@ BooleanOperator returns BooleanOperator:
 ;
 
 LowerThan returns LowerThan:
-    {LowerThan} '<'
+    {LowerThan} symbole='<'
 ;
 
 EqualTo returns EqualTo:
-    {EqualTo} '=='
+    {EqualTo} symbole='=='
 ;
 
 UpperThan returns UpperThan:
-    {UpperThan} '>'  
+    {UpperThan} symbole='>'  
 ;
 
 Not returns Not:
-    {Not} 'NOT'  
+    {Not} symbole='!'
 ;
 
 Or returns Or:
-    {Or} 'OR'  
+    {Or} symbole='||'  
 ;
 
 And returns And:
-    {And} 'AND'
+    {And} symbole='&&'
 ;
 
 LowerOrEqualTo returns LowerOrEqualTo:
-    {LowerOrEqualTo} '<='  
+    {LowerOrEqualTo} symbole='<='  
 ;
 
 UpperOrEqualTo returns UpperOrEqualTo:
-    {UpperOrEqualTo} '>='  
+    {UpperOrEqualTo} symbole='>='  
 ;
 
 EString returns string:

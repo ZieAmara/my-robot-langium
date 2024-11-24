@@ -1,4 +1,4 @@
-import { Add, And, ArithmeticExpression, ArithmeticOperator, Backward, BooleanExpression, BooleanOperator, CallEntity, CallFunction, CallFunctionExpr, Clock, ClockLeft, ControlRobot, Divise, Entity, EqualTo, Expression, Fonction, Forward, GetSensor, If, Left, Loop, LowerOrEqualTo, LowerThan, Movement, Multiply, Not, Or, Parameter, Program, ReturnStatement, ReturnType, Right, Rotate, SetSpeed, Statement, Sub, UnaryArithmeticExpression, UnaryBooleanExpression, Unit, UpperOrEqualTo, UpperThan, Value, VariableAssignation, VariableStatement } from "../../language/generated/ast.js";
+import { Add, And, ArithmeticExpression, ArithmeticOperator, Backward, BooleanExpression, BooleanOperator, CallEntity, CallFunction, CallFunctionExpr, Clock, ClockLeft, ControlRobot, Divise, Entity, EqualTo, Expression, Fonction, Forward, GetDistance, GetSensor, GetSpeed, GetTimestamp, If, Left, Loop, LowerOrEqualTo, LowerThan, Movement, Multiply, Not, Or, Parameter, Program, ReturnStatement, ReturnType, Right, Rotate, SetSpeed, Statement, Sub, UnaryArithmeticExpression, UnaryBooleanExpression, Unit, UpperOrEqualTo, UpperThan, Value, VariableAssignation, VariableStatement } from "../../language/generated/ast.js";
 import { Visitor } from "../../language/visitorGenerator/visitor.js";
 
 export class CompilerVisitor implements Visitor {
@@ -227,22 +227,26 @@ void _rotate(int angle) {
 	
     visitBackward(node : Backward) : any {
         const distance = this.visitExpression(node.distance as Expression);
-        return `Omni.setCarAdvance(${distance});\n`;
+        const distanceToMillimeter = this.toMillimeter(distance, node.unit);
+        return"_backward(" + distanceToMillimeter + ");\n";
     }
 	
     visitForward(node : Forward) : any {
         const distance = this.visitExpression(node.distance as Expression);
-        return `Omni.setCarBackoff(${distance});\n`;
+        const distanceToMillimeter = this.toMillimeter(distance, node.unit);
+        return "_forward(" + distanceToMillimeter + ");\n";
     }
 	
     visitLeft(node : Left) : any {
         const distance = this.visitExpression(node.distance as Expression);
-        return `Omni.setCarLeft(${distance});\n`;
+        const distanceToMillimeter = this.toMillimeter(distance, node.unit);
+        return `Omni.setCarLeft(${distanceToMillimeter});\n`;
     }
 	
     visitRight(node : Right) : any {
         const distance = this.visitExpression(node.distance as Expression);
-        return `Omni.setCarRight(${distance});\n`;
+        const distanceToMillimeter = this.toMillimeter(distance, node.unit);
+        return `Omni.setCarRight(${distanceToMillimeter});\n`;
     }
 	
     visitRotate(node : Rotate) : any {
@@ -258,12 +262,13 @@ void _rotate(int angle) {
 	
     visitClock(node : Clock) : any {
         const angle = this.visitExpression(node.angle as Expression);
-        return `Omni.setCarRotate(${angle});\n`;
+        return "_rotate(" + angle + ");\n";
+        
     }
 	
     visitClockLeft(node : ClockLeft) : any {
-        const angle = this.visitExpression(node.angle as Expression);
-        return `Omni.setCarRotateLeft(${angle});\n`;
+        const angle = -this.visitExpression(node.angle as Expression);
+        return "_rotate(" + angle + ");\n";
     }
 	
     visitEntity(node : Entity) : any {
@@ -298,7 +303,9 @@ void _rotate(int angle) {
     }
 	
     visitSetSpeed(node : SetSpeed) : any {
-        return "Omni.setMotorAllAdvance(" + this.visitExpression(node.distance as Expression) + ");\n";
+        const distance = this.visitExpression(node.distance as Expression);
+        const distanceInMillimeter = this.toMillimeter(distance, node.unit);
+        return "Omni.setCarSpeedMMPS(" + distanceInMillimeter + ", 9999);\n";
     }
 	
     visitCallFunction(node : CallFunction) : any {
@@ -354,7 +361,28 @@ void _rotate(int angle) {
     }
 	
     visitGetSensor(node : GetSensor) : any {
-        return node;
+        switch (node.$type) {
+            case "GetDistance":
+                return this.visitGetDistance(node as GetDistance);
+            case "GetSpeed":
+                return this.visitGetSpeed(node as GetSpeed);
+            case "GetTimestamp":
+                return this.visitGetTimestamp(node as GetTimestamp);
+            default:
+                return "// Unknown get sensor\n";
+        }
+    }
+
+    visitGetDistance(node : GetDistance) : any {
+        return 0;
+    }
+    
+    visitGetSpeed(node : GetSpeed) : any {
+        return "Omni.getCarSpeedMMPS()";
+    }
+    
+    visitGetTimestamp(node : GetTimestamp) : any {
+        return "Omni.getTimestamp()";
     }
 	
     visitValue(node : Value) : any {
@@ -362,15 +390,17 @@ void _rotate(int angle) {
     }
 	
     visitArithmeticExpression(node : ArithmeticExpression) : any {
-        var result = this.visitUnaryArithmeticExpression(node.leftOperand as UnaryArithmeticExpression);
-        let count = 0;
-        node.operator.forEach(()=> {
-            count++;
-        })
-        for (let i = 0; i < count; i++) {
-            result += " " + this.visitArithmeticOperator(node.operator[i] as ArithmeticOperator) + " " 
-            + this.visitUnaryArithmeticExpression(node.rightOperand[i] as UnaryArithmeticExpression);
+        const leftValue = this.visitUnaryArithmeticExpression(node.leftOperand as UnaryArithmeticExpression);
+        const rightValues = node.rightOperand.map(operand => this.visitUnaryArithmeticExpression(operand as UnaryArithmeticExpression));
+        const operator = node.operator;
+        let compt =-1;
+        let result = leftValue;
+
+        for (const rightValue of rightValues) {
+            compt++
+            result = result + operator[compt] + rightValue;
         }
+
         return result;
     }
 	
@@ -385,30 +415,32 @@ void _rotate(int angle) {
             case "Divise":
                 return this.visitDivise(node as Divise);
             default:
-                return "";
+                return "Operator not found";
         }
     }
 	
     visitAdd(node : Add) : any {
-        return "+";
+        return node.symbole;
     }
 	
     visitSub(node : Sub) : any {
-        return "-";
+        return node.symbole;
     }
 	
     visitMultiply(node : Multiply) : any {
-        return "*";
+        return node.symbole;
     }
 	
     visitDivise(node : Divise) : any {
-        return "/";
+        return node.symbole;
     }
 	
     visitBooleanExpression(node : BooleanExpression) : any {
-        return this.visitUnaryArithmeticExpression(node.leftCondition as UnaryArithmeticExpression) + " " 
-        + this.visitBooleanOperator(node.operator as BooleanOperator) + " " 
-        + this.visitUnaryArithmeticExpression(node.rightCondition as UnaryArithmeticExpression);
+        const leftValue = this.visitUnaryArithmeticExpression(node.leftCondition as UnaryArithmeticExpression);
+        const rightValue = this.visitUnaryArithmeticExpression(node.rightCondition as UnaryArithmeticExpression);
+        const operator = this.visitBooleanOperator(node.operator as BooleanOperator);
+
+        return leftValue + " " + operator + " " + rightValue;
     }
 	
     visitBooleanOperator(node : BooleanOperator) : any {
@@ -430,40 +462,40 @@ void _rotate(int angle) {
             case "And":
                 return this.visitAnd(node as And);
             default:
-                return "";
+                return "Operator not found";
         }
     }
 	
     visitLowerThan(node : LowerThan) : any {
-        return "<";
+        return node.symbole;
     }
 	
     visitEqualTo(node : EqualTo) : any {
-        return "===";
+        return node.symbole;
     }
 	
     visitUpperThan(node : UpperThan) : any {
-        return ">";
+        return node.symbole;
     }
 	
     visitNot(node : Not) : any {
-        return "!";
+        return node.symbole;
     }
 	
     visitOr(node : Or) : any {
-        return "||";
+        return node.symbole;
     }
 	
     visitLowerOrEqualTo(node : LowerOrEqualTo) : any {
-        return "<=";
+        return node.symbole;
     }
 	
     visitUpperOrEqualTo(node : UpperOrEqualTo) : any {
-        return ">=";
+        return node.symbole;
     }
 	
     visitAnd(node : And) : any {
-        return "&&";
+        return node.symbole;
     }
 
     private toMillimeter(distance: number, unit: Unit): number {

@@ -39,6 +39,9 @@ export class MyRobotAcceptWeaver {
             CallFunctionExpr: this.weaveCallFunctionExpr,
             CallEntity: this.weaveCallEntity,
             GetSensor: this.weaveGetSensor,
+            GetDistance: this.weaveGetDistance,
+            GetSpeed: this.weaveGetSpeed,
+            GetTimestamp: this.weaveGetTimestamp,
             Value: this.weaveValue,
             ArithmeticExpression: this.weaveArithmeticExpression,
             ArithmeticOperator: this.weaveArithmeticOperator,
@@ -141,6 +144,15 @@ export class MyRobotAcceptWeaver {
     }
     weaveGetSensor(node, accept) {
         node.accept = (visitor) => { return visitor.visitGetSensor(node); };
+    }
+    weaveGetDistance(node, accept) {
+        node.accept = (visitor) => { return visitor.visitGetDistance(node); };
+    }
+    weaveGetSpeed(node, accept) {
+        node.accept = (visitor) => { return visitor.visitGetSpeed(node); };
+    }
+    weaveGetTimestamp(node, accept) {
+        node.accept = (visitor) => { return visitor.visitGetTimestamp(node); };
     }
     weaveValue(node, accept) {
         node.accept = (visitor) => { return visitor.visitValue(node); };

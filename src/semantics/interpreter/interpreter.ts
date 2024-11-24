@@ -1,8 +1,11 @@
 
 import { 
     Add, ArithmeticExpression, ArithmeticOperator, BooleanExpression, Fonction, If, LowerThan, Program, ReturnType, Sub, UpperThan, Statement, Loop, ControlRobot, Movement, Backward, Forward, Left, Right, Rotate, Clock, ClockLeft, Entity, Parameter, VariableStatement, VariableAssignation, SetSpeed, CallFunction, Expression, UnaryBooleanExpression, UnaryArithmeticExpression, CallFunctionExpr, CallEntity, GetSensor, Value, Multiply, Divise, BooleanOperator, EqualTo, Not, Or, LowerOrEqualTo, UpperOrEqualTo, And, 
-    ReturnStatement,
-    Type,
+    ReturnStatement,   Type,
+   // Unit,
+    GetDistance,
+    GetSpeed,
+    GetTimestamp,
     Unit
 } from '../../language/generated/ast.js';
 import { Visitor, acceptNode } from '../../language/visitorGenerator/visitor.js';
@@ -55,7 +58,12 @@ export class InterpreterVisitor implements Visitor {
         // Synchroniser avec le contexte global
         // globalContext.currentScene = this.scene;
     }
+   
 
+
+
+
+    ///// 
     visitProgram(node: Program): any {
         const entryFunction = node.fonction.find(func => func.name === "entry");
         if (entryFunction) {
@@ -125,7 +133,9 @@ export class InterpreterVisitor implements Visitor {
         return acceptNode(node, this);
     }
 	
-    visitMovement(node : Movement) : any {}
+    visitMovement(node : Movement) : any {
+        acceptNode(node, this)
+    }
 	
     visitBackward(node : Backward) : any {
         const expression = node.distance;
@@ -156,20 +166,28 @@ export class InterpreterVisitor implements Visitor {
     }
 	
     visitRotate(node : Rotate) : any {
+        // acceptNode(node, this)
+    }
+	
+    visitClock(node : Clock) : any {
         const expression = node.angle;
         const angle = acceptNode(expression!, this);
         this.robot.turn(angle);
     }
 	
-    visitClock(node : Clock) : any {}
-	
-    visitClockLeft(node : ClockLeft) : any {}
-	
-    visitEntity(node : Entity) : any {
-
+    visitClockLeft(node : ClockLeft) : any {
+        const expression = node.angle;
+        const angle = acceptNode(expression!, this);
+        this.robot.turn(angle);
     }
 	
-    visitParameter(node : Parameter) : any {}
+    visitEntity(node : Entity) : any {
+        return acceptNode(node, this)
+    }
+	
+    visitParameter(node : Parameter) : any {
+        return acceptNode(node, this)
+    }
 	
     visitVariableStatement(node : VariableStatement) : any {
         const variableName = node.name;
@@ -213,11 +231,26 @@ export class InterpreterVisitor implements Visitor {
         return acceptNode(node, this);
     }
 	
-    visitUnaryBooleanExpression(node : UnaryBooleanExpression) : any {}
+    visitUnaryBooleanExpression(node : UnaryBooleanExpression) : any {
+        return acceptNode(node, this);
+    }
 	
-    visitUnaryArithmeticExpression(node : UnaryArithmeticExpression) : any {}
+    visitUnaryArithmeticExpression(node : UnaryArithmeticExpression) : any {
+        return acceptNode(node, this);
+    }
 	
     visitCallFunctionExpr(node : CallFunctionExpr) : any {
+        const func = node.fonction.ref!;
+        
+        for(let i=0; i<node.args.length; i++) {
+            this.variableTable[func.parameter[i].name] = {
+                name: func.parameter[i].name,
+                type: func.parameter[i].type,
+                value: acceptNode(node.args[i], this)
+            };
+        }
+
+        return acceptNode(func, this);
 
     }
 	
@@ -227,34 +260,73 @@ export class InterpreterVisitor implements Visitor {
     }
 	
     visitGetSensor(node : GetSensor) : any {
+        return acceptNode(node, this)
+    }
 
+    visitGetDistance(node : GetDistance) : any {
+        const poi = this.robot.getRay().intersect(this.scene.entities);
+        if (poi) {
+            return poi.minus(this.robot.pos).norm();
+        }
+        return 9999999999;
+    }
+    
+    visitGetSpeed(node : GetSpeed) : any {
+        return this.robot.speed;
+    }
+    
+    visitGetTimestamp(node : GetTimestamp) : any {
+        return this.scene.time;
     }
 	
     visitValue(node : Value) : any {
         return node.value;
     }
 	
-    visitArithmeticExpression(node : ArithmeticExpression) : any {}
+    visitArithmeticExpression(node : ArithmeticExpression) : any {
+        const leftValue = this.visitUnaryArithmeticExpression(node.leftOperand as UnaryArithmeticExpression);
+        const rightValues = node.rightOperand.map(operand => this.visitUnaryArithmeticExpression(operand as UnaryArithmeticExpression));
+        const operator = node.operator;
+        let compt =-1;
+        let result = leftValue;
+
+        for (const rightValue of rightValues) {
+            compt++
+            result = result + operator[compt] + rightValue;
+        }
+
+        return result;
+    }
 	
-    visitArithmeticOperator(node : ArithmeticOperator) : any {}
+    visitArithmeticOperator(node : ArithmeticOperator) : any {
+        return acceptNode(node, this)
+    }
 	
-    visitAdd(node : Add) : any {}
+    visitAdd(node : Add) : any {
+        return node.symbole
+    }
 	
-    visitSub(node : Sub) : any {}
+    visitSub(node : Sub) : any {
+        return node.symbole
+    }
 	
-    visitMultiply(node : Multiply) : any {}
+    visitMultiply(node : Multiply) : any {
+        return node.symbole
+    }
 	
-    visitDivise(node : Divise) : any {}
+    visitDivise(node : Divise) : any {
+        return node.symbole
+    }
 	
     visitBooleanExpression(node : BooleanExpression) : any {
         // Évaluez le côté gauche de l'expression booléenne
-        const leftValue = acceptNode(node.leftCondition!, this);
+        const leftValue = this.visitUnaryArithmeticExpression(node.leftCondition!)
     
         // Évaluez le côté droit de l'expression booléenne
-        const rightValue = acceptNode(node.rightCondition!, this);
+        const rightValue = this.visitUnaryArithmeticExpression(node.rightCondition!)
     
         // Obtenez l'opérateur booléen
-        const operator = node.operator;
+        const operator = this.visitBooleanOperator(node.operator);
     
         // Évaluez l'expression booléenne en fonction de l'opérateur
         if (operator == '==') {
@@ -268,23 +340,41 @@ export class InterpreterVisitor implements Visitor {
         return false;
     }
 	
-    visitBooleanOperator(node : BooleanOperator) : any {}
+    visitBooleanOperator(node : BooleanOperator) : any {
+        return acceptNode(node, this)
+    }
 	
-    visitLowerThan(node : LowerThan) : any {}
+    visitLowerThan(node : LowerThan) : any {
+        return node.symbole;
+    }
 	
-    visitEqualTo(node : EqualTo) : any {}
+    visitEqualTo(node : EqualTo) : any {
+        return node.symbole;
+    }
 	
-    visitUpperThan(node : UpperThan) : any {}
+    visitUpperThan(node : UpperThan) : any {
+        return node.symbole;
+    }
 	
-    visitNot(node : Not) : any {}
+    visitNot(node : Not) : any {
+        return node.symbole;
+    }
 	
-    visitOr(node : Or) : any {}
+    visitOr(node : Or) : any {
+        return node.symbole;
+    }
 	
-    visitLowerOrEqualTo(node : LowerOrEqualTo) : any {}
+    visitLowerOrEqualTo(node : LowerOrEqualTo) : any {
+        return node.symbole;
+    }
 	
-    visitUpperOrEqualTo(node : UpperOrEqualTo) : any {}
+    visitUpperOrEqualTo(node : UpperOrEqualTo) : any {
+        return node.symbole;
+    }
 	
-    visitAnd(node : And) : any {}
+    visitAnd(node : And) : any {
+        return node.symbole;
+    }
 
     private toMillimeter(distance: number, unit: Unit): number {
         switch (unit) {

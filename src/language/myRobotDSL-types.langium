@@ -86,7 +86,9 @@ interface CallFunction extends Statement {
 
 interface Expression {}
 
-interface UnaryBooleanExpression extends Expression {}
+interface UnaryBooleanExpression extends Expression {
+  value: boolean;
+}
 
 interface UnaryArithmeticExpression extends Expression {}
 
@@ -101,6 +103,12 @@ interface CallEntity extends UnaryArithmeticExpression {
 
 interface GetSensor extends UnaryArithmeticExpression {}
 
+interface GetDistance extends GetSensor {}
+
+interface GetSpeed extends GetSensor {}
+
+interface GetTimestamp extends GetSensor {}
+
 interface Value extends UnaryArithmeticExpression {
   value: number;
 }
@@ -113,13 +121,21 @@ interface ArithmeticExpression extends Expression {
 
 interface ArithmeticOperator {}
 
-interface Add extends ArithmeticOperator {}
+interface Add extends ArithmeticOperator {
+  symbole: '+' 
+}
 
-interface Sub extends ArithmeticOperator {}
+interface Sub extends ArithmeticOperator {
+  symbole: '-'
+}
 
-interface Multiply extends ArithmeticOperator {}
+interface Multiply extends ArithmeticOperator {
+  symbole: '*'
+}
 
-interface Divise extends ArithmeticOperator {}
+interface Divise extends ArithmeticOperator {
+  symbole: '/'
+}
 
 interface BooleanExpression extends Expression {
   leftCondition?: UnaryArithmeticExpression;
@@ -129,18 +145,34 @@ interface BooleanExpression extends Expression {
 
 interface BooleanOperator {}
 
-interface LowerThan extends BooleanOperator {}
+interface LowerThan extends BooleanOperator {
+  symbole: '<'
+}
 
-interface EqualTo extends BooleanOperator {}
+interface EqualTo extends BooleanOperator {
+  symbole: '=='
+}
 
-interface UpperThan extends BooleanOperator {}
+interface UpperThan extends BooleanOperator {
+  symbole: '>'
+}
 
-interface Not extends BooleanOperator {}
+interface Not extends BooleanOperator {
+  symbole: '!'
+}
 
-interface Or extends BooleanOperator {}
+interface Or extends BooleanOperator {
+  symbole: '||'
+}
 
-interface And extends BooleanOperator {}
+interface And extends BooleanOperator {
+  symbole: '&&'
+}
 
-interface LowerOrEqualTo extends BooleanOperator {}
+interface LowerOrEqualTo extends BooleanOperator {
+  symbole?: '<='
+}
 
-interface UpperOrEqualTo extends BooleanOperator {}
+interface UpperOrEqualTo extends BooleanOperator {
+  symbole?: '>='
+}

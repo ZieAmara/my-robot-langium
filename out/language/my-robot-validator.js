@@ -27,7 +27,7 @@ export function registerValidationChecks(services) {
  */
 export class MyRobotValidator {
     checkValueAsNumber(exp, accept) {
-        accept('info', `Value = ${exp.value} `, { node: exp, property: 'value' });
+        accept('info', `Value = ${exp.value}`, { node: exp, property: 'value' });
     }
     checkUniqueFonctionDefs(program, accept) {
         // create a set of visited functions

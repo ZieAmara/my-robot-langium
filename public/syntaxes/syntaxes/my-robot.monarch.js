@@ -1,12 +1,12 @@
 // Monarch syntax highlighting for the my-robot language.
 export default {
     keywords: [
-        'AND', 'Backward', 'Clock', 'ClockLeft', 'False', 'Forward', 'Left', 'NOT', 'OR', 'Right', 'True', 'boolean', 'cm', 'else', 'getDistance()', 'getSpeed()', 'getTimestamp()', 'if', 'in', 'let', 'loop', 'm', 'mm', 'number', 'return', 'setSpeed', 'then', 'var', 'void'
+        'Backward', 'Clock', 'ClockLeft', 'False', 'Forward', 'Left', 'Right', 'True', 'boolean', 'cm', 'else', 'getDistance()', 'getSpeed()', 'getTimestamp()', 'if', 'in', 'let', 'loop', 'm', 'mm', 'number', 'return', 'setSpeed', 'then', 'var', 'void'
     ],
     operators: [
-        '*', '+', ',', '-', '/', '<', '<=', '=', '==', '>', '>='
+        '!', '&&', '*', '+', ',', '-', '/', '<', '<=', '=', '==', '>', '>=', '||'
     ],
-    symbols: /\(|\)|\*|\+|,|-|\/|<|<=|=|==|>|>=|\{|\}/,
+    symbols: /!|&&|\(|\)|\*|\+|,|-|\/|<|<=|=|==|>|>=|\{|\|\||\}/,
     tokenizer: {
         initial: [
             { regex: /(\^?(([a-z]|[A-Z])|_)((([a-z]|[A-Z])|_)|[0-9])*)/, action: { cases: { '@keywords': { "token": "keyword" }, '@default': { "token": "string" } } } },

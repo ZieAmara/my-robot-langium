@@ -255,8 +255,9 @@ export class UnaryBooleanExpression {
     // the constructor must take all attribute of the implemented interface 
     // simply copy-paste the interface fields as public parameters
     // you can find them in generated/ast.ts
-    constructor($type) {
+    constructor($type, value) {
         this.$type = $type;
+        this.value = value;
     }
     accept(visitor) { }
 }
@@ -303,6 +304,36 @@ export class GetSensor extends UnaryArithmeticExpression {
     }
     accept(visitor) { }
 }
+export class GetDistance extends GetSensor {
+    // the constructor must take all attribute of the implemented interface 
+    // simply copy-paste the interface fields as public parameters
+    // you can find them in generated/ast.ts
+    constructor($type) {
+        super($type);
+        this.$type = $type;
+    }
+    accept(visitor) { }
+}
+export class GetSpeed extends GetSensor {
+    // the constructor must take all attribute of the implemented interface 
+    // simply copy-paste the interface fields as public parameters
+    // you can find them in generated/ast.ts
+    constructor($type) {
+        super($type);
+        this.$type = $type;
+    }
+    accept(visitor) { }
+}
+export class GetTimestamp extends GetSensor {
+    // the constructor must take all attribute of the implemented interface 
+    // simply copy-paste the interface fields as public parameters
+    // you can find them in generated/ast.ts
+    constructor($type) {
+        super($type);
+        this.$type = $type;
+    }
+    accept(visitor) { }
+}
 export class Value extends UnaryArithmeticExpression {
     // the constructor must take all attribute of the implemented interface 
     // simply copy-paste the interface fields as public parameters
@@ -340,9 +371,10 @@ export class Add extends ArithmeticOperator {
     // the constructor must take all attribute of the implemented interface 
     // simply copy-paste the interface fields as public parameters
     // you can find them in generated/ast.ts
-    constructor($type) {
+    constructor($type, symbole) {
         super($type);
         this.$type = $type;
+        this.symbole = symbole;
     }
     accept(visitor) { }
 }
@@ -350,9 +382,10 @@ export class Sub extends ArithmeticOperator {
     // the constructor must take all attribute of the implemented interface 
     // simply copy-paste the interface fields as public parameters
     // you can find them in generated/ast.ts
-    constructor($type) {
+    constructor($type, symbole) {
         super($type);
         this.$type = $type;
+        this.symbole = symbole;
     }
     accept(visitor) { }
 }
@@ -360,9 +393,10 @@ export class Multiply extends ArithmeticOperator {
     // the constructor must take all attribute of the implemented interface 
     // simply copy-paste the interface fields as public parameters
     // you can find them in generated/ast.ts
-    constructor($type) {
+    constructor($type, symbole) {
         super($type);
         this.$type = $type;
+        this.symbole = symbole;
     }
     accept(visitor) { }
 }
@@ -370,9 +404,10 @@ export class Divise extends ArithmeticOperator {
     // the constructor must take all attribute of the implemented interface 
     // simply copy-paste the interface fields as public parameters
     // you can find them in generated/ast.ts
-    constructor($type) {
+    constructor($type, symbole) {
         super($type);
         this.$type = $type;
+        this.symbole = symbole;
     }
     accept(visitor) { }
 }
@@ -403,9 +438,10 @@ export class LowerThan extends BooleanOperator {
     // the constructor must take all attribute of the implemented interface 
     // simply copy-paste the interface fields as public parameters
     // you can find them in generated/ast.ts
-    constructor($type) {
+    constructor($type, symbole) {
         super($type);
         this.$type = $type;
+        this.symbole = symbole;
     }
     accept(visitor) { }
 }
@@ -413,9 +449,10 @@ export class EqualTo extends BooleanOperator {
     // the constructor must take all attribute of the implemented interface 
     // simply copy-paste the interface fields as public parameters
     // you can find them in generated/ast.ts
-    constructor($type) {
+    constructor($type, symbole) {
         super($type);
         this.$type = $type;
+        this.symbole = symbole;
     }
     accept(visitor) { }
 }
@@ -423,9 +460,10 @@ export class UpperThan extends BooleanOperator {
     // the constructor must take all attribute of the implemented interface 
     // simply copy-paste the interface fields as public parameters
     // you can find them in generated/ast.ts
-    constructor($type) {
+    constructor($type, symbole) {
         super($type);
         this.$type = $type;
+        this.symbole = symbole;
     }
     accept(visitor) { }
 }
@@ -433,9 +471,10 @@ export class Not extends BooleanOperator {
     // the constructor must take all attribute of the implemented interface 
     // simply copy-paste the interface fields as public parameters
     // you can find them in generated/ast.ts
-    constructor($type) {
+    constructor($type, symbole) {
         super($type);
         this.$type = $type;
+        this.symbole = symbole;
     }
     accept(visitor) { }
 }
@@ -443,9 +482,10 @@ export class Or extends BooleanOperator {
     // the constructor must take all attribute of the implemented interface 
     // simply copy-paste the interface fields as public parameters
     // you can find them in generated/ast.ts
-    constructor($type) {
+    constructor($type, symbole) {
         super($type);
         this.$type = $type;
+        this.symbole = symbole;
     }
     accept(visitor) { }
 }
@@ -453,9 +493,10 @@ export class LowerOrEqualTo extends BooleanOperator {
     // the constructor must take all attribute of the implemented interface 
     // simply copy-paste the interface fields as public parameters
     // you can find them in generated/ast.ts
-    constructor($type) {
+    constructor($type, symbole) {
         super($type);
         this.$type = $type;
+        this.symbole = symbole;
     }
     accept(visitor) { }
 }
@@ -463,9 +504,10 @@ export class UpperOrEqualTo extends BooleanOperator {
     // the constructor must take all attribute of the implemented interface 
     // simply copy-paste the interface fields as public parameters
     // you can find them in generated/ast.ts
-    constructor($type) {
+    constructor($type, symbole) {
         super($type);
         this.$type = $type;
+        this.symbole = symbole;
     }
     accept(visitor) { }
 }
@@ -473,10 +515,107 @@ export class And extends BooleanOperator {
     // the constructor must take all attribute of the implemented interface 
     // simply copy-paste the interface fields as public parameters
     // you can find them in generated/ast.ts
-    constructor($type) {
+    constructor($type, symbole) {
         super($type);
         this.$type = $type;
+        this.symbole = symbole;
     }
     accept(visitor) { }
+}
+export function acceptNode(node, visitor) {
+    switch (node.$type) {
+        case 'Program':
+            return node.accept(visitor);
+        case 'Fonction':
+            return node.accept(visitor);
+        case 'ReturnType':
+            return node.accept(visitor);
+        case 'Statement':
+            return node.accept(visitor);
+        case 'ReturnStatement':
+            return node.accept(visitor);
+        case 'If':
+            return node.accept(visitor);
+        case 'Loop':
+            return node.accept(visitor);
+        case 'ControlRobot':
+            return node.accept(visitor);
+        case 'Movement':
+            return node.accept(visitor);
+        case 'Backward':
+            return node.accept(visitor);
+        case 'Forward':
+            return node.accept(visitor);
+        case 'Left':
+            return node.accept(visitor);
+        case 'Right':
+            return node.accept(visitor);
+        case 'Rotate':
+            return node.accept(visitor);
+        case 'Clock':
+            return node.accept(visitor);
+        case 'ClockLeft':
+            return node.accept(visitor);
+        case 'Entity':
+            return node.accept(visitor);
+        case 'Parameter':
+            return node.accept(visitor);
+        case 'VariableStatement':
+            return node.accept(visitor);
+        case 'VariableAssignation':
+            return node.accept(visitor);
+        case 'SetSpeed':
+            return node.accept(visitor);
+        case 'CallFunction':
+            return node.accept(visitor);
+        case 'Expression':
+            return node.accept(visitor);
+        case 'UnaryBooleanExpression':
+            return node.accept(visitor);
+        case 'UnaryArithmeticExpression':
+            return node.accept(visitor);
+        case 'CallFunctionExpr':
+            return node.accept(visitor);
+        case 'CallEntity':
+            return node.accept(visitor);
+        case 'GetSensor':
+            return node.accept(visitor);
+        case 'Value':
+            return node.accept(visitor);
+        case 'ArithmeticExpression':
+            return node.accept(visitor);
+        case 'ArithmeticOperator':
+            return node.accept(visitor);
+        case 'Add':
+            return node.accept(visitor);
+        case 'Sub':
+            return node.accept(visitor);
+        case 'Multiply':
+            return node.accept(visitor);
+        case 'Divise':
+            return node.accept(visitor);
+        case 'BooleanExpression':
+            return node.accept(visitor);
+        case 'BooleanOperator':
+            return node.accept(visitor);
+        case 'LowerThan':
+            return node.accept(visitor);
+        case 'EqualTo':
+            return node.accept(visitor);
+        case 'UpperThan':
+            return node.accept(visitor);
+        case 'Not':
+            return node.accept(visitor);
+        case 'Or':
+            return node.accept(visitor);
+        case 'LowerOrEqualTo':
+            return node.accept(visitor);
+        case 'UpperOrEqualTo':
+            return node.accept(visitor);
+        case 'And':
+            return node.accept(visitor);
+        default:
+            throw new Error(`Unknown node type: ${node.$type}`);
+    }
 }
 //# sourceMappingURL=visitor.js.map

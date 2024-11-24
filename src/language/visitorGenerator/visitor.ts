@@ -31,6 +31,9 @@ export interface Visitor{
 	visitCallFunctionExpr(node : CallFunctionExpr) : any;
 	visitCallEntity(node : CallEntity) : any;
 	visitGetSensor(node : GetSensor) : any;
+    visitGetDistance(node : GetDistance) : any;
+    visitGetSpeed(node : GetSpeed) : any;
+    visitGetTimestamp(node : GetTimestamp) : any;
 	visitValue(node : Value) : any;
 	visitArithmeticExpression(node : ArithmeticExpression) : any;
 	visitArithmeticOperator(node : ArithmeticOperator) : any;
@@ -357,7 +360,7 @@ export class Expression implements ASTInterfaces.Expression {
     // simply copy-paste the interface fields as public parameters
     // you can find them in generated/ast.ts
     constructor(
-        public $type: 'ArithmeticExpression' | 'BooleanExpression' | 'CallEntity' | 'CallFunctionExpr' | 'Expression' | 'GetSensor' | 'UnaryArithmeticExpression' | 'UnaryBooleanExpression' | 'Value'
+        public $type: 'ArithmeticExpression' | 'BooleanExpression' | 'CallEntity' | 'CallFunctionExpr' | 'Expression' | 'GetDistance' | 'GetSensor' | 'GetSpeed' | 'GetTimestamp' | 'UnaryArithmeticExpression' | 'UnaryBooleanExpression' | 'Value'
     ){}
     accept(visitor: Visitor) : any {}
 }
@@ -366,7 +369,10 @@ export class UnaryBooleanExpression implements ASTInterfaces.UnaryBooleanExpress
     // the constructor must take all attribute of the implemented interface 
     // simply copy-paste the interface fields as public parameters
     // you can find them in generated/ast.ts
-    constructor(public $type: 'UnaryBooleanExpression'){}
+    constructor(
+        public $type: 'UnaryBooleanExpression',
+        public value: boolean
+    ){}
     accept(visitor: Visitor) : any {}
 }
 
@@ -375,7 +381,7 @@ export class UnaryArithmeticExpression extends Expression implements ASTInterfac
     // simply copy-paste the interface fields as public parameters
     // you can find them in generated/ast.ts
     constructor(
-        public override $type: 'CallEntity' | 'CallFunctionExpr' | 'GetSensor' | 'UnaryArithmeticExpression' | 'Value'
+        public override $type: 'CallEntity' | 'CallFunctionExpr' | 'GetDistance' | 'GetSensor' | 'GetSpeed' | 'GetTimestamp' | 'UnaryArithmeticExpression' | 'Value'
     ){
         super($type)
     }
@@ -414,7 +420,43 @@ export class GetSensor extends UnaryArithmeticExpression implements ASTInterface
     // simply copy-paste the interface fields as public parameters
     // you can find them in generated/ast.ts
     constructor(
-        public override $type: 'GetSensor'
+        public override $type: 'GetDistance' | 'GetSensor' | 'GetSpeed' | 'GetTimestamp',
+    ){
+        super($type)
+    }
+    override accept(visitor: Visitor) : any {}
+}
+
+export class GetDistance extends GetSensor implements ASTInterfaces.GetDistance {
+    // the constructor must take all attribute of the implemented interface 
+    // simply copy-paste the interface fields as public parameters
+    // you can find them in generated/ast.ts
+    constructor(
+        public override $type: 'GetDistance',
+    ){
+        super($type)
+    }
+    override accept(visitor: Visitor) : any {}
+}
+
+export class GetSpeed extends GetSensor implements ASTInterfaces.GetSpeed {
+    // the constructor must take all attribute of the implemented interface 
+    // simply copy-paste the interface fields as public parameters
+    // you can find them in generated/ast.ts
+    constructor(
+        public override $type: 'GetSpeed',
+    ){
+        super($type)
+    }
+    override accept(visitor: Visitor) : any {}
+}
+
+export class GetTimestamp extends GetSensor implements ASTInterfaces.GetTimestamp {
+    // the constructor must take all attribute of the implemented interface 
+    // simply copy-paste the interface fields as public parameters
+    // you can find them in generated/ast.ts
+    constructor(
+        public override $type: 'GetTimestamp',
     ){
         super($type)
     }
@@ -462,7 +504,8 @@ export class Add extends ArithmeticOperator implements ASTInterfaces.Add {
     // simply copy-paste the interface fields as public parameters
     // you can find them in generated/ast.ts
     constructor(
-        public override $type: 'Add'
+        public override $type: 'Add',
+        public symbole: '+'
     ){
         super($type)
     }
@@ -474,7 +517,8 @@ export class Sub extends ArithmeticOperator implements ASTInterfaces.Sub {
     // simply copy-paste the interface fields as public parameters
     // you can find them in generated/ast.ts
     constructor(
-        public override $type: 'Sub'
+        public override $type: 'Sub',
+        public symbole: '-'
     ){
         super($type)
     }
@@ -486,7 +530,8 @@ export class Multiply extends ArithmeticOperator implements ASTInterfaces.Multip
     // simply copy-paste the interface fields as public parameters
     // you can find them in generated/ast.ts
     constructor(
-        public override $type: 'Multiply'
+        public override $type: 'Multiply',
+        public symbole: '*'
     ){
         super($type)
     }
@@ -498,7 +543,8 @@ export class Divise extends ArithmeticOperator implements ASTInterfaces.Divise {
     // simply copy-paste the interface fields as public parameters
     // you can find them in generated/ast.ts
     constructor(
-        public override $type: 'Divise'
+        public override $type: 'Divise',
+        public symbole: '/'
     ){
         super($type)
     }
@@ -536,7 +582,8 @@ export class LowerThan extends BooleanOperator implements ASTInterfaces.LowerTha
     // simply copy-paste the interface fields as public parameters
     // you can find them in generated/ast.ts
     constructor(
-        public override $type: 'LowerThan'
+        public override $type: 'LowerThan',
+        public symbole: '<'
     ){
         super($type)
     }
@@ -548,7 +595,8 @@ export class EqualTo extends BooleanOperator implements ASTInterfaces.EqualTo {
     // simply copy-paste the interface fields as public parameters
     // you can find them in generated/ast.ts
     constructor(
-        public override $type: 'EqualTo'
+        public override $type: 'EqualTo',
+        public symbole: '=='
     ){
         super($type)
     }
@@ -560,7 +608,8 @@ export class UpperThan extends BooleanOperator implements ASTInterfaces.UpperTha
     // simply copy-paste the interface fields as public parameters
     // you can find them in generated/ast.ts
     constructor(
-        public override $type: 'UpperThan'
+        public override $type: 'UpperThan',
+        public symbole: '>'
     ){
         super($type)
     }
@@ -572,7 +621,8 @@ export class Not extends BooleanOperator implements ASTInterfaces.Not {
     // simply copy-paste the interface fields as public parameters
     // you can find them in generated/ast.ts
     constructor(
-        public override $type: 'Not'
+        public override $type: 'Not',
+        public symbole: '!'
     ){
         super($type)
     }
@@ -584,7 +634,8 @@ export class Or extends BooleanOperator implements ASTInterfaces.Or {
     // simply copy-paste the interface fields as public parameters
     // you can find them in generated/ast.ts
     constructor(
-        public override $type: 'Or'
+        public override $type: 'Or',
+        public symbole: '||'
     ){
         super($type)
     }
@@ -596,7 +647,8 @@ export class LowerOrEqualTo extends BooleanOperator implements ASTInterfaces.Low
     // simply copy-paste the interface fields as public parameters
     // you can find them in generated/ast.ts
     constructor(
-        public override $type: 'LowerOrEqualTo'
+        public override $type: 'LowerOrEqualTo',
+        public symbole: '<='
     ){
         super($type)
     }
@@ -608,7 +660,8 @@ export class UpperOrEqualTo extends BooleanOperator implements ASTInterfaces.Upp
     // simply copy-paste the interface fields as public parameters
     // you can find them in generated/ast.ts
     constructor(
-        public override $type: 'UpperOrEqualTo'
+        public override $type: 'UpperOrEqualTo',
+        public symbole: '>='
     ){
         super($type)
     }
@@ -620,7 +673,8 @@ export class And extends BooleanOperator implements ASTInterfaces.And {
     // simply copy-paste the interface fields as public parameters
     // you can find them in generated/ast.ts
     constructor(
-        public override $type: 'And'
+        public override $type: 'And',
+        public symbole: '&&'
     ){
         super($type)
     }

@@ -48,6 +48,9 @@ export class MyRobotAcceptWeaver {
 		CallFunctionExpr : this.weaveCallFunctionExpr,
 		CallEntity : this.weaveCallEntity,
 		GetSensor : this.weaveGetSensor,
+        GetDistance : this.weaveGetDistance,
+        GetSpeed : this.weaveGetSpeed,
+        GetTimestamp : this.weaveGetTimestamp,
 		Value : this.weaveValue,
 		ArithmeticExpression : this.weaveArithmeticExpression,
 		ArithmeticOperator : this.weaveArithmeticOperator,
@@ -178,6 +181,18 @@ weaveCallEntity(node : InterfaceAST.CallEntity, accept : ValidationAcceptor) : v
 
 weaveGetSensor(node : InterfaceAST.GetSensor, accept : ValidationAcceptor) : void {
     (<any> node).accept = (visitor: Visitor) => { return visitor.visitGetSensor(node as unknown as ClassAST.GetSensor); }
+}
+
+weaveGetDistance(node : InterfaceAST.GetDistance, accept : ValidationAcceptor) : void {
+    (<any> node).accept = (visitor: Visitor) => { return visitor.visitGetDistance(node as unknown as ClassAST.GetDistance); }
+}
+
+weaveGetSpeed(node : InterfaceAST.GetSpeed, accept : ValidationAcceptor) : void {
+    (<any> node).accept = (visitor: Visitor) => { return visitor.visitGetSpeed(node as unknown as ClassAST.GetSpeed); }
+}
+
+weaveGetTimestamp(node : InterfaceAST.GetTimestamp, accept : ValidationAcceptor) : void {
+    (<any> node).accept = (visitor: Visitor) => { return visitor.visitGetTimestamp(node as unknown as ClassAST.GetTimestamp); }
 }
 
 weaveValue(node : InterfaceAST.Value, accept : ValidationAcceptor) : void {
