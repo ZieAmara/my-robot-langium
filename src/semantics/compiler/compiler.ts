@@ -105,30 +105,31 @@ void _rotate(int angle) {
     Omni.setCarStop();
 }
 
-
 `;
     
     visitProgram(node : Program) : any {
         node.fonction.map(f => {
-            this.arduinoCode += "\n" + this.visitFonction(f as Fonction);;
+            this.arduinoCode += `\n${this.visitFonction(f as Fonction)}`;
         })
         return this.arduinoCode
     }
 	
     visitFonction(node : Fonction) : any {
-        return this.visitReturnType(node.returnType as ReturnType)
-        + node.name + " (" + node.parameter.map(p => this.visitParameter(p as Parameter)).join(",") + ") { \n\t" 
-        + node.body.map(s => this.visitStatement(s as Statement)).join("\t") + "\n}\n";
+        const returnType = this.visitReturnType(node.returnType as ReturnType);
+        const name = node.name;
+        const parameter = node.parameter.map(p => this.visitParameter(p as Parameter)).join(",");
+        const body = node.body.map(s => this.visitStatement(s as Statement)).join("\t");
+        return returnType + name + `(${parameter}) { \n\t${body} \n}\n`;
     }
 	
     visitReturnType(node : ReturnType) : any {
         switch (node.returnType) {
             case "number":
-                return "float ";
+                return `float `;
             case "boolean":
-                return "bool ";
+                return `bool `;
             default:
-                return "void ";
+                return `void `;
         }
     }
 	
@@ -163,28 +164,29 @@ void _rotate(int angle) {
             case "ClockLeft":
                 return this.visitClockLeft(node as ClockLeft);
             default:
-                return "// Unknown statement\n";
+                return `Unknown statement ${node.$type}`;
         }
     }
 	
     visitReturnStatement(node : ReturnStatement) : any{
-        return 'return ' + this.visitExpression(node.returnValue as Expression) + ";";
+        const returnValue = this.visitExpression(node.returnValue as Expression);
+        return `return ${returnValue};`;
     }
 	
     visitIf(node : If) : any {
-        var result = "\n\tif (" + this.visitExpression(node.condition as BooleanExpression) + ") {\n\t\t" 
-        + node.thenStatement.map(s => this.visitStatement(s as Statement)).join("\t\t") + "}\n";
+        const condition = this.visitExpression(node.condition as BooleanExpression);
+        var body = `${node.thenStatement.map(s => this.visitStatement(s as Statement)).join(";\n\t\t")}\t}`;
 
         if (node.elseStatement) {
-            result += " else { \n" 
-            + node.elseStatement.map(s => this.visitStatement(s as Statement)).join("\t\t") + "}\n";
+            body += ` else { \n\t\t${node.elseStatement.map(s => this.visitStatement(s as Statement)).join(";\n\t\t")}`;
         }
-        return result;
+        return `\n\tif (${condition}) {\n\t\t${body}\t}\n`;
     }
 	
     visitLoop(node : Loop) : any {
-        return "\n\tloop (" + this.visitExpression(node.condition as BooleanExpression) + ") { \n\t\t" 
-        + node.body.map(s => this.visitStatement(s as Statement)).join("\t\t") + "\n\t}\n"; 
+        const condition = this.visitExpression(node.condition as BooleanExpression);
+        const body = node.body.map(s => this.visitStatement(s as Statement)).join(";\n\t\t");
+        return `\n\tloop (${condition}) {\n\t\t${body}\n\t}\n`;
     }
 	
     visitControlRobot(node : ControlRobot) : any {
@@ -206,7 +208,7 @@ void _rotate(int angle) {
             case "ClockLeft":
                 return this.visitClockLeft(node as ClockLeft);
             default:
-                return "// Unknown control robot\n";
+                return `Unknown control robot ${node.$type}`;
         }
     }
 	
@@ -221,32 +223,32 @@ void _rotate(int angle) {
             case "Right":
                 return this.visitRight(node as Right);
             default:
-                return "// Unknown movement\n";
+                return `Unknown movement ${node.$type}`;
         }
     }
 	
     visitBackward(node : Backward) : any {
         const distance = this.visitExpression(node.distance as Expression);
         const distanceToMillimeter = this.toMillimeter(distance, node.unit);
-        return"_backward(" + distanceToMillimeter + ");\n";
+        return `_backward(${distanceToMillimeter})`;
     }
 	
     visitForward(node : Forward) : any {
         const distance = this.visitExpression(node.distance as Expression);
         const distanceToMillimeter = this.toMillimeter(distance, node.unit);
-        return "_forward(" + distanceToMillimeter + ");\n";
+        return `_forward(${distanceToMillimeter})`;
     }
 	
     visitLeft(node : Left) : any {
         const distance = this.visitExpression(node.distance as Expression);
         const distanceToMillimeter = this.toMillimeter(distance, node.unit);
-        return `Omni.setCarLeft(${distanceToMillimeter});\n`;
+        return `Omni.setCarLeft(${distanceToMillimeter})`;
     }
 	
     visitRight(node : Right) : any {
         const distance = this.visitExpression(node.distance as Expression);
         const distanceToMillimeter = this.toMillimeter(distance, node.unit);
-        return `Omni.setCarRight(${distanceToMillimeter});\n`;
+        return `Omni.setCarRight(${distanceToMillimeter})`;
     }
 	
     visitRotate(node : Rotate) : any {
@@ -256,19 +258,19 @@ void _rotate(int angle) {
             case "ClockLeft":
                 return this.visitClockLeft(node as ClockLeft);
             default:
-                return "// Unknown rotate\n";
+                return `Unknown rotate ${node.$type}`;
         }
     }
 	
     visitClock(node : Clock) : any {
         const angle = this.visitExpression(node.angle as Expression);
-        return "_rotate(" + angle + ");\n";
+        return `_rotate(${angle})`;
         
     }
 	
     visitClockLeft(node : ClockLeft) : any {
         const angle = -this.visitExpression(node.angle as Expression);
-        return "_rotate(" + angle + ");\n";
+        return `_rotate(${angle})`;
     }
 	
     visitEntity(node : Entity) : any {
@@ -278,38 +280,52 @@ void _rotate(int angle) {
             case "VariableStatement":
                 return this.visitVariableStatement(node as VariableStatement);
             default:
-                return "// Unknown entity\n";
+                return `Unknown entity ${node.$type}`;
         }
     }
 	
     visitParameter(node : Parameter) : any {
-        var result = node.type + " " + node.name;
+        const type = node.type;
+        const name = node.name;
+        var value = ``;
         if (node.value != null) {
-            result += " = " + this.visitValue(node.value as Value);
+            value = `= ${this.visitValue(node.value as Value)}`;
         }
-        return result;
+        return `${type}: ${name} ${value}`;
     }
 	
     visitVariableStatement(node : VariableStatement) : any {
-        var result = node.type + " " + node.name;
+        const type = node.type;
+        const name = node.name;
+        var value = ``;
         if (node.value != null) {
-            result += " = " + this.visitValue(node.value as Value);
+            value = `= ${this.visitValue(node.value as Value)}`;
         }
-        return result + ";\n";
+        return `${type} ${name} ${value}`;
     }
 	
     visitVariableAssignation(node : VariableAssignation) : any {
-        return node.variable.ref?.name + " = " + this.visitValue(node.value as Value) + ";\n";
+        const value = `= ${this.visitValue(node.value as Value)}`;
+        if (node.variable.ref) {
+            const name = node.variable.ref.name;
+            return `${name} ${value}`;
+        }
+        return `Variable not found`;
     }
 	
     visitSetSpeed(node : SetSpeed) : any {
         const distance = this.visitExpression(node.distance as Expression);
         const distanceInMillimeter = this.toMillimeter(distance, node.unit);
-        return "Omni.setCarSpeedMMPS(" + distanceInMillimeter + ", 9999);\n";
+        return `Omni.setCarSpeedMMPS(${distanceInMillimeter}, 9999)`
     }
 	
     visitCallFunction(node : CallFunction) : any {
-        return node.fonction.ref?.name + "(" + node.args.map(p => this.visitExpression(p as Expression)).join(",") + ");\n";
+        const args = node.args.map(p => this.visitExpression(p as Expression)).join(",");
+        if (node.fonction.ref) {
+            const name = node.fonction.ref.name;
+            return `${name}(${args})`;
+        }
+        return `Function not found`;
     }
 	
     visitExpression(node : Expression) : any {
@@ -337,7 +353,7 @@ void _rotate(int angle) {
             case "Value":
                 return this.visitValue(node as Value);
             default:
-                return "// Unknown expression\n";
+                return `Unknown expression ${node.$type}`;
         }
     }
 	
@@ -367,11 +383,19 @@ void _rotate(int angle) {
     }
 	
     visitCallFunctionExpr(node : CallFunctionExpr) : any {
-        return node.fonction.ref?.name + "(" + node.args.map(p => this.visitExpression(p as Expression)).join(",") + ")";
+        const args = node.args.map(p => this.visitExpression(p as Expression)).join(",");
+        if (node.fonction.ref) {
+            const name = node.fonction.ref.name;
+            return `${name}(${args})`;
+        }
+        return `Function not found`;
     }
 	
     visitCallEntity(node : CallEntity) : any {
-        return node.entity.ref?.name;
+        if (!node.entity.ref) {
+            return `Entity not found`;
+        }
+        return node.entity.ref.name;
     }
 	
     visitGetSensor(node : GetSensor) : any {
@@ -383,7 +407,7 @@ void _rotate(int angle) {
             case "GetTimestamp":
                 return this.visitGetTimestamp(node as GetTimestamp);
             default:
-                return "// Unknown get sensor\n";
+                return `Unknown sensor ${node.$type}`;
         }
     }
 
@@ -392,11 +416,11 @@ void _rotate(int angle) {
     }
     
     visitGetSpeed(node : GetSpeed) : any {
-        return "Omni.getCarSpeedMMPS()";
+        return `Omni.getCarSpeedMMPS()`;
     }
     
     visitGetTimestamp(node : GetTimestamp) : any {
-        return "Omni.getTimestamp()";
+        return `Omni.getTimestamp()`;
     }
 	
     visitValue(node : Value) : any {

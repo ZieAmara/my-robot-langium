@@ -178,7 +178,7 @@ export class InterpreterVisitor implements Visitor {
     visitClockLeft(node : ClockLeft) : any {
         const expression = node.angle;
         const angle = acceptNode(expression!, this);
-        this.robot.turn(angle);
+        this.robot.turn(-angle);
     }
 	
     visitEntity(node : Entity) : any {

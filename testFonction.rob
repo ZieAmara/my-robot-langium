@@ -8,6 +8,12 @@ let void entry () {
         Clock 90
         time = getTimestamp()
         var number a = 5 + dist * time / 3
+        if a > 100 then {
+            Backward 100 in mm
+            Forward 100 in mm
+        } else {
+            Forward a in mm
+        }
         return time
     }
 }
