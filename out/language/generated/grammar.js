@@ -3088,6 +3088,17 @@ export const MyRobotGrammar = () => loadedMyRobotGrammar !== null && loadedMyRob
       "attributes": [
         {
           "$type": "TypeAttribute",
+          "name": "name",
+          "type": {
+            "$type": "SimpleType",
+            "typeRef": {
+              "$ref": "#/types@0"
+            }
+          },
+          "isOptional": false
+        },
+        {
+          "$type": "TypeAttribute",
           "name": "value",
           "isOptional": true,
           "type": {
@@ -3110,17 +3121,6 @@ export const MyRobotGrammar = () => loadedMyRobotGrammar !== null && loadedMyRob
       "attributes": [
         {
           "$type": "TypeAttribute",
-          "name": "name",
-          "type": {
-            "$type": "SimpleType",
-            "typeRef": {
-              "$ref": "#/types@0"
-            }
-          },
-          "isOptional": false
-        },
-        {
-          "$type": "TypeAttribute",
           "name": "type",
           "type": {
             "$type": "SimpleType",
@@ -3141,17 +3141,6 @@ export const MyRobotGrammar = () => loadedMyRobotGrammar !== null && loadedMyRob
     {
       "$type": "Interface",
       "attributes": [
-        {
-          "$type": "TypeAttribute",
-          "name": "name",
-          "type": {
-            "$type": "SimpleType",
-            "typeRef": {
-              "$ref": "#/types@0"
-            }
-          },
-          "isOptional": false
-        },
         {
           "$type": "TypeAttribute",
           "name": "type",
