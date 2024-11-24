@@ -1,6 +1,6 @@
 
 import { 
-    Add, ArithmeticExpression, ArithmeticOperator, BooleanExpression, Fonction, If, LowerThan, Program, ReturnType, Sub, UpperThan, Statement, Loop, ControlRobot, Movement, Backward, Forward, Left, Right, Rotate, Clock, ClockLeft, Entity, Parameter, VariableStatement, VariableAssignation, SetSpeed, CallFunction, Expression, UnaryBooleanExpression, UnaryArithmeticExpression, CallFunctionExpr, CallEntity, GetSensor, Value, Multiply, Divise, BooleanOperator, EqualTo, Not, Or, LowerOrEqualTo, UpperOrEqualTo, And, 
+    Add, ArithmeticExpression, AddSubExpression, AddSubOperator, MultiDivExpression, MultiDivOperator, BooleanExpression, Fonction, If, LowerThan, Program, ReturnType, Sub, UpperThan, Statement, Loop, ControlRobot, Movement, Backward, Forward, Left, Right, Rotate, Clock, ClockLeft, Entity, Parameter, VariableStatement, VariableAssignation, SetSpeed, CallFunction, Expression, UnaryBooleanExpression, UnaryArithmeticExpression, CallFunctionExpr, CallEntity, GetSensor, Value, Multiply, Divise, BooleanOperator, EqualTo, Not, Or, LowerOrEqualTo, UpperOrEqualTo, And, 
     ReturnStatement,   Type,
    // Unit,
     GetDistance,
@@ -284,21 +284,66 @@ export class InterpreterVisitor implements Visitor {
     }
 	
     visitArithmeticExpression(node : ArithmeticExpression) : any {
-        const leftValue = this.visitUnaryArithmeticExpression(node.leftOperand as UnaryArithmeticExpression);
-        const rightValues = node.rightOperand.map(operand => this.visitUnaryArithmeticExpression(operand as UnaryArithmeticExpression));
+        return acceptNode(node, this);
+        //const leftValue = this.visitUnaryArithmeticExpression(node.leftOperand as UnaryArithmeticExpression);
+        //const rightValues = node.rightOperand.map(operand => this.visitUnaryArithmeticExpression(operand as UnaryArithmeticExpression));
+        //const operator = node.operator;
+        //let compt =-1;
+        //let result = leftValue;
+//
+        //for (const rightValue of rightValues) {
+        //    compt++
+        //    result = result + operator[compt] + rightValue;
+        //}
+
+        //return result;
+    }
+	
+    visitAddSubExpression(node : AddSubExpression) : any {
+        const leftValue = acceptNode(node.leftOperand, this);
+        const rightValues = node.rightOperand.map(operand => acceptNode(operand, this));
         const operator = node.operator;
         let compt =-1;
         let result = leftValue;
 
         for (const rightValue of rightValues) {
             compt++
-            result = result + operator[compt] + rightValue;
+            if (operator[compt].$type === 'Add') {
+                result = result + rightValue;
+            } else if (operator[compt].$type === 'Sub') {
+                result = result - rightValue;
+            }
         }
-
         return result;
     }
-	
-    visitArithmeticOperator(node : ArithmeticOperator) : any {
+    visitMultiDivExpression(node : MultiDivExpression) : any {
+        const leftValue = acceptNode(node.leftOperand, this);
+
+        const rightValues = node.rightOperand; 
+        const operator = node.operator;
+        let compt=-1;
+
+        let result = leftValue;
+
+        for (let rightValue of rightValues) {
+            compt++;
+            const right=acceptNode(rightValue, this);
+
+            if (operator[compt].$type === 'Multiply') {
+                result = result * right;
+            } else if (operator[compt].$type === 'Divise') {
+                if (right == 0){
+                    throw new Error("Impossible de diviser par zéro");
+                }
+                result = result / right;
+            }
+        }
+        return result;
+    }
+    visitAddSubOperator(node : AddSubOperator) : any {
+        return acceptNode(node, this)
+    }
+    visitMultiDivOperator(node : MultiDivOperator) : any {
         return acceptNode(node, this)
     }
 	

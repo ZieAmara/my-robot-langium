@@ -349,6 +349,16 @@ export class ArithmeticExpression extends Expression {
     // the constructor must take all attribute of the implemented interface 
     // simply copy-paste the interface fields as public parameters
     // you can find them in generated/ast.ts
+    constructor($type) {
+        super($type);
+        this.$type = $type;
+    }
+    accept(visitor) { }
+}
+export class AddSubExpression extends ArithmeticExpression {
+    // the constructor must take all attribute of the implemented interface 
+    // simply copy-paste the interface fields as public parameters
+    // you can find them in generated/ast.ts
     constructor($type, leftOperand, operator, rightOperand) {
         super($type);
         this.$type = $type;
@@ -358,7 +368,21 @@ export class ArithmeticExpression extends Expression {
     }
     accept(visitor) { }
 }
-export class ArithmeticOperator {
+export class MultiDivExpression extends ArithmeticExpression {
+    // the constructor must take all attribute of the implemented interface 
+    // simply copy-paste the interface fields as public parameters
+    // you can find them in generated/ast.ts
+    constructor($container, $type, leftOperand, operator, rightOperand) {
+        super($type);
+        this.$container = $container;
+        this.$type = $type;
+        this.leftOperand = leftOperand;
+        this.operator = operator;
+        this.rightOperand = rightOperand;
+    }
+    accept(visitor) { }
+}
+export class AddSubOperator {
     // the constructor must take all attribute of the implemented interface 
     // simply copy-paste the interface fields as public parameters
     // you can find them in generated/ast.ts
@@ -367,7 +391,7 @@ export class ArithmeticOperator {
     }
     accept(visitor) { }
 }
-export class Add extends ArithmeticOperator {
+export class Add extends AddSubOperator {
     // the constructor must take all attribute of the implemented interface 
     // simply copy-paste the interface fields as public parameters
     // you can find them in generated/ast.ts
@@ -378,7 +402,7 @@ export class Add extends ArithmeticOperator {
     }
     accept(visitor) { }
 }
-export class Sub extends ArithmeticOperator {
+export class Sub extends AddSubOperator {
     // the constructor must take all attribute of the implemented interface 
     // simply copy-paste the interface fields as public parameters
     // you can find them in generated/ast.ts
@@ -389,7 +413,16 @@ export class Sub extends ArithmeticOperator {
     }
     accept(visitor) { }
 }
-export class Multiply extends ArithmeticOperator {
+export class MultiDivOperator {
+    // the constructor must take all attribute of the implemented interface 
+    // simply copy-paste the interface fields as public parameters
+    // you can find them in generated/ast.ts
+    constructor($type) {
+        this.$type = $type;
+    }
+    accept(visitor) { }
+}
+export class Multiply extends MultiDivOperator {
     // the constructor must take all attribute of the implemented interface 
     // simply copy-paste the interface fields as public parameters
     // you can find them in generated/ast.ts
@@ -400,7 +433,7 @@ export class Multiply extends ArithmeticOperator {
     }
     accept(visitor) { }
 }
-export class Divise extends ArithmeticOperator {
+export class Divise extends MultiDivOperator {
     // the constructor must take all attribute of the implemented interface 
     // simply copy-paste the interface fields as public parameters
     // you can find them in generated/ast.ts
@@ -584,7 +617,13 @@ export function acceptNode(node, visitor) {
             return node.accept(visitor);
         case 'ArithmeticExpression':
             return node.accept(visitor);
-        case 'ArithmeticOperator':
+        case 'AddSubExpression':
+            return node.accept(visitor);
+        case 'MultiDivExpression':
+            return node.accept(visitor);
+        case 'AddSubOperator':
+            return node.accept(visitor);
+        case 'MultiDivOperator':
             return node.accept(visitor);
         case 'Add':
             return node.accept(visitor);

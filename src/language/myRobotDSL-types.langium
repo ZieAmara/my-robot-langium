@@ -112,27 +112,37 @@ interface Value extends UnaryArithmeticExpression {
   value: number;
 }
 
-interface ArithmeticExpression extends Expression {
+interface ArithmeticExpression extends Expression {}
+
+interface AddSubExpression extends ArithmeticExpression {
+  leftOperand: MultiDivExpression;
+  operator: AddSubOperator[];
+  rightOperand: MultiDivExpression[];
+}
+
+interface MultiDivExpression extends ArithmeticExpression {
   leftOperand: UnaryArithmeticExpression;
-  operator: ArithmeticOperator[];
+  operator: MultiDivOperator[];
   rightOperand: UnaryArithmeticExpression[];
 }
 
-interface ArithmeticOperator {}
+interface AddSubOperator {}
 
-interface Add extends ArithmeticOperator {
+interface MultiDivOperator {}
+
+interface Add extends AddSubOperator {
   symbole: '+' 
 }
 
-interface Sub extends ArithmeticOperator {
+interface Sub extends AddSubOperator {
   symbole: '-'
 }
 
-interface Multiply extends ArithmeticOperator {
+interface Multiply extends MultiDivOperator {
   symbole: '*'
 }
 
-interface Divise extends ArithmeticOperator {
+interface Divise extends MultiDivOperator {
   symbole: '/'
 }
 

@@ -44,7 +44,10 @@ export class MyRobotAcceptWeaver {
             GetTimestamp: this.weaveGetTimestamp,
             Value: this.weaveValue,
             ArithmeticExpression: this.weaveArithmeticExpression,
-            ArithmeticOperator: this.weaveArithmeticOperator,
+            AddSubExpression: this.weaveAddSubExpression,
+            MultiDivExpression: this.weaveMultiDivExpression,
+            AddSubOperator: this.weaveAddSubOperator,
+            MultiDivOperator: this.weaveMultiDivOperator,
             Add: this.weaveAdd,
             Sub: this.weaveSub,
             Multiply: this.weaveMultiply,
@@ -160,8 +163,17 @@ export class MyRobotAcceptWeaver {
     weaveArithmeticExpression(node, accept) {
         node.accept = (visitor) => { return visitor.visitArithmeticExpression(node); };
     }
-    weaveArithmeticOperator(node, accept) {
-        node.accept = (visitor) => { return visitor.visitArithmeticOperator(node); };
+    weaveAddSubExpression(node, accept) {
+        node.accept = (visitor) => { return visitor.visitAddSubExpression(node); };
+    }
+    weaveMultiDivExpression(node, accept) {
+        node.accept = (visitor) => { return visitor.visitMultiDivExpression(node); };
+    }
+    weaveAddSubOperator(node, accept) {
+        node.accept = (visitor) => { return visitor.visitAddSubOperator(node); };
+    }
+    weaveMultiDivOperator(node, accept) {
+        node.accept = (visitor) => { return visitor.visitMultiDivOperator(node); };
     }
     weaveAdd(node, accept) {
         node.accept = (visitor) => { return visitor.visitAdd(node); };

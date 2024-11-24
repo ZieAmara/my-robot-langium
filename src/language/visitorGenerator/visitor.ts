@@ -35,8 +35,11 @@ export interface Visitor{
     visitGetSpeed(node : GetSpeed) : any;
     visitGetTimestamp(node : GetTimestamp) : any;
 	visitValue(node : Value) : any;
-	visitArithmeticExpression(node : ArithmeticExpression) : any;
-	visitArithmeticOperator(node : ArithmeticOperator) : any;
+    visitArithmeticExpression(node : ArithmeticExpression) : any;
+	visitAddSubExpression(node : AddSubExpression) : any;
+	visitMultiDivExpression(node : MultiDivExpression) : any;
+	visitAddSubOperator(node : AddSubOperator) : any;
+	visitMultiDivOperator(node : MultiDivOperator) : any;
 	visitAdd(node : Add) : any;
 	visitSub(node : Sub) : any;
 	visitMultiply(node : Multiply) : any;
@@ -114,7 +117,7 @@ export class Statement implements ASTInterfaces.Statement {
     // simply copy-paste the interface fields as public parameters
     // you can find them in generated/ast.ts
     constructor(
-        public $type: 'Backward' | 'CallFunction' | 'Clock' | 'ClockLeft' | 'ControlRobot' | 'ReturnStatement' | 'Entity' | 'Forward' | 'If' | 'Left' | 'Loop' | 'Movement' | 'Parameter' | 'Right' | 'Rotate' | 'SetSpeed' | 'Statement' | 'VariableAssignation' | 'VariableStatement'
+        public $type: 'Backward' | 'CallFunction' | 'Clock' | 'ClockLeft' | 'ControlRobot' | 'Entity' | 'Forward' | 'If' | 'Left' | 'Loop' | 'Movement' | 'Parameter' | 'ReturnStatement' | 'Right' | 'Rotate' | 'SetSpeed' | 'Statement' | 'VariableAssignation' | 'VariableStatement'
     ){}
     accept(visitor: Visitor) : any {}
 }
@@ -360,7 +363,7 @@ export class Expression implements ASTInterfaces.Expression {
     // simply copy-paste the interface fields as public parameters
     // you can find them in generated/ast.ts
     constructor(
-        public $type: 'ArithmeticExpression' | 'BooleanExpression' | 'CallEntity' | 'CallFunctionExpr' | 'Expression' | 'GetDistance' | 'GetSensor' | 'GetSpeed' | 'GetTimestamp' | 'UnaryArithmeticExpression' | 'UnaryBooleanExpression' | 'Value'
+        public $type: 'AddSubExpression' | 'ArithmeticExpression' | 'BooleanExpression' | 'CallEntity' | 'CallFunctionExpr' | 'Expression' | 'GetDistance' | 'GetSensor' | 'GetSpeed' | 'GetTimestamp' | 'MultiDivExpression' | 'UnaryArithmeticExpression' | 'UnaryBooleanExpression' | 'Value'
     ){}
     accept(visitor: Visitor) : any {}
 }
@@ -481,9 +484,37 @@ export class ArithmeticExpression extends Expression implements ASTInterfaces.Ar
     // simply copy-paste the interface fields as public parameters
     // you can find them in generated/ast.ts
     constructor(
-        public override $type: 'ArithmeticExpression',
+        public override $type: 'ArithmeticExpression' | 'AddSubExpression' | 'MultiDivExpression',
+    ){
+        super($type)
+    }
+    override accept(visitor: Visitor) : any {}
+}
+
+export class AddSubExpression extends ArithmeticExpression implements ASTInterfaces.AddSubExpression {
+    // the constructor must take all attribute of the implemented interface 
+    // simply copy-paste the interface fields as public parameters
+    // you can find them in generated/ast.ts
+    constructor(
+        public override $type: 'AddSubExpression',
+        public leftOperand: MultiDivExpression,
+        public operator: Array<AddSubOperator>,
+        public rightOperand: Array<MultiDivExpression>
+    ){
+        super($type)
+    }
+    override accept(visitor: Visitor) : any {}
+}
+
+export class MultiDivExpression extends ArithmeticExpression implements ASTInterfaces.MultiDivExpression {
+    // the constructor must take all attribute of the implemented interface 
+    // simply copy-paste the interface fields as public parameters
+    // you can find them in generated/ast.ts
+    constructor(
+        public $container: AddSubExpression,
+        public override $type: 'MultiDivExpression',
         public leftOperand: UnaryArithmeticExpression,
-        public operator: Array<ArithmeticOperator>,
+        public operator: Array<MultiDivOperator>,
         public rightOperand: Array<UnaryArithmeticExpression>
     ){
         super($type)
@@ -491,15 +522,15 @@ export class ArithmeticExpression extends Expression implements ASTInterfaces.Ar
     override accept(visitor: Visitor) : any {}
 }
 
-export class ArithmeticOperator implements ASTInterfaces.ArithmeticOperator {
+export class AddSubOperator implements ASTInterfaces.AddSubOperator {
     // the constructor must take all attribute of the implemented interface 
     // simply copy-paste the interface fields as public parameters
     // you can find them in generated/ast.ts
-    constructor(public $type: 'Add' | 'ArithmeticOperator' | 'Divise' | 'Multiply' | 'Sub'){}
+    constructor(public $type: 'Add' | 'AddSubOperator' | 'Sub'){}
     accept(visitor: Visitor) : any {}
 }
 
-export class Add extends ArithmeticOperator implements ASTInterfaces.Add {
+export class Add extends AddSubOperator implements ASTInterfaces.Add {
     // the constructor must take all attribute of the implemented interface 
     // simply copy-paste the interface fields as public parameters
     // you can find them in generated/ast.ts
@@ -512,7 +543,7 @@ export class Add extends ArithmeticOperator implements ASTInterfaces.Add {
     override accept(visitor: Visitor) : any {}
 }
 
-export class Sub extends ArithmeticOperator implements ASTInterfaces.Sub {
+export class Sub extends AddSubOperator implements ASTInterfaces.Sub {
     // the constructor must take all attribute of the implemented interface 
     // simply copy-paste the interface fields as public parameters
     // you can find them in generated/ast.ts
@@ -525,7 +556,15 @@ export class Sub extends ArithmeticOperator implements ASTInterfaces.Sub {
     override accept(visitor: Visitor) : any {}
 }
 
-export class Multiply extends ArithmeticOperator implements ASTInterfaces.Multiply {
+export class MultiDivOperator implements ASTInterfaces.MultiDivOperator {
+    // the constructor must take all attribute of the implemented interface 
+    // simply copy-paste the interface fields as public parameters
+    // you can find them in generated/ast.ts
+    constructor(public $type: 'MultiDivOperator' | 'Divise' | 'Multiply' ){}
+    accept(visitor: Visitor) : any {}
+}
+
+export class Multiply extends MultiDivOperator implements ASTInterfaces.Multiply {
     // the constructor must take all attribute of the implemented interface 
     // simply copy-paste the interface fields as public parameters
     // you can find them in generated/ast.ts
@@ -538,7 +577,7 @@ export class Multiply extends ArithmeticOperator implements ASTInterfaces.Multip
     override accept(visitor: Visitor) : any {}
 }
 
-export class Divise extends ArithmeticOperator implements ASTInterfaces.Divise {
+export class Divise extends MultiDivOperator implements ASTInterfaces.Divise {
     // the constructor must take all attribute of the implemented interface 
     // simply copy-paste the interface fields as public parameters
     // you can find them in generated/ast.ts
@@ -744,8 +783,14 @@ export function acceptNode(node: AstNode, visitor: Visitor): any {
             return (node as Value).accept(visitor);
         case 'ArithmeticExpression':
             return (node as ArithmeticExpression).accept(visitor);
-        case 'ArithmeticOperator':
-            return (node as ArithmeticOperator).accept(visitor);
+        case 'AddSubExpression':
+            return (node as AddSubExpression).accept(visitor);
+        case 'MultiDivExpression':
+            return (node as MultiDivExpression).accept(visitor);
+        case 'AddSubOperator':
+            return (node as AddSubOperator).accept(visitor);
+        case 'MultiDivOperator':
+            return (node as MultiDivOperator).accept(visitor);
         case 'Add':
             return (node as Add).accept(visitor);
         case 'Sub':
