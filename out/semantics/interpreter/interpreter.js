@@ -116,7 +116,7 @@ export class InterpreterVisitor {
     visitClockLeft(node) {
         const expression = node.angle;
         const angle = acceptNode(expression, this);
-        this.robot.turn(angle);
+        this.robot.turn(-angle);
     }
     visitEntity(node) {
         return acceptNode(node, this);
@@ -199,16 +199,7 @@ export class InterpreterVisitor {
         return node.value;
     }
     visitArithmeticExpression(node) {
-        const leftValue = this.visitUnaryArithmeticExpression(node.leftOperand);
-        const rightValues = node.rightOperand.map(operand => this.visitUnaryArithmeticExpression(operand));
-        const operator = node.operator;
-        let compt = -1;
-        let result = leftValue;
-        for (const rightValue of rightValues) {
-            compt++;
-            result = result + operator[compt] + rightValue;
-        }
-        return result;
+        //
     }
     visitArithmeticOperator(node) {
         return acceptNode(node, this);

@@ -8602,7 +8602,7 @@ var FullTextDocument = class _FullTextDocument {
     return this._content;
   }
   update(changes, version) {
-    for (let change of changes) {
+    for (const change of changes) {
       if (_FullTextDocument.isIncremental(change)) {
         const range = getWellformedRange(change.range);
         const startOffset = this.offsetAt(range.start);
@@ -8646,42 +8646,53 @@ var FullTextDocument = class _FullTextDocument {
   }
   positionAt(offset) {
     offset = Math.max(Math.min(offset, this._content.length), 0);
-    let lineOffsets = this.getLineOffsets();
+    const lineOffsets = this.getLineOffsets();
     let low = 0, high = lineOffsets.length;
     if (high === 0) {
       return { line: 0, character: offset };
     }
     while (low < high) {
-      let mid = Math.floor((low + high) / 2);
+      const mid = Math.floor((low + high) / 2);
       if (lineOffsets[mid] > offset) {
         high = mid;
       } else {
         low = mid + 1;
       }
     }
-    let line = low - 1;
+    const line = low - 1;
+    offset = this.ensureBeforeEOL(offset, lineOffsets[line]);
     return { line, character: offset - lineOffsets[line] };
   }
   offsetAt(position) {
-    let lineOffsets = this.getLineOffsets();
+    const lineOffsets = this.getLineOffsets();
     if (position.line >= lineOffsets.length) {
       return this._content.length;
     } else if (position.line < 0) {
       return 0;
     }
-    let lineOffset = lineOffsets[position.line];
-    let nextLineOffset = position.line + 1 < lineOffsets.length ? lineOffsets[position.line + 1] : this._content.length;
-    return Math.max(Math.min(lineOffset + position.character, nextLineOffset), lineOffset);
+    const lineOffset = lineOffsets[position.line];
+    if (position.character <= 0) {
+      return lineOffset;
+    }
+    const nextLineOffset = position.line + 1 < lineOffsets.length ? lineOffsets[position.line + 1] : this._content.length;
+    const offset = Math.min(lineOffset + position.character, nextLineOffset);
+    return this.ensureBeforeEOL(offset, lineOffset);
+  }
+  ensureBeforeEOL(offset, lineOffset) {
+    while (offset > lineOffset && isEOL(this._content.charCodeAt(offset - 1))) {
+      offset--;
+    }
+    return offset;
   }
   get lineCount() {
     return this.getLineOffsets().length;
   }
   static isIncremental(event) {
-    let candidate = event;
+    const candidate = event;
     return candidate !== void 0 && candidate !== null && typeof candidate.text === "string" && candidate.range !== void 0 && (candidate.rangeLength === void 0 || typeof candidate.rangeLength === "number");
   }
   static isFull(event) {
-    let candidate = event;
+    const candidate = event;
     return candidate !== void 0 && candidate !== null && typeof candidate.text === "string" && candidate.range === void 0 && candidate.rangeLength === void 0;
   }
 };
@@ -8701,9 +8712,9 @@ var TextDocument;
   }
   TextDocument2.update = update;
   function applyEdits(document, edits) {
-    let text = document.getText();
-    let sortedEdits = mergeSort(edits.map(getWellformedEdit), (a2, b) => {
-      let diff = a2.range.start.line - b.range.start.line;
+    const text = document.getText();
+    const sortedEdits = mergeSort(edits.map(getWellformedEdit), (a2, b) => {
+      const diff = a2.range.start.line - b.range.start.line;
       if (diff === 0) {
         return a2.range.start.character - b.range.start.character;
       }
@@ -8712,7 +8723,7 @@ var TextDocument;
     let lastModifiedOffset = 0;
     const spans = [];
     for (const e of sortedEdits) {
-      let startOffset = document.offsetAt(e.range.start);
+      const startOffset = document.offsetAt(e.range.start);
       if (startOffset < lastModifiedOffset) {
         throw new Error("Overlapping edit");
       } else if (startOffset > lastModifiedOffset) {
@@ -8741,7 +8752,7 @@ function mergeSort(data, compare) {
   let rightIdx = 0;
   let i = 0;
   while (leftIdx < left.length && rightIdx < right.length) {
-    let ret = compare(left[leftIdx], right[rightIdx]);
+    const ret = compare(left[leftIdx], right[rightIdx]);
     if (ret <= 0) {
       data[i++] = left[leftIdx++];
     } else {
@@ -8759,8 +8770,8 @@ function mergeSort(data, compare) {
 function computeLineOffsets(text, isAtLineStart, textOffset = 0) {
   const result = isAtLineStart ? [textOffset] : [];
   for (let i = 0; i < text.length; i++) {
-    let ch = text.charCodeAt(i);
-    if (ch === 13 || ch === 10) {
+    const ch = text.charCodeAt(i);
+    if (isEOL(ch)) {
       if (ch === 13 && i + 1 < text.length && text.charCodeAt(i + 1) === 10) {
         i++;
       }
@@ -8768,6 +8779,9 @@ function computeLineOffsets(text, isAtLineStart, textOffset = 0) {
     }
   }
   return result;
+}
+function isEOL(char) {
+  return char === 13 || char === 10;
 }
 function getWellformedRange(range) {
   const start = range.start;
@@ -36973,7 +36987,7 @@ var InterpreterVisitor = class {
   visitClockLeft(node) {
     const expression = node.angle;
     const angle = acceptNode(expression, this);
-    this.robot.turn(angle);
+    this.robot.turn(-angle);
   }
   visitEntity(node) {
     return acceptNode(node, this);
@@ -37056,16 +37070,6 @@ var InterpreterVisitor = class {
     return node.value;
   }
   visitArithmeticExpression(node) {
-    const leftValue = this.visitUnaryArithmeticExpression(node.leftOperand);
-    const rightValues = node.rightOperand.map((operand) => this.visitUnaryArithmeticExpression(operand));
-    const operator = node.operator;
-    let compt = -1;
-    let result = leftValue;
-    for (const rightValue of rightValues) {
-      compt++;
-      result = result + operator[compt] + rightValue;
-    }
-    return result;
   }
   visitArithmeticOperator(node) {
     return acceptNode(node, this);
