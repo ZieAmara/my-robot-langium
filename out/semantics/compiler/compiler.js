@@ -116,7 +116,7 @@ void _rotate(int angle) {
     visitFonction(node) {
         return this.visitReturnType(node.returnType)
             + node.name + " (" + node.parameter.map(p => this.visitParameter(p)).join(",") + ") { \n\t"
-            + node.body.map(s => this.visitStatement(s)).join("\t") + "; \n}";
+            + node.body.map(s => this.visitStatement(s)).join("\t") + "\n}\n";
     }
     visitReturnType(node) {
         switch (node.returnType) {
@@ -163,7 +163,7 @@ void _rotate(int angle) {
         }
     }
     visitReturnStatement(node) {
-        return 'return ' + this.visitExpression(node.returnValue);
+        return 'return ' + this.visitExpression(node.returnValue) + ";";
     }
     visitIf(node) {
         var result = "\n\tif (" + this.visitExpression(node.condition) + ") {\n\t\t"
