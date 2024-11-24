@@ -14,9 +14,9 @@ export const MyRobotTerminals = {
 export function isEString(item) {
     return (typeof item === 'string' && (/(("((\\([\s\S]))|((?!(\\|"))[\s\S]*?))*")|('((\\([\s\S]))|((?!(\\|'))[\s\S]*?))*'))/.test(item) || /(\^?(([a-z]|[A-Z])|_)((([a-z]|[A-Z])|_)|[0-9])*)/.test(item)));
 }
-export const ArithmeticOperator = 'ArithmeticOperator';
-export function isArithmeticOperator(item) {
-    return reflection.isInstance(item, ArithmeticOperator);
+export const AddSubOperator = 'AddSubOperator';
+export function isAddSubOperator(item) {
+    return reflection.isInstance(item, AddSubOperator);
 }
 export const BooleanOperator = 'BooleanOperator';
 export function isBooleanOperator(item) {
@@ -29,6 +29,10 @@ export function isExpression(item) {
 export const Fonction = 'Fonction';
 export function isFonction(item) {
     return reflection.isInstance(item, Fonction);
+}
+export const MultiDivOperator = 'MultiDivOperator';
+export function isMultiDivOperator(item) {
+    return reflection.isInstance(item, MultiDivOperator);
 }
 export const Program = 'Program';
 export function isProgram(item) {
@@ -45,14 +49,6 @@ export function isStatement(item) {
 export const Add = 'Add';
 export function isAdd(item) {
     return reflection.isInstance(item, Add);
-}
-export const Divise = 'Divise';
-export function isDivise(item) {
-    return reflection.isInstance(item, Divise);
-}
-export const Multiply = 'Multiply';
-export function isMultiply(item) {
-    return reflection.isInstance(item, Multiply);
 }
 export const Sub = 'Sub';
 export function isSub(item) {
@@ -106,6 +102,14 @@ export const UnaryBooleanExpression = 'UnaryBooleanExpression';
 export function isUnaryBooleanExpression(item) {
     return reflection.isInstance(item, UnaryBooleanExpression);
 }
+export const Divise = 'Divise';
+export function isDivise(item) {
+    return reflection.isInstance(item, Divise);
+}
+export const Multiply = 'Multiply';
+export function isMultiply(item) {
+    return reflection.isInstance(item, Multiply);
+}
 export const CallFunction = 'CallFunction';
 export function isCallFunction(item) {
     return reflection.isInstance(item, CallFunction);
@@ -137,6 +141,14 @@ export function isSetSpeed(item) {
 export const VariableAssignation = 'VariableAssignation';
 export function isVariableAssignation(item) {
     return reflection.isInstance(item, VariableAssignation);
+}
+export const AddSubExpression = 'AddSubExpression';
+export function isAddSubExpression(item) {
+    return reflection.isInstance(item, AddSubExpression);
+}
+export const MultiDivExpression = 'MultiDivExpression';
+export function isMultiDivExpression(item) {
+    return reflection.isInstance(item, MultiDivExpression);
 }
 export const CallEntity = 'CallEntity';
 export function isCallEntity(item) {
@@ -208,15 +220,17 @@ export function isClockLeft(item) {
 }
 export class MyRobotAstReflection extends AbstractAstReflection {
     getAllTypes() {
-        return ['Add', 'And', 'ArithmeticExpression', 'ArithmeticOperator', 'Backward', 'BooleanExpression', 'BooleanOperator', 'CallEntity', 'CallFunction', 'CallFunctionExpr', 'Clock', 'ClockLeft', 'ControlRobot', 'Divise', 'Entity', 'EqualTo', 'Expression', 'Fonction', 'Forward', 'GetDistance', 'GetSensor', 'GetSpeed', 'GetTimestamp', 'If', 'Left', 'Loop', 'LowerOrEqualTo', 'LowerThan', 'Movement', 'Multiply', 'Not', 'Or', 'Parameter', 'Program', 'ReturnStatement', 'ReturnType', 'Right', 'Rotate', 'SetSpeed', 'Statement', 'Sub', 'UnaryArithmeticExpression', 'UnaryBooleanExpression', 'UpperOrEqualTo', 'UpperThan', 'Value', 'VariableAssignation', 'VariableStatement'];
+        return ['Add', 'AddSubExpression', 'AddSubOperator', 'And', 'ArithmeticExpression', 'Backward', 'BooleanExpression', 'BooleanOperator', 'CallEntity', 'CallFunction', 'CallFunctionExpr', 'Clock', 'ClockLeft', 'ControlRobot', 'Divise', 'Entity', 'EqualTo', 'Expression', 'Fonction', 'Forward', 'GetDistance', 'GetSensor', 'GetSpeed', 'GetTimestamp', 'If', 'Left', 'Loop', 'LowerOrEqualTo', 'LowerThan', 'Movement', 'MultiDivExpression', 'MultiDivOperator', 'Multiply', 'Not', 'Or', 'Parameter', 'Program', 'ReturnStatement', 'ReturnType', 'Right', 'Rotate', 'SetSpeed', 'Statement', 'Sub', 'UnaryArithmeticExpression', 'UnaryBooleanExpression', 'UpperOrEqualTo', 'UpperThan', 'Value', 'VariableAssignation', 'VariableStatement'];
     }
     computeIsSubtype(subtype, supertype) {
         switch (subtype) {
             case Add:
-            case Divise:
-            case Multiply:
             case Sub: {
-                return this.isSubtype(ArithmeticOperator, supertype);
+                return this.isSubtype(AddSubOperator, supertype);
+            }
+            case AddSubExpression:
+            case MultiDivExpression: {
+                return this.isSubtype(ArithmeticExpression, supertype);
             }
             case And:
             case EqualTo:
@@ -259,6 +273,10 @@ export class MyRobotAstReflection extends AbstractAstReflection {
             case Clock:
             case ClockLeft: {
                 return this.isSubtype(Rotate, supertype);
+            }
+            case Divise:
+            case Multiply: {
+                return this.isSubtype(MultiDivOperator, supertype);
             }
             case GetDistance:
             case GetSpeed:
@@ -315,15 +333,6 @@ export class MyRobotAstReflection extends AbstractAstReflection {
                     ]
                 };
             }
-            case 'ArithmeticExpression': {
-                return {
-                    name: 'ArithmeticExpression',
-                    mandatory: [
-                        { name: 'operator', type: 'array' },
-                        { name: 'rightOperand', type: 'array' }
-                    ]
-                };
-            }
             case 'UnaryBooleanExpression': {
                 return {
                     name: 'UnaryBooleanExpression',
@@ -354,6 +363,24 @@ export class MyRobotAstReflection extends AbstractAstReflection {
                     name: 'Loop',
                     mandatory: [
                         { name: 'body', type: 'array' }
+                    ]
+                };
+            }
+            case 'AddSubExpression': {
+                return {
+                    name: 'AddSubExpression',
+                    mandatory: [
+                        { name: 'operator', type: 'array' },
+                        { name: 'rightOperand', type: 'array' }
+                    ]
+                };
+            }
+            case 'MultiDivExpression': {
+                return {
+                    name: 'MultiDivExpression',
+                    mandatory: [
+                        { name: 'operator', type: 'array' },
+                        { name: 'rightOperand', type: 'array' }
                     ]
                 };
             }

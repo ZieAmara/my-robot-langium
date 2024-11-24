@@ -38,14 +38,14 @@ export type Unit_m = 'm';
 
 export type Unit_mm = 'mm';
 
-export interface ArithmeticOperator extends AstNode {
-    readonly $type: 'Add' | 'ArithmeticOperator' | 'Divise' | 'Multiply' | 'Sub';
+export interface AddSubOperator extends AstNode {
+    readonly $type: 'Add' | 'AddSubOperator' | 'Sub';
 }
 
-export const ArithmeticOperator = 'ArithmeticOperator';
+export const AddSubOperator = 'AddSubOperator';
 
-export function isArithmeticOperator(item: unknown): item is ArithmeticOperator {
-    return reflection.isInstance(item, ArithmeticOperator);
+export function isAddSubOperator(item: unknown): item is AddSubOperator {
+    return reflection.isInstance(item, AddSubOperator);
 }
 
 export interface BooleanOperator extends AstNode {
@@ -59,7 +59,7 @@ export function isBooleanOperator(item: unknown): item is BooleanOperator {
 }
 
 export interface Expression extends AstNode {
-    readonly $type: 'ArithmeticExpression' | 'BooleanExpression' | 'CallEntity' | 'CallFunctionExpr' | 'Expression' | 'GetDistance' | 'GetSensor' | 'GetSpeed' | 'GetTimestamp' | 'UnaryArithmeticExpression' | 'UnaryBooleanExpression' | 'Value';
+    readonly $type: 'AddSubExpression' | 'ArithmeticExpression' | 'BooleanExpression' | 'CallEntity' | 'CallFunctionExpr' | 'Expression' | 'GetDistance' | 'GetSensor' | 'GetSpeed' | 'GetTimestamp' | 'MultiDivExpression' | 'UnaryArithmeticExpression' | 'UnaryBooleanExpression' | 'Value';
 }
 
 export const Expression = 'Expression';
@@ -81,6 +81,16 @@ export const Fonction = 'Fonction';
 
 export function isFonction(item: unknown): item is Fonction {
     return reflection.isInstance(item, Fonction);
+}
+
+export interface MultiDivOperator extends AstNode {
+    readonly $type: 'Divise' | 'MultiDivOperator' | 'Multiply';
+}
+
+export const MultiDivOperator = 'MultiDivOperator';
+
+export function isMultiDivOperator(item: unknown): item is MultiDivOperator {
+    return reflection.isInstance(item, MultiDivOperator);
 }
 
 export interface Program extends AstNode {
@@ -116,7 +126,7 @@ export function isStatement(item: unknown): item is Statement {
     return reflection.isInstance(item, Statement);
 }
 
-export interface Add extends ArithmeticOperator {
+export interface Add extends AddSubOperator {
     readonly $type: 'Add';
     symbole: '+'
 }
@@ -127,29 +137,7 @@ export function isAdd(item: unknown): item is Add {
     return reflection.isInstance(item, Add);
 }
 
-export interface Divise extends ArithmeticOperator {
-    readonly $type: 'Divise';
-    symbole: '/'
-}
-
-export const Divise = 'Divise';
-
-export function isDivise(item: unknown): item is Divise {
-    return reflection.isInstance(item, Divise);
-}
-
-export interface Multiply extends ArithmeticOperator {
-    readonly $type: 'Multiply';
-    symbole: '*'
-}
-
-export const Multiply = 'Multiply';
-
-export function isMultiply(item: unknown): item is Multiply {
-    return reflection.isInstance(item, Multiply);
-}
-
-export interface Sub extends ArithmeticOperator {
+export interface Sub extends AddSubOperator {
     readonly $type: 'Sub';
     symbole: '-'
 }
@@ -249,10 +237,7 @@ export function isUpperThan(item: unknown): item is UpperThan {
 }
 
 export interface ArithmeticExpression extends Expression {
-    readonly $type: 'ArithmeticExpression';
-    leftOperand: UnaryArithmeticExpression
-    operator: Array<ArithmeticOperator>
-    rightOperand: Array<UnaryArithmeticExpression>
+    readonly $type: 'AddSubExpression' | 'ArithmeticExpression' | 'MultiDivExpression';
 }
 
 export const ArithmeticExpression = 'ArithmeticExpression';
@@ -294,6 +279,28 @@ export const UnaryBooleanExpression = 'UnaryBooleanExpression';
 
 export function isUnaryBooleanExpression(item: unknown): item is UnaryBooleanExpression {
     return reflection.isInstance(item, UnaryBooleanExpression);
+}
+
+export interface Divise extends MultiDivOperator {
+    readonly $type: 'Divise';
+    symbole: '/'
+}
+
+export const Divise = 'Divise';
+
+export function isDivise(item: unknown): item is Divise {
+    return reflection.isInstance(item, Divise);
+}
+
+export interface Multiply extends MultiDivOperator {
+    readonly $type: 'Multiply';
+    symbole: '*'
+}
+
+export const Multiply = 'Multiply';
+
+export function isMultiply(item: unknown): item is Multiply {
+    return reflection.isInstance(item, Multiply);
 }
 
 export interface CallFunction extends Statement {
@@ -388,6 +395,33 @@ export const VariableAssignation = 'VariableAssignation';
 
 export function isVariableAssignation(item: unknown): item is VariableAssignation {
     return reflection.isInstance(item, VariableAssignation);
+}
+
+export interface AddSubExpression extends ArithmeticExpression {
+    readonly $type: 'AddSubExpression';
+    leftOperand: MultiDivExpression
+    operator: Array<AddSubOperator>
+    rightOperand: Array<MultiDivExpression>
+}
+
+export const AddSubExpression = 'AddSubExpression';
+
+export function isAddSubExpression(item: unknown): item is AddSubExpression {
+    return reflection.isInstance(item, AddSubExpression);
+}
+
+export interface MultiDivExpression extends ArithmeticExpression {
+    readonly $container: AddSubExpression;
+    readonly $type: 'MultiDivExpression';
+    leftOperand: UnaryArithmeticExpression
+    operator: Array<MultiDivOperator>
+    rightOperand: Array<UnaryArithmeticExpression>
+}
+
+export const MultiDivExpression = 'MultiDivExpression';
+
+export function isMultiDivExpression(item: unknown): item is MultiDivExpression {
+    return reflection.isInstance(item, MultiDivExpression);
 }
 
 export interface CallEntity extends UnaryArithmeticExpression {
@@ -572,9 +606,10 @@ export function isClockLeft(item: unknown): item is ClockLeft {
 
 export type MyRobotAstType = {
     Add: Add
+    AddSubExpression: AddSubExpression
+    AddSubOperator: AddSubOperator
     And: And
     ArithmeticExpression: ArithmeticExpression
-    ArithmeticOperator: ArithmeticOperator
     Backward: Backward
     BooleanExpression: BooleanExpression
     BooleanOperator: BooleanOperator
@@ -600,6 +635,8 @@ export type MyRobotAstType = {
     LowerOrEqualTo: LowerOrEqualTo
     LowerThan: LowerThan
     Movement: Movement
+    MultiDivExpression: MultiDivExpression
+    MultiDivOperator: MultiDivOperator
     Multiply: Multiply
     Not: Not
     Or: Or
@@ -624,16 +661,18 @@ export type MyRobotAstType = {
 export class MyRobotAstReflection extends AbstractAstReflection {
 
     getAllTypes(): string[] {
-        return ['Add', 'And', 'ArithmeticExpression', 'ArithmeticOperator', 'Backward', 'BooleanExpression', 'BooleanOperator', 'CallEntity', 'CallFunction', 'CallFunctionExpr', 'Clock', 'ClockLeft', 'ControlRobot', 'Divise', 'Entity', 'EqualTo', 'Expression', 'Fonction', 'Forward', 'GetDistance', 'GetSensor', 'GetSpeed', 'GetTimestamp', 'If', 'Left', 'Loop', 'LowerOrEqualTo', 'LowerThan', 'Movement', 'Multiply', 'Not', 'Or', 'Parameter', 'Program', 'ReturnStatement', 'ReturnType', 'Right', 'Rotate', 'SetSpeed', 'Statement', 'Sub', 'UnaryArithmeticExpression', 'UnaryBooleanExpression', 'UpperOrEqualTo', 'UpperThan', 'Value', 'VariableAssignation', 'VariableStatement'];
+        return ['Add', 'AddSubExpression', 'AddSubOperator', 'And', 'ArithmeticExpression', 'Backward', 'BooleanExpression', 'BooleanOperator', 'CallEntity', 'CallFunction', 'CallFunctionExpr', 'Clock', 'ClockLeft', 'ControlRobot', 'Divise', 'Entity', 'EqualTo', 'Expression', 'Fonction', 'Forward', 'GetDistance', 'GetSensor', 'GetSpeed', 'GetTimestamp', 'If', 'Left', 'Loop', 'LowerOrEqualTo', 'LowerThan', 'Movement', 'MultiDivExpression', 'MultiDivOperator', 'Multiply', 'Not', 'Or', 'Parameter', 'Program', 'ReturnStatement', 'ReturnType', 'Right', 'Rotate', 'SetSpeed', 'Statement', 'Sub', 'UnaryArithmeticExpression', 'UnaryBooleanExpression', 'UpperOrEqualTo', 'UpperThan', 'Value', 'VariableAssignation', 'VariableStatement'];
     }
 
     protected override computeIsSubtype(subtype: string, supertype: string): boolean {
         switch (subtype) {
             case Add:
-            case Divise:
-            case Multiply:
             case Sub: {
-                return this.isSubtype(ArithmeticOperator, supertype);
+                return this.isSubtype(AddSubOperator, supertype);
+            }
+            case AddSubExpression:
+            case MultiDivExpression: {
+                return this.isSubtype(ArithmeticExpression, supertype);
             }
             case And:
             case EqualTo:
@@ -676,6 +715,10 @@ export class MyRobotAstReflection extends AbstractAstReflection {
             case Clock:
             case ClockLeft: {
                 return this.isSubtype(Rotate, supertype);
+            }
+            case Divise:
+            case Multiply: {
+                return this.isSubtype(MultiDivOperator, supertype);
             }
             case GetDistance:
             case GetSpeed:
@@ -734,15 +777,6 @@ export class MyRobotAstReflection extends AbstractAstReflection {
                     ]
                 };
             }
-            case 'ArithmeticExpression': {
-                return {
-                    name: 'ArithmeticExpression',
-                    mandatory: [
-                        { name: 'operator', type: 'array' },
-                        { name: 'rightOperand', type: 'array' }
-                    ]
-                };
-            }
             case 'UnaryBooleanExpression': {
                 return {
                     name: 'UnaryBooleanExpression',
@@ -773,6 +807,24 @@ export class MyRobotAstReflection extends AbstractAstReflection {
                     name: 'Loop',
                     mandatory: [
                         { name: 'body', type: 'array' }
+                    ]
+                };
+            }
+            case 'AddSubExpression': {
+                return {
+                    name: 'AddSubExpression',
+                    mandatory: [
+                        { name: 'operator', type: 'array' },
+                        { name: 'rightOperand', type: 'array' }
+                    ]
+                };
+            }
+            case 'MultiDivExpression': {
+                return {
+                    name: 'MultiDivExpression',
+                    mandatory: [
+                        { name: 'operator', type: 'array' },
+                        { name: 'rightOperand', type: 'array' }
                     ]
                 };
             }

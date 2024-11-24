@@ -53,7 +53,10 @@ export class MyRobotAcceptWeaver {
         GetTimestamp : this.weaveGetTimestamp,
 		Value : this.weaveValue,
 		ArithmeticExpression : this.weaveArithmeticExpression,
-		ArithmeticOperator : this.weaveArithmeticOperator,
+		AddSubExpression : this.weaveAddSubExpression,
+		MultiDivExpression : this.weaveMultiDivExpression,
+		AddSubOperator : this.weaveAddSubOperator,
+		MultiDivOperator : this.weaveMultiDivOperator,
 		Add : this.weaveAdd,
 		Sub : this.weaveSub,
 		Multiply : this.weaveMultiply,
@@ -203,8 +206,20 @@ weaveArithmeticExpression(node : InterfaceAST.ArithmeticExpression, accept : Val
     (<any> node).accept = (visitor: Visitor) => { return visitor.visitArithmeticExpression(node as unknown as ClassAST.ArithmeticExpression); }
 }
 
-weaveArithmeticOperator(node : InterfaceAST.ArithmeticOperator, accept : ValidationAcceptor) : void {
-    (<any> node).accept = (visitor: Visitor) => { return visitor.visitArithmeticOperator(node as unknown as ClassAST.ArithmeticOperator); }
+weaveAddSubExpression(node : InterfaceAST.AddSubExpression, accept : ValidationAcceptor) : void {
+    (<any> node).accept = (visitor: Visitor) => { return visitor.visitAddSubExpression(node as unknown as ClassAST.AddSubExpression); }
+}
+
+weaveMultiDivExpression(node : InterfaceAST.MultiDivExpression, accept : ValidationAcceptor) : void {
+    (<any> node).accept = (visitor: Visitor) => { return visitor.visitMultiDivExpression(node as unknown as ClassAST.MultiDivExpression); }
+}
+
+weaveAddSubOperator(node : InterfaceAST.AddSubOperator, accept : ValidationAcceptor) : void {
+    (<any> node).accept = (visitor: Visitor) => { return visitor.visitAddSubOperator(node as unknown as ClassAST.AddSubOperator); }
+}
+
+weaveMultiDivOperator(node : InterfaceAST.MultiDivOperator, accept : ValidationAcceptor) : void {
+    (<any> node).accept = (visitor: Visitor) => { return visitor.visitMultiDivOperator(node as unknown as ClassAST.MultiDivOperator); }
 }
 
 weaveAdd(node : InterfaceAST.Add, accept : ValidationAcceptor) : void {

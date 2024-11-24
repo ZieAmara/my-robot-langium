@@ -116,7 +116,7 @@ export class InterpreterVisitor {
     visitClockLeft(node) {
         const expression = node.angle;
         const angle = acceptNode(expression, this);
-        this.robot.turn(angle);
+        this.robot.turn(-angle);
     }
     visitEntity(node) {
         return acceptNode(node, this);
@@ -199,18 +199,28 @@ export class InterpreterVisitor {
         return node.value;
     }
     visitArithmeticExpression(node) {
-        const leftValue = this.visitUnaryArithmeticExpression(node.leftOperand);
-        const rightValues = node.rightOperand.map(operand => this.visitUnaryArithmeticExpression(operand));
-        const operator = node.operator;
-        let compt = -1;
-        let result = leftValue;
-        for (const rightValue of rightValues) {
-            compt++;
-            result = result + operator[compt] + rightValue;
-        }
-        return result;
+        //const leftValue = this.visitUnaryArithmeticExpression(node.leftOperand as UnaryArithmeticExpression);
+        //const rightValues = node.rightOperand.map(operand => this.visitUnaryArithmeticExpression(operand as UnaryArithmeticExpression));
+        //const operator = node.operator;
+        //let compt =-1;
+        //let result = leftValue;
+        //
+        //for (const rightValue of rightValues) {
+        //    compt++
+        //    result = result + operator[compt] + rightValue;
+        //}
+        return 'OK';
     }
-    visitArithmeticOperator(node) {
+    visitAddSubExpression(node) {
+        return acceptNode(node, this);
+    }
+    visitMultiDivExpression(node) {
+        return acceptNode(node, this);
+    }
+    visitAddSubOperator(node) {
+        return acceptNode(node, this);
+    }
+    visitMultiDivOperator(node) {
         return acceptNode(node, this);
     }
     visitAdd(node) {

@@ -1,6 +1,7 @@
 let void entry () {
     setSpeed(200 mm) // distance per second (here 200mm/s)
     var number time = getTimestamp()
+    var number c = 5 + 2
     loop time < 60000
     {
         var cm dist = getDistance()
@@ -8,6 +9,8 @@ let void entry () {
         Clock 90
         time = getTimestamp()
         var number a = 5 + dist * time / 3
+        var number b = 4 * 3 + 9 / 3
+        var number d = 2
         if a > 100 then {
             Backward 100 in mm
             Forward 100 in mm

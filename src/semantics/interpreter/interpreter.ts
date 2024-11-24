@@ -1,6 +1,6 @@
 
 import { 
-    Add, ArithmeticExpression, ArithmeticOperator, BooleanExpression, Fonction, If, LowerThan, Program, ReturnType, Sub, UpperThan, Statement, Loop, ControlRobot, Movement, Backward, Forward, Left, Right, Rotate, Clock, ClockLeft, Entity, Parameter, VariableStatement, VariableAssignation, SetSpeed, CallFunction, Expression, UnaryBooleanExpression, UnaryArithmeticExpression, CallFunctionExpr, CallEntity, GetSensor, Value, Multiply, Divise, BooleanOperator, EqualTo, Not, Or, LowerOrEqualTo, UpperOrEqualTo, And, 
+    Add, ArithmeticExpression, AddSubExpression, AddSubOperator, MultiDivExpression, MultiDivOperator, BooleanExpression, Fonction, If, LowerThan, Program, ReturnType, Sub, UpperThan, Statement, Loop, ControlRobot, Movement, Backward, Forward, Left, Right, Rotate, Clock, ClockLeft, Entity, Parameter, VariableStatement, VariableAssignation, SetSpeed, CallFunction, Expression, UnaryBooleanExpression, UnaryArithmeticExpression, CallFunctionExpr, CallEntity, GetSensor, Value, Multiply, Divise, BooleanOperator, EqualTo, Not, Or, LowerOrEqualTo, UpperOrEqualTo, And, 
     ReturnStatement,   Type,
    // Unit,
     GetDistance,
@@ -284,21 +284,30 @@ export class InterpreterVisitor implements Visitor {
     }
 	
     visitArithmeticExpression(node : ArithmeticExpression) : any {
-        const leftValue = this.visitUnaryArithmeticExpression(node.leftOperand as UnaryArithmeticExpression);
-        const rightValues = node.rightOperand.map(operand => this.visitUnaryArithmeticExpression(operand as UnaryArithmeticExpression));
-        const operator = node.operator;
-        let compt =-1;
-        let result = leftValue;
+        //const leftValue = this.visitUnaryArithmeticExpression(node.leftOperand as UnaryArithmeticExpression);
+        //const rightValues = node.rightOperand.map(operand => this.visitUnaryArithmeticExpression(operand as UnaryArithmeticExpression));
+        //const operator = node.operator;
+        //let compt =-1;
+        //let result = leftValue;
+//
+        //for (const rightValue of rightValues) {
+        //    compt++
+        //    result = result + operator[compt] + rightValue;
+        //}
 
-        for (const rightValue of rightValues) {
-            compt++
-            result = result + operator[compt] + rightValue;
-        }
-
-        return result;
+        return 'OK';
     }
 	
-    visitArithmeticOperator(node : ArithmeticOperator) : any {
+    visitAddSubExpression(node : AddSubExpression) : any {
+        return acceptNode(node, this)
+    }
+    visitMultiDivExpression(node : MultiDivExpression) : any {
+        return acceptNode(node, this)
+    }
+    visitAddSubOperator(node : AddSubOperator) : any {
+        return acceptNode(node, this)
+    }
+    visitMultiDivOperator(node : MultiDivOperator) : any {
         return acceptNode(node, this)
     }
 	

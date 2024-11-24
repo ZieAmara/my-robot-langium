@@ -141,11 +141,23 @@ Value returns Value:
 ;
 
 ArithmeticExpression returns ArithmeticExpression:
-    leftOperand=UnaryArithmeticExpression ( operator+=ArithmeticOperator rightOperand+=UnaryArithmeticExpression )*
+    AddSubExpression | MultiDivExpression
 ;
 
-ArithmeticOperator returns ArithmeticOperator:
-    Add | Sub | Multiply | Divise
+AddSubExpression returns AddSubExpression:
+    leftOperand=MultiDivExpression (operator+=AddSubOperator rightOperand+=MultiDivExpression)*
+;
+
+MultiDivExpression returns MultiDivExpression:
+	leftOperand=UnaryArithmeticExpression (operator+=MultiDivOperator rightOperand+=UnaryArithmeticExpression)*
+;
+
+AddSubOperator returns AddSubOperator:
+    Add | Sub
+;
+
+MultiDivOperator returns MultiDivOperator:
+    Multiply | Divise
 ;
 
 Add returns Add:

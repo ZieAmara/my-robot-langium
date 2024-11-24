@@ -159,25 +159,25 @@ void _rotate(int angle) {
             case "ClockLeft":
                 return this.visitClockLeft(node);
             default:
-                return `Unknown statement ${node.$type}`;
+                return `Unknown statement ${node.$type};\n`;
         }
     }
     visitReturnStatement(node) {
         const returnValue = this.visitExpression(node.returnValue);
-        return `return ${returnValue};`;
+        return `return ${returnValue};\n`;
     }
     visitIf(node) {
         const condition = this.visitExpression(node.condition);
-        var body = `${node.thenStatement.map(s => this.visitStatement(s)).join(";\n\t\t")}\t}`;
+        var body = `${node.thenStatement.map(s => this.visitStatement(s)).join("\t\t")}\t}`;
         if (node.elseStatement) {
-            body += ` else { \n\t\t${node.elseStatement.map(s => this.visitStatement(s)).join(";\n\t\t")}`;
+            body += ` else { \n\t\t${node.elseStatement.map(s => this.visitStatement(s)).join("\t\t")}`;
         }
         return `\n\tif (${condition}) {\n\t\t${body}\t}\n`;
     }
     visitLoop(node) {
         const condition = this.visitExpression(node.condition);
-        const body = node.body.map(s => this.visitStatement(s)).join(";\n\t\t");
-        return `\n\tloop (${condition}) {\n\t\t${body}\n\t}\n`;
+        const body = node.body.map(s => this.visitStatement(s)).join("\t\t");
+        return `\n\tloop (${condition}) {\n\t\t${body}\t}\n`;
     }
     visitControlRobot(node) {
         switch (node.$type) {
@@ -198,7 +198,7 @@ void _rotate(int angle) {
             case "ClockLeft":
                 return this.visitClockLeft(node);
             default:
-                return `Unknown control robot ${node.$type}`;
+                return `Unknown control robot ${node.$type};\n`;
         }
     }
     visitMovement(node) {
@@ -212,28 +212,28 @@ void _rotate(int angle) {
             case "Right":
                 return this.visitRight(node);
             default:
-                return `Unknown movement ${node.$type}`;
+                return `Unknown movement ${node.$type};\n`;
         }
     }
     visitBackward(node) {
         const distance = this.visitExpression(node.distance);
         const distanceToMillimeter = this.toMillimeter(distance, node.unit);
-        return `_backward(${distanceToMillimeter})`;
+        return `_backward(${distanceToMillimeter});\n`;
     }
     visitForward(node) {
         const distance = this.visitExpression(node.distance);
         const distanceToMillimeter = this.toMillimeter(distance, node.unit);
-        return `_forward(${distanceToMillimeter})`;
+        return `_forward(${distanceToMillimeter});\n`;
     }
     visitLeft(node) {
         const distance = this.visitExpression(node.distance);
         const distanceToMillimeter = this.toMillimeter(distance, node.unit);
-        return `Omni.setCarLeft(${distanceToMillimeter})`;
+        return `Omni.setCarLeft(${distanceToMillimeter});\n`;
     }
     visitRight(node) {
         const distance = this.visitExpression(node.distance);
         const distanceToMillimeter = this.toMillimeter(distance, node.unit);
-        return `Omni.setCarRight(${distanceToMillimeter})`;
+        return `Omni.setCarRight(${distanceToMillimeter});\n`;
     }
     visitRotate(node) {
         switch (node.$type) {
@@ -242,16 +242,16 @@ void _rotate(int angle) {
             case "ClockLeft":
                 return this.visitClockLeft(node);
             default:
-                return `Unknown rotate ${node.$type}`;
+                return `Unknown rotate ${node.$type};\n`;
         }
     }
     visitClock(node) {
         const angle = this.visitExpression(node.angle);
-        return `_rotate(${angle})`;
+        return `_rotate(${angle});\n`;
     }
     visitClockLeft(node) {
         const angle = -this.visitExpression(node.angle);
-        return `_rotate(${angle})`;
+        return `_rotate(${angle});\n`;
     }
     visitEntity(node) {
         switch (node.$type) {
@@ -260,7 +260,7 @@ void _rotate(int angle) {
             case "VariableStatement":
                 return this.visitVariableStatement(node);
             default:
-                return `Unknown entity ${node.$type}`;
+                return `Unknown entity ${node.$type};\n`;
         }
     }
     visitParameter(node) {
@@ -268,39 +268,46 @@ void _rotate(int angle) {
         const name = node.name;
         var value = ``;
         if (node.value != null) {
-            value = `= ${this.visitValue(node.value)}`;
+            value = this.visitValue(node.value);
+            return `${type} ${name} = ${value}`;
         }
-        return `${type}: ${name} ${value}`;
+        return `${type} ${name}`;
     }
     visitVariableStatement(node) {
-        const type = node.type;
+        const type = (node.type.toString() === 'cm' || node.type.toString() === 'mm' || node.type.toString() === 'm')
+            ? `number` : node.type;
         const name = node.name;
         var value = ``;
         if (node.value != null) {
-            value = `= ${this.visitValue(node.value)}`;
+            value = this.visitValue(node.value);
+            return `${type} ${name} = ${value};\n`;
         }
-        return `${type} ${name} ${value}`;
+        return `${type} ${name};\n`;
     }
     visitVariableAssignation(node) {
-        const value = `= ${this.visitValue(node.value)}`;
         if (node.variable.ref) {
             const name = node.variable.ref.name;
-            return `${name} ${value}`;
+            const value = this.visitValue(node.value);
+            return `${name} = ${value};\n`;
         }
-        return `Variable not found`;
+        return `Variable not found;\n`;
     }
     visitSetSpeed(node) {
         const distance = this.visitExpression(node.distance);
         const distanceInMillimeter = this.toMillimeter(distance, node.unit);
-        return `Omni.setCarSpeedMMPS(${distanceInMillimeter}, 9999)`;
+        return `Omni.setCarSpeedMMPS(${distanceInMillimeter}, 9999);\n`;
     }
     visitCallFunction(node) {
-        const args = node.args.map(p => this.visitExpression(p)).join(",");
+        var args = ``;
         if (node.fonction.ref) {
             const name = node.fonction.ref.name;
-            return `${name}(${args})`;
+            if (node.args != null) {
+                args = node.args.map(p => this.visitExpression(p)).join(",");
+                return `${name}();\n`;
+            }
+            return `${name}(${args});\n`;
         }
-        return `Function not found`;
+        return `Function not found;\n`;
     }
     visitExpression(node) {
         switch (node.$type) {
@@ -327,11 +334,11 @@ void _rotate(int angle) {
             case "Value":
                 return this.visitValue(node);
             default:
-                return `Unknown expression ${node.$type}`;
+                return `Unknown expression ${node.$type};\n`;
         }
     }
     visitUnaryBooleanExpression(node) {
-        return node;
+        return node.value;
     }
     visitUnaryArithmeticExpression(node) {
         switch (node.$type) {
@@ -350,7 +357,7 @@ void _rotate(int angle) {
             case "Value":
                 return this.visitValue(node);
             default:
-                return "// Unknown unary arithmetic expression\n";
+                return `Unknown unaryArithmeticExpression ${node.$type};\n`;
         }
     }
     visitCallFunctionExpr(node) {
@@ -359,13 +366,13 @@ void _rotate(int angle) {
             const name = node.fonction.ref.name;
             return `${name}(${args})`;
         }
-        return `Function not found`;
+        return `Function not found;\n`;
     }
     visitCallEntity(node) {
         if (!node.entity.ref) {
-            return `Entity not found`;
+            return `Entity not found;\n`;
         }
-        return node.entity.ref.name;
+        return `${node.entity.ref.name}`;
     }
     visitGetSensor(node) {
         switch (node.$type) {
@@ -392,27 +399,46 @@ void _rotate(int angle) {
         return node.value;
     }
     visitArithmeticExpression(node) {
-        const leftValue = this.visitUnaryArithmeticExpression(node.leftOperand);
-        const rightValues = node.rightOperand.map(operand => this.visitUnaryArithmeticExpression(operand));
+        switch (node.$type) {
+            case "AddSubExpression":
+                return this.visitAddSubExpression(node);
+            case "MultiDivExpression":
+                return this.visitMultiDivExpression(node);
+            default:
+                return `Unknown arithmeticExpression ${node.$type};\n`;
+        }
+    }
+    visitAddSubExpression(node) {
+        const leftValue = this.visitMultiDivExpression(node.leftOperand);
+        const rightValues = node.rightOperand.map(operand => this.visitMultiDivExpression(operand));
         const operator = node.operator;
         let compt = -1;
-        let result = leftValue;
+        let exp = leftValue;
         for (const rightValue of rightValues) {
             compt++;
-            result = result + operator[compt] + rightValue;
+            exp = exp + operator[compt] + rightValue;
         }
-        return result;
+        return exp;
     }
-    visitArithmeticOperator(node) {
+    visitMultiDivExpression(node) {
+        const leftValue = this.visitUnaryArithmeticExpression(node.leftOperand);
+        const rightValues = node.rightOperand;
+        const operator = node.operator;
+        let compt = -1;
+        let exp = leftValue;
+        for (let rightValue of rightValues) {
+            compt++;
+            const right = this.visitUnaryArithmeticExpression(rightValue);
+            exp = exp + operator[compt] + right;
+        }
+        return exp;
+    }
+    visitAddSubOperator(node) {
         switch (node.$type) {
             case "Add":
                 return this.visitAdd(node);
             case "Sub":
                 return this.visitSub(node);
-            case "Multiply":
-                return this.visitMultiply(node);
-            case "Divise":
-                return this.visitDivise(node);
             default:
                 return "Operator not found";
         }
@@ -422,6 +448,16 @@ void _rotate(int angle) {
     }
     visitSub(node) {
         return node.symbole;
+    }
+    visitMultiDivOperator(node) {
+        switch (node.$type) {
+            case "Multiply":
+                return this.visitMultiply(node);
+            case "Divise":
+                return this.visitDivise(node);
+            default:
+                return "Operator not found";
+        }
     }
     visitMultiply(node) {
         return node.symbole;
@@ -433,7 +469,7 @@ void _rotate(int angle) {
         const leftValue = this.visitUnaryArithmeticExpression(node.leftCondition);
         const rightValue = this.visitUnaryArithmeticExpression(node.rightCondition);
         const operator = this.visitBooleanOperator(node.operator);
-        return leftValue + " " + operator + " " + rightValue;
+        return `${leftValue} ${operator} ${rightValue}`;
     }
     visitBooleanOperator(node) {
         switch (node.$type) {
@@ -454,7 +490,7 @@ void _rotate(int angle) {
             case "And":
                 return this.visitAnd(node);
             default:
-                return "Operator not found";
+                return `Unknown operator ${node.$type}`;
         }
     }
     visitLowerThan(node) {
