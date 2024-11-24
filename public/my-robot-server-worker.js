@@ -3246,6 +3246,17 @@ ${r}`),this.inline?`{${i}}`:i}};function Bq(t,e,r){var n,i;if(t==="linkplain"||t
       "attributes": [
         {
           "$type": "TypeAttribute",
+          "name": "name",
+          "type": {
+            "$type": "SimpleType",
+            "typeRef": {
+              "$ref": "#/types@0"
+            }
+          },
+          "isOptional": false
+        },
+        {
+          "$type": "TypeAttribute",
           "name": "value",
           "isOptional": true,
           "type": {
@@ -3268,17 +3279,6 @@ ${r}`),this.inline?`{${i}}`:i}};function Bq(t,e,r){var n,i;if(t==="linkplain"||t
       "attributes": [
         {
           "$type": "TypeAttribute",
-          "name": "name",
-          "type": {
-            "$type": "SimpleType",
-            "typeRef": {
-              "$ref": "#/types@0"
-            }
-          },
-          "isOptional": false
-        },
-        {
-          "$type": "TypeAttribute",
           "name": "type",
           "type": {
             "$type": "SimpleType",
@@ -3299,17 +3299,6 @@ ${r}`),this.inline?`{${i}}`:i}};function Bq(t,e,r){var n,i;if(t==="linkplain"||t
     {
       "$type": "Interface",
       "attributes": [
-        {
-          "$type": "TypeAttribute",
-          "name": "name",
-          "type": {
-            "$type": "SimpleType",
-            "typeRef": {
-              "$ref": "#/types@0"
-            }
-          },
-          "isOptional": false
-        },
         {
           "$type": "TypeAttribute",
           "name": "type",
