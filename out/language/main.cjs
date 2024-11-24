@@ -35411,6 +35411,17 @@ var MyRobotGrammar = () => loadedMyRobotGrammar != null ? loadedMyRobotGrammar :
       "attributes": [
         {
           "$type": "TypeAttribute",
+          "name": "name",
+          "type": {
+            "$type": "SimpleType",
+            "typeRef": {
+              "$ref": "#/types@0"
+            }
+          },
+          "isOptional": false
+        },
+        {
+          "$type": "TypeAttribute",
           "name": "value",
           "isOptional": true,
           "type": {
@@ -35433,17 +35444,6 @@ var MyRobotGrammar = () => loadedMyRobotGrammar != null ? loadedMyRobotGrammar :
       "attributes": [
         {
           "$type": "TypeAttribute",
-          "name": "name",
-          "type": {
-            "$type": "SimpleType",
-            "typeRef": {
-              "$ref": "#/types@0"
-            }
-          },
-          "isOptional": false
-        },
-        {
-          "$type": "TypeAttribute",
           "name": "type",
           "type": {
             "$type": "SimpleType",
@@ -35464,17 +35464,6 @@ var MyRobotGrammar = () => loadedMyRobotGrammar != null ? loadedMyRobotGrammar :
     {
       "$type": "Interface",
       "attributes": [
-        {
-          "$type": "TypeAttribute",
-          "name": "name",
-          "type": {
-            "$type": "SimpleType",
-            "typeRef": {
-              "$ref": "#/types@0"
-            }
-          },
-          "isOptional": false
-        },
         {
           "$type": "TypeAttribute",
           "name": "type",

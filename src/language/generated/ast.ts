@@ -320,6 +320,7 @@ export function isControlRobot(item: unknown): item is ControlRobot {
 
 export interface Entity extends Statement {
     readonly $type: 'Entity' | 'Parameter' | 'VariableStatement';
+    name: ID
     value?: Expression
 }
 
@@ -459,7 +460,6 @@ export function isRotate(item: unknown): item is Rotate {
 export interface Parameter extends Entity {
     readonly $container: Fonction;
     readonly $type: 'Parameter';
-    name: ID
     type: Type
 }
 
@@ -471,7 +471,6 @@ export function isParameter(item: unknown): item is Parameter {
 
 export interface VariableStatement extends Entity {
     readonly $type: 'VariableStatement';
-    name: ID
     type: Type | Unit
 }
 

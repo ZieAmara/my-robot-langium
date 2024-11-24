@@ -56,16 +56,15 @@ interface Clock extends Rotate {}
 interface ClockLeft extends Rotate {}
 
 interface Entity extends Statement {
+  name: ID;
   value?: Expression;
 }
 
 interface Parameter extends Entity {
-  name: ID;
   type: Type;
 }
 
 interface VariableStatement extends Entity {
-  name: ID;
   type: Type | Unit;
 }
 

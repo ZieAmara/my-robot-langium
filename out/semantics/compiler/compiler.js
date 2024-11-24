@@ -163,7 +163,7 @@ void _rotate(int angle) {
         }
     }
     visitReturnStatement(node) {
-        return this.visitExpression(node.returnValue);
+        return 'return ' + this.visitExpression(node.returnValue);
     }
     visitIf(node) {
         var result = "\n\tif (" + this.visitExpression(node.condition) + ") {\n\t\t"
@@ -176,7 +176,7 @@ void _rotate(int angle) {
     }
     visitLoop(node) {
         return "\n\tloop (" + this.visitExpression(node.condition) + ") { \n\t\t"
-            + node.body.map(s => this.visitStatement(s)).join("\t\t") + "}\n";
+            + node.body.map(s => this.visitStatement(s)).join("\t\t") + "\n\t}\n";
     }
     visitControlRobot(node) {
         switch (node.$type) {
@@ -291,6 +291,12 @@ void _rotate(int angle) {
     }
     visitExpression(node) {
         switch (node.$type) {
+            case "ArithmeticExpression":
+                return this.visitArithmeticExpression(node);
+            case "UnaryArithmeticExpression":
+                return this.visitUnaryArithmeticExpression(node);
+            case "BooleanExpression":
+                return this.visitBooleanExpression(node);
             case "UnaryBooleanExpression":
                 return this.visitUnaryBooleanExpression(node);
             case "CallEntity":
@@ -299,12 +305,14 @@ void _rotate(int angle) {
                 return this.visitCallFunctionExpr(node);
             case "GetSensor":
                 return this.visitGetSensor(node);
+            case "GetDistance":
+                return this.visitGetDistance(node);
+            case "GetSpeed":
+                return this.visitGetSpeed(node);
+            case "GetTimestamp":
+                return this.visitGetTimestamp(node);
             case "Value":
                 return this.visitValue(node);
-            case "ArithmeticExpression":
-                return this.visitArithmeticExpression(node);
-            case "BooleanExpression":
-                return this.visitBooleanExpression(node);
             default:
                 return "// Unknown expression\n";
         }
@@ -320,6 +328,12 @@ void _rotate(int angle) {
                 return this.visitCallEntity(node);
             case "GetSensor":
                 return this.visitGetSensor(node);
+            case "GetDistance":
+                return this.visitGetDistance(node);
+            case "GetSpeed":
+                return this.visitGetSpeed(node);
+            case "GetTimestamp":
+                return this.visitGetTimestamp(node);
             case "Value":
                 return this.visitValue(node);
             default:
@@ -332,7 +346,7 @@ void _rotate(int angle) {
     }
     visitCallEntity(node) {
         var _a;
-        return this.visitExpression((_a = node.entity.ref) === null || _a === void 0 ? void 0 : _a.value);
+        return (_a = node.entity.ref) === null || _a === void 0 ? void 0 : _a.name;
     }
     visitGetSensor(node) {
         switch (node.$type) {

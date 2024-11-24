@@ -175,9 +175,10 @@ export class Entity extends Statement {
     // the constructor must take all attribute of the implemented interface 
     // simply copy-paste the interface fields as public parameters
     // you can find them in generated/ast.ts
-    constructor($type) {
+    constructor($type, name) {
         super($type);
         this.$type = $type;
+        this.name = name;
     }
     accept(visitor) { }
 }
@@ -185,11 +186,10 @@ export class Parameter extends Entity {
     // the constructor must take all attribute of the implemented interface 
     // simply copy-paste the interface fields as public parameters
     // you can find them in generated/ast.ts
-    constructor($container, $type, name, type) {
-        super($type);
+    constructor($container, $type, type) {
+        super($type, '');
         this.$container = $container;
         this.$type = $type;
-        this.name = name;
         this.type = type;
     }
     accept(visitor) { }

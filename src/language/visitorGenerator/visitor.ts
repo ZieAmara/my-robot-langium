@@ -277,7 +277,8 @@ export class Entity extends Statement implements ASTInterfaces.Entity {
     // simply copy-paste the interface fields as public parameters
     // you can find them in generated/ast.ts
     constructor(
-        public override $type:  'Entity' | 'Parameter' | 'VariableStatement'
+        public override $type:  'Entity' | 'Parameter' | 'VariableStatement',
+        public name: ID,
     ){
         super($type)
     }
@@ -291,10 +292,9 @@ export class Parameter extends Entity implements ASTInterfaces.Parameter {
     constructor(
         public $container: Fonction,
         public override $type: 'Parameter',
-        public name: string,
         public type: 'number' | 'boolean'
     ){
-        super($type)
+        super($type, '')
     }
     override accept(visitor: Visitor) : any {}
 }
