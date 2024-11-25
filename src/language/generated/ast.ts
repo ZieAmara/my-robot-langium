@@ -247,7 +247,6 @@ export function isArithmeticExpression(item: unknown): item is ArithmeticExpress
 }
 
 export interface BooleanExpression extends Expression {
-    readonly $container: If | Loop;
     readonly $type: 'BooleanExpression';
     leftCondition?: UnaryArithmeticExpression
     operator: BooleanOperator
@@ -339,7 +338,7 @@ export function isEntity(item: unknown): item is Entity {
 
 export interface If extends Statement {
     readonly $type: 'If';
-    condition: BooleanExpression
+    condition: Expression
     elseStatement: Array<Statement>
     thenStatement: Array<Statement>
 }
@@ -353,7 +352,7 @@ export function isIf(item: unknown): item is If {
 export interface Loop extends Statement {
     readonly $type: 'Loop';
     body: Array<Statement>
-    condition: BooleanExpression
+    condition: Expression
 }
 
 export const Loop = 'Loop';

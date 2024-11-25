@@ -410,7 +410,7 @@ export const MyRobotGrammar = (): Grammar => loadedMyRobotGrammar ?? (loadedMyRo
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@44"
+                "$ref": "#/rules@25"
               },
               "arguments": []
             }
@@ -472,7 +472,7 @@ export const MyRobotGrammar = (): Grammar => loadedMyRobotGrammar ?? (loadedMyRo
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@44"
+                "$ref": "#/rules@25"
               },
               "arguments": []
             }
@@ -2993,7 +2993,7 @@ export const MyRobotGrammar = (): Grammar => loadedMyRobotGrammar ?? (loadedMyRo
           "type": {
             "$type": "SimpleType",
             "typeRef": {
-              "$ref": "#/interfaces@41"
+              "$ref": "#/interfaces@22"
             }
           },
           "isOptional": false
@@ -3043,7 +3043,7 @@ export const MyRobotGrammar = (): Grammar => loadedMyRobotGrammar ?? (loadedMyRo
           "type": {
             "$type": "SimpleType",
             "typeRef": {
-              "$ref": "#/interfaces@41"
+              "$ref": "#/interfaces@22"
             }
           },
           "isOptional": false

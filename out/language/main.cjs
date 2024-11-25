@@ -32740,7 +32740,7 @@ var MyRobotGrammar = () => loadedMyRobotGrammar != null ? loadedMyRobotGrammar :
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@44"
+                "$ref": "#/rules@25"
               },
               "arguments": []
             }
@@ -32802,7 +32802,7 @@ var MyRobotGrammar = () => loadedMyRobotGrammar != null ? loadedMyRobotGrammar :
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@44"
+                "$ref": "#/rules@25"
               },
               "arguments": []
             }
@@ -35323,7 +35323,7 @@ var MyRobotGrammar = () => loadedMyRobotGrammar != null ? loadedMyRobotGrammar :
           "type": {
             "$type": "SimpleType",
             "typeRef": {
-              "$ref": "#/interfaces@41"
+              "$ref": "#/interfaces@22"
             }
           },
           "isOptional": false
@@ -35373,7 +35373,7 @@ var MyRobotGrammar = () => loadedMyRobotGrammar != null ? loadedMyRobotGrammar :
           "type": {
             "$type": "SimpleType",
             "typeRef": {
-              "$ref": "#/interfaces@41"
+              "$ref": "#/interfaces@22"
             }
           },
           "isOptional": false
@@ -37263,7 +37263,7 @@ var InterpreterVisitor = class {
     return acceptNode(node, this);
   }
   visitUnaryBooleanExpression(node) {
-    return acceptNode(node, this);
+    return node.value === "true";
   }
   visitUnaryArithmeticExpression(node) {
     return acceptNode(node, this);

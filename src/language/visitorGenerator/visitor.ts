@@ -141,7 +141,7 @@ export class If extends Statement  implements ASTInterfaces.If {
     // you can find them in generated/ast.ts
     constructor(
         public override $type: 'If',
-        public condition: BooleanExpression,
+        public condition: Expression,
         public thenStatement: Array<Statement>,
         public elseStatement: Array<Statement>,
     ){
@@ -156,7 +156,7 @@ export class Loop extends Statement implements ASTInterfaces.Loop {
     // you can find them in generated/ast.ts
     constructor(
         public override $type: 'Loop',
-        public condition: BooleanExpression,
+        public condition: Expression,
         public body: Array<Statement>
     ){
         super($type)
@@ -372,9 +372,9 @@ export class UnaryBooleanExpression implements ASTInterfaces.UnaryBooleanExpress
     // the constructor must take all attribute of the implemented interface 
     // simply copy-paste the interface fields as public parameters
     // you can find them in generated/ast.ts
-    constructor(
+    constructor(    
         public $type: 'UnaryBooleanExpression',
-        public value: 'true' | 'false'
+        public value: 'true' | 'false',
     ){}
     accept(visitor: Visitor) : any {}
 }

@@ -168,7 +168,7 @@ export class InterpreterVisitor {
         return acceptNode(node, this);
     }
     visitUnaryBooleanExpression(node) {
-        return acceptNode(node, this);
+        return node.value === 'true';
     }
     visitUnaryArithmeticExpression(node) {
         return acceptNode(node, this);
