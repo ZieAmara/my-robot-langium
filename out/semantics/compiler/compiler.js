@@ -222,8 +222,10 @@ void _rotate(int angle) {
     }
     visitForward(node) {
         const distance = this.visitExpression(node.distance);
-        const distanceToMillimeter = this.toMillimeter(distance, node.unit);
-        return `_forward(${distanceToMillimeter});\n`;
+        if (distance.type == "number") {
+            return `_forward(${this.toMillimeter(distance, node.unit)});\n`;
+        }
+        return `_forward(${distance});\n`;
     }
     visitLeft(node) {
         const distance = this.visitExpression(node.distance);

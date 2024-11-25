@@ -1,0 +1,82 @@
+let void entry () {
+    setSpeed(150 in cm)
+     writeE()
+     continue()
+     writeS()
+     continue()
+     writeI()
+     continue()
+     writeR()
+}
+
+let void writeE(){
+   Forward 25 in cm
+   Backward 25 in cm
+   Clock 90
+   Forward 25 in cm
+   ClockLeft 90
+   Forward 25 in cm
+   Backward 25 in cm
+   Clock 90
+   Forward 25 in cm
+   ClockLeft 90
+   Forward 25 in cm
+}
+
+let void continue(){
+    Forward 25 in cm
+}
+
+let void writeS(){
+   // Premiere partie du dessin
+   Forward 25 in cm
+   ClockLeft 90
+   Forward 25 in cm
+   ClockLeft 90
+   Forward 25 in cm
+   Clock 90
+   Forward 25 in cm
+   Clock 90 
+   Forward 25 in cm
+   // deuxieme partie
+   Backward 25 in cm
+   Clock 90
+   Forward 25 in cm
+   ClockLeft 90
+   Forward 25 in cm
+   Clock 90
+   Forward 25 in cm
+   ClockLeft 90
+}
+
+let void writeI() {
+    Forward 20 in cm
+    Backward 10 in cm
+    ClockLeft 90 
+    Forward 50 in cm
+    // =============
+    ClockLeft 90 
+    Forward 10 in cm
+    Backward 20 in cm
+    Forward 10 in cm
+    ClockLeft 90
+    Forward 50 in cm
+    ClockLeft 90 
+    Forward 10 in cm
+}
+
+let void writeR() {
+    ClockLeft 90
+    Forward 50 in cm
+    Clock 90
+    Forward 25 in cm
+    Clock 90
+    Forward 25 in cm
+    Clock 90
+    Forward 25 in cm
+    Clock 180
+    Clock 45 
+    Forward 50 in cm
+    Clock 135
+    Forward 200 in cm
+}
