@@ -194,15 +194,22 @@ export class InterpreterVisitor {
     visitGetDistance(node) {
         const poi = this.robot.getRay().intersect(this.scene.entities);
         if (poi) {
-            return poi.minus(this.robot.pos).norm();
+            const dist = poi.minus(this.robot.pos).norm();
+            console.log(`GET distance = ${dist}`);
+            return dist;
         }
+        console.log(`GET distance = ${9999999999}`);
         return 9999999999;
     }
     visitGetSpeed(node) {
-        return this.robot.speed;
+        const speed = this.robot.speed;
+        console.log(`GET Speed = ${speed}`);
+        return speed;
     }
     visitGetTimestamp(node) {
-        return this.scene.time;
+        const time = this.scene.time;
+        console.log(`GET Time = ${time}`);
+        return time;
     }
     visitValue(node) {
         return node.value;
@@ -282,6 +289,12 @@ export class InterpreterVisitor {
         }
         else if (operator === '<') {
             return leftValue < rightValue;
+        }
+        else if (operator === '<=') {
+            return leftValue <= rightValue;
+        }
+        else if (operator === '>=') {
+            return leftValue >= rightValue;
         }
         return false;
     }

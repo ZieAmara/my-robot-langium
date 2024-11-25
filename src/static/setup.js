@@ -14,24 +14,30 @@ editorConfig.setMainLanguageId('my-robot');
 editorConfig.setMonarchTokensProvider(monarchSyntax);
 
 let code = `let void entry () {
-    var number count = 1
-    loop count < 6
+    setSpeed(150 in cm) // distance per second (here 150mm/s)
+    var number dist = getValue()
+    if dist >= 31 then
     {	
-        setSpeed(500 * count in cm)
-        count = count + 1
-        square(count)
+        dist = dist + 50
+        square(dist)
+    } else {
+        square(30)
     }
 }
 
-let void square(number factor){
-    Forward 500 * factor in cm
+let void square(number dist){
+    Forward dist in cm
     Clock 90
-    Forward 500 * factor in cm
+    Forward 300 in mm
     Clock 90
-    Forward 500 * factor in cm
+    Forward dist in cm
     Clock 90
-    Forward 500 * factor in cm
+    Forward 300 in mm
     Clock 90
+}
+
+let number getValue() {
+    return 30
 }`
 
 editorConfig.setMainCode(code);

@@ -653,6 +653,12 @@ export function acceptNode(node, visitor) {
             return node.accept(visitor);
         case 'And':
             return node.accept(visitor);
+        case 'GetDistance':
+            return node.accept(visitor);
+        case 'GetTimestamp':
+            return node.accept(visitor);
+        case 'GetSpeed':
+            return node.accept(visitor);
         default:
             throw new Error(`Unknown node type: ${node.$type}`);
     }

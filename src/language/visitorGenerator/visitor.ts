@@ -819,6 +819,12 @@ export function acceptNode(node: AstNode, visitor: Visitor): any {
             return (node as UpperOrEqualTo).accept(visitor);
         case 'And':
             return (node as And).accept(visitor);
+        case 'GetDistance':
+            return (node as GetDistance).accept(visitor);
+        case 'GetTimestamp':
+            return (node as GetTimestamp).accept(visitor);
+        case 'GetSpeed':
+            return (node as GetSpeed).accept(visitor);
         default:
             throw new Error(`Unknown node type: ${node.$type}`);
     }
