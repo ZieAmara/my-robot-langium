@@ -217,8 +217,10 @@ void _rotate(int angle) {
     }
     visitBackward(node) {
         const distance = this.visitExpression(node.distance);
-        const distanceToMillimeter = this.toMillimeter(distance, node.unit);
-        return `_backward(${distanceToMillimeter});\n`;
+        if (distance.type == "number") {
+            return `_backward(${this.toMillimeter(distance, node.unit)});\n`;
+        }
+        return `_backward(${distance});\n`;
     }
     visitForward(node) {
         const distance = this.visitExpression(node.distance);
@@ -229,13 +231,17 @@ void _rotate(int angle) {
     }
     visitLeft(node) {
         const distance = this.visitExpression(node.distance);
-        const distanceToMillimeter = this.toMillimeter(distance, node.unit);
-        return `Omni.setCarLeft(${distanceToMillimeter});\n`;
+        if (distance.type == "number") {
+            return `_left(${this.toMillimeter(distance, node.unit)});\n`;
+        }
+        return `_left(${distance});\n`;
     }
     visitRight(node) {
         const distance = this.visitExpression(node.distance);
-        const distanceToMillimeter = this.toMillimeter(distance, node.unit);
-        return `Omni.setCarRight(${distanceToMillimeter});\n`;
+        if (distance.type == "number") {
+            return `_Right(${this.toMillimeter(distance, node.unit)});\n`;
+        }
+        return `_Right(${distance});\n`;
     }
     visitRotate(node) {
         switch (node.$type) {

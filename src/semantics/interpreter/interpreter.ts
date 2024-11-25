@@ -388,6 +388,10 @@ export class InterpreterVisitor implements Visitor {
             return leftValue > rightValue;
         } else if (operator === '<') {
             return leftValue < rightValue;
+        } else if (operator === '<=') {
+            return leftValue <= rightValue;
+        } else if (operator === '>=') {
+            return leftValue >= rightValue;
         }
 
         return false;

@@ -290,6 +290,12 @@ export class InterpreterVisitor {
         else if (operator === '<') {
             return leftValue < rightValue;
         }
+        else if (operator === '<=') {
+            return leftValue <= rightValue;
+        }
+        else if (operator === '>=') {
+            return leftValue >= rightValue;
+        }
         return false;
     }
     visitBooleanOperator(node) {

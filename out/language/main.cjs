@@ -37376,6 +37376,10 @@ var InterpreterVisitor = class {
       return leftValue > rightValue;
     } else if (operator === "<") {
       return leftValue < rightValue;
+    } else if (operator === "<=") {
+      return leftValue <= rightValue;
+    } else if (operator === ">=") {
+      return leftValue >= rightValue;
     }
     return false;
   }
