@@ -336,7 +336,7 @@ void _ClockLeft(int angle) {
     visitSetSpeed(node : SetSpeed) : any {
         const distance = this.visitExpression(node.distance as Expression);
         const distanceInMillimeter = this.toMillimeter(distance, node.unit);
-        return `Omni.setCarSpeedMMPS(${distanceInMillimeter}, 9999);\n`
+        return `Omni.setCarSpeedMMPS(${distanceInMillimeter});\n`
     }
 	
     visitCallFunction(node : CallFunction) : any {
