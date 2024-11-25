@@ -1,5 +1,5 @@
 import type { ValidationAcceptor, ValidationChecks } from 'langium';
-import { If, Loop, MyRobotAstType, Program, Value, VariableStatement } from './generated/ast.js';
+import { If, Loop, MyRobotAstType, Program, VariableStatement } from './generated/ast.js';
 import type { MyRobotServices } from './my-robot-module.js';
 
 /**

@@ -36434,17 +36434,11 @@ function registerValidationChecks2(services) {
     ],
     Loop: [
       validator.checkUniqueControlStructureReturnStatements
-    ],
-    Value: [
-      validator.checkValueAsNumber
     ]
   };
   registry.register(checks, validator);
 }
 var MyRobotValidator = class {
-  checkValueAsNumber(exp, accept) {
-    accept("info", `Value = ${exp.value}`, { node: exp, property: "value" });
-  }
   checkUniqueFonctionDefs(program, accept) {
     const reported = /* @__PURE__ */ new Set();
     program.fonction.forEach((f) => {
@@ -37036,7 +37030,13 @@ var Robot = class {
   }
   turn(angle) {
     this.rad += angle * Math.PI / 180;
-    const duration = angle / this.speed * 1e3;
+    const duration = angle / this.speed * 100;
+    this.scene.time += duration;
+    this.scene.timestamps.push(new Timestamp(this.scene.time, this));
+  }
+  turnLeft(angle) {
+    this.rad += -angle * Math.PI / 180;
+    const duration = angle / this.speed * 100;
     this.scene.time += duration;
     this.scene.timestamps.push(new Timestamp(this.scene.time, this));
   }
@@ -37159,13 +37159,20 @@ var InterpreterVisitor = class {
   visitLoop(node) {
     const expression = node.condition;
     const body = node.body;
-    console.log("LOOP");
-    while (acceptNode(expression, this)) {
-      console.log("LOOP 1");
+    console.log("DEBUT LOOP");
+    let i = 0;
+    let oracle = acceptNode(expression, this);
+    while (oracle) {
+      i++;
+      console.log(oracle);
+      console.log(`LOOP ${i}`);
       for (const statement of body) {
         acceptNode(statement, this);
       }
+      oracle = acceptNode(expression, this);
+      console.log(oracle);
     }
+    console.log(`FIN LOOP ${i}`);
   }
   visitControlRobot(node) {
     return acceptNode(node, this);

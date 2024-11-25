@@ -14,23 +14,23 @@ editorConfig.setMainLanguageId('my-robot');
 editorConfig.setMonarchTokensProvider(monarchSyntax);
 
 let code = `let void entry () {
-    var number count = 0
-    loop count < 5
+    var number count = 1
+    loop count < 6
     {	
-        setSpeed(500 * (count + 1))
+        setSpeed(500 * count in cm)
         count = count + 1
         square(count)
     }
 }
 
 let void square(number factor){
-    Forward 500 * factor
+    Forward 500 * factor in cm
     Clock 90
-    Forward 500 * factor
+    Forward 500 * factor in cm
     Clock 90
-    Forward 500 * factor
+    Forward 500 * factor in cm
     Clock 90
-    Forward 500 * factor
+    Forward 500 * factor in cm
     Clock 90
 }`
 

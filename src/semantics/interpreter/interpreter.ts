@@ -122,15 +122,23 @@ export class InterpreterVisitor implements Visitor {
         const expression = node.condition;
         const body = node.body;
 
-        console.log("LOOP");
+        console.log("DEBUT LOOP");
 
-        while(acceptNode(expression, this)) {
-            console.log("LOOP 1");
+        let i = 0;
+        let oracle = acceptNode(expression, this)
+        while(oracle) {
+            i++
+            console.log(oracle);
+            console.log(`LOOP ${i}`);
             for(const statement of body) {
                 acceptNode(statement, this);
             }
-            console.log("LOOP 2");
+
+            oracle = acceptNode(expression, this)
+            console.log(oracle);
         }
+
+        console.log(`FIN LOOP ${i}`);
     }
 	
     visitControlRobot(node : ControlRobot) : any {

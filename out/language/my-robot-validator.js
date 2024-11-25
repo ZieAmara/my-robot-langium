@@ -15,9 +15,6 @@ export function registerValidationChecks(services) {
         ],
         Loop: [
             validator.checkUniqueControlStructureReturnStatements
-        ],
-        Value: [
-            validator.checkValueAsNumber
         ]
     };
     registry.register(checks, validator);
@@ -26,9 +23,6 @@ export function registerValidationChecks(services) {
  * Implementation of custom validations.
  */
 export class MyRobotValidator {
-    checkValueAsNumber(exp, accept) {
-        accept('info', `Value = ${exp.value}`, { node: exp, property: 'value' });
-    }
     checkUniqueFonctionDefs(program, accept) {
         // create a set of visited functions
         // and report an error when we see one we've already seen

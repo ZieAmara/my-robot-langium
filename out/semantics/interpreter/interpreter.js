@@ -69,13 +69,20 @@ export class InterpreterVisitor {
     visitLoop(node) {
         const expression = node.condition;
         const body = node.body;
-        console.log("LOOP");
-        while (acceptNode(expression, this)) {
-            console.log("LOOP 1");
+        console.log("DEBUT LOOP");
+        let i = 0;
+        let oracle = acceptNode(expression, this);
+        while (oracle) {
+            i++;
+            console.log(oracle);
+            console.log(`LOOP ${i}`);
             for (const statement of body) {
                 acceptNode(statement, this);
             }
+            oracle = acceptNode(expression, this);
+            console.log(oracle);
         }
+        console.log(`FIN LOOP ${i}`);
     }
     visitControlRobot(node) {
         return acceptNode(node, this);
@@ -202,17 +209,6 @@ export class InterpreterVisitor {
     }
     visitArithmeticExpression(node) {
         return acceptNode(node, this);
-        //const leftValue = this.visitUnaryArithmeticExpression(node.leftOperand as UnaryArithmeticExpression);
-        //const rightValues = node.rightOperand.map(operand => this.visitUnaryArithmeticExpression(operand as UnaryArithmeticExpression));
-        //const operator = node.operator;
-        //let compt =-1;
-        //let result = leftValue;
-        //
-        //for (const rightValue of rightValues) {
-        //    compt++
-        //    result = result + operator[compt] + rightValue;
-        //}
-        //return result;
     }
     visitAddSubExpression(node) {
         const leftValue = acceptNode(node.leftOperand, this);
