@@ -43,6 +43,21 @@ export const parseAndValidate = async (fileName) => {
         console.log(chalk.red(`Failed to parse and validate ${fileName}!`));
     }
 };
+// La fonction pour la génération du fichier .ino
+export const generateArduinoFile = async (fileName, outputDir) => {
+    const services = createMyRobotServices(NodeFileSystem).MyRobot;
+    const program = await extractAstNode(fileName, services);
+    const compilerVisitor = new CompilerVisitor();
+    const generatedCode = program.accept(compilerVisitor);
+    // Définir le nom du fichier .ino
+    const baseName = path.basename(fileName, path.extname(fileName)); // Nom de base du fichier sans extension
+    const inoFileName = `${baseName}.ino`;
+    // Définir le chemin de sortie
+    const outputPath = outputDir ? path.resolve(outputDir, inoFileName) : path.resolve(process.cwd(), inoFileName);
+    // Écrire le code dans le fichier .ino
+    await fs.writeFile(outputPath, generatedCode, 'utf-8');
+    console.log(chalk.green(`Arduino code successfully written to: ${outputPath}`));
+};
 export default function () {
     const program = new Command();
     console.log("SRC/CLI/");
@@ -71,6 +86,22 @@ export default function () {
         .argument('<file>', `source file (possible file extensions: ${fileExtensions})`)
         .description('Generates Robot movement commands, suitable for consumption by a simple stack-based drawing machine')
         .action(generateCmds);
+    // node ./bin/cli generate-ino <.rob filePath> --output ./arduino 
+    // Lorsque le --output n'est pas spécifié, le fichier .ino est créé dans le rópertoire courant
+    // Aussi, il faut s'assurer que le chier de sortie existe bien, sinon une erreur est affichée
+    program
+        .command('generate-ino')
+        .argument('<file>', 'Source file to compile into Arduino .ino code')
+        .option('-o, --output <dir>', 'Output directory for the .ino file')
+        .description('Generates an Arduino .ino file from the provided source file')
+        .action(async (file, options) => {
+        try {
+            await generateArduinoFile(file, options.output);
+        }
+        catch (error) {
+            console.error(chalk.red(`Failed to generate .ino file: ${error.message}`));
+        }
+    });
     program.parse(process.argv);
 }
 //# sourceMappingURL=main.js.map
