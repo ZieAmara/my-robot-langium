@@ -22,13 +22,13 @@ interface ReturnStatement extends Statement {
 }
 
 interface If extends Statement{
-  condition: BooleanExpression;
+  condition: Expression;
   thenStatement: Statement[];
   elseStatement?: Statement[];
 }
 
 interface Loop extends Statement {
-  condition: BooleanExpression;
+  condition: Expression;
   body: Statement[];
 }
 

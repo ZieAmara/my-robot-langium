@@ -31,12 +31,12 @@ ReturnStatement returns ReturnStatement:
 ;
 
 If returns If:
-    'if' condition=BooleanExpression
+    'if' condition=(Expression )
         'then' BlockIf ('else' BlockElse )?
 ;
 
 Loop returns Loop:
-    'loop' condition=BooleanExpression
+    'loop' condition=(Expression)
         Block
 ;
 

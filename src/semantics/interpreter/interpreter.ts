@@ -245,7 +245,7 @@ export class InterpreterVisitor implements Visitor {
     }
 	
     visitUnaryBooleanExpression(node : UnaryBooleanExpression) : any {
-        return acceptNode(node, this);
+        return node.value === 'true';
     }
 	
     visitUnaryArithmeticExpression(node : UnaryArithmeticExpression) : any {
