@@ -37159,7 +37159,9 @@ var InterpreterVisitor = class {
   visitLoop(node) {
     const expression = node.condition;
     const body = node.body;
+    console.log("LOOP");
     while (acceptNode(expression, this)) {
+      console.log("LOOP 1");
       for (const statement of body) {
         acceptNode(statement, this);
       }
@@ -37224,7 +37226,7 @@ var InterpreterVisitor = class {
     };
   }
   visitVariableAssignation(node) {
-    const value = acceptNode(node.value, this);
+    let value = acceptNode(node.value, this);
     this.variableTable[node.variable.ref.name].value = value;
   }
   visitSetSpeed(node) {
@@ -37288,13 +37290,43 @@ var InterpreterVisitor = class {
     return node.value;
   }
   visitArithmeticExpression(node) {
-    return "OK";
+    return acceptNode(node, this);
   }
   visitAddSubExpression(node) {
-    return acceptNode(node, this);
+    const leftValue = acceptNode(node.leftOperand, this);
+    const rightValues = node.rightOperand.map((operand) => acceptNode(operand, this));
+    const operator = node.operator;
+    let compt = -1;
+    let result = leftValue;
+    for (const rightValue of rightValues) {
+      compt++;
+      if (operator[compt].$type === "Add") {
+        result = result + rightValue;
+      } else if (operator[compt].$type === "Sub") {
+        result = result - rightValue;
+      }
+    }
+    return result;
   }
   visitMultiDivExpression(node) {
-    return acceptNode(node, this);
+    const leftValue = acceptNode(node.leftOperand, this);
+    const rightValues = node.rightOperand;
+    const operator = node.operator;
+    let compt = -1;
+    let result = leftValue;
+    for (let rightValue of rightValues) {
+      compt++;
+      const right = acceptNode(rightValue, this);
+      if (operator[compt].$type === "Multiply") {
+        result = result * right;
+      } else if (operator[compt].$type === "Divise") {
+        if (right == 0) {
+          throw new Error("Impossible de diviser par z\xE9ro");
+        }
+        result = result / right;
+      }
+    }
+    return result;
   }
   visitAddSubOperator(node) {
     return acceptNode(node, this);

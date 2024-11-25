@@ -69,7 +69,9 @@ export class InterpreterVisitor {
     visitLoop(node) {
         const expression = node.condition;
         const body = node.body;
+        console.log("LOOP");
         while (acceptNode(expression, this)) {
+            console.log("LOOP 1");
             for (const statement of body) {
                 acceptNode(statement, this);
             }
@@ -135,7 +137,7 @@ export class InterpreterVisitor {
         };
     }
     visitVariableAssignation(node) {
-        const value = acceptNode(node.value, this);
+        let value = acceptNode(node.value, this);
         this.variableTable[node.variable.ref.name].value = value;
     }
     visitSetSpeed(node) {
@@ -199,6 +201,7 @@ export class InterpreterVisitor {
         return node.value;
     }
     visitArithmeticExpression(node) {
+        return acceptNode(node, this);
         //const leftValue = this.visitUnaryArithmeticExpression(node.leftOperand as UnaryArithmeticExpression);
         //const rightValues = node.rightOperand.map(operand => this.visitUnaryArithmeticExpression(operand as UnaryArithmeticExpression));
         //const operator = node.operator;
@@ -209,13 +212,45 @@ export class InterpreterVisitor {
         //    compt++
         //    result = result + operator[compt] + rightValue;
         //}
-        return 'OK';
+        //return result;
     }
     visitAddSubExpression(node) {
-        return acceptNode(node, this);
+        const leftValue = acceptNode(node.leftOperand, this);
+        const rightValues = node.rightOperand.map(operand => acceptNode(operand, this));
+        const operator = node.operator;
+        let compt = -1;
+        let result = leftValue;
+        for (const rightValue of rightValues) {
+            compt++;
+            if (operator[compt].$type === 'Add') {
+                result = result + rightValue;
+            }
+            else if (operator[compt].$type === 'Sub') {
+                result = result - rightValue;
+            }
+        }
+        return result;
     }
     visitMultiDivExpression(node) {
-        return acceptNode(node, this);
+        const leftValue = acceptNode(node.leftOperand, this);
+        const rightValues = node.rightOperand;
+        const operator = node.operator;
+        let compt = -1;
+        let result = leftValue;
+        for (let rightValue of rightValues) {
+            compt++;
+            const right = acceptNode(rightValue, this);
+            if (operator[compt].$type === 'Multiply') {
+                result = result * right;
+            }
+            else if (operator[compt].$type === 'Divise') {
+                if (right == 0) {
+                    throw new Error("Impossible de diviser par zéro");
+                }
+                result = result / right;
+            }
+        }
+        return result;
     }
     visitAddSubOperator(node) {
         return acceptNode(node, this);
