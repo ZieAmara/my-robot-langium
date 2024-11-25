@@ -36928,6 +36928,12 @@ function acceptNode(node, visitor2) {
       return node.accept(visitor2);
     case "And":
       return node.accept(visitor2);
+    case "GetDistance":
+      return node.accept(visitor2);
+    case "GetTimestamp":
+      return node.accept(visitor2);
+    case "GetSpeed":
+      return node.accept(visitor2);
     default:
       throw new Error(`Unknown node type: ${node.$type}`);
   }
@@ -37283,15 +37289,22 @@ var InterpreterVisitor = class {
   visitGetDistance(node) {
     const poi = this.robot.getRay().intersect(this.scene.entities);
     if (poi) {
-      return poi.minus(this.robot.pos).norm();
+      const dist = poi.minus(this.robot.pos).norm();
+      console.log(`GET distance = ${dist}`);
+      return dist;
     }
+    console.log(`GET distance = ${9999999999}`);
     return 9999999999;
   }
   visitGetSpeed(node) {
-    return this.robot.speed;
+    const speed = this.robot.speed;
+    console.log(`GET Speed = ${speed}`);
+    return speed;
   }
   visitGetTimestamp(node) {
-    return this.scene.time;
+    const time = this.scene.time;
+    console.log(`GET Time = ${time}`);
+    return time;
   }
   visitValue(node) {
     return node.value;
