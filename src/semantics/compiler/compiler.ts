@@ -122,7 +122,10 @@ void _ClockLeft(int angle) {
 	
     visitFonction(node : Fonction) : any {
         const returnType = this.visitReturnType(node.returnType as ReturnType);
-        const name = node.name;
+        let name = node.name;
+        if (name == 'entry') {
+            name = 'loop';
+        }
         const parameter = node.parameter.map(p => this.visitParameter(p as Parameter)).join(",");
         const body = node.body.map(s => this.visitStatement(s as Statement)).join("\t");
         return returnType + name + `(${parameter}) { \n\t${body} \n}\n`;
@@ -192,7 +195,7 @@ void _ClockLeft(int angle) {
     visitLoop(node : Loop) : any {
         const condition = this.visitExpression(node.condition as Expression);
         const body = node.body.map(s => this.visitStatement(s as Statement)).join("\t\t");
-        return `\n\tloop (${condition}) {\n\t\t${body}\t}\n`;
+        return `\n\twhile (${condition}) {\n\t\t${body}\t}\n`;
     }
 	
     visitControlRobot(node : ControlRobot) : any {
@@ -284,7 +287,7 @@ void _ClockLeft(int angle) {
 	
     visitClockLeft(node : ClockLeft) : any {
         const angle = -this.visitExpression(node.angle as Expression);
-        return `_ClockLeft(${angle});\n`;
+        return `_clockLeft(${angle});\n`;
     }
 	
     visitEntity(node : Entity) : any {

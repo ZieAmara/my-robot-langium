@@ -111,7 +111,7 @@ void aret() {
 	Omni.setCarSpeedMMPS(150, 9999);
 	number count = 0;
 	
-	loop (count < 5) {
+	while (count < 5) {
 		count = count + 1;
 		square();
 		return count;
@@ -124,20 +124,20 @@ void square() {
 	_forward(30);
 	_clock(90);
 	_forward(300);
-	_ClockLeft(-90);
+	_clockLeft(-90);
 	_forward(30);
 	_clock(90);
 	_forward(300);
-	_ClockLeft(-90);
+	_clockLeft(-90);
 	number a = true;
  
 }
 
-void entry() { 
+void loop() { 
 	Omni.setCarSpeedMMPS(200, 9999);
 	number time = Omni.getTimestamp();
 	
-	loop (time < 60000) {
+	while (time < 60000) {
 		number dist = 0;
 		_forward(dist - 25);
 		_clock(90);
