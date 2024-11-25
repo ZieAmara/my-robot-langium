@@ -86,12 +86,18 @@ void _right(int distance) {
     Omni.setCarStop();
 }
 
-void _rotate(int angle) {
-    if (angle > 0) {
-        Omni.setCarRotateRight(Omni.getCarSpeedMMPS());
-    } else {
-        Omni.setCarRotateLeft(Omni.getCarSpeedMMPS());
-    }
+void _Clock(int angle) {
+    Omni.setCarRotateRight(Omni.getCarSpeedMMPS());
+
+    int circumference = wheel1.getCirMM();
+    int distance = (angle / 360.0) * circumference;
+    int timeToWait = (distance / Omni.getCarSpeedMMPS()) * 1000;
+    Omni.delayMS(timeToWait);
+    Omni.setCarStop();
+}
+
+void _ClockLeft(int angle) {
+    Omni.setCarRotateLeft(Omni.getCarSpeedMMPS());
 
     int circumference = wheel1.getCirMM();
     int distance = (angle / 360.0) * circumference;
@@ -108,8 +114,8 @@ void entry() {
 	
 	loop (time < 60000) {
 		number dist = 0;
-		_forward(NaN);
-		_rotate(90);
+		_forward(dist - 25);
+		_clock(90);
 		time = Omni.getTimestamp();
 		number a = 5 + dist * time / 3;
 		number b = 4 * 3 + 9 / 3;

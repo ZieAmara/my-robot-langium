@@ -180,7 +180,7 @@ void _ClockLeft(int angle) {
     }
 	
     visitIf(node : If) : any {
-        const condition = this.visitExpression(node.condition as BooleanExpression);
+        const condition = this.visitExpression(node.condition as Expression);
         var body = `${node.thenStatement.map(s => this.visitStatement(s as Statement)).join("\t\t")}\t}`;
 
         if (node.elseStatement) {
@@ -190,7 +190,7 @@ void _ClockLeft(int angle) {
     }
 	
     visitLoop(node : Loop) : any {
-        const condition = this.visitExpression(node.condition as BooleanExpression);
+        const condition = this.visitExpression(node.condition as Expression);
         const body = node.body.map(s => this.visitStatement(s as Statement)).join("\t\t");
         return `\n\tloop (${condition}) {\n\t\t${body}\t}\n`;
     }
