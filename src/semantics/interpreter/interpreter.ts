@@ -122,7 +122,10 @@ export class InterpreterVisitor implements Visitor {
         const expression = node.condition;
         const body = node.body;
 
+        console.log("LOOP");
+
         while(acceptNode(expression, this)) {
+            console.log("LOOP 1");
             for(const statement of body) {
                 acceptNode(statement, this);
             }
@@ -202,8 +205,9 @@ export class InterpreterVisitor implements Visitor {
     }
 	
     visitVariableAssignation(node : VariableAssignation) : any {
-        const value = acceptNode(node.value!, this);
+        let value = acceptNode(node.value!, this);
         this.variableTable[node.variable.ref!.name].value = value;
+        
     }
 	
     visitSetSpeed(node : SetSpeed) : any {
@@ -285,18 +289,6 @@ export class InterpreterVisitor implements Visitor {
 	
     visitArithmeticExpression(node : ArithmeticExpression) : any {
         return acceptNode(node, this);
-        //const leftValue = this.visitUnaryArithmeticExpression(node.leftOperand as UnaryArithmeticExpression);
-        //const rightValues = node.rightOperand.map(operand => this.visitUnaryArithmeticExpression(operand as UnaryArithmeticExpression));
-        //const operator = node.operator;
-        //let compt =-1;
-        //let result = leftValue;
-//
-        //for (const rightValue of rightValues) {
-        //    compt++
-        //    result = result + operator[compt] + rightValue;
-        //}
-
-        //return result;
     }
 	
     visitAddSubExpression(node : AddSubExpression) : any {

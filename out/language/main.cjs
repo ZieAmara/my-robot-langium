@@ -37159,7 +37159,9 @@ var InterpreterVisitor = class {
   visitLoop(node) {
     const expression = node.condition;
     const body = node.body;
+    console.log("LOOP");
     while (acceptNode(expression, this)) {
+      console.log("LOOP 1");
       for (const statement of body) {
         acceptNode(statement, this);
       }
@@ -37224,17 +37226,7 @@ var InterpreterVisitor = class {
     };
   }
   visitVariableAssignation(node) {
-    var _a, _b, _c;
-    let value = 0;
-    if (((_a = node.value) == null ? void 0 : _a.$type) == "Value") {
-      value = 0;
-    } else if (((_b = node.value) == null ? void 0 : _b.$type) == "AddSubExpression") {
-      value = 5;
-    } else if (((_c = node.value) == null ? void 0 : _c.$type) == "ArithmeticExpression") {
-      value = 1;
-    } else {
-      value = 0;
-    }
+    let value = acceptNode(node.value, this);
     this.variableTable[node.variable.ref.name].value = value;
   }
   visitSetSpeed(node) {
