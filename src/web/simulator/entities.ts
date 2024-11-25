@@ -32,6 +32,14 @@ export class Robot implements Entities{
     turn(angle:number) : void {
         // To implement : Ok
         this.rad += angle * Math.PI / 180;
+        const duration = angle / this.speed * 100;
+        this.scene.time += duration;
+        this.scene.timestamps.push(new Timestamp(this.scene.time, this));
+    }
+
+    turnLeft(angle:number) : void {
+        // To implement : Ok
+        this.rad += (-angle)  * Math.PI / 180;
         const duration = angle / this.speed * 1000;
         this.scene.time += duration;
         this.scene.timestamps.push(new Timestamp(this.scene.time, this));
