@@ -333,14 +333,6 @@ export class MyRobotAstReflection extends AbstractAstReflection {
                     ]
                 };
             }
-            case 'UnaryBooleanExpression': {
-                return {
-                    name: 'UnaryBooleanExpression',
-                    mandatory: [
-                        { name: 'value', type: 'boolean' }
-                    ]
-                };
-            }
             case 'CallFunction': {
                 return {
                     name: 'CallFunction',

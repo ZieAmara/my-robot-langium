@@ -86,7 +86,7 @@ interface CallFunction extends Statement {
 interface Expression {}
 
 interface UnaryBooleanExpression extends Expression {
-  value: boolean;
+  value: 'true' | 'false'; 
 }
 
 interface UnaryArithmeticExpression extends Expression {}

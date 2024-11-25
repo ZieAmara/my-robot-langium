@@ -105,7 +105,7 @@ Expression returns Expression:
 ;
 
 UnaryBooleanExpression returns UnaryBooleanExpression:
-    {UnaryBooleanExpression} 'True' | 'False'
+    value='true' | value='false'
 ;
 
 UnaryArithmeticExpression returns UnaryArithmeticExpression:

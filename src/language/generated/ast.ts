@@ -272,7 +272,7 @@ export function isUnaryArithmeticExpression(item: unknown): item is UnaryArithme
 
 export interface UnaryBooleanExpression extends Expression {
     readonly $type: 'UnaryBooleanExpression';
-    value: boolean
+    value: 'false' | 'true'
 }
 
 export const UnaryBooleanExpression = 'UnaryBooleanExpression';
@@ -774,14 +774,6 @@ export class MyRobotAstReflection extends AbstractAstReflection {
                     name: 'Program',
                     mandatory: [
                         { name: 'fonction', type: 'array' }
-                    ]
-                };
-            }
-            case 'UnaryBooleanExpression': {
-                return {
-                    name: 'UnaryBooleanExpression',
-                    mandatory: [
-                        { name: 'value', type: 'boolean' }
                     ]
                 };
             }

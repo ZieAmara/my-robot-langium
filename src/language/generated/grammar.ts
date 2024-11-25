@@ -1272,23 +1272,22 @@ export const MyRobotGrammar = (): Grammar => loadedMyRobotGrammar ?? (loadedMyRo
         "$type": "Alternatives",
         "elements": [
           {
-            "$type": "Group",
-            "elements": [
-              {
-                "$type": "Action",
-                "type": {
-                  "$ref": "#/interfaces@23"
-                }
-              },
-              {
-                "$type": "Keyword",
-                "value": "True"
-              }
-            ]
+            "$type": "Assignment",
+            "feature": "value",
+            "operator": "=",
+            "terminal": {
+              "$type": "Keyword",
+              "value": "true"
+            }
           },
           {
-            "$type": "Keyword",
-            "value": "False"
+            "$type": "Assignment",
+            "feature": "value",
+            "operator": "=",
+            "terminal": {
+              "$type": "Keyword",
+              "value": "false"
+            }
           }
         ]
       },
@@ -3405,8 +3404,17 @@ export const MyRobotGrammar = (): Grammar => loadedMyRobotGrammar ?? (loadedMyRo
           "$type": "TypeAttribute",
           "name": "value",
           "type": {
-            "$type": "SimpleType",
-            "primitiveType": "boolean"
+            "$type": "UnionType",
+            "types": [
+              {
+                "$type": "SimpleType",
+                "stringType": "true"
+              },
+              {
+                "$type": "SimpleType",
+                "stringType": "false"
+              }
+            ]
           },
           "isOptional": false
         }

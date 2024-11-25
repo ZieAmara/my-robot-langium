@@ -89,12 +89,18 @@ void _right(int distance) {
     Omni.setCarStop();
 }
 
-void _rotate(int angle) {
-    if (angle > 0) {
-        Omni.setCarRotateRight(Omni.getCarSpeedMMPS());
-    } else {
-        Omni.setCarRotateLeft(Omni.getCarSpeedMMPS());
-    }
+void _Clock(int angle) {
+    Omni.setCarRotateRight(Omni.getCarSpeedMMPS());
+
+    int circumference = wheel1.getCirMM();
+    int distance = (angle / 360.0) * circumference;
+    int timeToWait = (distance / Omni.getCarSpeedMMPS()) * 1000;
+    Omni.delayMS(timeToWait);
+    Omni.setCarStop();
+}
+
+void _ClockLeft(int angle) {
+    Omni.setCarRotateLeft(Omni.getCarSpeedMMPS());
 
     int circumference = wheel1.getCirMM();
     int distance = (angle / 360.0) * circumference;
@@ -217,8 +223,10 @@ void _rotate(int angle) {
     }
     visitBackward(node) {
         const distance = this.visitExpression(node.distance);
-        const distanceToMillimeter = this.toMillimeter(distance, node.unit);
-        return `_backward(${distanceToMillimeter});\n`;
+        if (distance.type == "number") {
+            return `_backward(${this.toMillimeter(distance, node.unit)});\n`;
+        }
+        return `_backward(${distance});\n`;
     }
     visitForward(node) {
         const distance = this.visitExpression(node.distance);
@@ -229,13 +237,17 @@ void _rotate(int angle) {
     }
     visitLeft(node) {
         const distance = this.visitExpression(node.distance);
-        const distanceToMillimeter = this.toMillimeter(distance, node.unit);
-        return `Omni.setCarLeft(${distanceToMillimeter});\n`;
+        if (distance.type == "number") {
+            return `_left(${this.toMillimeter(distance, node.unit)});\n`;
+        }
+        return `_left(${distance});\n`;
     }
     visitRight(node) {
         const distance = this.visitExpression(node.distance);
-        const distanceToMillimeter = this.toMillimeter(distance, node.unit);
-        return `Omni.setCarRight(${distanceToMillimeter});\n`;
+        if (distance.type == "number") {
+            return `_Right(${this.toMillimeter(distance, node.unit)});\n`;
+        }
+        return `_Right(${distance});\n`;
     }
     visitRotate(node) {
         switch (node.$type) {
@@ -249,11 +261,11 @@ void _rotate(int angle) {
     }
     visitClock(node) {
         const angle = this.visitExpression(node.angle);
-        return `_rotate(${angle});\n`;
+        return `_clock(${angle});\n`;
     }
     visitClockLeft(node) {
         const angle = -this.visitExpression(node.angle);
-        return `_rotate(${angle});\n`;
+        return `_ClockLeft(${angle});\n`;
     }
     visitEntity(node) {
         switch (node.$type) {
@@ -344,7 +356,7 @@ void _rotate(int angle) {
         }
     }
     visitUnaryBooleanExpression(node) {
-        return node.value;
+        return node.value === 'true' ? true : false;
     }
     visitUnaryArithmeticExpression(node) {
         switch (node.$type) {

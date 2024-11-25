@@ -91,12 +91,18 @@ void _right(int distance) {
     Omni.setCarStop();
 }
 
-void _rotate(int angle) {
-    if (angle > 0) {
-        Omni.setCarRotateRight(Omni.getCarSpeedMMPS());
-    } else {
-        Omni.setCarRotateLeft(Omni.getCarSpeedMMPS());
-    }
+void _Clock(int angle) {
+    Omni.setCarRotateRight(Omni.getCarSpeedMMPS());
+
+    int circumference = wheel1.getCirMM();
+    int distance = (angle / 360.0) * circumference;
+    int timeToWait = (distance / Omni.getCarSpeedMMPS()) * 1000;
+    Omni.delayMS(timeToWait);
+    Omni.setCarStop();
+}
+
+void _ClockLeft(int angle) {
+    Omni.setCarRotateLeft(Omni.getCarSpeedMMPS());
 
     int circumference = wheel1.getCirMM();
     int distance = (angle / 360.0) * circumference;
@@ -272,13 +278,13 @@ void _rotate(int angle) {
 	
     visitClock(node : Clock) : any {
         const angle = this.visitExpression(node.angle as Expression);
-        return `_rotate(${angle});\n`;
+        return `_clock(${angle});\n`;
         
     }
 	
     visitClockLeft(node : ClockLeft) : any {
         const angle = -this.visitExpression(node.angle as Expression);
-        return `_rotate(${angle});\n`;
+        return `_ClockLeft(${angle});\n`;
     }
 	
     visitEntity(node : Entity) : any {
@@ -377,7 +383,7 @@ void _rotate(int angle) {
     }
 	
     visitUnaryBooleanExpression(node : UnaryBooleanExpression) : any {
-        return node.value;
+        return node.value === 'true' ? true : false;
     }
 	
     visitUnaryArithmeticExpression(node : UnaryArithmeticExpression) : any {

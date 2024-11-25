@@ -374,7 +374,7 @@ export class UnaryBooleanExpression implements ASTInterfaces.UnaryBooleanExpress
     // you can find them in generated/ast.ts
     constructor(
         public $type: 'UnaryBooleanExpression',
-        public value: boolean
+        public value: 'true' | 'false'
     ){}
     accept(visitor: Visitor) : any {}
 }

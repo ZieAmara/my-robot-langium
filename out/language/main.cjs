@@ -32273,14 +32273,6 @@ var MyRobotAstReflection = class extends AbstractAstReflection {
           ]
         };
       }
-      case "UnaryBooleanExpression": {
-        return {
-          name: "UnaryBooleanExpression",
-          mandatory: [
-            { name: "value", type: "boolean" }
-          ]
-        };
-      }
       case "CallFunction": {
         return {
           name: "CallFunction",
@@ -33610,23 +33602,22 @@ var MyRobotGrammar = () => loadedMyRobotGrammar != null ? loadedMyRobotGrammar :
         "$type": "Alternatives",
         "elements": [
           {
-            "$type": "Group",
-            "elements": [
-              {
-                "$type": "Action",
-                "type": {
-                  "$ref": "#/interfaces@23"
-                }
-              },
-              {
-                "$type": "Keyword",
-                "value": "True"
-              }
-            ]
+            "$type": "Assignment",
+            "feature": "value",
+            "operator": "=",
+            "terminal": {
+              "$type": "Keyword",
+              "value": "true"
+            }
           },
           {
-            "$type": "Keyword",
-            "value": "False"
+            "$type": "Assignment",
+            "feature": "value",
+            "operator": "=",
+            "terminal": {
+              "$type": "Keyword",
+              "value": "false"
+            }
           }
         ]
       },
@@ -35743,8 +35734,17 @@ var MyRobotGrammar = () => loadedMyRobotGrammar != null ? loadedMyRobotGrammar :
           "$type": "TypeAttribute",
           "name": "value",
           "type": {
-            "$type": "SimpleType",
-            "primitiveType": "boolean"
+            "$type": "UnionType",
+            "types": [
+              {
+                "$type": "SimpleType",
+                "stringType": "true"
+              },
+              {
+                "$type": "SimpleType",
+                "stringType": "false"
+              }
+            ]
           },
           "isOptional": false
         }
