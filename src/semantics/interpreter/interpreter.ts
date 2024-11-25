@@ -129,6 +129,7 @@ export class InterpreterVisitor implements Visitor {
             for(const statement of body) {
                 acceptNode(statement, this);
             }
+            console.log("LOOP 2");
         }
     }
 	
